@@ -10,7 +10,7 @@ class AppRoutes {
           page: () => SplashScreen(),
         ),
         GetPage(
-          name: RouteName.splashScreen,
+          name: RouteName.loginScreen,
           page: () => LoginScreen(),
         )
       ];
