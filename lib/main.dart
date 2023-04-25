@@ -1,3 +1,4 @@
+import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,11 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+
       designSize: const Size(390, 844),
       builder: (context,child){
         return GetMaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.white,
             primarySwatch: Colors.blue,
           ),
           initialRoute: '/',
