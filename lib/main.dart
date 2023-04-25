@@ -1,6 +1,8 @@
+import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -13,13 +15,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ScreenUtilInit(
+      builder: (BuildContext context, Widget? child) => GetMaterialApp(
+        title: 'Farm Flow',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: AppColors.white,
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: '/',
+        getPages: AppRoutes.appRoutes(),
       ),
-      initialRoute: '/',
-      getPages: AppRoutes.appRoutes(),
     );
   }
 }
