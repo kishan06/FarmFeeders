@@ -2,33 +2,33 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/view/Splashslider/Content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class SplashSlider extends StatefulWidget {
   const SplashSlider({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _SplashSliderState createState() => _SplashSliderState();
 }
 
 class _SplashSliderState extends State<SplashSlider> {
   int currentIndex = 0;
 
-  // var currentIndex = 0.obs;
 
-  //late PageController _controller;
+  late PageController _controller;
 
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
-    //_controller = PageController(initialPage: 0);
+    _controller = PageController(initialPage: 0);
     super.initState();
   }
 
   @override
   void dispose() {
-    // _controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -42,10 +42,9 @@ class _SplashSliderState extends State<SplashSlider> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 520.h,
+              height: 630.h,
               child: PageView.builder(
-
-                  //controller: _controller,
+                  controller: _controller,
                   onPageChanged: (int index) {
                     setState(() {
                       currentIndex = index;
@@ -60,8 +59,6 @@ class _SplashSliderState extends State<SplashSlider> {
                       children: [
                         Image.asset(
                           contents[i].image,
-                          // width: 390.w,
-                          // height: 420.h,
                         ),
                         SizedBox(
                           height: 38.h,
@@ -81,13 +78,15 @@ class _SplashSliderState extends State<SplashSlider> {
                         SizedBox(
                           height: 19.h,
                         ),
-                        Text(
-                          contents[currentIndex].description,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            //fontWeight: FontWeight.w500,
-                            color: Color(0XFF4D4D4D),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 42.w),
+                          child: Text(
+                            contents[currentIndex].description,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: Color(0XFF4D4D4D),
+                            ),
                           ),
                         ),
                       ],
@@ -99,14 +98,43 @@ class _SplashSliderState extends State<SplashSlider> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:
                     List.generate(contents.length, (index) => buildDot(index))),
-            SizedBox(height: 30.h),
+            SizedBox(height: 50.h),
             Row(
-              children: const [
-                Text(
-                  "Skip",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0Xff0E5F02)
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed("/loginScreen"); //change the page navigation
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16.w),
+                    child: const Text(
+                      "Skip",
+                      style: TextStyle(fontSize: 20, color: Color(0Xff0E5F02)),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 30.w),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        _controller.animateToPage(currentIndex + 1,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.linear);
+                        if (currentIndex == 2) {
+                          Get.toNamed(
+                              "/loginScreen"); //change the page navigation
+
+                          //  Get.toNamed(
+                          //     "/notification"); 
+                        }
+                      });
+                    },
+                    child: SvgPicture.asset(
+                      contents[currentIndex].arrow,
+                      height: 56.h,
+                    ),
                   ),
                 ),
               ],
@@ -121,7 +149,6 @@ class _SplashSliderState extends State<SplashSlider> {
     return Container(
       height: 7.w,
       width:
-          //45.w,
           currentIndex == index ? 34.w : 6.w,
       margin: EdgeInsets.only(right: 5.w),
       decoration: BoxDecoration(
