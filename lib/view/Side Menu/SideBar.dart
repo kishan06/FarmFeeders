@@ -1,6 +1,8 @@
 import 'package:farmfeeders/Utils/SizedBox.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({
@@ -20,14 +22,15 @@ class _SideBarState extends State<SideBar> {
   //     Get.put(ProfileImageController());
 
   List sideBarData = [
-    {"imagePath": "assets/1.png", "text": "Manage User"},
-    {"imagePath": "assets/1.png", "text": "Connect With Experts"},
-    {"imagePath": "assets/1.png", "text": "Training"},
-    {"imagePath": "assets/1.png", "text": "News & Articles"},
-    {"imagePath": "assets/1.png", "text": "FAQ"},
-    {"imagePath": "assets/1.png", "text": "Feedback"},
-    {"imagePath": "assets/1.png", "text": "Contact Us"},
+    {"icon": Icons.manage_accounts, "text": "Manage User"},
+    {"icon": Icons.connect_without_contact, "text": "Connect With Experts"},
+    {"icon": Icons.video_collection_outlined, "text": "Training"},
+    {"icon": Icons.newspaper_outlined, "text": "News & Articles"},
+    {"icon": Icons.question_mark, "text": "FAQ"},
+    {"icon": Icons.comment_outlined, "text": "Feedback"},
+    {"icon": Icons.perm_phone_msg_outlined, "text": "Contact Us"},
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +71,8 @@ class _SideBarState extends State<SideBar> {
                               width: 65.w,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
-                                child: Image.asset(
-                                  'assets/1.png',
+                                child: Image.network(
+                                  'https://cdn.landesa.org/wp-content/uploads/default-user-image.png',
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -109,7 +112,13 @@ class _SideBarState extends State<SideBar> {
                     itemCount: sideBarData.length,
                     itemBuilder: (_, index) {
                       return SideBarTile(
-                        image: sideBarData[index]["imagePath"],
+                        // icon: sideBarData[index]["icon"],
+
+                        icon: Icon(
+                          sideBarData[index]["icon"],
+                          color: Colors.white,
+                          size: 23.h,
+                        ),
                         text: sideBarData[index]["text"],
                         onTap: () {
                           navigateTo(index, context);
@@ -125,13 +134,13 @@ class _SideBarState extends State<SideBar> {
                     child: Row(
                       children: [
                         SizedBox(
-                          height: 30.h,
-                          width: 30.h,
-                          child: Image.asset(
-                            'assets/1.png',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                            height: 30.h,
+                            width: 30.h,
+                            child: Icon(
+                              Icons.logout,
+                              color: Colors.white,
+                              size: 23.h,
+                            )),
                         SizedBox(
                           width: 22.w,
                         ),
@@ -154,9 +163,10 @@ class _SideBarState extends State<SideBar> {
 
 void navigateTo(int index, BuildContext context) {
   switch (index) {
-    case 0:
+    case 6:
       {
         null;
+        // Get.to(const ContactUs());
       }
       break;
 
@@ -263,12 +273,12 @@ Future<dynamic> logoutDailog(BuildContext context) {
 }
 
 class SideBarTile extends StatelessWidget {
-  String image;
+  Widget icon;
   String text;
   void Function()? onTap;
 
   SideBarTile({
-    required this.image,
+    required this.icon,
     required this.text,
     this.onTap,
     super.key,
@@ -284,14 +294,7 @@ class SideBarTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 12.h),
             child: Row(
               children: [
-                SizedBox(
-                  height: 30.h,
-                  width: 30.h,
-                  child: Image.asset(
-                    image,
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                icon,
                 SizedBox(
                   width: 22.w,
                 ),
