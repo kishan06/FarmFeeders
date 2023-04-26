@@ -4,6 +4,7 @@ import 'package:farmfeeders/view/Notification.dart';
 import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
+import 'package:farmfeeders/view/forgot_password.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -20,6 +21,7 @@ class AppRoutes {
           name: RouteName.splashslider,
           page: () => SplashSlider(),
         ),
+
            GetPage(
           name: RouteName.notification,
           page: () => Notification(),
@@ -29,5 +31,11 @@ class AppRoutes {
           page: () => Settings(),
         ),
         
+
+        GetPage(
+          name: RouteName.forgotPassword,
+          page: () => ForgotPassword(),
+        ),
+
       ];
 }
