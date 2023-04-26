@@ -15,7 +15,6 @@ class SplashSlider extends StatefulWidget {
 class _SplashSliderState extends State<SplashSlider> {
   int currentIndex = 0;
 
-
   late PageController _controller;
 
   @override
@@ -41,8 +40,7 @@ class _SplashSliderState extends State<SplashSlider> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 630.h,
+            Expanded(
               child: PageView.builder(
                   controller: _controller,
                   onPageChanged: (int index) {
@@ -57,8 +55,12 @@ class _SplashSliderState extends State<SplashSlider> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset(
-                          contents[i].image,
+                        Expanded(
+                          child: Image.asset(
+                            contents[i].image,
+                            width: 390.w,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                         SizedBox(
                           height: 38.h,
@@ -98,7 +100,7 @@ class _SplashSliderState extends State<SplashSlider> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:
                     List.generate(contents.length, (index) => buildDot(index))),
-            SizedBox(height: 50.h),
+            SizedBox(height: 70.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -127,7 +129,7 @@ class _SplashSliderState extends State<SplashSlider> {
                               "/loginScreen"); //change the page navigation
 
                           //  Get.toNamed(
-                          //     "/notification"); 
+                          //     "/notification");
                         }
                       });
                     },
@@ -138,6 +140,9 @@ class _SplashSliderState extends State<SplashSlider> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 45.w,
             )
           ],
         ),
@@ -148,8 +153,7 @@ class _SplashSliderState extends State<SplashSlider> {
   Container buildDot(int index) {
     return Container(
       height: 7.w,
-      width:
-          currentIndex == index ? 34.w : 6.w,
+      width: currentIndex == index ? 34.w : 6.w,
       margin: EdgeInsets.only(right: 5.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.h),
