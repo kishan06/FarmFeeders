@@ -19,8 +19,11 @@ class MyApp extends StatelessWidget {
       designSize: const Size(390, 844),
       builder: (context,child){
         return GetMaterialApp(
+          
+          debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
+            fontFamily: "Poppins",
             scaffoldBackgroundColor: AppColors.white,
             primarySwatch: Colors.blue,
           ),
