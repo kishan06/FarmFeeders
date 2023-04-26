@@ -3,6 +3,7 @@ import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
+import 'package:farmfeeders/view/register.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -14,6 +15,10 @@ class AppRoutes {
         GetPage(
           name: RouteName.loginScreen,
           page: () => LoginScreen(),
+        ),
+        GetPage(
+          name: RouteName.register,
+          page: () => Register(),
         ),
         GetPage(
           name: RouteName.splashslider,
