@@ -15,19 +15,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(390, 844),
-        builder: (context, child) {
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              fontFamily: "Poppins",
-              scaffoldBackgroundColor: AppColors.white,
-              primarySwatch: Colors.blue,
-            ),
-            initialRoute: '/register',
-            getPages: AppRoutes.appRoutes(),
-          );
-        });
+
+
+      designSize: const Size(390, 844),
+      builder: (context,child){
+        return GetMaterialApp(
+          
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            fontFamily: "Poppins",
+            scaffoldBackgroundColor: AppColors.white,
+            primarySwatch: Colors.blue,
+          ),
+          initialRoute: '/',
+          getPages: AppRoutes.appRoutes(),
+        );
+      }
+    );
+    
+
   }
 }
