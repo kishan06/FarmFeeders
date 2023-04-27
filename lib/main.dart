@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: AppColors.white,
             primarySwatch: Colors.blue,
           ),
-          initialRoute: '/forgotPassword',
+          initialRoute: '/',
           getPages: AppRoutes.appRoutes(),
         );
       }
