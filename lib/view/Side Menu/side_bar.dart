@@ -1,8 +1,6 @@
-import 'package:farmfeeders/Utils/SizedBox.dart';
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
+import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({

@@ -3,7 +3,7 @@ import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'SideBar.dart';
+import 'side_bar.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});

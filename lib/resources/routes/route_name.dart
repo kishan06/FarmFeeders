@@ -3,4 +3,5 @@ class RouteName {
   static const String loginScreen = '/loginScreen';
   static const String splashslider = '/splashslider';
   static const String forgotPassword = '/forgotPassword';
+  static const String verifyNumber = '/verifyNumber';
 }
