@@ -2,6 +2,7 @@ import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
 import 'package:farmfeeders/view/Settings.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
@@ -31,8 +32,6 @@ class AppRoutes {
           name: RouteName.settings,
           page: () => Settings(),
         ),
-        
-
         GetPage(
           name: RouteName.forgotPassword,
           page: () => const ForgotPassword(),
@@ -41,6 +40,12 @@ class AppRoutes {
           name: RouteName.verifyNumber,
           page: () => const VerifyNumber(),
         ),
+        GetPage(
+          name: RouteName.connectexperts,
+          page: () => ConnectExperts(),
+        ),
+
+        
 
       ];
 }
