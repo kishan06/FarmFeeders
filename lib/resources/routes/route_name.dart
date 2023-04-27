@@ -8,4 +8,6 @@ class RouteName {
 
   static const String forgotPassword = '/forgotPassword';
 
+  static const String verifyNumber = '/verifyNumber';
+
 }
