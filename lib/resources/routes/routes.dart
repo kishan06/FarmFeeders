@@ -6,7 +6,11 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.da
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
+
+import 'package:farmfeeders/view/register.dart';
+
 import 'package:farmfeeders/view/verify_number.dart';
+
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -18,6 +22,10 @@ class AppRoutes {
         GetPage(
           name: RouteName.loginScreen,
           page: () => const LoginScreen(),
+        ),
+        GetPage(
+          name: RouteName.register,
+          page: () => Register(),
         ),
         GetPage(
           name: RouteName.splashslider,

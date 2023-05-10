@@ -36,6 +36,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       
       body: SafeArea(
           child: Padding(
+
         padding: EdgeInsets.fromLTRB(16.w,0, 16.w, 0),
         child: SingleChildScrollView(
           child: Column(
@@ -102,6 +103,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               
             ],
           ),
+
         ),
       )),
     );
