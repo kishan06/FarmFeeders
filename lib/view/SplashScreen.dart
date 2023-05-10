@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: IconButton(
             onPressed: () {
-              Get.toNamed("/loginScreen");
+              Get.toNamed("/splashslider");
             },
             icon: Icon(Icons.skip_next)),
       ),
