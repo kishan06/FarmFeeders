@@ -104,6 +104,8 @@ class _SplashSliderState extends State<SplashSlider> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                currentIndex < 2 
+                ?
                 GestureDetector(
                   onTap: () {
                     Get.toNamed("/loginScreen"); //change the page navigation
@@ -115,7 +117,12 @@ class _SplashSliderState extends State<SplashSlider> {
                       style: TextStyle(fontSize: 20, color: Color(0Xff0E5F02)),
                     ),
                   ),
-                ),
+                )
+                :
+                const Text(
+                      "",
+                      style: TextStyle(fontSize: 20, color: Color(0Xff0E5F02)),
+                    ),
                 Padding(
                   padding: EdgeInsets.only(right: 30.w),
                   child: InkWell(
