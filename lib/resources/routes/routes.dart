@@ -8,8 +8,10 @@ import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
 
 import 'package:farmfeeders/view/register.dart';
+import 'package:farmfeeders/view/reset_password.dart';
 
 import 'package:farmfeeders/view/verify_number.dart';
+import 'package:farmfeeders/view/verify_your_identity.dart';
 
 import 'package:get/get.dart';
 
@@ -25,7 +27,7 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.register,
-          page: () => Register(),
+          page: () => const Register(),
         ),
         GetPage(
           name: RouteName.splashslider,
@@ -34,11 +36,11 @@ class AppRoutes {
 
            GetPage(
           name: RouteName.notification,
-          page: () => Notification(),
+          page: () => const Notification(),
         ),
            GetPage(
           name: RouteName.settings,
-          page: () => Settings(),
+          page: () => const Settings(),
         ),
         GetPage(
           name: RouteName.forgotPassword,
@@ -50,10 +52,16 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.connectexperts,
-          page: () => ConnectExperts(),
+          page: () => const ConnectExperts(),
         ),
-
-        
+        GetPage(
+          name: RouteName.resetPassword,
+          page: () => const ResetPassword(),
+        ),
+        GetPage(
+          name: RouteName.verifyYourIdentity,
+          page: () => const VerifyYourIdentity(),
+        ),
 
       ];
 }
