@@ -228,7 +228,11 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 55.h,
                         ),
-                        CustomButton(text: "Register"),
+                        CustomButton(text: "Register",
+                          onTap: (){
+                            Get.toNamed("/verifyYourIdentity");
+                          }
+                        ),
                         SizedBox(
                           height: 15.h,
                         ),

@@ -32,3 +32,15 @@ Widget textBlack16W5000(String text) {
         fontSize: 16.sp, color: AppColors.black, fontWeight: FontWeight.w500),
   );
 }
+
+Widget textBlack16(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.left,
+    style: TextStyle(
+      fontSize: 16.sp,
+      color: AppColors.black,
+      // fontWeight: FontWeight.w500,
+    ),
+  );
+}
