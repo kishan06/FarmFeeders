@@ -3,6 +3,7 @@ import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
 import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
@@ -51,6 +52,11 @@ class AppRoutes {
         GetPage(
           name: RouteName.connectexperts,
           page: () => ConnectExperts(),
+        ),
+
+        GetPage(
+          name: RouteName.contactus,
+          page: () => ContactUs(),
         ),
 
         
