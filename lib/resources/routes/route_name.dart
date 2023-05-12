@@ -11,9 +11,14 @@ class RouteName {
   static const String connectexperts = '/connectexperts';
 
   static const String verifyNumber = '/verifyNumber';
+
+
+  static const String contactus = '/contactus';
+
   static const String resetPassword  = '/ResetPassword';
   static const String verifyYourIdentity  = '/verifyYourIdentity';
   static const String letsSetUpYourFarm  = '/letsSetUpYourFarm';
   static const String farmsInfo  = '/farmsInfo';
   
+
 }
