@@ -6,11 +6,15 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.da
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
+import 'package:farmfeeders/view/farmsInfo.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
+import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 
 import 'package:farmfeeders/view/register.dart';
+import 'package:farmfeeders/view/reset_password.dart';
 
 import 'package:farmfeeders/view/verify_number.dart';
+import 'package:farmfeeders/view/verify_your_identity.dart';
 
 import 'package:get/get.dart';
 
@@ -26,7 +30,7 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.register,
-          page: () => Register(),
+          page: () => const Register(),
         ),
         GetPage(
           name: RouteName.splashslider,
@@ -35,11 +39,11 @@ class AppRoutes {
 
            GetPage(
           name: RouteName.notification,
-          page: () => Notification(),
+          page: () => const Notification(),
         ),
            GetPage(
           name: RouteName.settings,
-          page: () => Settings(),
+          page: () => const Settings(),
         ),
         GetPage(
           name: RouteName.forgotPassword,
@@ -51,8 +55,25 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.connectexperts,
-          page: () => ConnectExperts(),
+          page: () => const ConnectExperts(),
         ),
+        GetPage(
+          name: RouteName.resetPassword,
+          page: () => const ResetPassword(),
+        ),
+        GetPage(
+          name: RouteName.verifyYourIdentity,
+          page: () => const VerifyYourIdentity(),
+        ),
+        GetPage(
+          name: RouteName.letsSetUpYourFarm,
+          page: () => const LetsSetUpYourFarm(),
+        ), 
+        GetPage(
+          name: RouteName.farmsInfo,
+          page: () => const FarmsInfo(),
+        ),
+
 
         GetPage(
           name: RouteName.contactus,
@@ -60,6 +81,8 @@ class AppRoutes {
         ),
 
         
+
+
 
       ];
 }

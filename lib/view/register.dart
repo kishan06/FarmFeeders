@@ -180,7 +180,8 @@ class _RegisterState extends State<Register> {
                             ),
                             CustomTextFormField(
                               leadingIcon: SvgPicture.asset(
-                                  "assets/images/location (2).svg"),
+                                  "assets/images/location.svg",
+                              ),
                               hintText: "",
                               validatorText: "",
                               isInputPassword: false,
@@ -228,7 +229,11 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 55.h,
                         ),
-                        CustomButton(text: "Register"),
+                        CustomButton(text: "Register",
+                          onTap: (){
+                            Get.toNamed("/verifyYourIdentity");
+                          }
+                        ),
                         SizedBox(
                           height: 15.h,
                         ),
