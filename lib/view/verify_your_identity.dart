@@ -136,7 +136,7 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
                 customButton(
                   text: "Verify",
                   onTap: (){
-                    Get.toNamed("/ResetPassword");
+                    // Get.toNamed("/ResetPassword");
                   }
                 ),
               

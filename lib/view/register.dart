@@ -180,7 +180,8 @@ class _RegisterState extends State<Register> {
                             ),
                             CustomTextFormField(
                               leadingIcon: SvgPicture.asset(
-                                  "assets/images/location (2).svg"),
+                                  "assets/images/location.svg",
+                              ),
                               hintText: "",
                               validatorText: "",
                               isInputPassword: false,

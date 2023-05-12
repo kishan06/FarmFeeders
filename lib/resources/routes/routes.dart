@@ -5,7 +5,9 @@ import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
+import 'package:farmfeeders/view/farmsInfo.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
+import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 
 import 'package:farmfeeders/view/register.dart';
 import 'package:farmfeeders/view/reset_password.dart';
@@ -62,6 +64,13 @@ class AppRoutes {
           name: RouteName.verifyYourIdentity,
           page: () => const VerifyYourIdentity(),
         ),
-
+        GetPage(
+          name: RouteName.letsSetUpYourFarm,
+          page: () => const LetsSetUpYourFarm(),
+        ), 
+        GetPage(
+          name: RouteName.farmsInfo,
+          page: () => const FarmsInfo(),
+        ),
       ];
 }
