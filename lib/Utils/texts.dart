@@ -29,7 +29,22 @@ Widget textBlack16W5000(String text) {
     text,
     textAlign: TextAlign.center,
     style: TextStyle(
-        fontSize: 16.sp, color: AppColors.black, fontWeight: FontWeight.w500),
+      fontSize: 16.sp,
+      color: AppColors.black,
+      fontWeight: FontWeight.w500,
+    ),
+  );
+}
+
+Widget textGreen16W700(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontSize: 16.sp,
+      color: AppColors.buttoncolour,
+      fontWeight: FontWeight.w700,
+    ),
   );
 }
 

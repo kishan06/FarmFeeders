@@ -12,6 +12,7 @@ class CustomTextFormField extends StatefulWidget {
     this.leadingIcon,
     this.onTap,
     this.eyeIcon = false,
+    this.onChanged,
     this.suffixIcon,
     this.readonly = false,
     this.isInputPassword = false,
@@ -29,6 +30,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool eyeIcon;
   final Widget? suffixIcon;
   final bool isInputPassword;
+  void Function(String)? onChanged;
   void Function()? onTap;
   final bool readonly;
   final dynamic inputFormatters;
@@ -58,9 +60,9 @@ class _CustomtextFormFieldState extends State<CustomTextFormField> {
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
           fontSize: 16.sp,
+
         ),
-        // hin
-        // onTap: ontap,
+        onChanged: widget.onChanged,
         readOnly: widget.readonly,
         cursorColor: const Color(0xFF3B3F43),
         autovalidateMode: AutovalidateMode.onUserInteraction,

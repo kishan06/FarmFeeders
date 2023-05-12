@@ -5,5 +5,6 @@ abstract class AppColors {
   static const buttoncolour = Color(0XFf0E5F02);
   static const greyF1F1F1 = Color(0XFfF1F1F1);
   static const black = Colors.black;
+  static const greyF2F4F5 = Color(0XFfF2F4F5);
 
 }
