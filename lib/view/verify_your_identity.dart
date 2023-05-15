@@ -11,14 +11,14 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class VerifyNumber extends StatefulWidget {
-  const VerifyNumber({super.key});
+class VerifyYourIdentity extends StatefulWidget {
+  const VerifyYourIdentity({super.key});
 
   @override
-  State<VerifyNumber> createState() => _VerifyNumberState();
+  State<VerifyYourIdentity> createState() => _VerifyYourIdentityState();
 }
 
-class _VerifyNumberState extends State<VerifyNumber> {
+class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
   
   TextEditingController phoneController = TextEditingController();
   TextEditingController pincode = TextEditingController();
@@ -28,7 +28,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.white,
-        title: customAppBar(text: "Verify Your Number"),
+        title: customAppBar(text: "Verify Your Identity"),
 
         // backgroundColor: Color(0xFFF5F8FA),
         elevation: 0,
@@ -46,11 +46,16 @@ class _VerifyNumberState extends State<VerifyNumber> {
               children: [
                 // customAppBar(text: "Verify Your Number",),
           
-                Lottie.asset("assets/lotties/verifyNumber.json",
-                  width: 200.w,
-                  height: 200.w
-                ),
+                // Lottie.asset("assets/lotties/verifyYourIdentity.json",
+                //   width: 200.w,
+                //   height: 200.w
+                // ),
+                sizedBoxHeight(10.h),
+                
+                textBlack16("Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry."),
               
+                sizedBoxHeight(50.h),
+
                 SizedBox(
                   width: 270.w,
                   child: textBlack16W5000("Please enter the 4 digit code sent to 0249522174"),
@@ -113,7 +118,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
                   ),
                 ),
 
-                sizedBoxHeight(70.h),
+                sizedBoxHeight(30.h),
 
                 Text("Resend Code",
                   
@@ -126,12 +131,12 @@ class _VerifyNumberState extends State<VerifyNumber> {
                   ),
                 ),
 
-                sizedBoxHeight(30.h),
+                sizedBoxHeight(150.h),
                             // 130
                 customButton(
                   text: "Verify",
                   onTap: (){
-                    Get.toNamed("/ResetPassword");
+                    // Get.toNamed("/ResetPassword");
                   }
                 ),
               

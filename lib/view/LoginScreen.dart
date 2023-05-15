@@ -155,15 +155,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: 55.h,
                       ),
-                      CustomButton(
-                        text: "Login",
-                        onTap: () {
-                          Get.toNamed("/livestockinfomain");
-                        },
+
+                      CustomButton(text: "Login",
+                        onTap: (){
+                          Get.toNamed("/letsSetUpYourFarm");
+                        }
+
                       ),
                       SizedBox(
                         height: 15.h,
                       ),
+                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
