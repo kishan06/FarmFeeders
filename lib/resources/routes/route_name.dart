@@ -11,5 +11,5 @@ class RouteName {
   static const String connectexperts = '/connectexperts';
 
   static const String verifyNumber = '/verifyNumber';
-
+  static const String liveStockInfoMain = '/livestockinfomain';
 }

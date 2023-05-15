@@ -1,4 +1,5 @@
 import 'package:farmfeeders/resources/routes/route_name.dart';
+import 'package:farmfeeders/view/LiveStockInfoMain.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
 import 'package:farmfeeders/view/Settings.dart';
@@ -6,8 +7,11 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.da
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
+
 import 'package:farmfeeders/view/register.dart';
+
 import 'package:farmfeeders/view/verify_number.dart';
+
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -47,6 +51,10 @@ class AppRoutes {
         GetPage(
           name: RouteName.connectexperts,
           page: () => ConnectExperts(),
+        ),
+        GetPage(
+          name: RouteName.liveStockInfoMain,
+          page: () => LiveStockInfoLive(),
         ),
       ];
 }
