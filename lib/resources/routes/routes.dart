@@ -1,4 +1,5 @@
 import 'package:farmfeeders/resources/routes/route_name.dart';
+import 'package:farmfeeders/view/LiveStockInfoMain.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
 import 'package:farmfeeders/view/Settings.dart';
@@ -36,12 +37,11 @@ class AppRoutes {
           name: RouteName.splashslider,
           page: () => const SplashSlider(),
         ),
-
-           GetPage(
+        GetPage(
           name: RouteName.notification,
           page: () => const Notification(),
         ),
-           GetPage(
+        GetPage(
           name: RouteName.settings,
           page: () => const Settings(),
         ),
@@ -79,10 +79,10 @@ class AppRoutes {
           name: RouteName.contactus,
           page: () => ContactUs(),
         ),
-
-        
-
-
+        GetPage(
+          name: RouteName.liveStockInfoMain,
+          page: () => LiveStockInfoLive(),
+        ),
 
       ];
 }

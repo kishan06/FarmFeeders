@@ -33,11 +33,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         automaticallyImplyLeading: false,
         titleSpacing: 0,
       ),
-      
       body: SafeArea(
           child: Padding(
-
-        padding: EdgeInsets.fromLTRB(16.w,0, 16.w, 0),
+        padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 0),
         child: SingleChildScrollView(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.end,
@@ -45,31 +43,28 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-        
-                  
-        
                   Lottie.asset(
                     "assets/lotties/forgotPassword.json",
                     width: 200.w,
                     height: 200.w,
                   ),
-        
+
                   SizedBox(
                     width: 270.w,
                     child: textBlack16W5000(
                       "Please enter your phone number to receive a verification code.",
                     ),
                   ),
-        
+
                   sizedBoxHeight(35.h),
-        
+
                   Align(
                     alignment: Alignment.centerLeft,
                     child: textBlack16W5000("Phone Number"),
                   ),
-        
+
                   sizedBoxHeight(8.h),
-        
+
                   CustomTextFormField(
                       texttype: TextInputType.phone,
                       textEditingController: phoneController,
@@ -90,9 +85,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       hintText: "Enter your Phone Number",
                       validatorText: "Enter your Phone Number"),
                   // Spacer(),
-        
+
                   sizedBoxHeight(130.h),
-        
+
                   customButton(
                       text: "Next",
                       onTap: () {
@@ -100,10 +95,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       }),
                 ],
               ),
-              
             ],
           ),
-
         ),
       )),
     );

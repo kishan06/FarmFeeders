@@ -12,6 +12,9 @@ class RouteName {
 
   static const String verifyNumber = '/verifyNumber';
 
+  static const String liveStockInfoMain = '/livestockinfomain';
+
+
 
   static const String contactus = '/contactus';
 
