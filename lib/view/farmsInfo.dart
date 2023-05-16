@@ -3,9 +3,12 @@ import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../common/custom_button.dart';
 
@@ -61,6 +64,10 @@ class _FarmsInfoState extends State<FarmsInfo> {
                     farmNumber = int.tryParse(value)??1;
                   });
                 },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(2),
+                  LimitRange(1, 20)
+                ],
                 // isInputPassword: true,
               ),
       
@@ -83,7 +90,11 @@ class _FarmsInfoState extends State<FarmsInfo> {
                   return Column(
                     children: [
                       CustomTextFormField(
-                        hintText: "Enter your farm location",
+                        readonly: true,
+                        onTap: (){
+                          locationBottomSheet();
+                        },
+                        hintText: "Select on map",
                         validatorText: "",
                         // texttype: TextInputType.phone,
                         leadingIcon: SvgPicture.asset(
@@ -127,6 +138,59 @@ class _FarmsInfoState extends State<FarmsInfo> {
       ),
     );
   }
+
+  Future<T?> locationBottomSheet<T>() {
+    return Get.bottomSheet(
+      
+      Container(
+          height: 700.h,
+          // color: AppColors.white,
+          decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.h),
+                  topRight: Radius.circular(20.h))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+
+            // padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // textBlack16("asd")
+                customAppBar(
+                  text: "Choose On Map",
+                  inBottomSheet: true
+                ),
+
+                sizedBoxHeight(10.h),
+
+                textBlack18W5000("Drag the map to choose a place"),
+
+                sizedBoxHeight(10.h),
+
+                SizedBox(
+                  height: 600.h,
+                  // width: 358.w,
+                  width: double.infinity,
+                  child: SvgPicture.asset("assets/images/map.svg",
+                    // height: 350.h,
+                    // width: 358.w,
+                    fit: BoxFit.fill,
+                  ),
+                )
+                
+                
+
+              ],
+            ),
+          )),
+      // barrierColor: Colors.red[50],
+      // isDismissible: false,
+      isScrollControlled: true
+    );
+  }
+
 
   Padding cards(
       {void Function()? onTap,required String imagePath, required String title, required String des}) {
