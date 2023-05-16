@@ -56,7 +56,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               sizedBoxHeight(25.h),
               cards(
                 onTap: () {
-                  Get.toNamed("/livestockinfomain0");
+                  Get.toNamed("/livestockinfomain");
                 },
                 imagePath: "assets/images/setupFarm2.png",
                 title: "Farm Information",

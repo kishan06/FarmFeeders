@@ -137,8 +137,8 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                               "Irish Angus",
                                               "Irish Dexter",
                                               "irish Holstein-Friesian",
-                                              "irish Holstein-Friesian",
-                                              "irish Holstein-Friesian",
+                                              "irish Holstein-Friesian1",
+                                              "irish Holstein-Friesian2",
                                             ],
                                           ),
                                         )
