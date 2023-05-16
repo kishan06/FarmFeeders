@@ -1,6 +1,7 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_button.dart';
+import 'package:farmfeeders/common/custom_appbar_home.dart';
+import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
@@ -23,6 +24,13 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: customAppBarHome(text: "knc"),
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        titleSpacing: 0,
+      ),
       body: SafeArea(
         child: Center(
           child: Container(
