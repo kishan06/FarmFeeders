@@ -1,6 +1,6 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_button.dart';
+import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
@@ -34,11 +34,9 @@ class _ResetPasswordState extends State<ResetPassword> {
         automaticallyImplyLeading: false,
         titleSpacing: 0,
       ),
-      
       body: SafeArea(
           child: Padding(
-
-        padding: EdgeInsets.fromLTRB(16.w,0, 16.w, 0),
+        padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 0),
         child: SingleChildScrollView(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.end,
@@ -46,32 +44,24 @@ class _ResetPasswordState extends State<ResetPassword> {
               Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-        
-                  
-        
                   Lottie.asset(
                     "assets/lotties/resetPassword.json",
                     width: 200.w,
                     height: 200.w,
                   ),
-        
                   SizedBox(
                     width: 270.w,
                     child: textBlack16W5000(
-                      "Your new password must be different from previously used password"
-                      // "Please enter your phone number to receive a verification code.",
-                    ),
+                        "Your new password must be different from previously used password"
+                        // "Please enter your phone number to receive a verification code.",
+                        ),
                   ),
-        
                   sizedBoxHeight(10.h),
-        
                   Align(
                     alignment: Alignment.centerLeft,
                     child: textBlack16W5000("New Password"),
                   ),
-        
                   sizedBoxHeight(8.h),
-
                   CustomTextFormField(
                     // leadingIcon:
                     //     SvgPicture.asset("assets/images/password.svg"),
@@ -79,16 +69,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                     validatorText: "",
                     isInputPassword: true,
                   ),
-
                   sizedBoxHeight(13.h),
-
                   Align(
                     alignment: Alignment.centerLeft,
                     child: textBlack16W5000("Confirm Password"),
                   ),
-        
                   sizedBoxHeight(8.h),
-
                   CustomTextFormField(
                     // leadingIcon:
                     //     SvgPicture.asset("assets/images/password.svg"),
@@ -96,21 +82,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                     validatorText: "",
                     isInputPassword: true,
                   ),
-        
                   sizedBoxHeight(70.h),
-        
-                  customButton(
+                  customButtonCurve(
                       text: "Next",
                       onTap: () {
-
                         // Get.toNamed("/verifyNumber");
                       }),
                 ],
               ),
-              
             ],
           ),
-
         ),
       )),
     );

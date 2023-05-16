@@ -1,6 +1,6 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_button.dart';
+import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
@@ -56,7 +56,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               sizedBoxHeight(25.h),
               cards(
                 onTap: () {
-                  Get.toNamed("/livestockinfomain0");
+                  Get.toNamed("/livestockinfomain");
                 },
                 imagePath: "assets/images/setupFarm2.png",
                 title: "Farm Information",

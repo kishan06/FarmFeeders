@@ -1,6 +1,7 @@
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({
@@ -20,13 +21,41 @@ class _SideBarState extends State<SideBar> {
   //     Get.put(ProfileImageController());
 
   List sideBarData = [
-    {"icon": Icons.manage_accounts, "text": "Manage User"},
-    {"icon": Icons.connect_without_contact, "text": "Connect With Experts"},
-    {"icon": Icons.video_collection_outlined, "text": "Training"},
-    {"icon": Icons.newspaper_outlined, "text": "News & Articles"},
-    {"icon": Icons.question_mark, "text": "FAQ"},
-    {"icon": Icons.comment_outlined, "text": "Feedback"},
-    {"icon": Icons.perm_phone_msg_outlined, "text": "Contact Us"},
+    {
+      "icon": Image.asset("assets/images/manageUser.png"),
+      "text": "Manage User",
+      "route": "/manageuser"
+    },
+    {
+      "icon": Image.asset("assets/images/connect.png"),
+      "text": "Connect With Experts",
+      "route": "/connectexperts"
+    },
+    {
+      "icon": Image.asset("assets/images/training.png"),
+      "text": "Training",
+      "route": "/loginScreen"
+    },
+    {
+      "icon": Image.asset("assets/images/news.png"),
+      "text": "News & Articles",
+      "route": "/loginScreen"
+    },
+    {
+      "icon": Image.asset("assets/images/faq.png"),
+      "text": "FAQ",
+      "route": "/loginScreen"
+    },
+    {
+      "icon": Image.asset("assets/images/feedback.png"),
+      "text": "Feedback",
+      "route": "/loginScreen"
+    },
+    {
+      "icon": Image.asset("assets/images/contactus.png"),
+      "text": "Contact Us",
+      "route": "/contactus"
+    },
   ];
 
   @override
@@ -69,8 +98,8 @@ class _SideBarState extends State<SideBar> {
                               width: 65.w,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
-                                child: Image.network(
-                                  'https://cdn.landesa.org/wp-content/uploads/default-user-image.png',
+                                child: Image.asset(
+                                  'assets/images/person.png',
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -112,14 +141,11 @@ class _SideBarState extends State<SideBar> {
                       return SideBarTile(
                         // icon: sideBarData[index]["icon"],
 
-                        icon: Icon(
-                          sideBarData[index]["icon"],
-                          color: Colors.white,
-                          size: 23.h,
-                        ),
+                        icon: sideBarData[index]["icon"],
+
                         text: sideBarData[index]["text"],
                         onTap: () {
-                          navigateTo(index, context);
+                          Get.toNamed(sideBarData[index]["route"]);
                         },
                       );
                     },
