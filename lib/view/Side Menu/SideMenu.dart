@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:farmfeeders/view/Home.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -74,7 +75,7 @@ class _SideMenuState extends State<SideMenu>
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(
                             Radius.circular(isSideMenuClosed ? 0 : 24)),
-                        child: const Center(child: LoginScreen()),
+                        child: const Center(child: Home()),
                       ),
                     ),
                   ),
@@ -96,9 +97,18 @@ class _SideMenuState extends State<SideMenu>
                       });
                     },
                     icon: isSideMenuClosed
-                        ? Icon(
-                            Icons.menu,
-                            size: 29.w,
+                        ? Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey.shade100,
+                            ),
+                            child: Icon(
+                              Icons.menu,
+                              color: Colors.black,
+                              size: 29.w,
+                            ),
                           )
                         : Icon(
                             Icons.cancel,
