@@ -1,4 +1,5 @@
 import 'package:farmfeeders/resources/routes/route_name.dart';
+import 'package:farmfeeders/view/Farmfeedtracker.dart';
 import 'package:farmfeeders/view/LiveStockInfoMain.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
@@ -82,6 +83,11 @@ class AppRoutes {
         GetPage(
           name: RouteName.liveStockInfoMain,
           page: () => LiveStockInfoLive(),
+        ),
+
+         GetPage(
+          name: RouteName.feedtracker,
+          page: () => Farmfeedtracker(),
         ),
 
       ];

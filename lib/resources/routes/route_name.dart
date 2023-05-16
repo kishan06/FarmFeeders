@@ -23,5 +23,5 @@ class RouteName {
   static const String letsSetUpYourFarm  = '/letsSetUpYourFarm';
   static const String farmsInfo  = '/farmsInfo';
   
-
+  static const String feedtracker = '/farmfeedtracker';
 }
