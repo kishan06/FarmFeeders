@@ -38,6 +38,7 @@ class AppRoutes {
           name: RouteName.splashslider,
           page: () => const SplashSlider(),
         ),
+
         GetPage(
           name: RouteName.notification,
           page: () => const Notification(),
