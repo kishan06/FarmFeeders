@@ -1,8 +1,11 @@
 import 'package:farmfeeders/resources/routes/route_name.dart';
+import 'package:farmfeeders/view/Home.dart';
+import 'package:farmfeeders/view/LiveStockInfoMain.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
 import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/farmsInfo.dart';
@@ -40,7 +43,7 @@ class AppRoutes {
           name: RouteName.notification,
           page: () => const Notification(),
         ),
-           GetPage(
+        GetPage(
           name: RouteName.settings,
           page: () => const Settings(),
         ),
@@ -67,10 +70,22 @@ class AppRoutes {
         GetPage(
           name: RouteName.letsSetUpYourFarm,
           page: () => const LetsSetUpYourFarm(),
-        ), 
+        ),
         GetPage(
           name: RouteName.farmsInfo,
           page: () => const FarmsInfo(),
+        ),
+        GetPage(
+          name: RouteName.contactus,
+          page: () => ContactUs(),
+        ),
+        GetPage(
+          name: RouteName.liveStockInfoMain,
+          page: () => LiveStockInfoLive(),
+        ),
+        GetPage(
+          name: RouteName.home,
+          page: () => Home(),
         ),
       ];
 }
