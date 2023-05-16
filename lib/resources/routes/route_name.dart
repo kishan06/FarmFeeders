@@ -21,13 +21,9 @@ class RouteName {
   static const String contactus = '/contactus';
 
 
-  static const String resetPassword  = '/ResetPassword';
   static const String verifyYourIdentity  = '/verifyYourIdentity';
-  static const String letsSetUpYourFarm  = '/letsSetUpYourFarm';
-  static const String farmsInfo  = '/farmsInfo';
   
   static const String feedtracker = '/farmfeedtracker';
 
-  static const String verifyYourIdentity = '/verifyYourIdentity';
 
 }
