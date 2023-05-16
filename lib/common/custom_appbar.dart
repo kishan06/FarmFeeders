@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget customAppBar({required String text}){
+Widget customAppBar({required String text, bool inBottomSheet = false}){
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 16.w),
+    padding: EdgeInsets.symmetric(horizontal: inBottomSheet ? 0 : 16.w),
     child: Row(
       children: [
         InkWell(
@@ -32,7 +32,7 @@ Widget customAppBar({required String text}){
           width: 15.w,
         ),
   
-        textBlack20W7000Mon(text)
+        inBottomSheet ? textGreen20W7000Mon(text) : textBlack20W7000Mon(text)
   
       ],
     ),

@@ -4,6 +4,7 @@ import 'package:farmfeeders/common/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +46,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
             children: [
               sizedBoxHeight(15.h),
               cards(
-                onTap: (){
+                onTap: () {
                   Get.toNamed("/farmsInfo");
                 },
                 imagePath: "assets/images/setupFarm1.png",
@@ -54,6 +55,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               ),
               sizedBoxHeight(25.h),
               cards(
+                onTap: () {
+                  Get.toNamed("/livestockinfomain0");
+                },
                 imagePath: "assets/images/setupFarm2.png",
                 title: "Farm Information",
                 des: "Lorem Ipsum Is Simply Dummy",
@@ -70,10 +74,13 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
 
               sizedBoxHeight(35.h),
 
-              textGreen16W700("Skip & Procced to dashboard")
+              GestureDetector(
+                  onTap: () {
+                    Get.to(SideMenu());
+                  },
+                  child: textGreen16W700("Skip & Procced to dashboard"))
 
               // textBlack16(text)
-
             ],
           ),
         ),
@@ -82,7 +89,10 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
   }
 
   Padding cards(
-      {void Function()? onTap,required String imagePath, required String title, required String des}) {
+      {void Function()? onTap,
+      required String imagePath,
+      required String title,
+      required String des}) {
     return Padding(
       padding: EdgeInsets.only(top: 25.h),
       child: InkWell(
@@ -94,9 +104,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               width: 358.w,
               height: 108.h,
               decoration: BoxDecoration(
-                  color: 
-                  // AppColors.black,
-                  AppColors.greyF1F1F1,
+                  color:
+                      // AppColors.black,
+                      AppColors.greyF1F1F1,
                   borderRadius: BorderRadius.circular(10.h),
                   boxShadow: const [
                     BoxShadow(
@@ -127,11 +137,10 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 decoration: BoxDecoration(
                     // color:AppColors.greyF1F1F1,
                     image: DecorationImage(
-                      image: AssetImage(
-                        imagePath,
-                      ),
-                      fit: BoxFit.fill
-                    ),
+                        image: AssetImage(
+                          imagePath,
+                        ),
+                        fit: BoxFit.fill),
                     borderRadius: BorderRadius.circular(5.h),
                     boxShadow: const [
                       BoxShadow(
@@ -153,7 +162,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 //   ),
                 // ),
               ),
-      
+
               // Image.asset(
               //   imagePath,
               //   height: 108.h,

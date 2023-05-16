@@ -1,5 +1,9 @@
 import 'package:farmfeeders/resources/routes/route_name.dart';
+
 import 'package:farmfeeders/view/Farmfeedtracker.dart';
+
+import 'package:farmfeeders/view/Home.dart';
+
 import 'package:farmfeeders/view/LiveStockInfoMain.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
@@ -38,6 +42,7 @@ class AppRoutes {
           name: RouteName.splashslider,
           page: () => const SplashSlider(),
         ),
+
         GetPage(
           name: RouteName.notification,
           page: () => const Notification(),
@@ -69,13 +74,11 @@ class AppRoutes {
         GetPage(
           name: RouteName.letsSetUpYourFarm,
           page: () => const LetsSetUpYourFarm(),
-        ), 
+        ),
         GetPage(
           name: RouteName.farmsInfo,
           page: () => const FarmsInfo(),
         ),
-
-
         GetPage(
           name: RouteName.contactus,
           page: () => ContactUs(),
@@ -85,9 +88,16 @@ class AppRoutes {
           page: () => LiveStockInfoLive(),
         ),
 
+
          GetPage(
           name: RouteName.feedtracker,
           page: () => Farmfeedtracker(),
+        ),
+
+
+        GetPage(
+          name: RouteName.home,
+          page: () => Home(),
         ),
 
       ];
