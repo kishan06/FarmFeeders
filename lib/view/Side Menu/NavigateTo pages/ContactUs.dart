@@ -99,8 +99,8 @@ class _ContactUsState extends State<ContactUs> {
                             }
                             return null;
                           },
-                          hintText: "  Enter Full Name",
-                          validatorText: "Please Enter Full Name"),
+                          hintText: "  Enter Name",
+                          validatorText: "Please Enter Name"),
                       SizedBox(
                         height: 25.h,
                       ),
