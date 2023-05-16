@@ -84,29 +84,32 @@ class _FarmsInfoState extends State<FarmsInfo> {
               // List.generate
               SizedBox(
                 height: 400.h,
-                child: ListView.builder(
-                  itemCount: farmNumber,
-                  itemBuilder: (context,index){
-                  return Column(
-                    children: [
-                      CustomTextFormField(
-                        readonly: true,
-                        onTap: (){
-                          locationBottomSheet();
-                        },
-                        hintText: "Select on map",
-                        validatorText: "",
-                        // texttype: TextInputType.phone,
-                        leadingIcon: SvgPicture.asset(
-                          "assets/images/location.svg",
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  child: ListView.builder(
+                    itemCount: farmNumber,
+                    itemBuilder: (context,index){
+                    return Column(
+                      children: [
+                        CustomTextFormField(
+                          readonly: true,
+                          onTap: (){
+                            locationBottomSheet();
+                          },
+                          hintText: "Select on map",
+                          validatorText: "",
+                          // texttype: TextInputType.phone,
+                          leadingIcon: SvgPicture.asset(
+                            "assets/images/location.svg",
+                          ),
                         ),
-                      ),
-              
-                      sizedBoxHeight(15.h)
-                    ],
-                  );
-                
-                }),
+                              
+                        sizedBoxHeight(15.h)
+                      ],
+                    );
+                  
+                  }),
+                ),
               ),
               // CustomTextFormField(
               //   hintText: "Enter your farm location",
@@ -169,16 +172,104 @@ class _FarmsInfoState extends State<FarmsInfo> {
 
                 sizedBoxHeight(10.h),
 
-                SizedBox(
-                  height: 600.h,
-                  // width: 358.w,
-                  width: double.infinity,
-                  child: SvgPicture.asset("assets/images/map.svg",
-                    // height: 350.h,
+                Expanded(
+                  child: Container(
+                    // color: Colors.amber,
+                    // height: 400.h,
                     // width: 358.w,
-                    fit: BoxFit.fill,
+                    width: double.infinity,
+                    child: Image.asset("assets/images/map.png",
+                      fit: BoxFit.fill,
+                    )
+                    // SvgPicture.asset("assets/images/map.svg",
+                    //   // height: 350.h,
+                    //   // width: 358.w,
+                    //   fit: BoxFit.fill,
+                    // ),
                   ),
-                )
+                ),
+
+                sizedBoxHeight(10.h),
+
+                Row(
+                  children: [
+                    Container(
+                      width: 30.w,
+                      height: 30.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.circular(5.w),
+                        color: AppColors.buttoncolour
+                      ),
+                      child: Icon(
+                        Icons.near_me,
+                        color: AppColors.white,
+                        size: 20.w,
+                      ),
+                    ),
+
+                    sizedBoxWidth(5.w),
+
+                    textBlack18("Dopped Pin"),
+
+                    const Spacer(),
+
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15.w,
+                      
+                    )
+                  ],
+                ),
+
+                Divider(
+                  thickness: 1.h,
+                  color: AppColors.black,
+                ),
+
+                textGrey4D4D4D_16("Suggestions"),
+
+                textBlack18("Dopped Pin"),
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      color: AppColors.buttoncolour,
+                      size: 20.w,
+                    ),
+
+                    sizedBoxWidth(5.w),
+
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        textBlack16("Decathlon Malad"),
+                        // textGrey4D4D4D_16(text)
+                        textGrey4D4D4D_14("22b baker street St, Marylebone, Europe")
+                      ],
+                    ),
+
+                    // textBlack18("Dopped Pin"),
+
+
+                    const Spacer(),
+
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15.w,
+                      
+                    )
+                  ],
+                ),
+
+
+                // textg
+
+
+
+
+
                 
                 
 
