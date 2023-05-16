@@ -64,6 +64,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               ),
               sizedBoxHeight(25.h),
               cards(
+                onTap: (){
+                  Get.toNamed("/farmfeedtracker");
+                },
                 imagePath: "assets/images/setupFarm3.png",
                 title: "Farm Information",
                 des: "Lorem Ipsum Is Simply Dummy",
