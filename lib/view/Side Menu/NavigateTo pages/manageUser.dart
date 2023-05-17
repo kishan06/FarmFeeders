@@ -18,7 +18,15 @@ class manageUser extends StatefulWidget {
 
 class _manageUserState extends State<manageUser> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  final residentialstatustexteditingcontroller = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Get.arguments;
+    super.initState();
+    print(Get.arguments["name"]);
+    // Get.arguments["name"];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,43 +42,156 @@ class _manageUserState extends State<manageUser> {
         backgroundColor: Colors.white,
         body: Form(
           key: _form,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 25.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Can only add 3 users",
-                        style: TextStyle(
-                          color: Color(0xFF4D4D4D),
-                          fontFamily: 'Poppins',
-                          fontSize: 18.sp,
-                        ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 25.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Can only add 3 users",
+                      style: TextStyle(
+                        color: Color(0xFF4D4D4D),
+                        fontFamily: 'Poppins',
+                        fontSize: 18.sp,
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                //    Text(email.text)
+
+                customButton(
+                  text: "Add Sub Users",
+                  onTap: () {
+                    // if (_form.currentState!.validate()) {
+                    //   print("error");
+                    // }
+                    Get.toNamed("/addsubuser");
+                  },
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFF1F1F1),
                   ),
-                  SizedBox(
-                    height: 10,
+                  width: double.infinity,
+                  height: 244,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Get.arguments != null
+                            ? Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "FULL NAME        : ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF4D4D4D)),
+                                      ),
+                                      Text(
+                                        Get.arguments["name"] ?? "",
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 18,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "DATE OF BIRTH : ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF4D4D4D)),
+                                      ),
+                                      Text(
+                                        Get.arguments["dob"] ?? "",
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 18,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "PHONE               : ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF4D4D4D)),
+                                      ),
+                                      Text(
+                                        Get.arguments["phone"] ?? "",
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 18,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "EMAIL                 : ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF4D4D4D)),
+                                      ),
+                                      Text(
+                                        Get.arguments["email"] ?? "",
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 18,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "ADDRESS           : ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF4D4D4D)),
+                                      ),
+                                      Text(
+                                        Get.arguments["address"] ?? "",
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : SizedBox()
+                      ],
+                    ),
                   ),
-                  customButton(
-                    text: "Add Sub Users",
-                    onTap: () {
-                      // if (_form.currentState!.validate()) {
-                      //   print("error");
-                      // }
-                      Get.toNamed("/addsubuser");
-                    },
-                  ),
-                  sizedBoxHeight(58.h)
-                ],
-              ),
+                ),
+
+                //  sizedBoxHeight(58.h)
+              ],
             ),
           ),
         ),
