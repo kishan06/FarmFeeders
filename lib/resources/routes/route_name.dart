@@ -24,5 +24,12 @@ class RouteName {
   static const String settings = '/settings';
   static const String home = '/home';
   static const String verifyYourIdentity = '/verifyYourIdentity';
+
   static const String feedtracker = '/farmfeedtracker';
+
+  static const String profile = '/profile';
+
+  static const String personalinfo = '/personalinfo';
+
+
 }
