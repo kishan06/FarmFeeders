@@ -6,6 +6,7 @@ import 'package:farmfeeders/common/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 import 'ContactUs.dart';
 
@@ -18,10 +19,15 @@ class addSubUser extends StatefulWidget {
 
 class _addSubUserState extends State<addSubUser> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  final residentialstatustexteditingcontroller = TextEditingController();
+  final name = TextEditingController();
+  final DOB = TextEditingController();
+  final phone = TextEditingController();
+  final email = TextEditingController();
+  final address = TextEditingController();
   bool isChecked = false;
   bool isChecked1 = false;
   bool isChecked2 = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,6 +67,7 @@ class _addSubUserState extends State<addSubUser> {
                     height: 10.h,
                   ),
                   CustomTextFormField(
+                      textEditingController: name,
                       leadingIcon:
                           SvgPicture.asset("assets/images/profileimage.svg"),
                       hintText: "Full Name",
@@ -84,6 +91,7 @@ class _addSubUserState extends State<addSubUser> {
                     height: 10.h,
                   ),
                   CustomTextFormField(
+                      textEditingController: DOB,
                       leadingIcon:
                           SvgPicture.asset("assets/images/calender.svg"),
                       hintText: "Date Of Birth",
@@ -107,6 +115,7 @@ class _addSubUserState extends State<addSubUser> {
                     height: 10.h,
                   ),
                   CustomTextFormField(
+                      textEditingController: phone,
                       leadingIcon: SvgPicture.asset("assets/images/phone.svg"),
                       hintText: "Phone",
                       validatorText: "Please Enter phone Number"),
@@ -129,6 +138,7 @@ class _addSubUserState extends State<addSubUser> {
                     height: 10.h,
                   ),
                   CustomTextFormField(
+                      textEditingController: email,
                       leadingIcon: SvgPicture.asset("assets/images/mail.svg"),
                       hintText: "Email Id",
                       validatorText: "Please Enter Email Id"),
@@ -151,6 +161,7 @@ class _addSubUserState extends State<addSubUser> {
                     height: 10.h,
                   ),
                   CustomTextFormField(
+                      textEditingController: address,
                       leadingIcon:
                           SvgPicture.asset("assets/images/location.svg"),
                       hintText: "Address",
@@ -275,9 +286,13 @@ class _addSubUserState extends State<addSubUser> {
                   customButton(
                     text: "Submit",
                     onTap: () {
-                      if (_form.currentState!.validate()) {
-                        print("error");
-                      }
+                      Get.toNamed("manageuser", arguments: {
+                        "name": name.text,
+                        "dob": DOB.text,
+                        "phone": phone.text,
+                        "email": email.text,
+                        "address": address.text,
+                      });
                     },
                   ),
                   sizedBoxHeight(58.h)
