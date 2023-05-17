@@ -25,5 +25,9 @@ class RouteName {
   
   static const String feedtracker = '/farmfeedtracker';
 
+  static const String profile = '/profile';
+
+  static const String personalinfo = '/personalinfo';
+
 
 }
