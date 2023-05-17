@@ -11,6 +11,8 @@ import 'package:farmfeeders/view/Profile/personalinfo.dart';
 import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/addSubUser.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/manageUser.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/farmsInfo.dart';
@@ -110,6 +112,14 @@ class AppRoutes {
         GetPage(
           name: RouteName.personalinfo,
           page: () => PersonalInfo(),
+
+          name: RouteName.manageuser,
+          page: () => manageUser(),
+        ),
+        GetPage(
+          name: RouteName.addSubUser,
+          page: () => addSubUser(),
+
         ),
 
       ];
