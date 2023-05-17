@@ -112,10 +112,13 @@ class AppRoutes {
         GetPage(
           name: RouteName.personalinfo,
           page: () => PersonalInfo(),
+        ),
 
+         GetPage( 
           name: RouteName.manageuser,
           page: () => manageUser(),
         ),
+        
         GetPage(
           name: RouteName.addSubUser,
           page: () => addSubUser(),
