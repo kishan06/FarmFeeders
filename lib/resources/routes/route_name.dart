@@ -32,5 +32,9 @@ class RouteName {
 
   static const String personalinfo = '/personalinfo';
 
+  static const String faqs = '/faq';
+
+  static const String accountfaq = '/accountfaq';
+
 
 }
