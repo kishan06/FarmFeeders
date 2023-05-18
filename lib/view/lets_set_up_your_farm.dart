@@ -13,6 +13,8 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../Utils/custom_button.dart';
+
   bool isSetFarmInfo = false;
   // bool get isSetFarmInfo => isSetFarmInfo;
 
@@ -91,7 +93,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 :sizedBoxHeight(35.h),
 
               (isSetFarmInfo && isSetLiveStockInfo && isSetFeedInfo)
-                ? customButton(
+                ? CustomButton(
                   text: "Procced To Dashboard",
                   onTap: (){
                     showDialog(
@@ -277,7 +279,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
 
                   SizedBox(
                     width: 270.w,
-                    child: customButton(text: "Go To Dashboard",
+                    child: CustomButton(text: "Go To Dashboard",
                       onTap: (){
                         // Get.to(() => SideMenu());
                         Get.toNamed("/sideMenu");
