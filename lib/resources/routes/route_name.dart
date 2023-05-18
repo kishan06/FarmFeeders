@@ -14,17 +14,23 @@ class RouteName {
   static const String farmsInfo = '/farmsInfo';
   static const String liveStockInfoMain = '/livestockinfomain';
 
+  //sidebar
+  static const String connectexperts = '/connectexperts';
+  static const String contactus = '/contactus';
+  static const String manageuser = '/manageuser';
+  static const String addSubUser = '/addsubuser';
+
   //other
   static const String settings = '/settings';
   static const String home = '/home';
-  static const String connectexperts = '/connectexperts';
-  static const String contactus = '/contactus';
+  static const String verifyYourIdentity = '/verifyYourIdentity';
 
-
-  static const String verifyYourIdentity  = '/verifyYourIdentity';
-  
   static const String feedtracker = '/farmfeedtracker';
   static const String sideMenu = '/sideMenu';
+
+  static const String profile = '/profile';
+
+  static const String personalinfo = '/personalinfo';
 
 
 }

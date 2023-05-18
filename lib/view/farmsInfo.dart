@@ -11,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../common/custom_button.dart';
+import '../common/custom_button_curve.dart';
 
 class FarmsInfo extends StatefulWidget {
   const FarmsInfo({super.key});
@@ -45,14 +45,14 @@ class _FarmsInfoState extends State<FarmsInfo> {
           child: Column(
             children: [
               sizedBoxHeight(15.h),
-      
+
               Align(
                 alignment: Alignment.centerLeft,
                 child: textBlack16W5000("How many plots of land do u farm?"),
               ),
-          
+
               sizedBoxHeight(8.h),
-      
+
               CustomTextFormField(
                 // leadingIcon:
                 //     SvgPicture.asset("assets/images/password.svg"),
@@ -62,7 +62,7 @@ class _FarmsInfoState extends State<FarmsInfo> {
                 onChanged: (value) {
                   // farmNumber = int.tryParse(value)??1;
                   setState(() {
-                    farmNumber = int.tryParse(value)??1;
+                    farmNumber = int.tryParse(value) ?? 1;
                   });
                 },
                 inputFormatters: [
@@ -71,20 +71,20 @@ class _FarmsInfoState extends State<FarmsInfo> {
                 ],
                 // isInputPassword: true,
               ),
-      
+
               sizedBoxHeight(30.h),
-      
+
               Align(
                 alignment: Alignment.centerLeft,
                 child: textBlack16W5000("Where is your farm located ?"),
               ),
-          
+
               sizedBoxHeight(8.h),
-      
-      
+
               // List.generate
               SizedBox(
                 height: 400.h,
+
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   child: ListView.builder(
@@ -111,6 +111,7 @@ class _FarmsInfoState extends State<FarmsInfo> {
                   
                   }),
                 ),
+
               ),
               // CustomTextFormField(
               //   hintText: "Enter your farm location",
@@ -120,9 +121,9 @@ class _FarmsInfoState extends State<FarmsInfo> {
               //     "assets/images/location.svg",
               //   ),
               // ),
-      
-      
+
               // Spacer(),
+
       
               customButton(
                 text: "Next",
@@ -135,12 +136,9 @@ class _FarmsInfoState extends State<FarmsInfo> {
                 }
               ),
       
+
               // sizedBoxHeight(120.h)
-      
-              
-      
             ],
-          
           ),
         )),
       ),
@@ -289,7 +287,10 @@ class _FarmsInfoState extends State<FarmsInfo> {
 
 
   Padding cards(
-      {void Function()? onTap,required String imagePath, required String title, required String des}) {
+      {void Function()? onTap,
+      required String imagePath,
+      required String title,
+      required String des}) {
     return Padding(
       padding: EdgeInsets.only(top: 25.h),
       child: InkWell(
@@ -301,9 +302,9 @@ class _FarmsInfoState extends State<FarmsInfo> {
               width: 358.w,
               height: 108.h,
               decoration: BoxDecoration(
-                  color: 
-                  // AppColors.black,
-                  AppColors.greyF1F1F1,
+                  color:
+                      // AppColors.black,
+                      AppColors.greyF1F1F1,
                   borderRadius: BorderRadius.circular(10.h),
                   boxShadow: const [
                     BoxShadow(
@@ -334,11 +335,10 @@ class _FarmsInfoState extends State<FarmsInfo> {
                 decoration: BoxDecoration(
                     // color:AppColors.greyF1F1F1,
                     image: DecorationImage(
-                      image: AssetImage(
-                        imagePath,
-                      ),
-                      fit: BoxFit.fill
-                    ),
+                        image: AssetImage(
+                          imagePath,
+                        ),
+                        fit: BoxFit.fill),
                     borderRadius: BorderRadius.circular(5.h),
                     boxShadow: const [
                       BoxShadow(
@@ -360,7 +360,7 @@ class _FarmsInfoState extends State<FarmsInfo> {
                 //   ),
                 // ),
               ),
-      
+
               // Image.asset(
               //   imagePath,
               //   height: 108.h,

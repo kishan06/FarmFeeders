@@ -299,9 +299,12 @@ class _DairyState extends State<Dairy> {
                   ),
                   sizedBoxHeight(6.h),
                   Container(
-                    color: Color(0xFFF1F1F1),
                     height: 92.h,
                     width: 315.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: Color(0xFFF1F1F1),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6.w),
                       child: Row(
@@ -654,9 +657,12 @@ class _BeefState extends State<Beef> {
                   ),
                   sizedBoxHeight(6.h),
                   Container(
-                    color: Color(0xFFF1F1F1),
                     height: 92.h,
                     width: 315.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: Color(0xFFF1F1F1),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6.w),
                       child: Row(
@@ -1006,9 +1012,12 @@ class _SheepState extends State<Sheep> {
                   ),
                   sizedBoxHeight(6.h),
                   Container(
-                    color: Color(0xFFF1F1F1),
                     height: 92.h,
                     width: 315.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: Color(0xFFF1F1F1),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6.w),
                       child: Row(
@@ -1357,9 +1366,12 @@ class _PigState extends State<Pig> {
                   ),
                   sizedBoxHeight(6.h),
                   Container(
-                    color: Color(0xFFF1F1F1),
                     height: 92.h,
                     width: 315.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: Color(0xFFF1F1F1),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6.w),
                       child: Row(
@@ -1709,9 +1721,12 @@ class _PoultryState extends State<Poultry> {
                   ),
                   sizedBoxHeight(6.h),
                   Container(
-                    color: Color(0xFFF1F1F1),
                     height: 92.h,
                     width: 315.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: Color(0xFFF1F1F1),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 6.w),
                       child: Row(
