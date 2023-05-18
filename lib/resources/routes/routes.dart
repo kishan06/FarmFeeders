@@ -10,6 +10,7 @@ import 'package:farmfeeders/view/Notification.dart';
 import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
+import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/farmsInfo.dart';
@@ -98,6 +99,11 @@ class AppRoutes {
         GetPage(
           name: RouteName.home,
           page: () => Home(),
+        ),
+
+        GetPage(
+          name: RouteName.sideMenu,
+          page: () => SideMenu(),
         ),
 
       ];

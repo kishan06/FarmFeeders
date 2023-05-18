@@ -24,6 +24,17 @@ Widget textBlack20W7000Mon(String text) {
   );
 }
 
+Widget textWhite20W7000Mon(String text) {
+  return Text(
+    text,
+    style: TextStyle(
+        fontSize: 20.sp,
+        color: AppColors.white,
+        fontWeight: FontWeight.w700,
+        fontFamily: "Montserrat"),
+  );
+}
+
 Widget textGreen20W7000Mon(String text) {
   return Text(
     text,
@@ -54,6 +65,18 @@ Widget textBlack18W5000(String text) {
     style: TextStyle(
       fontSize: 18.sp,
       color: AppColors.black,
+      fontWeight: FontWeight.w500,
+    ),
+  );
+}
+
+Widget textGreen18W5000(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontSize: 18.sp,
+      color: AppColors.buttoncolour,
       fontWeight: FontWeight.w500,
     ),
   );
@@ -90,6 +113,18 @@ Widget textBlack16(String text) {
     style: TextStyle(
       fontSize: 16.sp,
       color: AppColors.black,
+      // fontWeight: FontWeight.w500,
+    ),
+  );
+}
+
+Widget textWhite16(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.left,
+    style: TextStyle(
+      fontSize: 16.sp,
+      color: AppColors.white,
       // fontWeight: FontWeight.w500,
     ),
   );

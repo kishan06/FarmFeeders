@@ -47,6 +47,8 @@ dependencies:
   pin_code_fields: ^7.4.0
   dropdown_button2: ^2.1.2
   another_flushbar: ^1.12.30
+  google_nav_bar: ^5.0.6
+
 
 
 
