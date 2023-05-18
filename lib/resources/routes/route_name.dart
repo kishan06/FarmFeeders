@@ -19,6 +19,7 @@ class RouteName {
   static const String contactus = '/contactus';
   static const String manageuser = '/manageuser';
   static const String addSubUser = '/addsubuser';
+  static const String newsAndArticleMain = '/newsandarticlemain';
 
   //other
   static const String settings = '/settings';

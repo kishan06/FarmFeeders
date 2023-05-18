@@ -10,6 +10,7 @@ import 'package:farmfeeders/view/Notification.dart';
 import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsAndArticleMain.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/addSubUser.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/manageUser.dart';
 import 'package:farmfeeders/view/SplashScreen.dart';
@@ -44,7 +45,6 @@ class AppRoutes {
           name: RouteName.splashslider,
           page: () => const SplashSlider(),
         ),
-
         GetPage(
           name: RouteName.notification,
           page: () => const Notification(),
@@ -89,19 +89,14 @@ class AppRoutes {
           name: RouteName.liveStockInfoMain,
           page: () => LiveStockInfoLive(),
         ),
-
-
-         GetPage(
+        GetPage(
           name: RouteName.feedtracker,
           page: () => Farmfeedtracker(),
         ),
-
-
         GetPage(
           name: RouteName.home,
           page: () => Home(),
         ),
-
         GetPage(
           name: RouteName.manageuser,
           page: () => manageUser(),
@@ -110,6 +105,9 @@ class AppRoutes {
           name: RouteName.addSubUser,
           page: () => addSubUser(),
         ),
-
+        GetPage(
+          name: RouteName.newsAndArticleMain,
+          page: () => NewsAndArticleMain(),
+        ),
       ];
 }
