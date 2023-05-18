@@ -26,6 +26,7 @@ class RouteName {
   static const String verifyYourIdentity = '/verifyYourIdentity';
 
   static const String feedtracker = '/farmfeedtracker';
+  static const String sideMenu = '/sideMenu';
 
   static const String profile = '/profile';
 

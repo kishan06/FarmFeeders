@@ -4,6 +4,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_dropdown.dart';
+import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -410,7 +411,11 @@ class _DairyState extends State<Dairy> {
                     onTap: () {
                       final isValid = _formdairy.currentState?.validate();
                       if (isValid!) {
-                        Get.back();
+                        // Get.back();
+                        isSetFeedInfo = true;
+                        // Get.to(LetsSetUpYourFarm())
+                        Get.toNamed("/letsSetUpYourFarm");
+
                       } else {
                         Flushbar(
                           message: "Please fill all fields",

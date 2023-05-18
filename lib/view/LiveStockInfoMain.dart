@@ -4,6 +4,7 @@ import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_dropdown.dart';
+import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -169,7 +170,10 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                     CustomButton(
                                       text: "Save",
                                       onTap: () {
-                                        Get.back();
+                                        // Get.back();
+                                        isSetLiveStockInfo = true;
+                                        // Get.to(LetsSetUpYourFarm())
+                                        Get.toNamed("/letsSetUpYourFarm");
                                       },
                                     )
                                   ],
