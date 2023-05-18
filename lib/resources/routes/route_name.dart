@@ -25,5 +25,17 @@ class RouteName {
   static const String settings = '/settings';
   static const String home = '/home';
   static const String verifyYourIdentity = '/verifyYourIdentity';
+
   static const String feedtracker = '/farmfeedtracker';
+  static const String sideMenu = '/sideMenu';
+
+  static const String profile = '/profile';
+
+  static const String personalinfo = '/personalinfo';
+
+  static const String faqs = '/faq';
+
+  static const String accountfaq = '/accountfaq';
+
+
 }

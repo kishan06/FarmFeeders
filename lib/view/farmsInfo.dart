@@ -3,7 +3,9 @@ import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
+import 'package:farmfeeders/common/custom_button.dart';
 import 'package:farmfeeders/common/limit_range.dart';
+import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -123,11 +125,18 @@ class _FarmsInfoState extends State<FarmsInfo> {
 
               // Spacer(),
 
-              customButtonCurve(
-                  text: "Next",
-                  onTap: () {
-                    // Get.toNamed("/ResetPassword");
-                  }),
+      
+              customButton(
+                text: "Next",
+                onTap: (){
+                  isSetFarmInfo = true;
+                  Get.toNamed("/letsSetUpYourFarm");
+
+                  // Get.back();
+                  // Get.toNamed("/ResetPassword");
+                }
+              ),
+      
 
               // sizedBoxHeight(120.h)
             ],
