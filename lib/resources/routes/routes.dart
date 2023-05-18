@@ -1,4 +1,6 @@
 import 'package:farmfeeders/resources/routes/route_name.dart';
+import 'package:farmfeeders/view/Faqs/Accountandappfaq.dart';
+import 'package:farmfeeders/view/Faqs/faqs.dart';
 
 import 'package:farmfeeders/view/Farmfeedtracker.dart';
 
@@ -124,6 +126,18 @@ class AppRoutes {
           page: () => addSubUser(),
 
         ),
+
+         GetPage(
+          name: RouteName.faqs,
+          page: () => Faq(),
+        ),
+
+
+         GetPage(
+          name: RouteName.accountfaq,
+          page: () => Accountapp(),
+        ),
+        
 
       ];
 }
