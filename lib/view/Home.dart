@@ -24,30 +24,28 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: customAppBarHome(text: "knc"),
-      //   backgroundColor: Colors.white,
-      //   automaticallyImplyLeading: false,
-      //   elevation: 0,
-      //   titleSpacing: 0,
-      // ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(60.w,10.h,16.w, 10.h),
-            child: Row(
-              children: [
-                Column(
+        // appBar: AppBar(
+        //   title: customAppBarHome(text: "knc"),
+        //   backgroundColor: Colors.white,
+        //   automaticallyImplyLeading: false,
+        //   elevation: 0,
+        //   titleSpacing: 0,
+        // ),
+        body: Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(60.w, 10.h, 16.w, 10.h),
+          child: Row(
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textBlack20W7000Mon("Welcome Back"),
-                    textBlack20W7000Mon("Kevin")
-                  ],
-                ),
-
-                Spacer(),
-
-                Container(
+                children: [
+                  textBlack20W7000Mon("Welcome Back"),
+                  textBlack20W7000Mon("Kevin")
+                ],
+              ),
+              Spacer(),
+              Container(
                 height: 50.h,
                 width: 50.h,
                 decoration: BoxDecoration(
@@ -72,11 +70,8 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-          
               ),
-
               sizedBoxWidth(10.w),
-
               Container(
                 height: 50.h,
                 width: 50.h,
@@ -106,73 +101,188 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-          
               )
-              
-                    
-
-
-              ],
-            ),
+            ],
           ),
-       
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(27.h),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
-                        blurRadius: 10,
-                        spreadRadius: 2,
-                      )
-                    ],
-                    color: AppColors.pistaE3FFE9
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(36.w,25.h,36.w,12.h),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(27.h),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        )
+                      ],
+                      color: AppColors.pistaE3FFE9,
+                    ),
                     child: Column(
                       children: [
-                        Row(
+                        Stack(
                           children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/images/locationconnect.svg",
-                                      color: AppColors.black,
-                                      height: 20.h,
-                                      width: 20.h,
-                                    ),
-                  
-                                    sizedBoxWidth(5.w),
-                  
-                                    // textBlack20W7000("Ireland"),
-                                    textBlack18W5000("Ireland")
-                  
-                                  ],
-                                ),
-
-                                // textGreen18W5000(text)
-                              ],
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Lottie.asset(
+                                "assets/lotties/cloud2.json",
+                                height: 200.h,
+                                width: 200.w,
+                              ),
                             ),
-                    
+                            Padding(
+                              padding:
+                                  EdgeInsets.fromLTRB(36.w, 25.h, 36.w, 12.h),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    "assets/images/locationconnect.svg",
+                                                    color: AppColors.black,
+                                                    height: 20.h,
+                                                    width: 20.h,
+                                                  ),
+
+                                                  sizedBoxWidth(5.w),
+
+                                                  // textBlack20W7000("Ireland"),
+                                                  textBlack18W5000("Ireland")
+                                                ],
+                                              ),
+                                              textGreen50Bold("22° C"),
+                                              textBlack18W5000(
+                                                  "Sat, 3 Nov -12.32PM"),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+
+                                      // LottieBuilder.asset(name)
+                                      // Lottie.asset("assets/lotties/cloud.json",
+                                      //   height: 100.h,
+                                      //   width: 200.w
+                                      // )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
+                        ),
+                      
+                        Container(
+                          
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(27.h),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.04),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                              )
+                            ],
+                            color: AppColors.white,
+                            // chil
+                          ),
+
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  textBlack16W5000("jj"),
+                                ],
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
                   ),
-                )
-              ],
-            ),
-          )
-        ],
 
-      )
-    );
+                  // Padding(
+                  //   padding: EdgeInsets.fromLTRB(36.w, 25.h, 36.w, 12.h),
+                  //   child: Container(
+                  //     // color: Colors.amber,
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                  //             Stack(
+                  //               children: [
+                  //                 // Align(
+                  //                 //   alignment: Alignment.centerRight,
+                  //                 //   child: Container(
+                  //                 //     color: Colors.red,
+                  //                 //     child: Lottie.asset("assets/lotties/cloud.json",
+                  //                 //       height: 300.h,
+                  //                 //       width: 250.w
+                  //                 //     ),
+                  //                 //   ),
+                  //                 // ),
+
+                  //                 Column(
+                  //                   crossAxisAlignment:
+                  //                       CrossAxisAlignment.start,
+                  //                   children: [
+                  //                     Row(
+                  //                       mainAxisAlignment:
+                  //                           MainAxisAlignment.start,
+                  //                       children: [
+                  //                         SvgPicture.asset(
+                  //                           "assets/images/locationconnect.svg",
+                  //                           color: AppColors.black,
+                  //                           height: 20.h,
+                  //                           width: 20.h,
+                  //                         ),
+
+                  //                         sizedBoxWidth(5.w),
+
+                  //                         // textBlack20W7000("Ireland"),
+                  //                         textBlack18W5000("Ireland")
+                  //                       ],
+                  //                     ),
+                  //                     textGreen50Bold("22° C"),
+                  //                     textBlack18W5000("Sat, 3 Nov -12.32PM"),
+                  //                   ],
+                  //                 ),
+                  //               ],
+                  //             ),
+
+                  //             // LottieBuilder.asset(name)
+                  //             // Lottie.asset("assets/lotties/cloud.json",
+                  //             //   height: 100.h,
+                  //             //   width: 200.w
+                  //             // )
+                  //           ],
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              )
+            ],
+          ),
+        )
+      ],
+    ));
   }
 }
