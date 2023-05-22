@@ -101,7 +101,7 @@ Widget textGreen50Bold(String text) {
     style: TextStyle(
       fontSize: 50.sp,
       color: AppColors.buttoncolour,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.bold,
     ),
   );
 }
