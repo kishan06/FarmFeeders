@@ -25,7 +25,19 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: customAppBar(text: "News & Article"),
+          title: customAppBar(
+              text: "News & Article",
+              actions: true,
+              icon: GestureDetector(
+                onTap: () {
+                  Get.toNamed("/savedarticlemain");
+                },
+                child: Icon(
+                  Icons.bookmark_rounded,
+                  size: 26.sp,
+                  color: Color(0xFF0E5F02),
+                ),
+              )),
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           elevation: 0,
@@ -56,7 +68,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                   borderRadius: BorderRadius.circular(15.h),
                                   image: const DecorationImage(
                                       image: AssetImage(
-                                          "assets/images/person.png"),
+                                          "assets/images/newsback.png"),
                                       fit: BoxFit.fill)),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(

@@ -33,50 +33,145 @@ class _HomeState extends State<Home> {
       // ),
       body: Column(
         children: [
-          Container(
-        height: 50.h,
-        width: 50.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.h),
-          color: AppColors.white
-        ),
-        // child: SizedBox(
-        //       height: 22.h,
-        //       width: 22.h,
-        //       child: SvgPicture.asset(
-        //         bottomBarData[index]["imageUrl"],
-        //         // height: 35.h,
-        //         // width: 35.h,
-        //         color: selectedIndex == index ?AppColors.white : AppColors.buttoncolour,
-        //         fit: BoxFit.fill,
-        //         // color: AppColors.greyD3B3F43,
-        //         // colorFilter: AppColors.greyD3B3F43,
-        //       ),
-        //     ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     SizedBox(
-        //       height: 22.h,
-        //       width: 22.h,
-        //       child: SvgPicture.asset(
-        //         bottomBarData[index]["imageUrl"],
-        //         // height: 35.h,
-        //         // width: 35.h,
-        //         color: selectedIndex == index ?AppColors.white : AppColors.buttoncolour,
-        //         fit: BoxFit.fill,
-        //         // color: AppColors.greyD3B3F43,
-        //         // colorFilter: AppColors.greyD3B3F43,
-        //       ),
-        //     ),
-    
-    
-        //   ],
-        // ),
-     
-      ),
-   
+          Padding(
+            padding: EdgeInsets.fromLTRB(60.w,10.h,16.w, 10.h),
+            child: Row(
+              children: [
+                Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textBlack20W7000Mon("Welcome Back"),
+                    textBlack20W7000Mon("Kevin")
+                  ],
+                ),
+
+                Spacer(),
+
+                Container(
+                height: 50.h,
+                width: 50.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.h),
+                  color: AppColors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade400,
+                      blurRadius: 5.h,
+                      spreadRadius: 2.h,
+                    )
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images/notification_bell.svg",
+                      height: 28.h,
+                      width: 28.h,
+                      color: AppColors.black,
+                    ),
+                  ],
+                ),
+          
+              ),
+
+              sizedBoxWidth(10.w),
+
+              Container(
+                height: 50.h,
+                width: 50.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.h),
+                  color: AppColors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade400,
+                      blurRadius: 5.h,
+                      spreadRadius: 2.h,
+                    )
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Icon(Icons.settings,
+                    //   size: 3.h,
+                    //   // color: app,
+                    // )
+                    SvgPicture.asset(
+                      "assets/images/Settings.svg",
+                      height: 28.h,
+                      width: 28.h,
+                      color: AppColors.black,
+                    ),
+                  ],
+                ),
+          
+              )
+              
+                    
+
+
+              ],
+            ),
+          ),
+       
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(27.h),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      )
+                    ],
+                    color: AppColors.pistaE3FFE9
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(36.w,25.h,36.w,12.h),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/images/locationconnect.svg",
+                                      color: AppColors.black,
+                                      height: 20.h,
+                                      width: 20.h,
+                                    ),
+                  
+                                    sizedBoxWidth(5.w),
+                  
+                                    // textBlack20W7000("Ireland"),
+                                    textBlack18W5000("Ireland")
+                  
+                                  ],
+                                ),
+
+                                // textGreen18W5000(text)
+                              ],
+                            ),
+                    
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
         ],
+
       )
     );
   }

@@ -55,107 +55,89 @@ class _newsState extends State<newsCard> {
     return Column(
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: 16.w,
-            ),
-            Stack(
-              children: [
-                SizedBox(
-                  width: 50.w,
-                  child: CircleAvatar(
-                    radius: 25.r,
-                    backgroundColor: Colors.grey,
-                    child: Image.asset(
-                      recipeimage,
-                      height: 50.h,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0.h,
-                  left: 35.w,
-                  child: SvgPicture.asset(
-                    "assets/images/staruncheck.svg",
-                    height: 22.h,
-                  ),
-                ),
-              ],
+              height: 122,
+              width: 122.w,
+              child: Image.asset(
+                recipeimage,
+              ),
             ),
             SizedBox(
               width: 10.w,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: TextStyle(
-                      fontFamily: "StudioProR",
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF54595F)),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFF4D4D4D)),
                 ),
                 SizedBox(
                   height: 5.h,
                 ),
-                Text(
-                  name,
-                  style: TextStyle(
-                      fontFamily: "StudioProR",
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromRGBO(59, 63, 67, 0.49)),
+                Container(
+                  width: 200.w,
+                  child: Text(
+                    name,
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF141414)),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "7 Feb 2023",
+                      style: TextStyle(fontSize: 14, color: Color(0xFF4D4D4D)),
+                    ),
+                    SizedBox(
+                      width: 100,
+                    ),
+                    Container(
+                      height: 40,
+                      child: SvgPicture.asset(
+                        "assets/images/share.svg",
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          newsData[index]["isFollowedByMe"] =
+                              isFollowedByMe == 0 ? 1 : 0;
+                        });
+                      },
+                      child: isFollowedByMe == 0
+                          ? Container(
+                              height: 40,
+                              child: SvgPicture.asset(
+                                  "assets/images/saveblank.svg"))
+                          : Container(
+                              height: 40,
+                              child:
+                                  SvgPicture.asset("assets/images/save.svg")),
+                    ),
+                  ],
                 ),
               ],
             ),
-            const Spacer(),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  newsData[index]["isFollowedByMe"] =
-                      isFollowedByMe == 0 ? 1 : 0;
-                });
-              },
-              child: isFollowedByMe == 0
-                  ? Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(
-                          color: Color(0xFF3B3F43),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(5.h),
-                        child: Center(child: Text("Following")),
-                      ),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: Colors.grey.shade700),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(5.h),
-                        child: Center(
-                          child: Text("Follow"),
-                        ),
-                      ),
-                    ),
-            ),
-            SizedBox(
-              width: 16.w,
-            )
           ],
         ),
         Divider(
-          endIndent: 20.w,
-          indent: 20.w,
-        ),
+            // endIndent: 20.w,
+            // indent: 20.w,
+            ),
         SizedBox(
           height: 15.h,
         ),

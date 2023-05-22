@@ -1,62 +1,62 @@
 List newsData = [
   {
-    "recipeimage": "assets/images/person.png",
-    "title": 'Priyanka Joshi',
-    "name": "@Priyujoshi",
+    "recipeimage": "assets/images/cow.png",
+    "title": 'Livestock',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/person.png",
-    "title": 'Shubham Shetty',
-    "name": "@Shubhshetty",
+    "recipeimage": "assets/images/tractor.png",
+    "title": 'Farm',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/person.png",
-    "title": 'Kishan Bhuta',
-    "name": "@Bkishan",
+    "recipeimage": "assets/images/cow.png",
+    "title": 'Livestock',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/person.png",
-    "title": 'Sachin Gupta',
-    "name": "@SachinG",
+    "recipeimage": "assets/images/tractor.png",
+    "title": 'Farm',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/person.png",
-    "title": 'Shubham Shetty',
-    "name": "@Shubhshetty",
+    "recipeimage": "assets/images/cow.png",
+    "title": 'Livestock',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/person.png",
-    "title": 'Kishan Bhuta',
-    "name": "@Bkishan",
+    "recipeimage": "assets/images/tractor.png",
+    "title": 'Farm',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/person.png",
-    "title": 'Sachin Gupta',
-    "name": "@SachinG",
+    "recipeimage": "assets/images/cow.png",
+    "title": 'Livestock',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/person.png",
-    "title": 'Priyanka Joshi',
-    "name": "@Priyujoshi",
+    "recipeimage": "assets/images/tractor.png",
+    "title": 'Farm',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/pig.png",
-    "title": 'Shubham Shetty',
-    "name": "@Shubhshetty",
+    "recipeimage": "assets/images/cow.png",
+    "title": 'Livestock',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
   {
-    "recipeimage": "assets/images/pig.png",
-    "title": 'Kishan Bhuta',
-    "name": "@Bkishan",
+    "recipeimage": "assets/images/tractor.png",
+    "title": 'Farm',
+    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
     "isFollowedByMe": 0
   },
 ];

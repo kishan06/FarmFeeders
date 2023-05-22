@@ -20,6 +20,7 @@ class RouteName {
   static const String manageuser = '/manageuser';
   static const String addSubUser = '/addsubuser';
   static const String newsAndArticleMain = '/newsandarticlemain';
+  static const String savedArticleMain = '/savedarticlemain';
 
   //other
   static const String settings = '/settings';
@@ -36,6 +37,4 @@ class RouteName {
   static const String faqs = '/faq';
 
   static const String accountfaq = '/accountfaq';
-
-
 }

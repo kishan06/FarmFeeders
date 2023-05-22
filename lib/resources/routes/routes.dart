@@ -14,6 +14,7 @@ import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsAndArticleMain.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/SavedArticles.dart';
 
 import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 
@@ -128,6 +129,10 @@ class AppRoutes {
         GetPage(
           name: RouteName.newsAndArticleMain,
           page: () => NewsAndArticleMain(),
+        ),
+        GetPage(
+          name: RouteName.savedArticleMain,
+          page: () => SavedArticleMain(),
         ),
         GetPage(
           name: RouteName.faqs,
