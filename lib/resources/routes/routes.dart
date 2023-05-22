@@ -21,6 +21,7 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/manageUser.dart'
 
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
+import 'package:farmfeeders/view/YourOrder/yourordermain.dart';
 import 'package:farmfeeders/view/farmsInfo.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
@@ -147,6 +148,10 @@ GetPage(
           page: () => Accountapp(),
         ),
         
-
+         GetPage(
+          name: RouteName.yourordermain,
+          page: () => Yourorder(),
+        ),
+        
       ];
 }
