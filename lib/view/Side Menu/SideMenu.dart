@@ -3,11 +3,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
-
-import 'package:farmfeeders/common/custom_appbar.dart';
-
 import 'package:farmfeeders/view/Home.dart';
-import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/order.dart';
 import 'package:farmfeeders/view/profile.dart';
 import 'package:flutter/material.dart';
@@ -42,19 +38,10 @@ class _SideMenuState extends State<SideMenu>
   ];
 
   List bottomBarData = [
-    {
-      "imageUrl":"assets/images/bottom_icon1_i.svg",
-      "label":"Order"
-    },
-    {
-      "imageUrl":"assets/images/bottom_icon2.svg",
-      "label":"Dashboard"
-    },
+    {"imageUrl": "assets/images/bottom_icon1_i.svg", "label": "Order"},
+    {"imageUrl": "assets/images/bottom_icon2.svg", "label": "Dashboard"},
     // /
-    {
-      "imageUrl":"assets/images/bottom_icon3.svg",
-      "label":"Profile"
-    },
+    {"imageUrl": "assets/images/bottom_icon3.svg", "label": "Profile"},
   ];
 
   @override
@@ -109,38 +96,76 @@ class _SideMenuState extends State<SideMenu>
                     child: Transform.scale(
                       scale: scaleAnimation.value,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(isSideMenuClosed ? 0 : 24)),
-                        child: screens[selectedIndex]
-                        // const 
-                        // Center(child: Home()),
-                      ),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(isSideMenuClosed ? 0 : 24)),
+                          child: screens[selectedIndex]
+                          // const
+                          // Center(child: Home()),
+                          ),
                     ),
                   ),
                 ),
-                selectedIndex == 1 ? AnimatedPositioned(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.fastOutSlowIn,
-                  top: 5.h,
-                  left: 4.w,
-                  child: IconButton(
-                    iconSize: 50.h,
-                    onPressed: () {
-                      if (isSideMenuClosed) {
-                        _animationController.forward();
-                      } else {
-                        _animationController.reverse();
-                      }
-                      setState(() {
-                        isSideMenuClosed = !isSideMenuClosed;
-                      });
-                    },
-                    icon: isSideMenuClosed
-                      ? Container(
-                        height: 50.h,
-                        width: 50.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25.h),
+                selectedIndex == 1
+                    ? AnimatedPositioned(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.fastOutSlowIn,
+                        top: 5.h,
+                        left: 4.w,
+                        child: IconButton(
+                          iconSize: 50.h,
+                          onPressed: () {
+                            if (isSideMenuClosed) {
+                              _animationController.forward();
+                            } else {
+                              _animationController.reverse();
+                            }
+                            setState(() {
+                              isSideMenuClosed = !isSideMenuClosed;
+                            });
+                          },
+                          icon: isSideMenuClosed
+                              ? Container(
+                                  height: 50.h,
+                                  width: 50.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25.h),
+                                    color: AppColors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.shade400,
+                                        blurRadius: 5.h,
+                                        spreadRadius: 2.h,
+                                      )
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "assets/images/menu.svg",
+                                        height: 18.h,
+                                        width: 18.h,
+                                        color: AppColors.black,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Icon(
+                                  Icons.cancel,
+                                  size: 29.w,
+                                  color: Colors.white,
+                                ),
+                        ),
+                      )
+                    : SizedBox(),
+              ],
+            ),
+            bottomNavigationBar: isSideMenuClosed
+                ? Padding(
+                    padding: EdgeInsets.only(bottom: 10.h),
+                    child: Container(
+                      height: 70.h,
+                      decoration: BoxDecoration(
                           color: AppColors.white,
                           boxShadow: [
                             BoxShadow(
@@ -149,67 +174,27 @@ class _SideMenuState extends State<SideMenu>
                               spreadRadius: 2.h,
                             )
                           ],
-                        ),
+                          borderRadius: BorderRadius.circular(35.h)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.h),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images/menu.svg",
-                              height: 18.h,
-                              width: 18.h,
-                              color: AppColors.black,
-                            ),
-                          ],
-                        ),
-                  
-                      )
-                     
-                      : Icon(
-                        Icons.cancel,
-                        size: 29.w,
-                        color: Colors.white,
-                      ),
-                  ),
-                ) : SizedBox(),
-              ],
-            ),
-            bottomNavigationBar: isSideMenuClosed
-                ? Padding(
-                  padding: EdgeInsets.only(bottom: 10.h),
-                  child: Container(
-                    height: 70.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade400,
-                          blurRadius: 5.h,
-                          spreadRadius: 2.h,
-                        )
-                      ],
-                
-                      borderRadius: BorderRadius.circular(35.h)
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: List.generate(3, (index) => 
-                          activeIcon("assets/images/bottom_icon1_i.svg",index)
-                        )
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.generate(
+                                3,
+                                (index) => activeIcon(
+                                    "assets/images/bottom_icon1_i.svg",
+                                    index))),
                       ),
                     ),
-                  ),
-                )
-
+                  )
                 : const SizedBox()),
       ),
     );
   }
 
-  Widget activeIcon(String imagePath,int index) {
+  Widget activeIcon(String imagePath, int index) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         setState(() {
           selectedIndex = index;
         });
@@ -219,9 +204,10 @@ class _SideMenuState extends State<SideMenu>
         height: 50.h,
         width: selectedIndex == index ? 210.w : 50.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.h),
-          color: selectedIndex == index ? AppColors.buttoncolour : AppColors.greyF1F1F1
-        ),
+            borderRadius: BorderRadius.circular(25.h),
+            color: selectedIndex == index
+                ? AppColors.buttoncolour
+                : AppColors.greyF1F1F1),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -232,22 +218,23 @@ class _SideMenuState extends State<SideMenu>
                 bottomBarData[index]["imageUrl"],
                 // height: 35.h,
                 // width: 35.h,
-                color: selectedIndex == index ?AppColors.white : AppColors.buttoncolour,
+                color: selectedIndex == index
+                    ? AppColors.white
+                    : AppColors.buttoncolour,
                 fit: BoxFit.fill,
                 // color: AppColors.greyD3B3F43,
                 // colorFilter: AppColors.greyD3B3F43,
               ),
             ),
-    
-            selectedIndex == index ? sizedBoxWidth(10.w) : SizedBox(), 
-    // /
-            selectedIndex == index ? textWhite16(bottomBarData[index]["label"]) : SizedBox()
-    
-    
+
+            selectedIndex == index ? sizedBoxWidth(10.w) : SizedBox(),
+            // /
+            selectedIndex == index
+                ? textWhite16(bottomBarData[index]["label"])
+                : SizedBox()
           ],
         ),
       ),
-   
     );
   }
 
@@ -261,5 +248,4 @@ class _SideMenuState extends State<SideMenu>
       ),
     ]);
   }
-
 }

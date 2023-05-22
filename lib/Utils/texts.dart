@@ -24,15 +24,24 @@ Widget textBlack20W7000Mon(String text) {
   );
 }
 
+Widget textBlack18W600Mon(String text) {
+  return Text(text,
+      style: TextStyle(
+        fontSize: 18.sp,
+        color: AppColors.black,
+        fontWeight: FontWeight.w600,
+      ));
+}
+
 Widget textBlack20W7000(String text) {
   return Text(
     text,
     style: TextStyle(
-        fontSize: 20.sp,
-        color: AppColors.black,
-        fontWeight: FontWeight.w700,
-        // fontFamily: "Montserrat"
-        ),
+      fontSize: 20.sp,
+      color: AppColors.black,
+      fontWeight: FontWeight.w700,
+      // fontFamily: "Montserrat"
+    ),
   );
 }
 
