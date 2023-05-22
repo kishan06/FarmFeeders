@@ -124,6 +124,7 @@ class _SideMenuState extends State<SideMenu>
                   top: 5.h,
                   left: 4.w,
                   child: IconButton(
+                    iconSize: 50.h,
                     onPressed: () {
                       if (isSideMenuClosed) {
                         _animationController.forward();
@@ -135,24 +136,39 @@ class _SideMenuState extends State<SideMenu>
                       });
                     },
                     icon: isSideMenuClosed
-                        ? Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey.shade100,
+                      ? Container(
+                        height: 50.h,
+                        width: 50.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.h),
+                          color: AppColors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              blurRadius: 5.h,
+                              spreadRadius: 2.h,
+                            )
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/images/menu.svg",
+                              height: 18.h,
+                              width: 18.h,
+                              color: AppColors.black,
                             ),
-                            child: Icon(
-                              Icons.menu,
-                              color: Colors.black,
-                              size: 29.w,
-                            ),
-                          ) 
-                        : Icon(
-                            Icons.cancel,
-                            size: 29.w,
-                            color: Colors.white,
-                          ),
+                          ],
+                        ),
+                  
+                      )
+                     
+                      : Icon(
+                        Icons.cancel,
+                        size: 29.w,
+                        color: Colors.white,
+                      ),
                   ),
                 ) : SizedBox(),
               ],
