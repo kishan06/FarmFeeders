@@ -11,5 +11,6 @@ abstract class AppColors {
   // static const grey00000047 = Color(0X00000047);
   // static const greyMed = Color.fromARGB(255, 104, 104, 104);
   static final greyMed = Colors.black;
+  static const pistaE3FFE9 = Color(0XFfE3FFE9);
 
 }
