@@ -34,7 +34,7 @@ class _SideBarState extends State<SideBar> {
     {
       "icon": Image.asset("assets/images/training.png"),
       "text": "Training",
-      "route": "/loginScreen"
+      "route": "/trainingmain"
     },
     {
       "icon": Image.asset("assets/images/news.png"),
