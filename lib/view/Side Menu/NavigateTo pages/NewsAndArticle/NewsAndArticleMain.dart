@@ -4,6 +4,7 @@ import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsCard.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +21,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
   ScrollController? _scrollviewcontroller;
   var sliderPage = 0.obs;
   final CarouselController carouselController = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,33 +60,103 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                         carouselController: CarouselController(),
                         itemCount: 5,
                         itemBuilder: (context, index, realIndex) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 0.w),
-                            child: Container(
-                              height: 159.h,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue.shade100,
-                                  borderRadius: BorderRadius.circular(15.h),
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/newsback.png"),
-                                      fit: BoxFit.fill)),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10.w, vertical: 20.h),
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/newImages/quotes-svgrepo-com.svg",
-                                      width: 24.w,
-                                      height: 15.h,
-                                    ),
-                                    const Spacer(),
-                                    Text(""),
-                                    const Spacer(),
-                                  ],
-                                ),
+                          return Container(
+                            height: 179.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: Colors.blue.shade100,
+                                borderRadius: BorderRadius.circular(15),
+                                image: const DecorationImage(
+                                    image: AssetImage(
+                                        "assets/images/newsback.png"),
+                                    fit: BoxFit.fill)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 16.h,
+                                  bottom: 5.h,
+                                  right: 10.w,
+                                  left: 10.w),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 28.h,
+                                        width: 70.w,
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFF80B918),
+                                          borderRadius:
+                                              BorderRadius.circular(14),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Feed",
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      CircleAvatar(
+                                          backgroundColor: Colors.transparent
+                                              .withOpacity(0.28),
+                                          radius: 15.r,
+                                          child: Icon(
+                                            Icons.bookmark_border_outlined,
+                                            color: Colors.white,
+                                          ))
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "ABCIreland",
+                                        style: TextStyle(
+                                            color: Color(0xFFEEEEEE),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      CircleAvatar(
+                                        backgroundColor: Color(0xFF80B918),
+                                        radius: 7.r,
+                                        child: Icon(
+                                          Icons.check_rounded,
+                                          color: Colors.white,
+                                          size: 15.sp,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      Text(
+                                        "•",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.sp),
+                                      ),
+                                      Text(
+                                        "6 Hours ago",
+                                        style: TextStyle(
+                                            color: Color(0xFFEEEEEE),
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w300),
+                                      )
+                                    ],
+                                  ),
+                                  Text(
+                                    "Lorem Ipsum Is Simply Dummy Of The Printing And",
+                                    style: TextStyle(
+                                        color: Color(0xFFEEEEEE),
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
                               ),
                             ),
                           );
@@ -120,7 +192,12 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                     textBlack18W600Mon("Latest News"),
                   ],
                 ),
-                Expanded(child: newsCard())
+                Expanded(
+                    child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/articledetails");
+                        },
+                        child: newsCard()))
               ],
             ),
           ),
