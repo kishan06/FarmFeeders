@@ -64,7 +64,7 @@ class _SideBarState extends State<SideBar> {
       body: SafeArea(
         child: Container(
           width: 300.w,
-          height: double.infinity,
+          // height: double.infinity,
           decoration: const BoxDecoration(color: Color(0xff0E5F02)),
           child: DefaultTextStyle(
             style: const TextStyle(color: Colors.white),
@@ -134,21 +134,23 @@ class _SideBarState extends State<SideBar> {
                     ),
                   ),
                   sizedBoxHeight(60.h),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: sideBarData.length,
-                    itemBuilder: (_, index) {
-                      return SideBarTile(
-                        // icon: sideBarData[index]["icon"],
-
-                        icon: sideBarData[index]["icon"],
-
-                        text: sideBarData[index]["text"],
-                        onTap: () {
-                          Get.toNamed(sideBarData[index]["route"]);
-                        },
-                      );
-                    },
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: sideBarData.length,
+                      itemBuilder: (_, index) {
+                        return SideBarTile(
+                          // icon: sideBarData[index]["icon"],
+                                
+                          icon: sideBarData[index]["icon"],
+                                
+                          text: sideBarData[index]["text"],
+                          onTap: () {
+                            Get.toNamed(sideBarData[index]["route"]);
+                          },
+                        );
+                      },
+                    ),
                   ),
                   sizedBoxHeight(80.h),
                   GestureDetector(

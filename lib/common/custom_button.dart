@@ -14,9 +14,11 @@ Widget customButton({void Function()? onTap, required String text}) {
       child: Center(
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: TextStyle(color: AppColors.white, fontSize: 18.sp),
         ),
       ),
     ),
   );
+
 }

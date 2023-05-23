@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="122" height="173.66" viewBox="0 0 122 173.66">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.39" x2="0.088" y2="1.755" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#dcdcdc"/>
+      <stop offset="0.135" stop-color="#dadada"/>
+      <stop offset="1" stop-color="#6e6e6e"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.025" y1="0.142" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#bcbcbc"/>
+      <stop offset="0.518" stop-color="#5f5f5f"/>
+      <stop offset="1" stop-color="#5e5e5e"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="0.064" y1="0.202" x2="0.766" y2="0.399" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#bcbcbc"/>
+      <stop offset="1" stop-color="#5e5e5e"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-5" x1="0.5" x2="0.384" y2="1.608" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#818181"/>
+      <stop offset="1" stop-color="#414141"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_57491" data-name="Group 57491" transform="translate(-16 -601.34)">
+    <ellipse id="Ellipse_648" data-name="Ellipse 648" cx="61" cy="2" rx="61" ry="2" transform="translate(16 771)" fill="url(#linear-gradient)"/>
+    <rect id="Rectangle_17374" data-name="Rectangle 17374" width="6.183" height="24.732" transform="translate(44.185 727.086) rotate(45)" fill="#7d7d7d"/>
+    <path id="Path_32538" data-name="Path 32538" d="M-17380.869-13037.523v7.362l-6.867-7.362h-8.342l14.229,13.986v23.16h6.137v-37.146h-95.934v37.146l-5.723.361-.166-148.161,51.031-22.571,50.791,22.571v110.653" transform="translate(17502.492 13772.088)" fill="url(#linear-gradient-2)"/>
+    <path id="Path_32539" data-name="Path 32539" d="M-17471.477-13040.181l6.391-5.806" transform="translate(17502.941 13781.315)" fill="url(#linear-gradient-3)"/>
+    <path id="Path_32540" data-name="Path 32540" d="M-17471.477-13032.608l13.939-13.647" transform="translate(17502.941 13781.295)" fill="url(#linear-gradient-3)"/>
+    <text id="_100_Kg" data-name="100 Kg" transform="translate(95.417 714.726)" fill="#fff" font-size="8" font-family="Poppins-Medium, Poppins" font-weight="500" letter-spacing="0.01em"><tspan x="0" y="0">100 Kg</tspan></text>
+    <path id="Path_32541" data-name="Path 32541" d="M-17567.8-12999.987l45.617,21.333,47.672-22.3Z" transform="translate(17597.938 13734.027)" fill="url(#linear-gradient-5)"/>
+    <path id="Path_32542" data-name="Path 32542" d="M-17427.678-13089.6l.229-108.361,42.2-24.033-8.512,24.033v108.361Z" transform="translate(17461.117 13823.339)" fill="#fff"/>
+    <path id="Path_32824" data-name="Path 32824" d="M0,0,33.976-.008l-.019,8.676-.026,11.578L0,20.239Z" transform="translate(33.44 713.496)" fill="#d61600"/>
+    <text id="_400_Kg" data-name="400 Kg" transform="translate(94.686 637.206)" fill="#fff" font-size="8" font-family="Poppins-Medium, Poppins" font-weight="500" letter-spacing="0.01em"><tspan x="0" y="0">400 Kg</tspan></text>
+    <text id="_300_Kg" data-name="300 Kg" transform="translate(94.686 663.713)" fill="#fff" font-size="8" font-family="Poppins-Medium, Poppins" font-weight="500" letter-spacing="0.01em"><tspan x="0" y="0">300 Kg</tspan></text>
+    <text id="_200_Kg" data-name="200 Kg" transform="translate(94.686 689.068)" fill="#fff" font-size="8" font-family="Poppins-Medium, Poppins" font-weight="500" letter-spacing="0.01em"><tspan x="0" y="0">200 Kg</tspan></text>
+    <line id="Line_121" data-name="Line 121" x2="27.041" transform="translate(67.416 713.488)" fill="none" stroke="#fff" stroke-width="0.8" stroke-dasharray="3 1"/>
+    <line id="Line_125" data-name="Line 125" x2="34.142" transform="translate(33.44 713.488)" fill="none" stroke="#000" stroke-width="0.5" stroke-dasharray="3 1"/>
+    <line id="Line_122" data-name="Line 122" x2="27.041" transform="translate(67.416 687.61)" fill="none" stroke="#fff" stroke-width="0.8" stroke-dasharray="3 1"/>
+    <line id="Line_123" data-name="Line 123" x2="27.041" transform="translate(67.416 661.732)" fill="none" stroke="#fff" stroke-width="0.8" stroke-dasharray="3 1"/>
+    <line id="Line_124" data-name="Line 124" x2="27.041" transform="translate(67.416 635.855)" fill="none" stroke="#fff" stroke-width="0.8" stroke-dasharray="3 1"/>
+  </g>
+</svg>
