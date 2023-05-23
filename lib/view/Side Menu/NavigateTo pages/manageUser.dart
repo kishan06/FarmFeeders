@@ -1,8 +1,3 @@
-import 'dart:async';
-
-//import 'package:farmfeeders/Utils/SizedBox.dart';
-import 'package:farmfeeders/Utils/custom_button.dart';
-import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +19,7 @@ class _manageUserState extends State<manageUser> {
     // TODO: implement initState
     Get.arguments;
     super.initState();
-    print(Get.arguments["name"]);
+    // print(Get.arguments["name"]);
     // Get.arguments["name"];
   }
 
@@ -184,7 +179,7 @@ class _manageUserState extends State<manageUser> {
                                   ),
                                 ],
                               )
-                            : SizedBox()
+                            : Text("NO SUB USER FOUND")
                       ],
                     ),
                   ),

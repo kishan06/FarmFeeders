@@ -13,6 +13,9 @@ import 'package:farmfeeders/view/Profile/personalinfo.dart';
 import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/ArticlesDetails.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsAndArticleMain.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/SavedArticles.dart';
 
 import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 
@@ -53,7 +56,6 @@ class AppRoutes {
           name: RouteName.splashslider,
           page: () => const SplashSlider(),
         ),
-
         GetPage(
           name: RouteName.notification,
           page: () => const Notification(),
@@ -98,60 +100,57 @@ class AppRoutes {
           name: RouteName.liveStockInfoMain,
           page: () => LiveStockInfoLive(),
         ),
-
-
-         GetPage(
+        GetPage(
           name: RouteName.feedtracker,
           page: () => Farmfeedtracker(),
         ),
-
-
         GetPage(
           name: RouteName.home,
           page: () => Home(),
         ),
-
         GetPage(
-
           name: RouteName.sideMenu,
           page: () => SideMenu(),
-          ),
-    
-GetPage(
+        ),
+        GetPage(
           name: RouteName.profile,
           page: () => Profile(),
         ),
-
         GetPage(
           name: RouteName.personalinfo,
           page: () => PersonalInfo(),
         ),
-
-         GetPage( 
+        GetPage(
           name: RouteName.manageuser,
           page: () => manageUser(),
         ),
-        
         GetPage(
           name: RouteName.addSubUser,
           page: () => addSubUser(),
         ),
-
-         GetPage(
+        GetPage(
+          name: RouteName.newsAndArticleMain,
+          page: () => NewsAndArticleMain(),
+        ),
+        GetPage(
+          name: RouteName.savedArticleMain,
+          page: () => SavedArticleMain(),
+        ),
+        GetPage(
+          name: RouteName.ArticleDetails,
+          page: () => ArticleDetails(),
+        ),
+        GetPage(
           name: RouteName.faqs,
           page: () => Faq(),
         ),
-
-
-         GetPage(
+        GetPage(
           name: RouteName.accountfaq,
           page: () => Accountapp(),
         ),
-        
-         GetPage(
+        GetPage(
           name: RouteName.yourordermain,
           page: () => Yourorder(),
         ),
-        
       ];
 }
