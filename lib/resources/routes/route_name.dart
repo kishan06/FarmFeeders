@@ -21,6 +21,7 @@ class RouteName {
   static const String addSubUser = '/addsubuser';
   static const String newsAndArticleMain = '/newsandarticlemain';
   static const String savedArticleMain = '/savedarticlemain';
+  static const String ArticleDetails = '/articledetails';
 
   //other
   static const String settings = '/settings';
@@ -38,8 +39,5 @@ class RouteName {
 
   static const String accountfaq = '/accountfaq';
 
-
   static const String yourordermain = '/yourordermain';
-  
-
 }
