@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../YourOrder/yourordermain.dart';
 import 'side_bar.dart';
 
 class SideMenu extends StatefulWidget {
@@ -29,7 +30,8 @@ class _SideMenuState extends State<SideMenu>
   late bool logedIn;
 
   var screens = [
-    const Order(),
+    // const Order(),
+    const Yourorder(),
     const Home(),
 
     const Profile(),
