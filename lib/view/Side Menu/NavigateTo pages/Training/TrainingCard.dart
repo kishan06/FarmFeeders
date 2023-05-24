@@ -1,4 +1,3 @@
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsData.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/TrainingMainData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

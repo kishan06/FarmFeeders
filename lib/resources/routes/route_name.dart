@@ -23,6 +23,8 @@ class RouteName {
   static const String savedArticleMain = '/savedarticlemain';
   static const String ArticleDetails = '/articledetails';
   static const String TrainingMain = '/trainingmain';
+  static const String VideosList = '/videoslist';
+  static const String VideosDetails = '/videosdetails';
 
   //other
   static const String settings = '/settings';
