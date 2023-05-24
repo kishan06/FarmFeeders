@@ -27,6 +27,10 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/manageUser.dart'
 
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
+import 'package:farmfeeders/view/YourOrder/cancelorder.dart';
+import 'package:farmfeeders/view/YourOrder/deliveredorder.dart';
+import 'package:farmfeeders/view/YourOrder/ongoingorder.dart';
+import 'package:farmfeeders/view/YourOrder/reorder.dart';
 import 'package:farmfeeders/view/YourOrder/yourordermain.dart';
 import 'package:farmfeeders/view/farmsInfo.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
@@ -40,6 +44,7 @@ import 'package:farmfeeders/view/verify_number.dart';
 import 'package:farmfeeders/view/verify_your_identity.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class AppRoutes {
   static appRoutes() => [
@@ -114,7 +119,9 @@ class AppRoutes {
         GetPage(
           name: RouteName.sideMenu,
           page: () => SideMenu(),
-        ),
+
+          ),
+    
         GetPage(
           name: RouteName.profile,
           page: () => Profile(),
@@ -167,5 +174,28 @@ class AppRoutes {
           name: RouteName.yourordermain,
           page: () => Yourorder(),
         ),
+
+         GetPage(
+          name: RouteName.ongoingorder,
+          page: () => Ongoingorder(),
+        ),
+
+        GetPage(
+          name: RouteName.cancelorder,
+          page: () => Cancelorder(),
+        ),
+
+        GetPage(
+          name: RouteName.deliveredorder,
+          page: () => Deliveredorder(),
+        ),
+
+        GetPage(
+          name: RouteName.reorder,
+          page: () =>Reorderscreen(
+            // onChanged: (value) => 0,
+            ),
+        ),
+        
       ];
 }
