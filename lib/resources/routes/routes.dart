@@ -17,6 +17,8 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/A
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsAndArticleMain.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/SavedArticles.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/TrainingMain.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/VideosList.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/videos_details.dart';
 
 import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 
@@ -144,6 +146,14 @@ class AppRoutes {
         GetPage(
           name: RouteName.TrainingMain,
           page: () => TrainingMain(),
+        ),
+        GetPage(
+          name: RouteName.VideosList,
+          page: () => VideosList(),
+        ),
+        GetPage(
+          name: RouteName.VideosDetails,
+          page: () => VideosDetails(),
         ),
         GetPage(
           name: RouteName.faqs,

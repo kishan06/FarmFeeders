@@ -50,8 +50,13 @@ class _newsState extends State<newsCard> {
     );
   }
 
-  Widget newslistCard(dynamic recipeimage, dynamic title, dynamic name,
-      int index, int isFollowedByMe) {
+  Widget newslistCard(
+    dynamic recipeimage,
+    dynamic title,
+    dynamic name,
+    int index,
+    int isFollowedByMe,
+  ) {
     return Column(
       children: [
         Row(
