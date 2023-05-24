@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Yourorder extends StatefulWidget {
@@ -147,202 +148,689 @@ class _YourorderState extends State<Yourorder> {
                     ],
                   ),
                   sizedBoxHeight(15.h),
+                  GestureDetector(
+                    onTap: (){
+                        Get.toNamed("/ongoingorder");
+                    },
+                    child: Container(
+                      width: 358.w,
+                      height: 221.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: AppColors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0x48B9B9BE),
+                                blurRadius: 8.0,
+                                spreadRadius: 0)
+                          ]),
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 18.w, top: 12.h, bottom: 28.h),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 30.h,
+                                  width: 123.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25.h),
+                                    color: Color(0XFFFFB7B7),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Arriving Soon",
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: Color(0XFFAC2A33),
+                                        fontFamily: "Poppins",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                sizedBoxHeight(18.h),
+                                Image.asset(
+                                  "assets/images/yourorder2.png",
+                                  width: 105.w,
+                                  height: 98.h,
+                                ),
+                                sizedBoxHeight(7.h),
+                                Text(
+                                  "Pre calve gain gold",
+                                  style: TextStyle(
+                                      fontSize: 13.sp, color: Color(0XFF141414)),
+                                )
+                              ],
+                            ),
+                          ),
+                          sizedBoxWidth(29.w),
+                          // Padding(
+                          //   padding: EdgeInsets.only(top: 19.h),
+                          //   child: SvgPicture.asset(
+                          //     "assets/images/orderlocate.svg",
+                          //     width: 30.w,
+                          //     height: 189.h,
+                          //   ),
+                          // ),
+                  
+                          Padding(
+                            padding: EdgeInsets.only(top: 19.h),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                status(),
+                                DottedLine(
+                                  direction: Axis.vertical,
+                                  lineLength: 30,
+                                  lineThickness: 2.0,
+                                  dashLength: 4.0,
+                                  dashColor: Color(0XFF0E5F02),
+                                ),
+                                status(),
+                                DottedLine(
+                                  direction: Axis.vertical,
+                                  lineLength: 30,
+                                  lineThickness: 2.0,
+                                  dashLength: 4.0,
+                                  dashColor: Color(0XFF0E5F02),
+                                ),
+                                CircleAvatar(
+                                  backgroundColor: AppColors.buttoncolour,
+                                  radius: 11.w,
+                                  child: CircleAvatar(
+                                    radius: 9.w,
+                                    backgroundColor: AppColors.pistaE3FFE9,
+                                    child: SvgPicture.asset(
+                                        "assets/images/delivery.svg"),
+                                  ),
+                                ),
+                                DottedLine(
+                                  direction: Axis.vertical,
+                                  lineLength: 30,
+                                  lineThickness: 2.0,
+                                  dashLength: 4.0,
+                                  dashColor: Color(0XFF0E5F02),
+                                ),
+                                Container(
+                                  width: 15,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.white,
+                                      border: Border.all(
+                                          color: AppColors.buttoncolour)),
+                                )
+                              ],
+                            ),
+                          ),
+                          sizedBoxWidth(9.w),
+                          Padding(
+                            padding: EdgeInsets.only(top: 15.h),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Ordered",
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Color(0XFF0E5F02),
+                                      fontFamily: "Poppins"),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/images/clock-svgrepo-com (1).svg",
+                                      width: 6.w,
+                                      height: 6.w,
+                                    ),
+                                    sizedBoxWidth(6.w),
+                                    Text(
+                                      "9.30 Pm, 10 May2023",
+                                      style: TextStyle(
+                                          color: Color(0xff4D4D4D),
+                                          fontSize: 8.sp,
+                                          fontFamily: "Poppins"),
+                                    ),
+                                  ],
+                                ),
+                                sizedBoxHeight(14.h),
+                                Text(
+                                  "Packed and ready",
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Color(0XFF0E5F02),
+                                      fontFamily: "Poppins"),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/images/clock-svgrepo-com (1).svg",
+                                      width: 6.w,
+                                      height: 6.w,
+                                    ),
+                                    sizedBoxWidth(6.w),
+                                    Text(
+                                      "9.30 Pm, 10 May2023",
+                                      style: TextStyle(
+                                          color: Color(0xff4D4D4D),
+                                          fontSize: 8.sp,
+                                          fontFamily: "Poppins"),
+                                    ),
+                                  ],
+                                ),
+                                sizedBoxHeight(19.h),
+                                Container(
+                                  height: 30.h,
+                                  width: 123.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25.h),
+                                    color: Color(0XFFF1F1F1),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Out for delivery",
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Color(0XFF0E5F02),
+                                        fontFamily: "Poppins",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                sizedBoxHeight(29.h),
+                                Text(
+                                  "Delivered",
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Color(0XFF4D4D4D),
+                                      fontFamily: "Poppins"),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  sizedBoxHeight(19.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Recurring Order",
+                        style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0XFF141414)),
+                      ),
+                      Spacer(),
+                      Text(
+                        "See more",
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0XFF0E5F02)),
+                      ),
+                    ],
+                  ),
+                  sizedBoxHeight(6.h),
+                  GestureDetector(
+                    onTap: (){
+                      Get.toNamed("/reorder");
+                    },
+                    child: Container(
+                      width: 358.w,
+                      // height: 123.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: Color(0XFF0000001F),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x48B9B9BE),
+                              //  / blurRadius: 1.0,
+                              offset: Offset(0.0, 0.75),
+                              // spreadRadius: 0
+                            )
+                          ]),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 15.w,
+                              top: 14.h,
+                              bottom: 24.h,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  "assets/images/product1.png",
+                                  width: 80.w,
+                                  height: 69.h,
+                                ),
+                                sizedBoxHeight(5.h),
+                                Text(
+                                  "Pre calve gain gold",
+                                  style: TextStyle(
+                                      fontSize: 10.sp,
+                                      color: Color(0XFF141414),
+                                      fontFamily: "Poppins"),
+                                )
+                              ],
+                            ),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 15.w, top: 14.h, bottom: 4.h),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: Image.asset(
+                                    "assets/images/product2.png",
+                                    width: 80.w,
+                                    height: 69.h,
+                                  ),
+                                ),
+                                sizedBoxHeight(5.h),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Agrofeed \nRuminant Feed",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 10.sp,
+                                        color: Color(0XFF141414),
+                                        fontFamily: "Poppins"),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 15.w, top: 14.h, bottom: 24.h, right: 16.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  "assets/images/product3.png",
+                                  width: 80.w,
+                                  height: 69.h,
+                                ),
+                                sizedBoxHeight(5.h),
+                                Text(
+                                  "Medow HPC 64",
+                                  style: TextStyle(
+                                      fontSize: 10.sp,
+                                      color: Color(0XFF141414),
+                                      fontFamily: "Poppins"),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  sizedBoxHeight(16.h),
+                  Text(
+                    "Past",
+                    style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0XFF141414)),
+                  ),
+                  sizedBoxHeight(6.h),
+                  Text(
+                    "Order delivered on 6 Feb 2023 at 09.41",
+                    style: TextStyle(fontSize: 12.sp, color: Color(0XFF6D6D6D)),
+                  ),
+                  sizedBoxHeight(7.h),
+                  GestureDetector(
+                    onTap: (){
+                      Get.toNamed("/deliveredorder");
+                    },
+                    child: Container(
+                      width: 358.w,
+                      height: 125.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: Color(0XFF0000001F),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x48B9B9BE),
+                              //  / blurRadius: 1.0,
+                              offset: Offset(0.0, 0.75),
+                              // spreadRadius: 0
+                            )
+                          ]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 16.w, top: 9.h, bottom: 18.h),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Pre calve gain gold",
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    color: Color(0XFF141414),
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Poppins",
+                                  ),
+                                ),
+                                Text(
+                                  "Cow feed",
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Color(0XFF141414),
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Poppins",
+                                  ),
+                                ),
+                                sizedBoxHeight(8.h),
+                                Container(
+                                  height: 25.h,
+                                  width: 91.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25.h),
+                                    color: AppColors.buttoncolour,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Reorder",
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Color(0XFFFFFFFF),
+                                        fontFamily: "Poppins",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // sizedBoxWidth(10.w),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8, right: 3),
+                            child: Image.asset(
+                              "assets/images/redfood.png",
+                              width: 94.w,
+                              height: 135.h,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  sizedBoxHeight(28.h),
+                  Text(
+                    "Order delivered on 6 Feb 2023 at 09.41",
+                    style: TextStyle(fontSize: 12.sp, color: Color(0XFF6D6D6D)),
+                  ),
+                  sizedBoxHeight(7.h),
                   Container(
                     width: 358.w,
-                    height: 221.h,
+                    height: 125.h,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: AppColors.white,
+                        color: Color(0XFF0000001F),
                         boxShadow: [
                           BoxShadow(
-                              color: Color(0x48B9B9BE),
-                              blurRadius: 8.0,
-                              spreadRadius: 0)
+                            color: Color(0x48B9B9BE),
+                            //  / blurRadius: 1.0,
+                            offset: Offset(0.0, 0.75),
+                            // spreadRadius: 0
+                          )
                         ]),
                     child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
-                              left: 18.w, top: 12.h, bottom: 28.h),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 30.h,
-                                width: 123.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25.h),
-                                  color: Color.fromARGB(255, 236, 135, 135),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Arriving Soon",
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: Color.fromARGB(255, 221, 89, 89),
-                                      fontFamily: "Poppins",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              sizedBoxHeight(18.h),
-                              Image.asset(
-                                "assets/images/yourorder2.png",
-                                width: 105.w,
-                                height: 98.h,
-                              ),
-                              sizedBoxHeight(7.h),
-                              Text(
-                                "Pre calve gain gold",
-                                style: TextStyle(
-                                    fontSize: 13.sp, color: Color(0XFF141414)),
-                              )
-                            ],
-                          ),
-                        ),
-                        sizedBoxWidth(29.w),
-                        // Padding(
-                        //   padding: EdgeInsets.only(top: 19.h),
-                        //   child: SvgPicture.asset(
-                        //     "assets/images/orderlocate.svg",
-                        //     width: 30.w,
-                        //     height: 189.h,
-                        //   ),
-                        // ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 19.h),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              status(),
-                              DottedLine(
-                                direction: Axis.vertical,
-                                lineLength: 30,
-                                lineThickness: 2.0,
-                                dashLength: 4.0,
-                                dashColor: Color(0XFF0E5F02),
-                              ),
-                              status(),
-                              DottedLine(
-                                direction: Axis.vertical,
-                                lineLength: 30,
-                                lineThickness: 2.0,
-                                dashLength: 4.0,
-                                dashColor: Color(0XFF0E5F02),
-                              ),
-                              status(),
-                              DottedLine(
-                                direction: Axis.vertical,
-                                lineLength: 30,
-                                lineThickness: 2.0,
-                                dashLength: 4.0,
-                                dashColor: Color(0XFF0E5F02),
-                              ),
-                              Container(
-                                width: 15,
-                                height: 15,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.white,
-                                    border: Border.all(
-                                        color: AppColors.buttoncolour)),
-                              )
-                            ],
-                          ),
-                        ),
-                        sizedBoxWidth(9.w),
-                        Padding(
-                          padding: EdgeInsets.only(top: 18.h),
+                              left: 16.w, top: 9.h, bottom: 18.h),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Ordered",
+                                "Agrofeed Ruminant Feed",
                                 style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Color(0XFF0E5F02),
-                                    fontFamily: "Poppins"),
+                                  fontSize: 18.sp,
+                                  color: Color(0XFF141414),
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/images/clock-svgrepo-com (1).svg",
-                                    width: 6.w,
-                                    height: 6.w,
-                                  ),
-                                  sizedBoxWidth(6.w),
-                                  Text(
-                                    "9.30 Pm, 10 May2023",
-                                    style: TextStyle(
-                                        color: Color(0xff4D4D4D),
-                                        fontSize: 8.sp,
-                                        fontFamily: "Poppins"),
-                                  ),
-                                ],
-                              ),
-                              sizedBoxHeight(14.h),
                               Text(
-                                "Packed and ready",
+                                "Cow feed",
                                 style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Color(0XFF0E5F02),
-                                    fontFamily: "Poppins"),
+                                  fontSize: 16.sp,
+                                  color: Color(0XFF141414),
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/images/clock-svgrepo-com (1).svg",
-                                    width: 6.w,
-                                    height: 6.w,
-                                  ),
-                                  sizedBoxWidth(6.w),
-                                  Text(
-                                    "9.30 Pm, 10 May2023",
-                                    style: TextStyle(
-                                        color: Color(0xff4D4D4D),
-                                        fontSize: 8.sp,
-                                        fontFamily: "Poppins"),
-                                  ),
-                                ],
-                              ),
-                              sizedBoxHeight(13.h),
+                              sizedBoxHeight(8.h),
                               Container(
-                                height: 30.h,
-                                width: 123.w,
+                                height: 25.h,
+                                width: 91.w,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25.h),
-                                  color: Color(0XFFF1F1F1),
+                                  color: AppColors.buttoncolour,
                                 ),
                                 child: Center(
                                   child: Text(
-                                    "Out for delivery",
+                                    "Reorder",
                                     style: TextStyle(
                                       fontSize: 14.sp,
-                                      color: Color(0XFF0E5F02),
+                                      color: Color(0XFFFFFFFF),
                                       fontFamily: "Poppins",
                                     ),
                                   ),
                                 ),
                               ),
-                              sizedBoxHeight(25.h),
-                              Text(
-                                "Delivered",
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Color(0XFF4D4D4D),
-                                    fontFamily: "Poppins"),
-                              ),
                             ],
+                          ),
+                        ),
+                        // sizedBoxWidth(10.w),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8, right: 3),
+                          child: Image.asset(
+                            "assets/images/yellowfood.png",
+                            width: 94.w,
+                            height: 135.h,
                           ),
                         )
                       ],
                     ),
-                  )
+                  ),
+                  sizedBoxHeight(28.h),
+                  Text(
+                    "Order delivered on 6 Feb 2023 at 09.41",
+                    style: TextStyle(fontSize: 12.sp, color: Color(0XFF6D6D6D)),
+                  ),
+                  sizedBoxHeight(7.h),
+                  Container(
+                    width: 358.w,
+                    height: 125.h,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Color(0XFF0000001F),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x48B9B9BE),
+                            //  / blurRadius: 1.0,
+                            offset: Offset(0.0, 0.75),
+                            // spreadRadius: 0
+                          )
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 16.w, top: 9.h, bottom: 18.h),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Pre calve gain gold",
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color: Color(0XFF141414),
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              Text(
+                                "Cow feed",
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: Color(0XFF141414),
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              sizedBoxHeight(8.h),
+                              Container(
+                                height: 25.h,
+                                width: 91.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25.h),
+                                  color: AppColors.buttoncolour,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Reorder",
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Color(0XFFFFFFFF),
+                                      fontFamily: "Poppins",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // sizedBoxWidth(10.w),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8, right: 3),
+                          child: Image.asset(
+                            "assets/images/redfood.png",
+                            width: 94.w,
+                            height: 135.h,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  sizedBoxHeight(28.h),
+                  Text(
+                    "Order delivered on 6 Feb 2023 at 09.41",
+                    style: TextStyle(fontSize: 12.sp, color: Color(0XFF6D6D6D)),
+                  ),
+                  sizedBoxHeight(7.h),
+                  Container(
+                    width: 358.w,
+                    height: 125.h,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Color(0XFF0000001F),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x48B9B9BE),
+                            //  / blurRadius: 1.0,
+                            offset: Offset(0.0, 0.75),
+                            // spreadRadius: 0
+                          )
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 16.w, top: 9.h, bottom: 18.h),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Agrofeed Ruminant Feed",
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color: Color(0XFF141414),
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              Text(
+                                "Cow feed",
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: Color(0XFF141414),
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              sizedBoxHeight(8.h),
+                              Container(
+                                height: 25.h,
+                                width: 91.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25.h),
+                                  color: AppColors.buttoncolour,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Reorder",
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Color(0XFFFFFFFF),
+                                      fontFamily: "Poppins",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // sizedBoxWidth(10.w),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8, right: 3),
+                          child: Image.asset(
+                            "assets/images/yellowfood.png",
+                            width: 94.w,
+                            height: 135.h,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  sizedBoxHeight(29.h),
                 ],
               ),
             ))
@@ -353,75 +841,16 @@ class _YourorderState extends State<Yourorder> {
   }
 
   Widget status() {
-    return Column(
-      children: [
-        CircularPercentIndicator(
-          center: CircleAvatar(
-            child: SizedBox(),
-            radius: 5.h,
-            backgroundColor: AppColors.buttoncolour,
-          ),
-          radius: 10.h,
-          lineWidth: 1,
-          backgroundColor: Color(0XFFACC8A8),
-          // progressColor: Color(0XFFACC8A8),
-          //fillColor: Color(0XFFACC8A8),
-        )
-      ],
+    return CircleAvatar(
+      backgroundColor: Color(0XFFACC8A8),
+      radius: 11.h,
+      child: CircleAvatar(
+        radius: 7.h,
+        backgroundColor: AppColors.buttoncolour,
+      ),
     );
-  }
 
-  // Widget statusRow(
-  //   txt1,
-  //   date,
-  // ) {
-  //   return Row(
-  //     children: [
-  //       CircularPercentIndicator(
-  //         center: CircleAvatar(
-  //           child: SizedBox(),
-  //           radius: 10.h,
-  //           backgroundColor: AppColors.buttoncolour,
-  //         ),
-  //         radius: 20.h,
-  //         lineWidth: 1,
-  //         fillColor: Color(0XFFACC8A8),
-  //       ),
-  //       sizedBoxWidth(15.w),
-  //       Column(
-  //         mainAxisAlignment: MainAxisAlignment.start,
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Text(
-  //             txt1,
-  //             style: TextStyle(
-  //               fontSize: 16.sp,
-  //             ),
-  //           ),
-  //           Spacer(),
-  //           Row(
-  //             mainAxisAlignment: MainAxisAlignment.start,
-  //             children: [
-  //               SvgPicture.asset(
-  //                 "assets/images/clock-svgrepo-com (1).svg",
-  //                 width: 6.w,
-  //                 height: 6.w,
-  //               ),
-  //               sizedBoxWidth(6.w),
-  //               Text(
-  //                 date,
-  //                 style: TextStyle(
-  //                   color: Color(0xff707070),
-  //                   fontSize: 12.sp,
-  //                 ),
-  //               ),
-  //             ],
-  //           )
-  //         ],
-  //       )
-  //     ],
-  //   );
-  // }
+  }
 }
 
 class DashedLineVerticalPainter extends CustomPainter {

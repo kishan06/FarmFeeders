@@ -37,5 +37,14 @@ class RouteName {
   static const String accountfaq = '/accountfaq';
 
   static const String yourordermain = '/yourordermain';
+
+  static const String ongoingorder = '/ongoingorder';
   
+  static const String cancelorder = '/cancelorder';
+
+  static const String deliveredorder = '/deliveredorder';
+
+  static const String reorder = '/reorder';
+
+
 }
