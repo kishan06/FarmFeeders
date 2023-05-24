@@ -19,6 +19,12 @@ class RouteName {
   static const String contactus = '/contactus';
   static const String manageuser = '/manageuser';
   static const String addSubUser = '/addsubuser';
+  static const String newsAndArticleMain = '/newsandarticlemain';
+  static const String savedArticleMain = '/savedarticlemain';
+  static const String ArticleDetails = '/articledetails';
+  static const String TrainingMain = '/trainingmain';
+  static const String VideosList = '/videoslist';
+  static const String VideosDetails = '/videosdetails';
 
   //other
   static const String settings = '/settings';
@@ -37,6 +43,7 @@ class RouteName {
   static const String accountfaq = '/accountfaq';
 
   static const String yourordermain = '/yourordermain';
+
 
   static const String ongoingorder = '/ongoingorder';
   

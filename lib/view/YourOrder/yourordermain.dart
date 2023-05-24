@@ -20,116 +20,149 @@ class _YourorderState extends State<Yourorder> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.white,
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 20.h, left: 16.w, right: 16.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Your Order",
-                    style: TextStyle(
-                      color: Color(0XFF141414),
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 20.h, left: 16.w, right: 16.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Your Order",
+                  style: TextStyle(
+                    color: Color(0XFF141414),
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            sizedBoxHeight(29.h),
-            Padding(
-              padding: EdgeInsets.only(left: 16.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 300.w,
-                    height: 46.h,
-                    child: TextField(
-                      style: TextStyle(
+          ),
+          sizedBoxHeight(29.h),
+          Padding(
+            padding: EdgeInsets.only(left: 16.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 300.w,
+                  height: 46.h,
+                  child: TextField(
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: Color(0XFF141414),
+                    ),
+                    cursorColor: AppColors.black,
+                    controller: textcontroller,
+                    decoration: InputDecoration(
+                      hintText: "Search here",
+                      hintStyle: TextStyle(
                         fontSize: 16.sp,
                         color: Color(0XFF141414),
                       ),
-                      cursorColor: AppColors.black,
-                      controller: textcontroller,
-                      decoration: InputDecoration(
-                        hintText: "Search here",
-                        hintStyle: TextStyle(
-                          fontSize: 16.sp,
-                          color: Color(0XFF141414),
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(
+                          top: 15.h,
+                          bottom: 15.h,
                         ),
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(
-                            top: 15.h,
-                            bottom: 15.h,
-                          ),
-                          child: SvgPicture.asset(
-                            "assets/images/searchorder.svg",
-                            width: 15.w,
-                            height: 15.h,
-                          ),
+                        child: SvgPicture.asset(
+                          "assets/images/searchorder.svg",
+                          width: 15.w,
+                          height: 15.h,
                         ),
-                        filled: true,
-                        fillColor: Color(0XFFF1F1F1),
-                        contentPadding:
-                            EdgeInsets.only(top: 11.h, bottom: 11.h),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(
-                              color: Color(0xFF707070).withOpacity(0),
-                              width: 1),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(
-                              color: Color(0xFF707070).withOpacity(0),
-                              width: 1),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(
-                              color: Color(0xFF707070).withOpacity(0),
-                              width: 1),
-                        ),
+                      ),
+                      filled: true,
+                      fillColor: Color(0XFFF1F1F1),
+                      contentPadding:
+                          EdgeInsets.only(top: 11.h, bottom: 11.h),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(
+                            color: Color(0xFF707070).withOpacity(0),
+                            width: 1),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(
+                            color: Color(0xFF707070).withOpacity(0),
+                            width: 1),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(
+                            color: Color(0xFF707070).withOpacity(0),
+                            width: 1),
                       ),
                     ),
                   ),
-                  sizedBoxWidth(5.w),
-                  Container(
-                    width: 53.w,
-                    height: 45.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.h),
-                      color: Color(0XFF0E5F02),
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        "assets/images/order.svg",
-                        width: 31.w,
-                        height: 31.w,
-                      ),
+                ),
+                sizedBoxWidth(5.w),
+                Container(
+                  width: 53.w,
+                  height: 45.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.h),
+                    color: Color(0XFF0E5F02),
+                  ),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      "assets/images/order.svg",
+                      width: 31.w,
+                      height: 31.w,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Expanded(
-                child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  sizedBoxHeight(22.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          Expanded(
+              child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sizedBoxHeight(22.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Ongoing Order",
+                      style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0XFF141414)),
+                    ),
+                    Spacer(),
+                    Text(
+                      "See more",
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0XFF0E5F02)),
+                    ),
+                  ],
+                ),
+                sizedBoxHeight(15.h),
+                Container(
+                  width: 358.w,
+                  height: 221.h,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: AppColors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color(0x48B9B9BE),
+                            blurRadius: 8.0,
+                            spreadRadius: 0)
+                      ]),
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+
                       Text(
                         "Ongoing Order",
                         style: TextStyle(
