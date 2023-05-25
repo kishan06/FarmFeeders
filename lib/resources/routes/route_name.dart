@@ -54,4 +54,7 @@ class RouteName {
   static const String reorder = '/reorder';
 
 
+  static const String connect = '/connect';
+
+
 }
