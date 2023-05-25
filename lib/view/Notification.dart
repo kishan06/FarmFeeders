@@ -84,13 +84,15 @@ class _NotificationState extends State<Notification> {
                         Get.toNamed("/settings");
                       },
                       child: SvgPicture.asset(
-                        "assets/images/Settings.svg",
+                        "assets/images/setting-svgrepo-com (1).svg",
+                        width: 23.w,
+                        height: 24.h,
                       ),
                       style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
-                        padding: EdgeInsets.all(10),
+                        // padding: EdgeInsets.all(1),
                         elevation: 2,
-                        backgroundColor: Color(0XFFF1F1F1),
+                        backgroundColor: AppColors.white,
                         shadowColor: Color(0xFF444444), // <-- Splash color
                       ),
                     )
