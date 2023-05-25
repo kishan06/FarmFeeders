@@ -44,6 +44,10 @@ class RouteName {
 
   static const String yourordermain = '/yourordermain';
 
+  static const String editVideos = '/editVideos';
+  static const String feedBack = '/feedBack';
+
+
 
   static const String ongoingorder = '/ongoingorder';
   
@@ -55,6 +59,7 @@ class RouteName {
 
 
   static const String connect = '/connect';
+
 
 
 }

@@ -54,6 +54,7 @@ Widget textBlack20W7000(String text) {
 Widget textBlack18W7000(String text) {
   return Text(
     text,
+    // textAlign: t,
     style: TextStyle(
         fontSize: 18.sp,
         color: AppColors.black,
@@ -62,6 +63,20 @@ Widget textBlack18W7000(String text) {
         ),
   );
 }
+
+Widget textBlack18W700Center(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+        fontSize: 18.sp,
+        color: AppColors.black,
+        fontWeight: FontWeight.w700,
+        // fontFamily: "Montserrat"
+        ),
+  );
+}
+
 
 Widget textBlack25W7000(String text) {
   return Text(

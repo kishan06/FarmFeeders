@@ -33,7 +33,9 @@ import 'package:farmfeeders/view/YourOrder/deliveredorder.dart';
 import 'package:farmfeeders/view/YourOrder/ongoingorder.dart';
 import 'package:farmfeeders/view/YourOrder/reorder.dart';
 import 'package:farmfeeders/view/YourOrder/yourordermain.dart';
+import 'package:farmfeeders/view/edit_videos.dart';
 import 'package:farmfeeders/view/farmsInfo.dart';
+import 'package:farmfeeders/view/feedback.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:farmfeeders/view/profile.dart';
@@ -176,6 +178,17 @@ class AppRoutes {
           page: () => Yourorder(),
         ),
 
+        GetPage(
+          name: RouteName.editVideos,
+          page: () => EditVideos(),
+        ),
+
+        GetPage(
+          name: RouteName.feedBack,
+          page: () => FeedBack(),
+        ),
+
+
          GetPage(
           name: RouteName.ongoingorder,
           page: () => Ongoingorder(),
@@ -206,5 +219,6 @@ class AppRoutes {
             ),
         ),
         
+
       ];
 }

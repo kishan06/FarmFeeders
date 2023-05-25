@@ -159,11 +159,14 @@ class CustomListTile extends StatefulWidget {
     Key? key,
     required this.title,
     required this.statecontroller,
+    this.addVideoPage = false,
+    
     //required this.sizefactor
   }) : super(key: key);
 
   final String? title;
   bool statecontroller;
+  bool addVideoPage;
   //double sizefactor;
 
   @override
@@ -174,17 +177,17 @@ class _CustomListTileState extends State<CustomListTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 60.h,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.symmetric(horizontal: widget.addVideoPage ? 0 : 16.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               widget.title!,
               style: TextStyle(
-                fontSize: 18,
-                color: Color(0XFF4D4D4D),
+                fontSize: 20.sp,
+                // color: Color(0XFF4D4D4D),
               ),
             ),
             Spacer(),
@@ -212,5 +215,6 @@ class _CustomListTileState extends State<CustomListTile> {
         ),
       ),
     );
+  
   }
 }
