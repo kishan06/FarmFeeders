@@ -64,12 +64,14 @@ class _SettingsState extends State<Settings> {
                       },
                       child: SvgPicture.asset(
                         "assets/images/Notificationicon.svg",
+                        width: 20.w,
+                        height: 24.h,
                       ),
                       style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
-                        padding: EdgeInsets.all(10),
+                        // padding: EdgeInsets.all(10),
                         elevation: 2,
-                        backgroundColor: Color(0XFFF1F1F1),
+                        backgroundColor: AppColors.white,
                         shadowColor: Color(0xFF444444), // <-- Splash color
                       ),
                     )
@@ -198,7 +200,7 @@ class _CustomListTileState extends State<CustomListTile> {
               toggleColor: Color(0xFF0E5F02),
               activeColor: AppColors.white,
               inactiveColor: Colors.white,
-              inactiveToggleColor: Color(0xffB1B1B1),
+              inactiveToggleColor: Color(0xff686868),
               value: widget.statecontroller,
               onToggle: (val) {
                 setState(() {

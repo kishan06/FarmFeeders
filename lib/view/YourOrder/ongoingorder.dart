@@ -67,7 +67,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
-                        // Get.toNamed("/cancelorder");
+                        Get.toNamed("/cancelorder");
                       },
                       child: Container(
                         height: 48.h,

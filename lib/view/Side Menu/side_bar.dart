@@ -44,7 +44,7 @@ class _SideBarState extends State<SideBar> {
     {
       "icon": Image.asset("assets/images/faq.png"),
       "text": "FAQ",
-      "route": "/loginScreen"
+      "route": "/faq"
     },
     {
       "icon": Image.asset("assets/images/feedback.png"),
@@ -141,9 +141,9 @@ class _SideBarState extends State<SideBar> {
                       itemBuilder: (_, index) {
                         return SideBarTile(
                           // icon: sideBarData[index]["icon"],
-                                
+
                           icon: sideBarData[index]["icon"],
-                                
+
                           text: sideBarData[index]["text"],
                           onTap: () {
                             Get.toNamed(sideBarData[index]["route"]);
