@@ -19,6 +19,7 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/S
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/TrainingMain.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/VideosList.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/videos_details.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/connectcode.dart';
 
 import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 
@@ -193,6 +194,14 @@ class AppRoutes {
         GetPage(
           name: RouteName.reorder,
           page: () =>Reorderscreen(
+            // onChanged: (value) => 0,
+            ),
+        ),
+
+
+         GetPage(
+          name: RouteName.connect,
+          page: () =>Connectcode(
             // onChanged: (value) => 0,
             ),
         ),
