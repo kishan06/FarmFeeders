@@ -190,10 +190,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.white,
-        body: Column(
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      body: SafeArea(
+        child: Column(
           children: [
             Padding(
               padding: EdgeInsets.only(top: 20.h, left: 16.w, right: 16.w),
