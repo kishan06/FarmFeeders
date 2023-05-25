@@ -25,7 +25,9 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/manageUser.dart'
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/YourOrder/yourordermain.dart';
+import 'package:farmfeeders/view/edit_videos.dart';
 import 'package:farmfeeders/view/farmsInfo.dart';
+import 'package:farmfeeders/view/feedback.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:farmfeeders/view/profile.dart';
@@ -151,6 +153,15 @@ class AppRoutes {
         GetPage(
           name: RouteName.yourordermain,
           page: () => Yourorder(),
+        ),
+        GetPage(
+          name: RouteName.editVideos,
+          page: () => EditVideos(),
+        ),
+
+        GetPage(
+          name: RouteName.feedBack,
+          page: () => FeedBack(),
         ),
       ];
 }

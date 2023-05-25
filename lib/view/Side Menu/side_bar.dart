@@ -49,7 +49,7 @@ class _SideBarState extends State<SideBar> {
     {
       "icon": Image.asset("assets/images/feedback.png"),
       "text": "Feedback",
-      "route": "/loginScreen"
+      "route": "/feedBack"
     },
     {
       "icon": Image.asset("assets/images/contactus.png"),

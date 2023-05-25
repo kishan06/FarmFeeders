@@ -40,4 +40,7 @@ class RouteName {
   static const String accountfaq = '/accountfaq';
 
   static const String yourordermain = '/yourordermain';
+  static const String editVideos = '/editVideos';
+  static const String feedBack = '/feedBack';
+
 }
