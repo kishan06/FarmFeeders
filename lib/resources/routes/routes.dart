@@ -16,6 +16,7 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/ArticlesDetails.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsAndArticleMain.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/SavedArticles.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/EditNote.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/TrainingMain.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/VideosList.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/videos_details.dart';
@@ -120,9 +121,7 @@ class AppRoutes {
         GetPage(
           name: RouteName.sideMenu,
           page: () => SideMenu(),
-
-          ),
-    
+        ),
         GetPage(
           name: RouteName.profile,
           page: () => Profile(),
@@ -164,6 +163,10 @@ class AppRoutes {
           page: () => VideosDetails(),
         ),
         GetPage(
+          name: RouteName.EditNote,
+          page: () => EditNote(),
+        ),
+        GetPage(
           name: RouteName.faqs,
           page: () => Faq(),
         ),
@@ -175,36 +178,29 @@ class AppRoutes {
           name: RouteName.yourordermain,
           page: () => Yourorder(),
         ),
-
-         GetPage(
+        GetPage(
           name: RouteName.ongoingorder,
           page: () => Ongoingorder(),
         ),
-
         GetPage(
           name: RouteName.cancelorder,
           page: () => Cancelorder(),
         ),
-
         GetPage(
           name: RouteName.deliveredorder,
           page: () => Deliveredorder(),
         ),
-
         GetPage(
           name: RouteName.reorder,
-          page: () =>Reorderscreen(
-            // onChanged: (value) => 0,
-            ),
+          page: () => Reorderscreen(
+              // onChanged: (value) => 0,
+              ),
         ),
-
-
-         GetPage(
+        GetPage(
           name: RouteName.connect,
-          page: () =>Connectcode(
-            // onChanged: (value) => 0,
-            ),
+          page: () => Connectcode(
+              // onChanged: (value) => 0,
+              ),
         ),
-        
       ];
 }
