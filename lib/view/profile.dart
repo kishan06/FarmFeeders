@@ -300,317 +300,319 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 20.h, left: 16.w, right: 16.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // GestureDetector(
-                //   onTap: () {
-                //     Get.back();
-                //   },
-                //   child: CircleAvatar(
-                //     radius: 20.h,
-                //     backgroundColor: Color(0XFFF1F1F1),
-                //     child: Center(
-                //       child: Padding(
-                //         padding: EdgeInsets.only(left: 8.w),
-                //         child: Icon(
-                //           Icons.arrow_back_ios,
-                //           size: 25.h,
-                //           color: Color(0XFF141414),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // sizedBoxWidth(15.w),
-                Text(
-                  "My Profile",
-                  style: TextStyle(
-                    color: Color(0XFF141414),
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w600,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 20.h, left: 16.w, right: 16.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Get.back();
+                  //   },
+                  //   child: CircleAvatar(
+                  //     radius: 20.h,
+                  //     backgroundColor: Color(0XFFF1F1F1),
+                  //     child: Center(
+                  //       child: Padding(
+                  //         padding: EdgeInsets.only(left: 8.w),
+                  //         child: Icon(
+                  //           Icons.arrow_back_ios,
+                  //           size: 25.h,
+                  //           color: Color(0XFF141414),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // sizedBoxWidth(15.w),
+                  Text(
+                    "My Profile",
+                    style: TextStyle(
+                      color: Color(0XFF141414),
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          sizedBoxHeight(43.h),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Form(
-                key: _formKey,
-                child:
-                    // editBool
-                    //     ? editProfile()
-                    //     :
-                    Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Obx(
-                          () => ClipOval(
-                            child: SizedBox.fromSize(
-                                size: Size.fromRadius(60.r),
-                                child: editProfileImage.profilePicPath.value !=
-                                        ''
-                                    ? Image(
-                                        image: FileImage(File(editProfileImage
-                                            .profilePicPath.value)),
-                                        fit: BoxFit.cover,
-                                        width: 200.w,
-                                        height: 200.h,
-                                      )
-                                    : Image.asset("assets/images/profile.png")),
-                          ),
-                        ),
-                        sizedBoxWidth(18.w),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              nameValue == null || nameValue!.isEmpty
-                                  ? 'Kevin'
-                                  : '$nameValue',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 22.sp,
-                                fontFamily: 'Poppins',
-                                color: Color(0XFF141414),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            sizedBoxHeight(1.h),
-                            Text(
-                              phoneValue == null || phoneValue!.isEmpty
-                                  ? '0124585741'
-                                  : '$phoneValue',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontFamily: 'Poppins',
-                                color: Color(0xFF4D4D4D),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        GestureDetector(
-                          onTap: (() {
-                            setState(() {
-                              Get.toNamed("personalinfo");
-                              //  editBool = true;
-                            });
-                          }),
-                          child: SvgPicture.asset(
-                            'assets/images/profileEdit.svg',
-                            width: 22.w,
-                            height: 24.h,
-                          ),
-                        ),
-                      ],
-                    ),
-                    sizedBoxHeight(36.w),
-                    Text(
-                      "Other Settings",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        color: Color(0XFF141414),
-                        fontFamily: "Montserrat",
-                        // fontWeight: FontWeight.w600
-                      ),
-                    ),
-                    sizedBoxHeight(25.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Color(0XFF59BD7D),
-                          radius: 25.r,
-                          child: SvgPicture.asset(
-                            "assets/images/profileannual.svg",
-                            width: 29.w,
-                            height: 20.h,
-                          ),
-                        ),
-                        sizedBoxWidth(24.w),
-                        Text(
-                          "Animal Information",
-                          style: TextStyle(
-                              fontSize: 20.sp,
-                              color: Color(0XFF141414),
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/images/profileEdit.svg',
-                          width: 18.w,
-                          height: 19.h,
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      thickness: 1.h,
-                      color: Colors.grey.shade200,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Color(0XFFEEC224),
-                          radius: 25.r,
-                          child: Image.asset(
-                            "assets/images/tracking@2x.png",
-                            width: 33.w,
-                            height: 33.h,
-                          ),
-                        ),
-                        sizedBoxWidth(24.w),
-                        Text(
-                          "Farm Feed Tracker",
-                          style: TextStyle(
-                              fontSize: 20.sp,
-                              color: Color(0XFF141414),
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/images/profileEdit.svg',
-                          width: 18.w,
-                          height: 19.h,
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      thickness: 1.h,
-                      color: Colors.grey.shade200,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Color(0XFFC8C9CE),
-                          radius: 25.r,
-                          child: Image.asset(
-                            "assets/images/farm@2x.png",
-                            width: 27.w,
-                            height: 27.h,
-                          ),
-                        ),
-                        sizedBoxWidth(24.w),
-                        Text(
-                          "Farm Info",
-                          style: TextStyle(
-                              fontSize: 20.sp,
-                              color: Color(0XFF141414),
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/images/profileEdit.svg',
-                          width: 18.w,
-                          height: 19.h,
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      thickness: 1.h,
-                      color: Colors.grey.shade200,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Color(0XFF80B918),
-                          radius: 25.r,
-                          child: Image.asset(
-                            "assets/images/connect@2x.png",
-                            width: 30.w,
-                            height: 30.h,
-                          ),
-                        ),
-                        sizedBoxWidth(24.w),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Connect Code :",
-                              style: TextStyle(
-                                  fontSize: 20.sp,
-                                  color: Color(0XFF141414),
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            sizedBoxHeight(1.h),
-                            Text(
-                              "DFE32FDDF4",
-                              style: TextStyle(
-                                  fontSize: 15.sp,
-                                  color: Color(0XFF141414),
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        SvgPicture.asset(
-                          'assets/images/Communication - Share_Android.svg',
-                          width: 23.w,
-                          height: 23.h,
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      thickness: 1.h,
-                      color: Colors.grey.shade200,
-                    ),
-                    sizedBoxHeight(13.h),
-                    GestureDetector(
-                      onTap: () {
-                        buildprofiledeletedialog(context);
-                      },
-                      child: Text(
-                        "Delete Account",
-                        style: TextStyle(
-                            fontSize: 20.sp,
-                            color: Color(0XFF0E5F02),
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    sizedBoxHeight(12.h),
-                    GestureDetector(
-                      onTap: () {
-                        buildprofilelogoutdialog(context);
-                      },
-                      child: Text(
-                        "Logout",
-                        style: TextStyle(
-                            fontSize: 20.sp,
-                            color: Color(0XFF0E5F02),
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
+                ],
               ),
             ),
-          )
-        ],
+            sizedBoxHeight(43.h),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Form(
+                  key: _formKey,
+                  child:
+                      // editBool
+                      //     ? editProfile()
+                      //     :
+                      Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Obx(
+                            () => ClipOval(
+                              child: SizedBox.fromSize(
+                                  size: Size.fromRadius(60.r),
+                                  child: editProfileImage.profilePicPath.value !=
+                                          ''
+                                      ? Image(
+                                          image: FileImage(File(editProfileImage
+                                              .profilePicPath.value)),
+                                          fit: BoxFit.cover,
+                                          width: 200.w,
+                                          height: 200.h,
+                                        )
+                                      : Image.asset("assets/images/profile.png")),
+                            ),
+                          ),
+                          sizedBoxWidth(18.w),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                nameValue == null || nameValue!.isEmpty
+                                    ? 'Kevin'
+                                    : '$nameValue',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 22.sp,
+                                  fontFamily: 'Poppins',
+                                  color: Color(0XFF141414),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              sizedBoxHeight(1.h),
+                              Text(
+                                phoneValue == null || phoneValue!.isEmpty
+                                    ? '0124585741'
+                                    : '$phoneValue',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontFamily: 'Poppins',
+                                  color: Color(0xFF4D4D4D),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          GestureDetector(
+                            onTap: (() {
+                              setState(() {
+                                Get.toNamed("personalinfo");
+                                //  editBool = true;
+                              });
+                            }),
+                            child: SvgPicture.asset(
+                              'assets/images/profileEdit.svg',
+                              width: 22.w,
+                              height: 24.h,
+                            ),
+                          ),
+                        ],
+                      ),
+                      sizedBoxHeight(36.w),
+                      Text(
+                        "Other Settings",
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          color: Color(0XFF141414),
+                          fontFamily: "Montserrat",
+                          // fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      sizedBoxHeight(25.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Color(0XFF59BD7D),
+                            radius: 25.r,
+                            child: SvgPicture.asset(
+                              "assets/images/profileannual.svg",
+                              width: 29.w,
+                              height: 20.h,
+                            ),
+                          ),
+                          sizedBoxWidth(24.w),
+                          Text(
+                            "Animal Information",
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: Color(0XFF141414),
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Spacer(),
+                          SvgPicture.asset(
+                            'assets/images/profileEdit.svg',
+                            width: 18.w,
+                            height: 19.h,
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 1.h,
+                        color: Colors.grey.shade200,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Color(0XFFEEC224),
+                            radius: 25.r,
+                            child: Image.asset(
+                              "assets/images/tracking@2x.png",
+                              width: 33.w,
+                              height: 33.h,
+                            ),
+                          ),
+                          sizedBoxWidth(24.w),
+                          Text(
+                            "Farm Feed Tracker",
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: Color(0XFF141414),
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Spacer(),
+                          SvgPicture.asset(
+                            'assets/images/profileEdit.svg',
+                            width: 18.w,
+                            height: 19.h,
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 1.h,
+                        color: Colors.grey.shade200,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Color(0XFFC8C9CE),
+                            radius: 25.r,
+                            child: Image.asset(
+                              "assets/images/farm@2x.png",
+                              width: 27.w,
+                              height: 27.h,
+                            ),
+                          ),
+                          sizedBoxWidth(24.w),
+                          Text(
+                            "Farm Info",
+                            style: TextStyle(
+                                fontSize: 20.sp,
+                                color: Color(0XFF141414),
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Spacer(),
+                          SvgPicture.asset(
+                            'assets/images/profileEdit.svg',
+                            width: 18.w,
+                            height: 19.h,
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 1.h,
+                        color: Colors.grey.shade200,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Color(0XFF80B918),
+                            radius: 25.r,
+                            child: Image.asset(
+                              "assets/images/connect@2x.png",
+                              width: 30.w,
+                              height: 30.h,
+                            ),
+                          ),
+                          sizedBoxWidth(24.w),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Connect Code :",
+                                style: TextStyle(
+                                    fontSize: 20.sp,
+                                    color: Color(0XFF141414),
+                                    fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              sizedBoxHeight(1.h),
+                              Text(
+                                "DFE32FDDF4",
+                                style: TextStyle(
+                                    fontSize: 15.sp,
+                                    color: Color(0XFF141414),
+                                    fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          SvgPicture.asset(
+                            'assets/images/Communication - Share_Android.svg',
+                            width: 23.w,
+                            height: 23.h,
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 1.h,
+                        color: Colors.grey.shade200,
+                      ),
+                      sizedBoxHeight(13.h),
+                      GestureDetector(
+                        onTap: () {
+                          buildprofiledeletedialog(context);
+                        },
+                        child: Text(
+                          "Delete Account",
+                          style: TextStyle(
+                              fontSize: 20.sp,
+                              color: Color(0XFF0E5F02),
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      sizedBoxHeight(12.h),
+                      GestureDetector(
+                        onTap: () {
+                          buildprofilelogoutdialog(context);
+                        },
+                        child: Text(
+                          "Logout",
+                          style: TextStyle(
+                              fontSize: 20.sp,
+                              color: Color(0XFF0E5F02),
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

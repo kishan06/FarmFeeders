@@ -21,8 +21,8 @@ class _SplashSliderState extends State<SplashSlider> {
   void initState() {
     // ignore: todo
     // TODO: implement initState
-    _controller = PageController(initialPage: 0);
     super.initState();
+    _controller = PageController(initialPage: 0);
   }
 
   @override

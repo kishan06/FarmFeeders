@@ -64,12 +64,14 @@ class _SettingsState extends State<Settings> {
                       },
                       child: SvgPicture.asset(
                         "assets/images/Notificationicon.svg",
+                        width: 20.w,
+                        height: 24.h,
                       ),
                       style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
-                        padding: EdgeInsets.all(10),
+                        // padding: EdgeInsets.all(10),
                         elevation: 2,
-                        backgroundColor: Color(0XFFF1F1F1),
+                        backgroundColor: AppColors.white,
                         shadowColor: Color(0xFF444444), // <-- Splash color
                       ),
                     )
@@ -157,11 +159,14 @@ class CustomListTile extends StatefulWidget {
     Key? key,
     required this.title,
     required this.statecontroller,
+    this.addVideoPage = false,
+    
     //required this.sizefactor
   }) : super(key: key);
 
   final String? title;
   bool statecontroller;
+  bool addVideoPage;
   //double sizefactor;
 
   @override
@@ -172,17 +177,17 @@ class _CustomListTileState extends State<CustomListTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 60.h,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.symmetric(horizontal: widget.addVideoPage ? 0 : 16.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               widget.title!,
               style: TextStyle(
-                fontSize: 18,
-                color: Color(0XFF4D4D4D),
+                fontSize: 20.sp,
+                // color: Color(0XFF4D4D4D),
               ),
             ),
             Spacer(),
@@ -198,7 +203,7 @@ class _CustomListTileState extends State<CustomListTile> {
               toggleColor: Color(0xFF0E5F02),
               activeColor: AppColors.white,
               inactiveColor: Colors.white,
-              inactiveToggleColor: Color(0xffB1B1B1),
+              inactiveToggleColor: Color(0xff686868),
               value: widget.statecontroller,
               onToggle: (val) {
                 setState(() {
@@ -210,5 +215,6 @@ class _CustomListTileState extends State<CustomListTile> {
         ),
       ),
     );
+  
   }
 }

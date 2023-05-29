@@ -22,39 +22,50 @@ class _SideBarState extends State<SideBar> {
 
   List sideBarData = [
     {
-      "icon": Image.asset("assets/images/manageUser.png"),
+      "icon": Image.asset("assets/images/manageUser.png",height: 30.h,width: 30.h,),
       "text": "Manage User",
       "route": "/manageuser"
     },
     {
-      "icon": Image.asset("assets/images/connect.png"),
+      "icon": Image.asset("assets/images/connect.png",height: 30.h,width: 30.h,),
       "text": "Connect With Experts",
       "route": "/connectexperts"
     },
     {
-      "icon": Image.asset("assets/images/training.png"),
+      "icon": Image.asset("assets/images/training.png",height: 30.h,width: 30.h,),
       "text": "Training",
       "route": "/trainingmain"
     },
     {
-      "icon": Image.asset("assets/images/news.png"),
+      "icon": Image.asset("assets/images/news.png",height: 30.h,width: 30.h,),
       "text": "News & Articles",
       "route": "/newsandarticlemain"
     },
     {
-      "icon": Image.asset("assets/images/faq.png"),
+      "icon": Image.asset("assets/images/faq.png",height: 30.h,width: 30.h,),
       "text": "FAQ",
-      "route": "/loginScreen"
+      "route": "/faq"
     },
     {
-      "icon": Image.asset("assets/images/feedback.png"),
+      "icon": Image.asset("assets/images/feedback.png",height: 30.h,width: 30.h,),
       "text": "Feedback",
-      "route": "/loginScreen"
+      "route": "/feedBack"
     },
     {
-      "icon": Image.asset("assets/images/contactus.png"),
+      "icon": Image.asset("assets/images/contactus.png",height: 30.h,width: 30.h,),
       "text": "Contact Us",
       "route": "/contactus"
+    },
+    
+    {
+      "icon": Image.asset("assets/images/connection_code.png",height: 30.h,width: 30.h,),
+      "text": "Connection Code",
+      "route": ""
+    },
+    {
+      "icon": Image.asset("assets/images/logout.png",height: 30.h,width: 30.h,),
+      "text": "Log Out",
+      "route": ""
     },
   ];
 
@@ -137,46 +148,56 @@ class _SideBarState extends State<SideBar> {
                   Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: sideBarData.length,
                       itemBuilder: (_, index) {
                         return SideBarTile(
                           // icon: sideBarData[index]["icon"],
-                                
+
                           icon: sideBarData[index]["icon"],
-                                
+
                           text: sideBarData[index]["text"],
                           onTap: () {
-                            Get.toNamed(sideBarData[index]["route"]);
+                            if (index == 8) {
+                              logoutDailog(context);
+                            } else {
+                              Get.toNamed(sideBarData[index]["route"]);
+                            }
+                            // Get.toNamed(sideBarData[index]["route"]);
                           },
                         );
                       },
                     ),
                   ),
-                  sizedBoxHeight(80.h),
-                  GestureDetector(
-                    onTap: () {
-                      logoutDailog(context);
-                    },
-                    child: Row(
-                      children: [
-                        SizedBox(
-                            height: 30.h,
-                            width: 30.h,
-                            child: Icon(
-                              Icons.logout,
-                              color: Colors.white,
-                              size: 23.h,
-                            )),
-                        SizedBox(
-                          width: 22.w,
-                        ),
-                        Text(
-                          'Logout',
-                          style: TextStyle(fontSize: 16.sp),
-                        )
-                      ],
-                    ),
-                  ),
+                  // // sizedBoxHeight(80.h),
+                  // SizedBox(
+                  //   height: 150.h,
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       logoutDailog(context);
+                  //     },
+                  //     child: Row(
+                  //       children: [
+                  //         SizedBox(
+                  //             height: 30.h,
+                  //             width: 30.h,
+                  //             child: Icon(
+                  //               Icons.logout,
+                  //               color: Colors.white,
+                  //               size: 23.h,
+                  //             )),
+                  //         SizedBox(
+                  //           width: 22.w,
+                  //         ),
+                  //         Text(
+                  //           'Logout',
+                  //           style: TextStyle(fontSize: 16.sp),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+              
                 ],
               ),
             ),
