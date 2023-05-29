@@ -13,6 +13,7 @@ import 'package:farmfeeders/view/Profile/personalinfo.dart';
 import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Feedback/feedbackform.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/ArticlesDetails.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsAndArticleMain.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/SavedArticles.dart';
@@ -215,6 +216,13 @@ class AppRoutes {
          GetPage(
           name: RouteName.connect,
           page: () =>Connectcode(
+            // onChanged: (value) => 0,
+            ),
+        ),
+
+         GetPage(
+          name: RouteName.feedbackform,
+          page: () =>Feedbackform(
             // onChanged: (value) => 0,
             ),
         ),
