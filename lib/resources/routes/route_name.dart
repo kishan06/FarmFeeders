@@ -61,5 +61,6 @@ class RouteName {
   static const String connect = '/connect';
 
 
+  static const String feedbackform = '/feedbackform';
 
 }
