@@ -183,6 +183,7 @@ class AppRoutes {
         ),
 
 
+
         GetPage(
           name: RouteName.editVideos,
           page: () => EditVideos(),
@@ -194,7 +195,9 @@ class AppRoutes {
         ),
 
 
+
          GetPage(
+
 
           name: RouteName.ongoingorder,
           page: () => Ongoingorder(),
@@ -219,15 +222,18 @@ class AppRoutes {
               // onChanged: (value) => 0,
               ),
         ),
+// <<<<<<< HEAD
+// =======
+
 
 
          GetPage(
+
           name: RouteName.feedbackform,
-          page: () =>Feedbackform(
-            // onChanged: (value) => 0,
-            ),
+          page: () => Feedbackform(
+              // onChanged: (value) => 0,
+              ),
         ),
-        
 
 
       ];
