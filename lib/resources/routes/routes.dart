@@ -182,7 +182,7 @@ class AppRoutes {
           page: () => Yourorder(),
         ),
 
-        // GetPage(
+
 
         GetPage(
           name: RouteName.editVideos,
@@ -194,8 +194,11 @@ class AppRoutes {
           page: () => FeedBack(),
         ),
 
-        GetPage(
-// >>>>>>> 1c1260022146e8ea8d3b8dbc525a90432d675aa0
+
+
+         GetPage(
+
+
           name: RouteName.ongoingorder,
           page: () => Ongoingorder(),
         ),
@@ -222,13 +225,16 @@ class AppRoutes {
 // <<<<<<< HEAD
 // =======
 
-        GetPage(
+
+
+         GetPage(
+
           name: RouteName.feedbackform,
           page: () => Feedbackform(
               // onChanged: (value) => 0,
               ),
         ),
 
-// >>>>>>> 1c1260022146e8ea8d3b8dbc525a90432d675aa0
+
       ];
 }
