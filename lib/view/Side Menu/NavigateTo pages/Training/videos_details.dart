@@ -18,6 +18,15 @@ class _VideosDetailsState extends State<VideosDetails> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    // TODO: implement initState
+    VideosDetails();
+    NotesData;
+    // super.initState();
+  }
+
   void deleteNote(int index) {
     setState(() {
       NotesData.removeAt(index);
@@ -112,8 +121,8 @@ class _VideosDetailsState extends State<VideosDetails> {
                   text: "Save",
                   onTap: () {
                     Navigator.pop(context, [
-                      _titleController,
-                      _contentController,
+                      _titleController.text,
+                      _contentController.text,
                     ]);
                   },
                 ),
