@@ -23,6 +23,15 @@ class _VideosListState extends State<VideosList> {
           elevation: 0,
           titleSpacing: 0,
         ),
+        floatingActionButton: const CircleAvatar(
+          radius: 25,
+          backgroundColor: Color(0xff0E5F02),
+          child: Icon(
+            Icons.add,
+            size: 35,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -33,10 +42,7 @@ class _VideosListState extends State<VideosList> {
                 SizedBox(
                   height: 25.h,
                 ),
-
                 VideosCard()
-
-                //  sizedBoxHeight(58.h)
               ],
             ),
           ),
