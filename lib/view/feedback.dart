@@ -129,8 +129,15 @@ class _FeedBackState extends State<FeedBack> {
                   ),
 
                   SizedBox(
-                    width: 300.w,
-                    child: customButtonCurve(text: "Next")
+                    // width: 300.w,
+                    child: customButtonCurve(text: "Next",
+                      onTap: (){
+                        // feedbackform
+                        Get.toNamed("/feedbackform",
+                          arguments: feedbackData[focusedValue]["text"],
+                        );
+                      }
+                    )
                   )
 
 

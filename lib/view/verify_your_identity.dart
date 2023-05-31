@@ -132,7 +132,8 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
               customButtonCurve(
                   text: "Verify",
                   onTap: () {
-                    // Get.toNamed("/ResetPassword");
+
+                    Get.toNamed("/letsSetUpYourFarm");
                   }),
             ],
           ),

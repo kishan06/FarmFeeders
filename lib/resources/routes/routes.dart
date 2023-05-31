@@ -227,6 +227,12 @@ class AppRoutes {
             ),
         ),
         
+        // GetPage(
+        //   name: RouteName.EntryPoint,
+        //   page: () =>entrypo(
+        //     // onChanged: (value) => 0,
+        //     ),
+        // ),
 
       ];
 }

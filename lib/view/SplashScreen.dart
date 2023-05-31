@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 5), () {
-      Get.toNamed("/splashslider");
+      Get.offAndToNamed("/splashslider");
     });
     // Timer(
     //   Duration(seconds: 5), (timer) {
