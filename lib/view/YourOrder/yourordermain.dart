@@ -527,7 +527,7 @@ class _YourorderState extends State<Yourorder> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                left: 16.w, top: 9.h, bottom: 18.h),
+                            left: 16.w, top: 9.h, bottom: 18.h),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
