@@ -77,7 +77,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 title: "Livestock Information",
                 des: "Lorem Ipsum Is Simply Dummy",
               ),
+              
               sizedBoxHeight(25.h),
+
               cards(
                 onTap: (){
                   Get.toNamed("/farmfeedtracker");

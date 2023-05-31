@@ -154,7 +154,7 @@ class _YourorderState extends State<Yourorder> {
                     },
                     child: Container(
                       width: 358.w,
-                      height: 221.h,
+                      height: 230.h,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           color: AppColors.white,
@@ -509,7 +509,7 @@ class _YourorderState extends State<Yourorder> {
                     },
                     child: Container(
                       width: 358.w,
-                      height: 125.h,
+                      // height: 125.h,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           color: Color(0XFF0000001F),
@@ -527,7 +527,7 @@ class _YourorderState extends State<Yourorder> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                left: 16.w, top: 9.h, bottom: 18.h),
+                            left: 16.w, top: 9.h, bottom: 18.h),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -593,7 +593,7 @@ class _YourorderState extends State<Yourorder> {
                   sizedBoxHeight(7.h),
                   Container(
                     width: 358.w,
-                    height: 125.h,
+                    // height: 125.h,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         color: Color(0XFF0000001F),
@@ -676,7 +676,7 @@ class _YourorderState extends State<Yourorder> {
                   sizedBoxHeight(7.h),
                   Container(
                     width: 358.w,
-                    height: 125.h,
+                    // height: 125.h,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         color: Color(0XFF0000001F),
@@ -759,7 +759,7 @@ class _YourorderState extends State<Yourorder> {
                   sizedBoxHeight(7.h),
                   Container(
                     width: 358.w,
-                    height: 125.h,
+                    // height: 125.h,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         color: Color(0XFF0000001F),

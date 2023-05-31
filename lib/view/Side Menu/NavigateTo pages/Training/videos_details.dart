@@ -96,35 +96,19 @@ class _VideosDetailsState extends State<VideosDetails> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Description",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                CustomTextFormField(
-                  textEditingController: _contentController,
-                  hintText: "",
-                  validatorText: '',
-                ),
-                sizedBoxHeight(10.h),
-                CustomButton(
-                  text: "Save",
+                Spacer(),
+                GestureDetector(
                   onTap: () {
-                    Navigator.pop(context, [
-                      _titleController.text,
-                      _contentController.text,
-                    ]);
+                    Navigator.pop(context);
                   },
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xFFF1F1F1),
+                    radius: 15,
+                    child: Icon(
+                      Icons.clear,
+                      color: Color(0xFF0E5F02),
+                    ),
+                  ),
                 ),
               ],
             ),

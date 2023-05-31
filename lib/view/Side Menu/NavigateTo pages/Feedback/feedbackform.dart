@@ -19,6 +19,7 @@ class _FeedbackformState extends State<Feedbackform> {
   // bool _isChecked3 = false;
   // bool _isChecked4 = false;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  String? feedBackData;
 
   buildAdvisorypopup(context) {
     return showDialog(
@@ -86,6 +87,13 @@ class _FeedbackformState extends State<Feedbackform> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    feedBackData = Get.arguments;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -147,7 +155,7 @@ class _FeedbackformState extends State<Feedbackform> {
                 sizedBoxHeight(44.h),
                 Center(
                   child: Text(
-                    "It Was Excellent!",
+                    feedBackData!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20.sp,
