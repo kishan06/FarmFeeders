@@ -42,8 +42,8 @@ class _VideosCardState extends State<VideosCard> {
                       VideosListData[index]["text"],
                       VideosListData[index]["time"],
                       VideosListData[index]["route"],
-                      VideosListData[index]["savevideo"],
                       index,
+                      VideosListData[index]["savevideo"],
                     )
                   ],
                 );
