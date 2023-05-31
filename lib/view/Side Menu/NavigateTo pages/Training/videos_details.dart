@@ -18,7 +18,6 @@ class _VideosDetailsState extends State<VideosDetails> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -27,7 +26,6 @@ class _VideosDetailsState extends State<VideosDetails> {
     NotesData;
     // super.initState();
   }
-
 
   void deleteNote(int index) {
     setState(() {
@@ -55,7 +53,6 @@ class _VideosDetailsState extends State<VideosDetails> {
                       fontWeight: FontWeight.w600,
                       fontSize: 22.sp,
                       color: const Color(0xff141414)),
-
                 ),
                 Spacer(),
                 GestureDetector(
@@ -98,7 +95,6 @@ class _VideosDetailsState extends State<VideosDetails> {
                 ),
                 SizedBox(
                   height: 20.h,
-
                 ),
                 Spacer(),
                 GestureDetector(
@@ -113,70 +109,6 @@ class _VideosDetailsState extends State<VideosDetails> {
                       color: Color(0xFF0E5F02),
                     ),
                   ),
-                ),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-
-                      "Title",
-
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                CustomTextFormField(
-
-                  textEditingController: _titleController,
-                  hintText: "",
-                  validatorText: '',
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Description",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                CustomTextFormField(
-
-                  textEditingController: _contentController,
-                  hintText: "",
-                  validatorText: '',
-                ),
-                sizedBoxHeight(10.h),
-                CustomButton(
-                  text: "Save",
-                  onTap: () {
-                    Navigator.pop(context, [
-
-                      _titleController.text,
-                      _contentController.text,
-
-                    ]);
-                  },
                 ),
               ],
             ),

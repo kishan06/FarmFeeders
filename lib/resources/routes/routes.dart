@@ -1,11 +1,8 @@
 import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/view/Faqs/Accountandappfaq.dart';
 import 'package:farmfeeders/view/Faqs/faqs.dart';
-
 import 'package:farmfeeders/view/Farmfeedtracker.dart';
-
 import 'package:farmfeeders/view/Home.dart';
-
 import 'package:farmfeeders/view/LiveStockInfoMain.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
@@ -22,12 +19,9 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/Trainin
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/VideosList.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/videos_details.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/connectcode.dart';
-
 import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
-
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/addSubUser.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/manageUser.dart';
-
 import 'package:farmfeeders/view/SplashScreen.dart';
 import 'package:farmfeeders/view/Splashslider/SplashSlider.dart';
 import 'package:farmfeeders/view/YourOrder/cancelorder.dart';
@@ -41,15 +35,11 @@ import 'package:farmfeeders/view/feedback.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:farmfeeders/view/profile.dart';
-
 import 'package:farmfeeders/view/register.dart';
 import 'package:farmfeeders/view/reset_password.dart';
-
 import 'package:farmfeeders/view/verify_number.dart';
 import 'package:farmfeeders/view/verify_your_identity.dart';
-
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class AppRoutes {
   static appRoutes() => [
@@ -181,24 +171,15 @@ class AppRoutes {
           name: RouteName.yourordermain,
           page: () => Yourorder(),
         ),
-
-
-
         GetPage(
           name: RouteName.editVideos,
           page: () => EditVideos(),
         ),
-
         GetPage(
           name: RouteName.feedBack,
           page: () => FeedBack(),
         ),
-
-
-
-         GetPage(
-
-
+        GetPage(
           name: RouteName.ongoingorder,
           page: () => Ongoingorder(),
         ),
@@ -222,19 +203,11 @@ class AppRoutes {
               // onChanged: (value) => 0,
               ),
         ),
-// <<<<<<< HEAD
-// =======
-
-
-
-         GetPage(
-
+        GetPage(
           name: RouteName.feedbackform,
           page: () => Feedbackform(
               // onChanged: (value) => 0,
               ),
         ),
-
-
       ];
 }
