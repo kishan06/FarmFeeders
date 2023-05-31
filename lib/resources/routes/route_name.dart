@@ -63,6 +63,7 @@ class RouteName {
 
 
   static const String feedbackform = '/feedbackform';
+  static const String EntryPoint = '/EntryPoint';
 
 
 
