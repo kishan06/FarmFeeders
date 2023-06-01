@@ -339,7 +339,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                     CustomButton(text: "Update",
                       onTap: (){
                         isSetLiveStockInfo = true;
-                        Get.back();
+                        Get.back(result: true);
                       }
                     ),
                     SizedBox(

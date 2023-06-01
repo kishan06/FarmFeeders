@@ -126,7 +126,7 @@ class _FarmsInfoState extends State<FarmsInfo> {
               // Spacer(),
 
       
-              customButton(
+              customButtonCurve(
                 text: "Next",
                 onTap: (){
                   isSetFarmInfo = true;

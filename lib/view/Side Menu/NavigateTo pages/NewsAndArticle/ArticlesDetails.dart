@@ -85,16 +85,17 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                     //   // color: Color.fromARGB(255, 168, 168, 168).withOpacity(0.54),
                     // ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Positioned(
+                  Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         children: [
                           Row(
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Get.toNamed("/newsandarticlemain");
+                                  Get.back();
+                                  // Get.toNamed("/newsandarticlemain");
                                 },
                                 child: CircleAvatar(
                                   backgroundColor: Colors.white,

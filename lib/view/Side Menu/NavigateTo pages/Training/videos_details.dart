@@ -116,70 +116,71 @@ class _VideosDetailsState extends State<VideosDetails> {
                 ),
               ],
             ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
+            // content: Column(
+            //   mainAxisSize: MainAxisSize.min,
+            //   children: [
+            //     Row(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       children: [
+            //         Text(
 
-                      "Title",
+            //           "Title",
 
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                CustomTextFormField(
+            //           style: TextStyle(
+            //             fontSize: 18.sp,
+            //             fontWeight: FontWeight.w500,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     SizedBox(
+            //       height: 5.h,
+            //     ),
+            //     CustomTextFormField(
 
-                  textEditingController: _titleController,
-                  hintText: "",
-                  validatorText: '',
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Description",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                CustomTextFormField(
+            //       textEditingController: _titleController,
+            //       hintText: "",
+            //       validatorText: '',
+            //     ),
+            //     SizedBox(
+            //       height: 20.h,
+            //     ),
+            //     Row(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Description",
+            //           style: TextStyle(
+            //             fontSize: 18.sp,
+            //             fontWeight: FontWeight.w500,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     SizedBox(
+            //       height: 5.h,
+            //     ),
+            //     CustomTextFormField(
 
-                  textEditingController: _contentController,
-                  hintText: "",
-                  validatorText: '',
-                ),
-                sizedBoxHeight(10.h),
-                CustomButton(
-                  text: "Save",
-                  onTap: () {
-                    Navigator.pop(context, [
+            //       textEditingController: _contentController,
+            //       hintText: "",
+            //       validatorText: '',
+            //     ),
+            //     sizedBoxHeight(10.h),
+            //     CustomButton(
+            //       text: "Save",
+            //       onTap: () {
+            //         Navigator.pop(context, [
 
-                      _titleController.text,
-                      _contentController.text,
+            //           _titleController.text,
+            //           _contentController.text,
 
-                    ]);
-                  },
-                ),
-              ],
-            ),
+            //         ]);
+            //       },
+            //     ),
+            //   ],
+            // ),
+         
           ),
         ),
       );

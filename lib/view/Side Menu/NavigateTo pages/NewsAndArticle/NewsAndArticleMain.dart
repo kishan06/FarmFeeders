@@ -61,7 +61,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                         itemCount: 5,
                         itemBuilder: (context, index, realIndex) {
                           return Container(
-                            height: 179.h,
+                            height: 180.h,
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: Colors.blue.shade100,
@@ -72,8 +72,8 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                     fit: BoxFit.fill)),
                             child: Padding(
                               padding: EdgeInsets.only(
-                                  top: 16.h,
-                                  bottom: 5.h,
+                                  top: 5.h,
+                                  bottom: 4.h,
                                   right: 10.w,
                                   left: 10.w),
                               child: Column(
@@ -164,7 +164,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                         options: CarouselOptions(
                             enlargeCenterPage: true,
                             autoPlay: true,
-                            height: 159.h,
+                            height: 169.h,
                             autoPlayAnimationDuration:
                                 const Duration(seconds: 3),
                             viewportFraction: 0.8,
