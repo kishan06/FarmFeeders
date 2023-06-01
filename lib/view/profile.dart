@@ -37,7 +37,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  //final GlobalKey<ScaffoldState> _key = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // bool editBool = false;
 
@@ -360,7 +360,8 @@ class _ProfileState extends State<Profile> {
                             () => ClipOval(
                               child: SizedBox.fromSize(
                                   size: Size.fromRadius(60.r),
-                                  child: editProfileImage.profilePicPath.value !=
+                                  child: editProfileImage
+                                              .profilePicPath.value !=
                                           ''
                                       ? Image(
                                           image: FileImage(File(editProfileImage
@@ -369,7 +370,8 @@ class _ProfileState extends State<Profile> {
                                           width: 200.w,
                                           height: 200.h,
                                         )
-                                      : Image.asset("assets/images/profile.png")),
+                                      : Image.asset(
+                                          "assets/images/profile.png")),
                             ),
                           ),
                           sizedBoxWidth(18.w),
