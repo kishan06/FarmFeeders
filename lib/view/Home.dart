@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../common/status.dart';
@@ -27,6 +28,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   bool lowFeed = true;
+  bool saved = false;
 
   List currentFeedData = [
     {"imagePath":"assets/images/buffalo.png","feedFor":"Current Feed for Buffalo","qty":"100"},
@@ -692,7 +694,10 @@ class _HomeState extends State<Home> {
                                     textBlack18W7000("Hey Kevin"),
                 
                                     InkWell(
-                                      onTap: (){},
+                                      onTap: (){
+                                        Get.toNamed("/profile");
+                                        // Get
+                                      },
                                       child: Container(
                                         height: 40.h,
                                         width: 175.w,
@@ -723,162 +728,187 @@ class _HomeState extends State<Home> {
                 
                         sizedBoxHeight(25.h),
                 
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(27.h),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.04),
-                                blurRadius: 10,
-                                spreadRadius: 2,
-                              )
-                            ],
-                            color: AppColors.pistaE3FFE9,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 15.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                textBlack18W600Mon("Training"),
-                
-                                sizedBoxHeight(15.h),
-                                
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset("assets/images/training1.png",
-                                      width: 104.w,
-                                      height: 90.h,
-                                    ),
-                                    // SvgPicture.asset("assets/images/current_feed.svg",
-                                    //   height: 170.h,
-                                    //   width: 100.w,
-                                    // ),
-                
-                                    // sizedBoxWidth(20.w),
-                                    // Spacer(),
-                
-                
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                    
-                                          textBlack18W600Mon("Animal husbandry and management"),
-                                    
-                                          textGrey4D4D4D_16("textext of the printing andt"),
-                                    
-                                          textGreen14("14 Minutes ago")
-                                      
-                                          
-                                        
-                                        ],
-                                      ),
-                                    ),
-                                    
-                
-                                  ],
-                                ),
-                
+                        InkWell(
+                          onTap: (){
+                            Get.toNamed("/trainingmain");
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(27.h),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.04),
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                )
                               ],
+                              color: AppColors.pistaE3FFE9,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 15.h),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  textBlack18W600Mon("Training"),
+                                        
+                                  sizedBoxHeight(15.h),
+                                  
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Image.asset("assets/images/training1.png",
+                                        width: 104.w,
+                                        height: 90.h,
+                                      ),
+                                      // SvgPicture.asset("assets/images/current_feed.svg",
+                                      //   height: 170.h,
+                                      //   width: 100.w,
+                                      // ),
+                                        
+                                      // sizedBoxWidth(20.w),
+                                      // Spacer(),
+                                        
+                                        
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                      
+                                            textBlack18W600Mon("Animal husbandry and management"),
+                                      
+                                            textGrey4D4D4D_16("textext of the printing andt"),
+                                      
+                                            textGreen14("14 Minutes ago")
+                                        
+                                            
+                                          
+                                          ],
+                                        ),
+                                      ),
+                                      
+                                        
+                                    ],
+                                  ),
+                                        
+                                ],
+                              ),
                             ),
                           ),
                         ), 
                 
                         sizedBoxHeight(20.h),
                 
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: AppColors.grey4D4D4D,
-                              width: 0.5.h
-                            ),
-                            borderRadius: BorderRadius.circular(27.h),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.04),
-                                blurRadius: 10,
-                                spreadRadius: 2,
-                              )
-                            ],
-                            color: AppColors.white,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 15.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                textBlack18W600Mon("News & Articles"),
-                
-                                sizedBoxHeight(15.h),
-                                
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Image.asset("assets/images/news&arti.png",
-                                      width: 104.w,
-                                      height: 90.h,
-                                    ),
-                                    // SvgPicture.asset("assets/images/current_feed.svg",
-                                    //   height: 170.h,
-                                    //   width: 100.w,
-                                    // ),
-                
-                                    // sizedBoxWidth(20.w),
-                                    // Spacer(),
-                
-                
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                    
-                                          textGrey4D4D4D_16("Livestock"),
-                                        
-                                          textBlack18W600Mon("Lorem Ipsum Is Simply Dummy Of The Printing"),
-                                    
-                                          // textGreen14("14 Minutes ago")
-                                          sizedBoxHeight(10.h),
-                                          
-                                          Row(
-                                            children: [
-                                              textGrey4D4D4D_14("7 Feb 2023"),
-                
-                                              Spacer(),
-                                            
-                                              Container(
-                                                height: 25.h,
-                                                width: 25.h,
-                                                child: SvgPicture.asset(
-                                                  "assets/images/share.svg",
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20.w,
-                                              ),
-                
-                                              Container(
-                                                height: 25.h,
-                                                width: 25.h,
-                                                child: SvgPicture.asset(
-                                                  "assets/images/saveblank.svg",
-                                                )
-                                              )
-                                            ],
-                                          ),
-                
-                                        ],
-                                      ),
-                                    ),
-                                    
-                
-                                  ],
-                                ),
-                
+                        InkWell(
+                          onTap: (){
+                            Get.toNamed("/newsandarticlemain");
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: AppColors.grey4D4D4D,
+                                width: 0.5.h
+                              ),
+                              borderRadius: BorderRadius.circular(27.h),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.04),
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                )
                               ],
+                              color: AppColors.white,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 15.h),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  textBlack18W600Mon("News & Articles"),
+                                        
+                                  sizedBoxHeight(15.h),
+                                  
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Image.asset("assets/images/news&arti.png",
+                                        width: 104.w,
+                                        height: 90.h,
+                                      ),
+                                      // SvgPicture.asset("assets/images/current_feed.svg",
+                                      //   height: 170.h,
+                                      //   width: 100.w,
+                                      // ),
+                                        
+                                      // sizedBoxWidth(20.w),
+                                      // Spacer(),
+                                        
+                                        
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                      
+                                            textGrey4D4D4D_16("Livestock"),
+                                          
+                                            textBlack18W600Mon("Lorem Ipsum Is Simply Dummy Of The Printing"),
+                                      
+                                            // textGreen14("14 Minutes ago")
+                                            sizedBoxHeight(10.h),
+                                            
+                                            Row(
+                                              children: [
+                                                textGrey4D4D4D_14("7 Feb 2023"),
+                                        
+                                                Spacer(),
+                                              
+                                                InkWell(
+                                                  onTap: share,
+                                                  child: Container(
+                                                    height: 25.h,
+                                                    width: 25.h,
+                                                    child: SvgPicture.asset(
+                                                      "assets/images/share.svg",
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20.w,
+                                                ),
+                                        
+                                                InkWell(
+                                                  onTap: (){
+                                                    setState(() {
+                                                      saved = !saved;
+                                                    });
+                                                  },
+                                                  child: saved  ? Container(
+                                                    height: 25.h,
+                                                    width: 25.h,
+                                                    child: SvgPicture.asset(
+                                                      "assets/images/saveblank.svg",
+                                                    )
+                                                  ) : Container(
+                                                    height: 25.h,
+                                                    width: 25.h,
+                                                    child:
+                                                        SvgPicture.asset("assets/images/save.svg")
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                        
+                                          ],
+                                        ),
+                                      ),
+                                      
+                                        
+                                    ],
+                                  ),
+                                        
+                                ],
+                              ),
                             ),
                           ),
                         ), 
@@ -1011,4 +1041,14 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  Future<void> share() async {
+    await FlutterShare.share(
+      title: 'Example share',
+      // text: 'Example share text',
+      linkUrl: 'https://flutter.dev/',
+      // chooserTitle: 'Example Chooser Title'
+    );
+  }
+
 }

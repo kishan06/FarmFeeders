@@ -21,7 +21,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
-
+// sing
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +87,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           return null;
                         },
                         hintText: "Enter your Phone Number",
-                        validatorText: "Enter your Phone Number"),
+                        validatorText: "Enter your Phone Number"
+                      ),
                     // Spacer(),
               
                     sizedBoxHeight(130.h),
@@ -98,7 +99,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           // Get.toNamed("/verifyNumber");
                           final isValid = _form.currentState?.validate();
                           if (isValid!) {
-                            Get.toNamed("/verifyNumber");
+                            Get.toNamed("/verifyNumber",
+                              arguments: phoneController.text
+                            );
                           } 
                         }),
                   ],

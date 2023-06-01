@@ -112,6 +112,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                 ),
               ],
             ),
+
           ),
         ),
       );
