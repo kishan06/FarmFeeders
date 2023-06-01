@@ -6,6 +6,7 @@ import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -39,7 +40,6 @@ class _ResetPasswordState extends State<ResetPassword> {
         child: SingleChildScrollView(
           child: Form(
             key: _form,
-
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -65,7 +65,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     ),
                     sizedBoxHeight(8.h),
                     CustomTextFormField(
-                              // controller: passwordcontroller,
+                      // controller: passwordcontroller,
                       textEditingController: passwordcontroller,
                       // leadingIcon:
                       //     SvgPicture.asset("assets/images/password.svg"),
@@ -80,7 +80,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                             .hasMatch(val)) {
                           return 'Invalid Password';
-                          
+
                           // return 'Password must have at least 8 characters \nPassword must have at least 1 Uppercase letter, 1 Lowercase letter, 1 symbol and 1 number';
                         } else {
                           return null;
@@ -126,7 +126,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           final isValid = _form.currentState?.validate();
                           if (isValid!) {
                             Get.toNamed('/loginScreen');
-                          } 
+                          }
                           // else {
                           //   Get.snackbar("Error", "Please Enter Password",
                           //       margin: EdgeInsets.all(8),
@@ -135,9 +135,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           // }
                           // Get.toNamed("/verifyNumber");
                         }),
-
                     sizedBoxHeight(40.h),
-
                   ],
                 ),
               ],
