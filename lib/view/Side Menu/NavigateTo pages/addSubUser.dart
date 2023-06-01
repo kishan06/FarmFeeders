@@ -20,13 +20,31 @@ class addSubUser extends StatefulWidget {
 class _addSubUserState extends State<addSubUser> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final name = TextEditingController();
-  final DOB = TextEditingController();
   final phone = TextEditingController();
   final email = TextEditingController();
   final address = TextEditingController();
   bool isChecked = false;
   bool isChecked1 = false;
   bool isChecked2 = false;
+  String? subuserdatecontroller;
+  DateTime? _selectedDate;
+
+  void _addSubUser() {
+    final FormState? form = _form.currentState;
+    if (form != null && form.validate()) {
+      form.save();
+
+      // Do something with the user credentials, such as login to the backend
+      // server and navigate to the home screen.
+      Get.toNamed("manageuser", arguments: {
+        "name": name.text,
+        "dob": subuserdatecontroller,
+        "phone": phone.text,
+        "email": email.text,
+        "address": address.text,
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +86,16 @@ class _addSubUserState extends State<addSubUser> {
                   ),
                   CustomTextFormField(
                       textEditingController: name,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Full Name';
+                        }
+                        if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
+                          return 'Please enter a valid name';
+                        }
+                        // v2 = true;
+                        return null;
+                      },
                       leadingIcon:
                           SvgPicture.asset("assets/images/profileimage.svg"),
                       hintText: "Full Name",
@@ -90,12 +118,46 @@ class _addSubUserState extends State<addSubUser> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  CustomTextFormField(
-                      textEditingController: DOB,
-                      leadingIcon:
-                          SvgPicture.asset("assets/images/calender.svg"),
-                      hintText: "Date Of Birth",
-                      validatorText: "Please Select Date Of Birth"),
+                  GestureDetector(
+                    onTap: () {
+                      _subUserDatePicker();
+                    },
+                    child: Container(
+                      height: 60.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF1F1F1),
+                        border: Border.all(
+                          color: Color(0xffF1F1F1),
+                        ),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                        child: Row(
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset("assets/images/calender.svg"),
+                                sizedBoxWidth(10.w)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                sizedBoxWidth(20.w),
+                                Text(
+                                  _selectedDate == null
+                                      ? ''
+                                      : '$subuserdatecontroller',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -118,6 +180,16 @@ class _addSubUserState extends State<addSubUser> {
                       textEditingController: phone,
                       leadingIcon: SvgPicture.asset("assets/images/phone.svg"),
                       hintText: "Phone",
+                      validator: (value) {
+                        if (value == value.isEmpty) {
+                          return 'Mobile number is required';
+                        } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)')
+                            .hasMatch(value)) {
+                          return 'Enter valid mobile number';
+                        }
+                        // v3 = true;
+                        return null;
+                      },
                       validatorText: "Please Enter phone Number"),
                   SizedBox(
                     height: 20,
@@ -141,6 +213,17 @@ class _addSubUserState extends State<addSubUser> {
                       textEditingController: email,
                       leadingIcon: SvgPicture.asset("assets/images/mail.svg"),
                       hintText: "Email Id",
+                      validator: (value) {
+                        if (value == value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        // v4 = true;
+                        return null;
+                      },
                       validatorText: "Please Enter Email Id"),
                   SizedBox(
                     height: 20.h,
@@ -165,6 +248,12 @@ class _addSubUserState extends State<addSubUser> {
                       leadingIcon:
                           SvgPicture.asset("assets/images/location.svg"),
                       hintText: "Address",
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please Enter address';
+                        }
+                        return null;
+                      },
                       validatorText: "please Enter Address"),
                   SizedBox(
                     height: 20,
@@ -286,13 +375,7 @@ class _addSubUserState extends State<addSubUser> {
                   customButton(
                     text: "Submit",
                     onTap: () {
-                      Get.toNamed("manageuser", arguments: {
-                        "name": name.text,
-                        "dob": DOB.text,
-                        "phone": phone.text,
-                        "email": email.text,
-                        "address": address.text,
-                      });
+                      _addSubUser();
                     },
                   ),
                   sizedBoxHeight(58.h)
@@ -303,5 +386,27 @@ class _addSubUserState extends State<addSubUser> {
         ),
       ),
     );
+  }
+
+  void _subUserDatePicker() {
+    // showDatePicker is a pre-made funtion of Flutter
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1922),
+            lastDate: DateTime.now())
+        .then((pickedDate) {
+      // Check if no date is selected
+      if (pickedDate == null) {
+        return setState(() {
+          subuserdatecontroller = '';
+        });
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+        subuserdatecontroller =
+            "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
+      });
+    });
   }
 }

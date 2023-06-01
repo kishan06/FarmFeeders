@@ -3,6 +3,7 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/Trainin
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/VideosCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class VideosList extends StatefulWidget {
   const VideosList({super.key});
@@ -23,13 +24,18 @@ class _VideosListState extends State<VideosList> {
           elevation: 0,
           titleSpacing: 0,
         ),
-        floatingActionButton: const CircleAvatar(
-          radius: 25,
-          backgroundColor: Color(0xff0E5F02),
-          child: Icon(
-            Icons.add,
-            size: 35,
-            color: Colors.white,
+        floatingActionButton: GestureDetector(
+          onTap: () {
+            Get.toNamed("/editVideos");
+          },
+          child: const CircleAvatar(
+            radius: 25,
+            backgroundColor: Color(0xff0E5F02),
+            child: Icon(
+              Icons.add,
+              size: 35,
+              color: Colors.white,
+            ),
           ),
         ),
         backgroundColor: Colors.white,

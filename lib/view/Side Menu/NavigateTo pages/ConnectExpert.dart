@@ -107,8 +107,8 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                       child: TabBarView(
                         children: [
                           FirstTab(),
-                          SecondTab(),
-                          ThirdTab(),
+                          FirstTab(),
+                          FirstTab(),
                         ],
                       ),
                     ),
@@ -476,113 +476,111 @@ class _FirstTabState extends State<FirstTab> {
               ),
             ),
             sizedBoxHeight(15.h),
-            SingleChildScrollView(
-              child: ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return sizedBoxHeight(15.h);
-                  },
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        border: Border.all(
-                            color: Color(0XFf0E5F02).withOpacity(1), width: 1),
-                        color: Color(0xFFFFFFFF),
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 11.h,
-                          ),
-                          Row(
-                            //mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 16.w),
-                                child: Image.asset(
-                                  "assets/images/connect2.png",
-                                  width: 66.w,
-                                  height: 66.w,
+            ListView.separated(
+                separatorBuilder: (context, index) {
+                  return sizedBoxHeight(15.h);
+                },
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: 6,
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      border: Border.all(
+                          color: Color(0XFf0E5F02).withOpacity(1), width: 1),
+                      color: Color(0xFFFFFFFF),
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 11.h,
+                        ),
+                        Row(
+                          //mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 16.w),
+                              child: Image.asset(
+                                "assets/images/connect2.png",
+                                width: 66.w,
+                                height: 66.w,
+                              ),
+                            ),
+
+                            sizedBoxWidth(28.w),
+
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Ryan Desilva",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-
-                              sizedBoxWidth(28.w),
-
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Ryan Desilva",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600,
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/images/call.svg",
+                                      width: 13.w,
+                                      height: 13.w,
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/images/call.svg",
-                                        width: 13.w,
-                                        height: 13.w,
+                                    sizedBoxWidth(5.w),
+                                    Text(
+                                      "0225845855",
+                                      style: TextStyle(
+                                        color: Color(0XFF585858),
+                                        fontSize: 16.sp,
                                       ),
-                                      sizedBoxWidth(5.w),
-                                      Text(
-                                        "0225845855",
-                                        style: TextStyle(
-                                          color: Color(0XFF585858),
-                                          fontSize: 16.sp,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/images/locationconnect.svg",
-                                        width: 13.w,
-                                        height: 13.w,
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/images/locationconnect.svg",
+                                      width: 13.w,
+                                      height: 13.w,
+                                    ),
+                                    sizedBoxWidth(5.w),
+                                    Text(
+                                      "Canada",
+                                      style: TextStyle(
+                                        color: Color(0XFF585858),
+                                        fontSize: 16.sp,
                                       ),
-                                      sizedBoxWidth(5.w),
-                                      Text(
-                                        "Canada",
-                                        style: TextStyle(
-                                          color: Color(0XFF585858),
-                                          fontSize: 16.sp,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
 
-                              sizedBoxWidth(80.w),
+                            sizedBoxWidth(80.w),
 
-                              Icon(
-                                Icons.star_outline,
-                                size: 25,
-                                color: Color(0XFF707070),
-                              )
+                            Icon(
+                              Icons.star_outline,
+                              size: 25,
+                              color: Color(0XFF707070),
+                            )
 
-                              // SvgPicture.asset(
-                              //   "assets/images/starconnect.svg",
-                              //   width: 38.w,
-                              //   height: 38.w,
-                              // ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 11.h,
-                          )
-                        ],
-                      ),
-                    );
-                  }),
-            ),
+                            // SvgPicture.asset(
+                            //   "assets/images/starconnect.svg",
+                            //   width: 38.w,
+                            //   height: 38.w,
+                            // ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 11.h,
+                        )
+                      ],
+                    ),
+                  );
+                }),
             sizedBoxHeight(15.h),
           ],
         ),
