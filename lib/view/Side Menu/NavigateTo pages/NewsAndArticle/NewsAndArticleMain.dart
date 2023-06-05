@@ -151,7 +151,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                     ],
                                   ),
                                   Text(
-                                    "Lorem Ipsum Is Simply Dummy Of The Printing And",
+                                    "Sustainable Farming Boosts Yields, Preserves Soil",
                                     style: TextStyle(
                                         color: Color(0xFFEEEEEE),
                                         fontSize: 16.sp,

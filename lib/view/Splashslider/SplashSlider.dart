@@ -104,25 +104,26 @@ class _SplashSliderState extends State<SplashSlider> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                currentIndex < 2 
-                ?
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed("/loginScreen"); //change the page navigation
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16.w),
-                    child: const Text(
-                      "Skip",
-                      style: TextStyle(fontSize: 20, color: Color(0Xff0E5F02)),
-                    ),
-                  ),
-                )
-                :
-                const Text(
-                      "",
-                      style: TextStyle(fontSize: 20, color: Color(0Xff0E5F02)),
-                    ),
+                currentIndex < 1
+                    ? GestureDetector(
+                        onTap: () {
+                          Get.toNamed(
+                              "/loginScreen"); //change the page navigation
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: const Text(
+                            "Skip",
+                            style: TextStyle(
+                                fontSize: 20, color: Color(0Xff0E5F02)),
+                          ),
+                        ),
+                      )
+                    : const Text(
+                        "",
+                        style:
+                            TextStyle(fontSize: 20, color: Color(0Xff0E5F02)),
+                      ),
                 Padding(
                   padding: EdgeInsets.only(right: 30.w),
                   child: InkWell(
@@ -131,7 +132,7 @@ class _SplashSliderState extends State<SplashSlider> {
                         _controller.animateToPage(currentIndex + 1,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.linear);
-                        if (currentIndex == 2) {
+                        if (currentIndex == 1) {
                           Get.toNamed(
                               "/loginScreen"); //change the page navigation
 

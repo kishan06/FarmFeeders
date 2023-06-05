@@ -15,14 +15,14 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../Utils/custom_button.dart';
 
-  bool isSetFarmInfo = false;
-  // bool get isSetFarmInfo => isSetFarmInfo;
+bool isSetFarmInfo = false;
+// bool get isSetFarmInfo => isSetFarmInfo;
 
-  bool isSetLiveStockInfo = false;
-  // bool get isSetLiveStockInfo => isSetLiveStockInfo;
-  
-  bool isSetFeedInfo = false;
-  // bool get isSetFeedInfo => _isSetFeedInfo;
+bool isSetLiveStockInfo = false;
+// bool get isSetLiveStockInfo => isSetLiveStockInfo;
+
+bool isSetFeedInfo = false;
+// bool get isSetFeedInfo => _isSetFeedInfo;
 
 class LetsSetUpYourFarm extends StatefulWidget {
   const LetsSetUpYourFarm({super.key});
@@ -34,8 +34,6 @@ class LetsSetUpYourFarm extends StatefulWidget {
 class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController pincode = TextEditingController();
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -65,56 +63,51 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 set: isSetFarmInfo,
                 imagePath: "assets/images/setupFarm1.png",
                 title: "Farm Information",
-                des: "Lorem Ipsum Is Simply Dummy",
+                des: "Check Your Farm Details",
               ),
               sizedBoxHeight(25.h),
               cards(
                 onTap: () async {
-                  var res =  await Get.toNamed("/livestockinfomain");
+                  var res = await Get.toNamed("/livestockinfomain");
                   if (res) {
-                    setState(() {
-                      
-                    });
+                    setState(() {});
                   }
                 },
                 set: isSetLiveStockInfo,
                 imagePath: "assets/images/setupFarm2.png",
                 title: "Livestock Information",
-                des: "Lorem Ipsum Is Simply Dummy",
+                des: "Check Your Livestock Details",
               ),
-              
+
               sizedBoxHeight(25.h),
 
               cards(
-                onTap: (){
+                onTap: () {
                   Get.toNamed("/farmfeedtracker");
                 },
                 set: isSetFeedInfo,
                 imagePath: "assets/images/setupFarm3.png",
                 title: "Feed Information",
-                des: "Lorem Ipsum Is Simply Dummy",
+                des: "Check Your Feed Details",
               ),
 
               (isSetFarmInfo && isSetLiveStockInfo && isSetFeedInfo)
-                ?sizedBoxHeight(100.h)
-                :sizedBoxHeight(35.h),
+                  ? sizedBoxHeight(100.h)
+                  : sizedBoxHeight(35.h),
 
               (isSetFarmInfo && isSetLiveStockInfo && isSetFeedInfo)
-                ? CustomButton(
-                  text: "Procced To Dashboard",
-                  onTap: (){
-                    showDialog(
-                      context: context,
-                      builder: (context) => addCommunityDailog()
-                    );
-                  }
-                )
-                :GestureDetector(
-                    onTap: () {
-                      Get.to(SideMenu());
-                    },
-                    child: textGreen16W700("Skip & Procced to dashboard")
-                )
+                  ? CustomButton(
+                      text: "Procced To Dashboard",
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => addCommunityDailog());
+                      })
+                  : GestureDetector(
+                      onTap: () {
+                        Get.to(SideMenu());
+                      },
+                      child: textGreen16W700("Skip & Procced to dashboard"))
 
               // textBlack16(text)
             ],
@@ -141,7 +134,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               width: 358.w,
               height: 108.h,
               decoration: BoxDecoration(
-                  color: set ? AppColors.buttoncolour :
+                  color: set
+                      ? AppColors.buttoncolour
+                      :
                       // AppColors.black,
                       AppColors.greyF1F1F1,
                   borderRadius: BorderRadius.circular(10.h),
@@ -161,12 +156,15 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                     // icon
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Icon(Icons.check_circle_outline,
+                      child: Icon(
+                        Icons.check_circle_outline,
                         size: 19.w,
                         color: set ? AppColors.white : AppColors.transparent,
                       ),
                     ),
-                    set ? textWhite20W7000Mon(title):textBlack20W7000Mon(title),
+                    set
+                        ? textWhite20W7000Mon(title)
+                        : textBlack20W7000Mon(title),
                     // sizedBoxHeight(9.h),
                     set ? textWhite16(des) : textBlack16(des)
                   ],
@@ -180,21 +178,21 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 width: 85.w,
                 height: 120.h,
                 decoration: BoxDecoration(
-                    // color:AppColors.greyF1F1F1,
-                    image: DecorationImage(
-                        image: AssetImage(
-                          imagePath,
-                        ),
-                        fit: BoxFit.fill),
-                    borderRadius: BorderRadius.circular(5.h),
-                    // boxShadow: const [
-                    //   BoxShadow(
-                    //     color: AppColors.greyF2F4F5,
-                    //     blurRadius: 6,
-                    //     spreadRadius: 3,
-                    //   )
-                    // ]
-                    ),
+                  // color:AppColors.greyF1F1F1,
+                  image: DecorationImage(
+                      image: AssetImage(
+                        imagePath,
+                      ),
+                      fit: BoxFit.fill),
+                  borderRadius: BorderRadius.circular(5.h),
+                  // boxShadow: const [
+                  //   BoxShadow(
+                  //     color: AppColors.greyF2F4F5,
+                  //     blurRadius: 6,
+                  //     spreadRadius: 3,
+                  //   )
+                  // ]
+                ),
                 // child: Padding(
                 //   padding: EdgeInsets.fromLTRB(100.w, 5.h, 5.w, 5.h),
                 //   child: Column(
@@ -255,23 +253,20 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                     ],
                   ),
                   sizedBoxHeight(35.h),
-
                   textBlack25W600Mon("Thank You!"),
-
                   sizedBoxHeight(15.h),
-                  
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      
-                      text: 'Thank you for creating account with ',
+                      text: 'Thank you for creating an account with ',
                       style: TextStyle(
                         fontSize: 18.sp,
                         color: AppColors.black,
                         fontWeight: FontWeight.w500,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: 'Farm Feed.', 
+                        TextSpan(
+                          text: 'Farm Flow.',
                           style: TextStyle(
                             fontSize: 18.sp,
                             color: AppColors.buttoncolour,
@@ -281,24 +276,17 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                       ],
                     ),
                   ),
-
                   sizedBoxHeight(40.h),
-
                   SizedBox(
                     width: 270.w,
-                    child: CustomButton(text: "Go To Dashboard",
-                      onTap: (){
-                        // Get.to(() => SideMenu());
-                        Get.toNamed("/sideMenu");
-
-                      }
-                    ),
+                    child: CustomButton(
+                        text: "Go To Dashboard",
+                        onTap: () {
+                          // Get.to(() => SideMenu());
+                          Get.toNamed("/sideMenu");
+                        }),
                   ),
-
                   sizedBoxHeight(40.h),
-
-
-
                 ],
               ),
             ),
@@ -310,7 +298,8 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               child: CircleAvatar(
                 backgroundColor: AppColors.buttoncolour,
                 radius: 60.h,
-                child: SvgPicture.asset("assets/images/wareHouse.svg",
+                child: SvgPicture.asset(
+                  "assets/images/wareHouse.svg",
                   height: 60.h,
                   width: 60.h,
                 ),
@@ -321,5 +310,4 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
       ),
     );
   }
-
 }
