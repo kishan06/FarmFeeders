@@ -1,5 +1,4 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
-import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/networkPlayer.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';

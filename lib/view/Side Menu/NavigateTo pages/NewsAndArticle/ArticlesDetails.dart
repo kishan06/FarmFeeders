@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class ArticleDetails extends StatefulWidget {
   const ArticleDetails({super.key});
