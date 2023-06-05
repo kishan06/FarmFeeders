@@ -1,6 +1,7 @@
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/VideosListData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -135,10 +136,15 @@ class _VideosCardState extends State<VideosCard> {
                           SizedBox(
                             width: 100,
                           ),
-                          Container(
-                            height: 40,
-                            child: SvgPicture.asset(
-                              "assets/images/share.svg",
+                          InkWell(
+                            onTap: () {
+                              share();
+                            },
+                            child: Container(
+                              height: 40,
+                              child: SvgPicture.asset(
+                                "assets/images/share.svg",
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -174,6 +180,15 @@ class _VideosCardState extends State<VideosCard> {
           height: 15.h,
         ),
       ],
+    );
+  }
+
+  Future<void> share() async {
+    await FlutterShare.share(
+      title: 'Example share',
+      // text: 'Example share text',
+      linkUrl: 'https://flutter.dev/',
+      // chooserTitle: 'Example Chooser Title'
     );
   }
 }
