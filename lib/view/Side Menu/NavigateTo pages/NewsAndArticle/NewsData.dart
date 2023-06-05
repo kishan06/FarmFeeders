@@ -2,61 +2,25 @@ List newsData = [
   {
     "recipeimage": "assets/images/cow.png",
     "title": 'Livestock',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
+    "name": "Thriving Farmer's Market Offer Fresh, Organic Produce",
     "isFollowedByMe": 0
   },
   {
     "recipeimage": "assets/images/tractor.png",
     "title": 'Farm',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
+    "name": "Precision Farming: Technology RevolutionizeS Agriculture",
     "isFollowedByMe": 0
   },
   {
     "recipeimage": "assets/images/cow.png",
     "title": 'Livestock',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
+    "name": "Climate-Resilient Farming Ensures Food Security",
     "isFollowedByMe": 0
   },
   {
     "recipeimage": "assets/images/tractor.png",
     "title": 'Farm',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
-    "isFollowedByMe": 0
-  },
-  {
-    "recipeimage": "assets/images/cow.png",
-    "title": 'Livestock',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
-    "isFollowedByMe": 0
-  },
-  {
-    "recipeimage": "assets/images/tractor.png",
-    "title": 'Farm',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
-    "isFollowedByMe": 0
-  },
-  {
-    "recipeimage": "assets/images/cow.png",
-    "title": 'Livestock',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
-    "isFollowedByMe": 0
-  },
-  {
-    "recipeimage": "assets/images/tractor.png",
-    "title": 'Farm',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
-    "isFollowedByMe": 0
-  },
-  {
-    "recipeimage": "assets/images/cow.png",
-    "title": 'Livestock',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
-    "isFollowedByMe": 0
-  },
-  {
-    "recipeimage": "assets/images/tractor.png",
-    "title": 'Farm',
-    "name": "Lorem Ipsum Is Simply Dummy Of The Printing",
+    "name": "Restoring Ecosystems And Nurturing Sustanabilty",
     "isFollowedByMe": 0
   },
 ];

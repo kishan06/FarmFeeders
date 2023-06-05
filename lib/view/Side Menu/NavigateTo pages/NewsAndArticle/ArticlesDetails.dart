@@ -145,7 +145,8 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                             ],
                           ),
                           Text(
-                            "Lorem Ipsum Is Simply Dummy Of The Printing And",
+                            "Increasing Feed Efficiency",
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                                 color: Color(0xFFEEEEEE),
                                 fontSize: 20.sp,
@@ -213,7 +214,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Text(
-                              '''lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the 1960s with the release of letraset sheets containing lorem ipsu m passages,lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the 1960s with the release of letraset sheets containing lorem ipsu m passages,lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. it has ''',
+                              '''In today's rapidly changing world, sustainable farming practices have emerged as a beacon of hope for both farmers and the environment. By implementing innovative techniques, farmers can boost crop yields while simultaneously preserving the health of the soil. This harmonious approach to agriculture not only ensures long-term food security but also safeguards the planet for future generations. \n\n One key aspect of sustainable farming is the emphasis on soil health.''',
                               style: TextStyle(
                                   color: const Color(0xff4D4D4D),
                                   fontSize: 16.sp),

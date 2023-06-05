@@ -23,13 +23,11 @@ ScrollController? controller;
 ScrollController? _scrollviewcontroller;
 
 class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
-
-    bool setDairy = false;
-    bool setBeef = false;
-    bool setSheep = false;
-    bool setPigs = false;
-    bool setPoultry = false;
-
+  bool setDairy = false;
+  bool setBeef = false;
+  bool setSheep = false;
+  bool setPigs = false;
+  bool setPoultry = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
 
     return Scaffold(
       appBar: AppBar(
-        title: customAppBar(text: "Livestock Info"),
+        title: customAppBar(text: "Livestock Information"),
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         elevation: 0,
@@ -69,9 +67,6 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                     SizedBox(
                       height: 30.h,
                     ),
-
-
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -98,10 +93,14 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 5.h,right: 5.h),
-                                    child: Icon(Icons.check_circle_outline,
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, right: 5.h),
+                                    child: Icon(
+                                      Icons.check_circle_outline,
                                       size: 19.w,
-                                      color: setDairy ? AppColors.buttoncolour : AppColors.transparent,
+                                      color: setDairy
+                                          ? AppColors.buttoncolour
+                                          : AppColors.transparent,
                                     ),
                                   ),
                                 ),
@@ -146,10 +145,14 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 5.h,right: 5.h),
-                                    child: Icon(Icons.check_circle_outline,
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, right: 5.h),
+                                    child: Icon(
+                                      Icons.check_circle_outline,
                                       size: 19.w,
-                                      color: setBeef ? AppColors.buttoncolour : AppColors.transparent,
+                                      color: setBeef
+                                          ? AppColors.buttoncolour
+                                          : AppColors.transparent,
                                     ),
                                   ),
                                 ),
@@ -162,7 +165,8 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Text(
                                   "Beef",
                                   style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.w500),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 Spacer(),
                               ],
@@ -200,10 +204,14 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 5.h,right: 5.h),
-                                    child: Icon(Icons.check_circle_outline,
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, right: 5.h),
+                                    child: Icon(
+                                      Icons.check_circle_outline,
                                       size: 19.w,
-                                      color: setSheep ? AppColors.buttoncolour : AppColors.transparent,
+                                      color: setSheep
+                                          ? AppColors.buttoncolour
+                                          : AppColors.transparent,
                                     ),
                                   ),
                                 ),
@@ -216,7 +224,8 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Text(
                                   "Sheep",
                                   style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.w500),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 Spacer(),
                               ],
@@ -247,10 +256,14 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 5.h,right: 5.h),
-                                    child: Icon(Icons.check_circle_outline,
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, right: 5.h),
+                                    child: Icon(
+                                      Icons.check_circle_outline,
                                       size: 19.w,
-                                      color: setPigs ? AppColors.buttoncolour : AppColors.transparent,
+                                      color: setPigs
+                                          ? AppColors.buttoncolour
+                                          : AppColors.transparent,
                                     ),
                                   ),
                                 ),
@@ -263,7 +276,8 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Text(
                                   "Pig",
                                   style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.w500),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 Spacer(),
                               ],
@@ -272,11 +286,9 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                         ),
                       ],
                     ),
-
                     SizedBox(
                       height: 20.h,
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -303,10 +315,14 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 5.h,right: 5.h),
-                                    child: Icon(Icons.check_circle_outline,
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, right: 5.h),
+                                    child: Icon(
+                                      Icons.check_circle_outline,
                                       size: 19.w,
-                                      color: setPoultry ? AppColors.buttoncolour : AppColors.transparent,
+                                      color: setPoultry
+                                          ? AppColors.buttoncolour
+                                          : AppColors.transparent,
                                     ),
                                   ),
                                 ),
@@ -319,7 +335,8 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                 Text(
                                   "Poultry",
                                   style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.w500),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 Spacer(),
                               ],
@@ -330,18 +347,15 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                         Container(),
                       ],
                     ),
-                    
-
-
                     SizedBox(
                       height: 20.h,
                     ),
-                    CustomButton(text: "Update",
-                      onTap: (){
-                        isSetLiveStockInfo = true;
-                        Get.back(result: true);
-                      }
-                    ),
+                    CustomButton(
+                        text: "Update",
+                        onTap: () {
+                          isSetLiveStockInfo = true;
+                          Get.back(result: true);
+                        }),
                     SizedBox(
                       height: 20.h,
                     ),
@@ -353,8 +367,8 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
               //         child: GridView.builder(
               //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               //             crossAxisCount: 2,
-                    
-              //           ), 
+
+              //           ),
               //           itemBuilder: (BuildContext context, int index){
               //             return InkWell(
               //               onTap: () {
@@ -406,7 +420,6 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
               //           }
               //         ),
               //       ),
-              
             ],
           ),
         ),
@@ -415,182 +428,173 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
   }
 
   // Widget addDailog(){
-  //   return 
+  //   return
   // }
 
-  Future<T?> addDataDialog<T>(int index){
-    return   Get.defaultDialog(
-      contentPadding: EdgeInsets.only(
-        left: 22,
-        right: 22,
-        top: 25,
-        bottom: 70,
-      ),
-      title: "",
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-            children: [
-              textBlack25W600Mon("Dairy"),
-              GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: CircleAvatar(
-                  backgroundColor:
-                      AppColors.greyF1F1F1,
-                  radius: 20,
-                  child: Center(
-                    child: Text(
-                      "x",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 26,
-                          color: Color(0XFF0E5F02)),
+  Future<T?> addDataDialog<T>(int index) {
+    return Get.defaultDialog(
+        contentPadding: EdgeInsets.only(
+          left: 22,
+          right: 22,
+          top: 25,
+          bottom: 70,
+        ),
+        title: "",
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                textBlack25W600Mon("Dairy"),
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: AppColors.greyF1F1F1,
+                    radius: 20,
+                    child: Center(
+                      child: Text(
+                        "x",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 26,
+                            color: Color(0XFF0E5F02)),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-
-          SizedBox(
-            height: 20,
-          ),
-          
-          Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              Text("Age"),
-              SizedBox(
-                height: 5.h,
-              ),
-              SizedBox(
-                width: 315,
-                child: DropdownBtn(
-                  hint: "Please Select Age",
-                  items: [
-                    "<2 Yrs",
-                    "> & <5 yrs",
-                    ">5 Yrs",
-                  ],
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Age"),
+                SizedBox(
+                  height: 5.h,
                 ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              Text("Breed"),
-              SizedBox(
-                height: 5.h,
-              ),
-              SizedBox(
-                width: 315,
-                child: DropdownBtn(
-                  hint: "Please Select Age",
-                  items: [
-                    "Irish Angus",
-                    "Irish Dexter",
-                    "irish Holstein-Friesian",
-                    "irish Holstein-Friesian1",
-                    "irish Holstein-Friesian2",
-                  ],
+                SizedBox(
+                  width: 315,
+                  child: DropdownBtn(
+                    hint: "Please Select Age",
+                    items: [
+                      "<2 Yrs",
+                      "> & <5 yrs",
+                      ">5 Yrs",
+                    ],
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Breed"),
+                SizedBox(
+                  height: 5.h,
                 ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-            children: [
-              Text("Number"),
-              SizedBox(
-                height: 5.h,
-              ),
-              SizedBox(
-                width: 315,
-                child: CustomTextFormField(
-                    hintText: "hintText",
-                    validatorText: "validatorText"),
-              ),
-            ],
-          ),
-
-          SizedBox(
-            height: 20,
-          ),
-
-          CustomButton(
-            text: "Save",
-            onTap: () {
-              Get.back();
-              setLiveStockFor(index);
-            },
-          )
-        ],
-      ),
-      backgroundColor: Colors.white,
-      titleStyle:
-          TextStyle(color: Colors.white, fontSize: 0),
-      middleTextStyle: TextStyle(color: Colors.white),
-      radius: 20);
-
+                SizedBox(
+                  width: 315,
+                  child: DropdownBtn(
+                    hint: "Please Select Age",
+                    items: [
+                      "Irish Angus",
+                      "Irish Dexter",
+                      "irish Holstein-Friesian",
+                      "irish Holstein-Friesian1",
+                      "irish Holstein-Friesian2",
+                    ],
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Number"),
+                SizedBox(
+                  height: 5.h,
+                ),
+                SizedBox(
+                  width: 315,
+                  child: CustomTextFormField(
+                      hintText: "hintText", validatorText: "validatorText"),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CustomButton(
+              text: "Save",
+              onTap: () {
+                Get.back();
+                setLiveStockFor(index);
+              },
+            )
+          ],
+        ),
+        backgroundColor: Colors.white,
+        titleStyle: TextStyle(color: Colors.white, fontSize: 0),
+        middleTextStyle: TextStyle(color: Colors.white),
+        radius: 20);
   }
 
-  setLiveStockFor(int index){
+  setLiveStockFor(int index) {
     print(index);
     switch (index) {
-      case 0: {
-        setState(() {
-          setDairy = true;
-        });
-      }
-      break;
+      case 0:
+        {
+          setState(() {
+            setDairy = true;
+          });
+        }
+        break;
 
-      case 1: {
-        setState(() {
-          setBeef = true;
-        });
-      }
-      break;
+      case 1:
+        {
+          setState(() {
+            setBeef = true;
+          });
+        }
+        break;
 
-      case 2: {
-        setState(() {
-          setSheep = true;
-        });
-      }
-      break;
+      case 2:
+        {
+          setState(() {
+            setSheep = true;
+          });
+        }
+        break;
 
-      case 3: {
-        setState(() {
-          setPigs = true;
-        });
-      }
-      break;
+      case 3:
+        {
+          setState(() {
+            setPigs = true;
+          });
+        }
+        break;
 
+      case 4:
+        {
+          setState(() {
+            setPigs = true;
+          });
+        }
+        break;
 
-      case 4: {
-        setState(() {
-          setPigs = true;
-        });
-      }
-      break;
-      
-      default: {
-
-      }
+      default:
+        {}
     }
     // Switch(value: value, onChanged: onChanged)
   }

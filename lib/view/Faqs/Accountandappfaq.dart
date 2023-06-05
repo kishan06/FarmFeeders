@@ -192,7 +192,7 @@ class _AccountappState extends State<Accountapp> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "What Is Feed Farm?",
+                "What Is Farm Flow?",
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: Color(0xFF141414),
@@ -211,7 +211,7 @@ class _AccountappState extends State<Accountapp> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                 child: Text(
-                  "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The Industry's Standard Dummy Text",
+                  "Farmflow Specialises In Helping Farmers Manage And Estimate Feed Requirements Accurately.",
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: Color(0xFF4D4D4D),
@@ -249,7 +249,7 @@ class _AccountappState extends State<Accountapp> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "What Is Feed Farm?",
+                "What Is Farm Flow Work?",
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: Color(0xFF141414),
@@ -268,7 +268,7 @@ class _AccountappState extends State<Accountapp> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                 child: Text(
-                  "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry. Lorem Ipsum Has Been The Industry's Standard Dummy Text",
+                  "Farmflow Specialises In Helping Farmers Manage And Estimate Feed Requirements Accurately.",
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: Color(0xFF4D4D4D),
