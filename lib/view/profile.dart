@@ -72,7 +72,7 @@ class _ProfileState extends State<Profile> {
                     Align(
                       alignment: Alignment.center,
                       child: Text(
-                        "Request Send To The Admin",
+                        "Your Account is Deleted",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
@@ -133,7 +133,7 @@ class _ProfileState extends State<Profile> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Are you sure you want to Request Deletion Of Your Account?",
+                    "Are you sure you want to delete your account?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,
@@ -394,7 +394,7 @@ class _ProfileState extends State<Profile> {
                               sizedBoxHeight(1.h),
                               Text(
                                 phoneValue == null || phoneValue!.isEmpty
-                                    ? '0124585741'
+                                    ? '0863621359'
                                     : '$phoneValue',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(

@@ -19,13 +19,13 @@ class _NotificationState extends State<Notification> {
       {
         "image": "assets/images/Notification.svg",
         "title": "Your feed is getting low!.",
-        "subtitle": "Lorem Ipsum Is Simply Dummy \nText Of The Printing And",
+        "subtitle": "Farm Feed Is Down To 8%. \nPlease Refill It Quickly.",
         "text": "12.00 PM",
       },
       {
         "image": "assets/images/Notification1.svg",
         "title": "Order is arriving soon.",
-        "subtitle": "Lorem Ipsum Is Simply Dummy \nText Of The Printing And",
+        "subtitle": "Your Order Has Left The \nWarehouse And Is On Its Way!",
         "text": "11.00 PM",
       },
     ];
@@ -79,21 +79,34 @@ class _NotificationState extends State<Notification> {
                           fontWeight: FontWeight.w600),
                     ),
                     Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed("/settings");
-                      },
-                      child: SvgPicture.asset(
-                        "assets/images/setting-svgrepo-com (1).svg",
-                        width: 23.w,
-                        height: 24.h,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        // padding: EdgeInsets.all(1),
-                        elevation: 2,
-                        backgroundColor: AppColors.white,
-                        shadowColor: Color(0xFF444444), // <-- Splash color
+                    Container(
+                      height: 42.h,
+                      width: 42.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.h),
+                          color: AppColors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              blurRadius: 1.h,
+                              spreadRadius: 1.h,
+                              offset: Offset(0, 3),
+                            )
+                          ]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.toNamed("/settings");
+                            },
+                            child: SvgPicture.asset(
+                              "assets/images/setting-svgrepo-com (1).svg",
+                              width: 23.w,
+                              height: 24.h,
+                            ),
+                          ),
+                        ],
                       ),
                     )
                   ],
