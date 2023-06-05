@@ -64,12 +64,13 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                             height: 180.h,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                color: Colors.blue.shade100,
-                                borderRadius: BorderRadius.circular(15),
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                        "assets/images/newsback.png"),
-                                    fit: BoxFit.fill)),
+                              color: Colors.blue.shade100,
+                              borderRadius: BorderRadius.circular(15),
+                              image: const DecorationImage(
+                                  image:
+                                      AssetImage("assets/images/newsback.png"),
+                                  fit: BoxFit.fill),
+                            ),
                             child: Padding(
                               padding: EdgeInsets.only(
                                   top: 5.h,

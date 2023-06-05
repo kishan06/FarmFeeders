@@ -1,4 +1,6 @@
+import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
+import 'package:farmfeeders/Utils/networkPlayer.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
@@ -17,6 +19,7 @@ class VideosDetails extends StatefulWidget {
 class _VideosDetailsState extends State<VideosDetails> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
+  late VideoPlayerController videoController;
 
   @override
   void initState() {
@@ -24,6 +27,11 @@ class _VideosDetailsState extends State<VideosDetails> {
     // TODO: implement initState
     VideosDetails();
     NotesData;
+    videoController = VideoPlayerController.network(
+        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
+      ..addListener(() => setState(() {}))
+      ..setLooping(true)
+      ..initialize().then((_) => videoController.pause());
     // super.initState();
   }
 
@@ -112,7 +120,6 @@ class _VideosDetailsState extends State<VideosDetails> {
                 ),
               ],
             ),
-
           ),
         ),
       );
@@ -152,10 +159,19 @@ class _VideosDetailsState extends State<VideosDetails> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   sizedBoxHeight(15.h),
-                  SizedBox(
+                  // SizedBox(
+                  //     height: 230.h,
+                  //     width: double.infinity,
+                  //     child: Placeholder()),
+                  Container(
                       height: 230.h,
-                      width: double.infinity,
-                      child: const Placeholder()),
+                      // width: 200.w,
+                      child: NetworkPlayerWidget(
+                        videoController: videoController,
+                      )
+
+                      // CircularProgressIndicator()
+                      ),
                   sizedBoxHeight(15.h),
                   Text(
                     'Animal Husbandry And Management',

@@ -19,10 +19,10 @@ ScrollController? _scrollviewcontroller;
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  TextEditingController tecEmail = TextEditingController(text: "farm@gmail.com");
+  TextEditingController tecEmail =
+      TextEditingController(text: "farm@gmail.com");
   TextEditingController tecPassword = TextEditingController(text: "Farm@1234");
-  
-  
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
@@ -32,6 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
           child: SingleChildScrollView(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Form(
           key: _form,
           child: Column(
@@ -112,14 +114,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               textEditingController: tecEmail,
                               leadingIcon:
                                   SvgPicture.asset("assets/images/mail.svg"),
-        
+
                               hintText: "",
                               // validator: ,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Please Enter Your Email";
                                 }
-                                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                    .hasMatch(value)) {
                                   return 'Please enter a valid Email';
                                 }
                                 return null;
@@ -141,8 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             CustomTextFormField(
                               textEditingController: tecPassword,
-                              leadingIcon:
-                                  SvgPicture.asset("assets/images/password.svg"),
+                              leadingIcon: SvgPicture.asset(
+                                  "assets/images/password.svg"),
                               hintText: "",
                               validatorText: "",
                               isInputPassword: true,
@@ -180,30 +183,29 @@ class _LoginScreenState extends State<LoginScreen> {
                             )
                           ],
                         ),
-        
                         SizedBox(
                           height: 55.h,
                         ),
-        
-                        CustomButton(text: "Login",
-                          onTap: (){
-                            final isValid = _form.currentState?.validate();
+                        CustomButton(
+                            text: "Login",
+                            onTap: () {
+                              final isValid = _form.currentState?.validate();
                               if (isValid!) {
                                 // Get.toNamed("/homepage");
                                 // Get.to(MainScreen());
-        
+
                                 //bottomsheetpin(context);
-        
+
                                 //bottomsheetfingerprint(context);
-        
+
                                 // final SharedPreferences prefs =
                                 //     await SharedPreferences.getInstance();
-        
+
                                 // await prefs.setBool('LogedIn', true);
                                 Get.toNamed("/sideMenu");
 
                                 // Get.toNamed("/EntryPoint", arguments: 0);
-                              } 
+                              }
                               // else {
                               //   Get.snackbar(
                               //       "Error", "Please Enter Login Credentials",
@@ -211,14 +213,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               //       snackStyle: SnackStyle.FLOATING,
                               //       snackPosition: SnackPosition.BOTTOM);
                               // }
-                            // Get.toNamed("/letsSetUpYourFarm");
-                          }
-        
-                        ),
+                              // Get.toNamed("/letsSetUpYourFarm");
+                            }),
                         SizedBox(
                           height: 15.h,
                         ),
-                        
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

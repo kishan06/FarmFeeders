@@ -58,6 +58,7 @@ dependencies:
   flutter_share: ^2.0.0
   intl: ^0.18.1
   scroll_snap_list: ^0.9.1
+  flutter_keyboard_visibility: ^5.4.1
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +71,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
-  flutter_native_splash: ^2.3.0
+  flutter_native_splash:
 
 flutter_native_splash:
   color: "#0E5F02"
