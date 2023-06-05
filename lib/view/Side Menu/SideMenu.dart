@@ -127,8 +127,8 @@ class _SideMenuState extends State<SideMenu>
                           },
                           icon: isSideMenuClosed
                               ? Container(
-                                  height: 50.h,
-                                  width: 50.h,
+                                  height: 42.h,
+                                  width: 42.h,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25.h),
                                     color: AppColors.white,

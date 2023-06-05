@@ -126,7 +126,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
           AlertDialog(
             insetPadding: EdgeInsets.symmetric(horizontal: 16),
             backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
-            contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+            contentPadding: EdgeInsets.fromLTRB(43, 32, 43, 28),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               side: BorderSide(
@@ -145,7 +145,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
                   height: 11.h,
                 ),
                 Text(
-                  "Roma dsouza",
+                  "Dan O Connors Limerick",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 22.sp,
@@ -162,7 +162,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
                     ),
                     sizedBoxWidth(5.w),
                     Text(
-                      "0225845855",
+                      "0614149881",
                       style: TextStyle(
                         color: Color(0XFF585858),
                         fontSize: 20.sp,
@@ -171,7 +171,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SvgPicture.asset(
                       "assets/images/locationconnect.svg",
@@ -180,7 +180,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
                     ),
                     sizedBoxWidth(5.w),
                     Text(
-                      "Canada",
+                      "Newtown, Athenry",
                       style: TextStyle(
                         color: Color(0XFF585858),
                         fontSize: 20.sp,

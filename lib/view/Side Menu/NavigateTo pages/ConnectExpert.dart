@@ -1,6 +1,7 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
+import 'package:farmfeeders/view/Side%20Menu/Connectexpertdata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -76,7 +77,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                               Border.all(color: Color(0XFf0E5F02), width: 1)),
                       child: ButtonsTabBar(
                         buttonMargin: EdgeInsets.zero,
-                        contentPadding: EdgeInsets.only(left: 23, right: 23),
+                        contentPadding: EdgeInsets.only(left: 28, right: 28),
                         radius: 8,
                         backgroundColor: Color(0XFf0E5F02),
                         unselectedBorderColor: Colors.white,
@@ -95,7 +96,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                             text: "Advisor",
                           ),
                           Tab(
-                            text: "Vetenarian",
+                            text: "Vets",
                           ),
                           Tab(
                             text: "Repairmen",
@@ -337,253 +338,301 @@ class _FirstTabState extends State<FirstTab> {
         child: Column(
           children: [
             sizedBoxHeight(32.h),
-            GestureDetector(
-              onTap: () {
-                buildcontentdialog(context);
+            // GestureDetector(
+            //   onTap: () {
+            //     buildcontentdialog(context);
+            //   },
+            //   child:
+            ListView.separated(
+              separatorBuilder: (context, index) {
+                return sizedBoxHeight(15.h);
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  border: Border.all(
-                      color: Color(0XFf0E5F02).withOpacity(1), width: 1),
-                  color: Color(0xFFFFFFFF),
-                ),
-                child: Column(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: expertData.length,
+              itemBuilder: (context, index) {
+                return Column(
                   children: [
-                    SizedBox(
-                      height: 11.h,
-                    ),
-                    Row(
-                      //mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.w),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 3,
-                                  color:
-                                      _isChecked ? Colors.amber : Colors.white),
-                              borderRadius:
-                                  BorderRadius.circular(100), //<-- SEE HERE
-                            ),
-                            child: Image.asset(
-                              "assets/images/connect2.png",
-                              width: 66.w,
-                              height: 66.w,
-                            ),
-                          ),
-                        ),
-
-                        sizedBoxWidth(28.w),
-
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Roma dsouza",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/call.svg",
-                                  width: 13.w,
-                                  height: 13.w,
-                                ),
-                                sizedBoxWidth(5.w),
-                                Text(
-                                  "0225845855",
-                                  style: TextStyle(
-                                    color: Color(0XFF585858),
-                                    fontSize: 16.sp,
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/locationconnect.svg",
-                                  width: 13.w,
-                                  height: 13.w,
-                                ),
-                                sizedBoxWidth(5.w),
-                                Text(
-                                  "Canada",
-                                  style: TextStyle(
-                                    color: Color(0XFF585858),
-                                    fontSize: 16.sp,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-
-                        sizedBoxWidth(66.w),
-
-                        IconButton(
-                          icon: _isChecked
-                              ? CircleAvatar(
-                                  radius: 25.h,
-                                  backgroundColor: Color(0XFFF1F1F1),
-                                  child: Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                )
-                              : Icon(
-                                  Icons.star_border,
-                                  color: Color(0XFF707070),
-                                ),
-                          onPressed: () {
-                            setState(() {
-                              _isChecked = !_isChecked;
-                            });
-                          },
-                        ),
-
-                        // SvgPicture.asset(
-                        //   "assets/images/starconnect.svg",
-                        //   width: 38.w,
-                        //   height: 38.w,
-                        // ),
-
-                        // CircleAvatar(
-                        //   radius: 25.h,
-                        //   backgroundColor: Color(0XFFF1F1F1),
-                        //   child: Center(
-                        //     child: Icon(
-                        //       Icons.star,
-                        //       size: 35.h,
-                        //       color: Color.fromARGB(255, 248, 211, 2),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 11.h,
+                    connectcard(
+                      expertData[index]["image"],
+                      expertData[index]["tittle"],
+                      expertData[index]["number"],
+                      expertData[index]["location"],
+                      index,
+                      expertData[index]["isConnect"],
                     )
                   ],
-                ),
-              ),
+                );
+              },
             ),
-            sizedBoxHeight(15.h),
-            ListView.separated(
-                separatorBuilder: (context, index) {
-                  return sizedBoxHeight(15.h);
-                },
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      border: Border.all(
-                          color: Color(0XFf0E5F02).withOpacity(1), width: 1),
-                      color: Color(0xFFFFFFFF),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 11.h,
-                        ),
-                        Row(
-                          //mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 16.w),
-                              child: Image.asset(
-                                "assets/images/connect2.png",
-                                width: 66.w,
-                                height: 66.w,
-                              ),
-                            ),
 
-                            sizedBoxWidth(28.w),
+            // ),
+            // sizedBoxHeight(15.h),
+            // ListView.separated(
+            //     separatorBuilder: (context, index) {
+            //       return sizedBoxHeight(15.h);
+            //     },
+            //     shrinkWrap: true,
+            //     scrollDirection: Axis.vertical,
+            //     itemCount: 6,
+            //     itemBuilder: (context, index) {
+            //       return
+            //       Container(
+            //         decoration: BoxDecoration(
+            //           borderRadius: BorderRadius.all(Radius.circular(15)),
+            //           border: Border.all(
+            //               color: Color(0XFf0E5F02).withOpacity(1), width: 1),
+            //           color: Color(0xFFFFFFFF),
+            //         ),
+            //         child: Column(
+            //           children: [
+            //             SizedBox(
+            //               height: 11.h,
+            //             ),
+            //             Row(
+            //               //mainAxisAlignment: MainAxisAlignment.start,
+            //               children: [
+            //                 Padding(
+            //                   padding: EdgeInsets.only(left: 16.w),
+            //                   child: Image.asset(
+            //                     "assets/images/connect2.png",
+            //                     width: 66.w,
+            //                     height: 66.w,
+            //                   ),
+            //                 ),
 
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Ryan Desilva",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/images/call.svg",
-                                      width: 13.w,
-                                      height: 13.w,
-                                    ),
-                                    sizedBoxWidth(5.w),
-                                    Text(
-                                      "0225845855",
-                                      style: TextStyle(
-                                        color: Color(0XFF585858),
-                                        fontSize: 16.sp,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/images/locationconnect.svg",
-                                      width: 13.w,
-                                      height: 13.w,
-                                    ),
-                                    sizedBoxWidth(5.w),
-                                    Text(
-                                      "Canada",
-                                      style: TextStyle(
-                                        color: Color(0XFF585858),
-                                        fontSize: 16.sp,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+            //                 sizedBoxWidth(28.w),
 
-                            sizedBoxWidth(80.w),
+            //                 Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   mainAxisAlignment: MainAxisAlignment.start,
+            //                   children: [
+            //                     Text(
+            //                       "Ryan Desilva",
+            //                       style: TextStyle(
+            //                         color: Colors.black,
+            //                         fontSize: 16.sp,
+            //                         fontWeight: FontWeight.w600,
+            //                       ),
+            //                     ),
+            //                     Row(
+            //                       children: [
+            //                         SvgPicture.asset(
+            //                           "assets/images/call.svg",
+            //                           width: 13.w,
+            //                           height: 13.w,
+            //                         ),
+            //                         sizedBoxWidth(5.w),
+            //                         Text(
+            //                           "0225845855",
+            //                           style: TextStyle(
+            //                             color: Color(0XFF585858),
+            //                             fontSize: 16.sp,
+            //                           ),
+            //                         )
+            //                       ],
+            //                     ),
+            //                     Row(
+            //                       children: [
+            //                         SvgPicture.asset(
+            //                           "assets/images/locationconnect.svg",
+            //                           width: 13.w,
+            //                           height: 13.w,
+            //                         ),
+            //                         sizedBoxWidth(5.w),
+            //                         Text(
+            //                           "Canada",
+            //                           style: TextStyle(
+            //                             color: Color(0XFF585858),
+            //                             fontSize: 16.sp,
+            //                           ),
+            //                         )
+            //                       ],
+            //                     ),
+            //                   ],
+            //                 ),
 
-                            Icon(
-                              Icons.star_outline,
-                              size: 25,
-                              color: Color(0XFF707070),
-                            )
+            //                 sizedBoxWidth(80.w),
 
-                            // SvgPicture.asset(
-                            //   "assets/images/starconnect.svg",
-                            //   width: 38.w,
-                            //   height: 38.w,
-                            // ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 11.h,
-                        )
-                      ],
-                    ),
-                  );
-                }),
+            //                 Icon(
+            //                   Icons.star_outline,
+            //                   size: 25,
+            //                   color: Color(0XFF707070),
+            //                 )
+
+            //                 // SvgPicture.asset(
+            //                 //   "assets/images/starconnect.svg",
+            //                 //   width: 38.w,
+            //                 //   height: 38.w,
+            //                 // ),
+            //               ],
+            //             ),
+            //             SizedBox(
+            //               height: 11.h,
+            //             )
+            //           ],
+            //         ),
+            //       );
+            //     }),
             sizedBoxHeight(15.h),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget connectcard(dynamic image, dynamic tittle, dynamic number,
+      dynamic location, int index, int isConnect) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+        border: Border.all(color: Color(0XFf0E5F02).withOpacity(1), width: 1),
+        color: Color(0xFFFFFFFF),
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 11.h,
+          ),
+          Row(
+            //mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16.w),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 3,
+                        color: isConnect == 0 ? Colors.amber : Colors.white),
+                    borderRadius: BorderRadius.circular(100), //<-- SEE HERE
+                  ),
+                  child: Image.asset(
+                    image,
+                    // "assets/images/connect2.png",
+                    width: 66.w,
+                    height: 66.w,
+                  ),
+                ),
+              ),
+
+              sizedBoxWidth(8.w),
+
+              SizedBox(
+                width: 195.w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    RichText(
+                      overflow: TextOverflow.ellipsis,
+                      text: TextSpan(
+                        text: tittle,
+                        // "Roma dsouza",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images/call.svg",
+                          width: 13.w,
+                          height: 13.w,
+                        ),
+                        sizedBoxWidth(5.w),
+                        RichText(
+                          text: TextSpan(
+                            text: number,
+                            // "0225845855",
+                            style: TextStyle(
+                              color: Color(0XFF585858),
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 3.h),
+                          child: SvgPicture.asset(
+                            "assets/images/locationconnect.svg",
+                            width: 13.w,
+                            height: 13.w,
+                          ),
+                        ),
+                        sizedBoxWidth(5.w),
+                        RichText(
+                          text: TextSpan(
+                            text: location,
+                            // "Canada",
+                            style: TextStyle(
+                              color: Color(0XFF585858),
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // sizedBoxWidth(16.w),
+
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                IconButton(
+                  icon: isConnect == 0
+                      // _isChecked
+                      ? CircleAvatar(
+                          radius: 25.h,
+                          backgroundColor: Color(0XFFF1F1F1),
+                          child: Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                        )
+                      : Icon(
+                          Icons.star_border,
+                          color: Color(0XFF707070),
+                        ),
+                  onPressed: () {
+                    setState(() {
+                      expertData[index]["isConnect"] = isConnect == 0 ? 1 : 0;
+                      // _isChecked = !_isChecked;
+                    });
+                  },
+                ),
+              ]),
+
+              // SvgPicture.asset(
+              //   "assets/images/starconnect.svg",
+              //   width: 38.w,
+              //   height: 38.w,
+              // ),
+
+              // CircleAvatar(
+              //   radius: 25.h,
+              //   backgroundColor: Color(0XFFF1F1F1),
+              //   child: Center(
+              //     child: Icon(
+              //       Icons.star,
+              //       size: 35.h,
+              //       color: Color.fromARGB(255, 248, 211, 2),
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+          SizedBox(
+            height: 11.h,
+          )
+        ],
       ),
     );
   }

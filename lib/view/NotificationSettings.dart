@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+class NotificationSettings extends StatefulWidget {
+  const NotificationSettings({Key? key}) : super(key: key);
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<NotificationSettings> createState() => _NotificationSettingsState();
 }
 
-class _SettingsState extends State<Settings> {
+class _NotificationSettingsState extends State<NotificationSettings> {
   bool state = false;
   bool fingerstate = false;
 
@@ -58,23 +58,54 @@ class _SettingsState extends State<Settings> {
                           fontWeight: FontWeight.w600),
                     ),
                     Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed("/notification");
-                      },
-                      child: SvgPicture.asset(
-                        "assets/images/Notificationicon.svg",
-                        width: 20.w,
-                        height: 24.h,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        // padding: EdgeInsets.all(10),
-                        elevation: 2,
-                        backgroundColor: AppColors.white,
-                        shadowColor: Color(0xFF444444), // <-- Splash color
+                    Container(
+                      height: 42.h,
+                      width: 42.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.h),
+                          color: AppColors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              blurRadius: 1.h,
+                              spreadRadius: 1.h,
+                              offset: Offset(0, 3),
+                            )
+                          ]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.toNamed("/notification");
+                            },
+                            child: SvgPicture.asset(
+                              "assets/images/Notificationicon.svg",
+                              width: 23.w,
+                              height: 24.h,
+                            ),
+                          ),
+                        ],
                       ),
                     )
+
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     Get.toNamed("/notification");
+                    //   },
+                    //   child: SvgPicture.asset(
+                    //     "assets/images/Notificationicon.svg",
+                    //     width: 20.w,
+                    //     height: 24.h,
+                    //   ),
+                    //   style: ElevatedButton.styleFrom(
+                    //     shape: CircleBorder(),
+                    //     // padding: EdgeInsets.all(10),
+                    //     elevation: 2,
+                    //     backgroundColor: AppColors.white,
+                    //     shadowColor: Color(0xFF444444), // <-- Splash color
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -160,7 +191,7 @@ class CustomListTile extends StatefulWidget {
     required this.title,
     required this.statecontroller,
     this.addVideoPage = false,
-    
+
     //required this.sizefactor
   }) : super(key: key);
 
@@ -179,7 +210,8 @@ class _CustomListTileState extends State<CustomListTile> {
     return Container(
       height: 60.h,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: widget.addVideoPage ? 0 : 16.w),
+        padding:
+            EdgeInsets.symmetric(horizontal: widget.addVideoPage ? 0 : 16.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -215,6 +247,5 @@ class _CustomListTileState extends State<CustomListTile> {
         ),
       ),
     );
-  
   }
 }

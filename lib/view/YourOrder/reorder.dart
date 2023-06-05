@@ -9,14 +9,15 @@ import 'package:get/get.dart';
 import '../../Utils/sized_box.dart';
 
 class Reorderscreen extends StatefulWidget {
-  const Reorderscreen({
-    Key? key,
-    this.minValue = 0,
-    this.maxValue = 10,
-    this.minValue2 = 0,
-    this.maxValue2 = 10
-    //  this.onChanged
-  }) : super(key: key);
+  const Reorderscreen(
+      {Key? key,
+      this.minValue = 0,
+      this.maxValue = 10,
+      this.minValue2 = 0,
+      this.maxValue2 = 10
+      //  this.onChanged
+      })
+      : super(key: key);
   // ({super.key});
 
   final int minValue;
@@ -58,7 +59,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 18.w),
                     child: Text(
-                      "The Prices Of Some Products Might Have Been Increased!",
+                      "The price of some products may have increased!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
@@ -226,7 +227,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                     ]),
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 22.w, right: 29.w, top: 8.h, bottom: 13.h),
+                      left: 22.w, right: 16.w, top: 8.h, bottom: 13.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,7 +342,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                     ]),
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 22.w, right: 24.w, top: 8.h, bottom: 13.h),
+                      left: 22.w, right: 8.w, top: 8.h, bottom: 13.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,

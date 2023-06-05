@@ -6,8 +6,9 @@ import 'package:farmfeeders/view/Home.dart';
 import 'package:farmfeeders/view/LiveStockInfoMain.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
 import 'package:farmfeeders/view/Notification.dart';
+import 'package:farmfeeders/view/NotificationSettings.dart';
 import 'package:farmfeeders/view/Profile/personalinfo.dart';
-import 'package:farmfeeders/view/Settings.dart';
+// import 'package:farmfeeders/view/Settings.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ContactUs.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Feedback/feedbackform.dart';
@@ -65,7 +66,7 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.settings,
-          page: () => const Settings(),
+          page: () => const NotificationSettings(),
         ),
         GetPage(
           name: RouteName.forgotPassword,

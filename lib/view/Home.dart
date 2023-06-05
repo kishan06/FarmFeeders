@@ -26,16 +26,35 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   bool lowFeed = true;
   bool saved = false;
 
   List currentFeedData = [
-    {"imagePath":"assets/images/buffalo.png","feedFor":"Current Feed for Buffalo","qty":"100"},
-    {"imagePath":"assets/images/cow.png","feedFor":"Current Feed for Cow","qty":"600"},
-    {"imagePath":"assets/images/sheep.png","feedFor":"Current Feed for Sheep","qty":"100"},
-    {"imagePath":"assets/images/pig.png","feedFor":"Current Feed for Pig","qty":"600"},
-    {"imagePath":"assets/images/hen.png","feedFor":"Current Feed for Hen","qty":"100"},
+    {
+      "imagePath": "assets/images/buffalo.png",
+      "feedFor": "Current Feed for Buffalo",
+      "qty": "100"
+    },
+    {
+      "imagePath": "assets/images/cow.png",
+      "feedFor": "Current Feed for Cow",
+      "qty": "600"
+    },
+    {
+      "imagePath": "assets/images/sheep.png",
+      "feedFor": "Current Feed for Sheep",
+      "qty": "100"
+    },
+    {
+      "imagePath": "assets/images/pig.png",
+      "feedFor": "Current Feed for Pig",
+      "qty": "600"
+    },
+    {
+      "imagePath": "assets/images/hen.png",
+      "feedFor": "Current Feed for Hen",
+      "qty": "100"
+    },
   ];
 
   int selectedCurrentFeed = 0;
@@ -51,23 +70,23 @@ class _HomeState extends State<Home> {
         //   titleSpacing: 0,
         // ),
         body: SafeArea(
-          child: Column(
-              children: [
+      child: Column(
+        children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(60.w, 10.h, 16.w, 10.h),
+            padding: EdgeInsets.fromLTRB(75.w, 10.h, 16.w, 10.h),
             child: Row(
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     textBlack20W7000Mon("Welcome Back"),
-                    textBlack20W7000Mon("Kevin")
+                    textBlack25W600Mon("Kevin")
                   ],
                 ),
                 Spacer(),
                 Container(
-                  height: 50.h,
-                  width: 50.h,
+                  height: 42.h,
+                  width: 42.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.h),
                     color: AppColors.white,
@@ -82,19 +101,24 @@ class _HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(
-                        "assets/images/notification_bell.svg",
-                        height: 28.h,
-                        width: 28.h,
-                        color: AppColors.black,
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed("/notification");
+                        },
+                        child: SvgPicture.asset(
+                          "assets/images/notification_bell.svg",
+                          height: 28.h,
+                          width: 28.h,
+                          color: AppColors.black,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 sizedBoxWidth(10.w),
                 Container(
-                  height: 50.h,
-                  width: 50.h,
+                  height: 42.h,
+                  width: 42.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.h),
                     color: AppColors.white,
@@ -113,11 +137,16 @@ class _HomeState extends State<Home> {
                       //   size: 3.h,
                       //   // color: app,
                       // )
-                      SvgPicture.asset(
-                        "assets/images/Settings.svg",
-                        height: 28.h,
-                        width: 28.h,
-                        color: AppColors.black,
+                      InkWell(
+                        onTap: () {
+                          // Get.toNamed("/settings");
+                        },
+                        child: SvgPicture.asset(
+                          "assets/images/Settings.svg",
+                          height: 28.h,
+                          width: 28.h,
+                          color: AppColors.black,
+                        ),
                       ),
                     ],
                   ),
@@ -130,7 +159,8 @@ class _HomeState extends State<Home> {
               children: [
                 SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -159,10 +189,11 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(36.w, 25.h, 36.w, 12.h),
+                                    padding: EdgeInsets.fromLTRB(
+                                        36.w, 25.h, 36.w, 12.h),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
@@ -174,19 +205,22 @@ class _HomeState extends State<Home> {
                                                   children: [
                                                     Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.start,
+                                                          MainAxisAlignment
+                                                              .start,
                                                       children: [
                                                         SvgPicture.asset(
                                                           "assets/images/locationconnect.svg",
-                                                          color: AppColors.black,
+                                                          color:
+                                                              AppColors.black,
                                                           height: 20.h,
                                                           width: 20.h,
                                                         ),
-                            
+
                                                         sizedBoxWidth(5.w),
-                            
+
                                                         // textBlack20W7000("Ireland"),
-                                                        textBlack18W5000("Ireland")
+                                                        textBlack18W5000(
+                                                            "Ireland")
                                                       ],
                                                     ),
                                                     textGreen50Bold("22° C"),
@@ -196,7 +230,7 @@ class _HomeState extends State<Home> {
                                                 ),
                                               ],
                                             ),
-                            
+
                                             // LottieBuilder.asset(name)
                                             // Lottie.asset("assets/lotties/cloud.json",
                                             //   height: 100.h,
@@ -209,60 +243,64 @@ class _HomeState extends State<Home> {
                                   ),
                                 ],
                               ),
-                            
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 10.h),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 5.w, vertical: 10.h),
                                 child: Container(
                                   // width: 358.w,
                                   // height: 221.h,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(19.h)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(19.h)),
                                       color: AppColors.white,
                                       boxShadow: [
                                         BoxShadow(
-                                            color: Color(0x48B9B9BE),
-                                            blurRadius: 10,
-                                            spreadRadius: 2,
-                                          )
+                                          color: Color(0x48B9B9BE),
+                                          blurRadius: 10,
+                                          spreadRadius: 2,
+                                        )
                                       ]),
                                   child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 26.w,vertical: 15.h),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 24.w, vertical: 15.h),
                                     child: Row(
                                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                              Container(
-                                                height: 30.h,
-                                                width: 123.w,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(25.h),
-                                                  color: Color(0XFFFFB7B7),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Arriving Soon",
-                                                    style: TextStyle(
-                                                      fontSize: 15.sp,
-                                                      color: Color(0XFFAC2A33),
-                                                      fontFamily: "Poppins",
-                                                    ),
+                                            Container(
+                                              height: 30.h,
+                                              width: 123.w,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.h),
+                                                color: Color(0XFFFFB7B7),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "Arriving Soon",
+                                                  style: TextStyle(
+                                                    fontSize: 15.sp,
+                                                    color: Color(0XFFAC2A33),
+                                                    fontFamily: "Poppins",
                                                   ),
                                                 ),
                                               ),
+                                            ),
                                             sizedBoxHeight(18.h),
-                                  
-                                            textBlack20W7000("Cow Feed"),
+
+                                            textBlack20W7000("Dairy Feed"),
                                             textGrey4D4D4D_14("100 Tonnes"),
-                                  
-                                            Lottie.asset("assets/lotties/delivery_track.json",
-                                              height: 120.h,
-                                              width: 137.w
-                                  
-                                            )
-                                  
+
+                                            Lottie.asset(
+                                                "assets/lotties/delivery_track.json",
+                                                height: 120.h,
+                                                width: 137.w)
+
                                             // Lottie
                                             // Image.asset(
                                             //   "assets/images/yourorder2.png",
@@ -270,9 +308,6 @@ class _HomeState extends State<Home> {
                                             //   height: 98.h,
                                             // ),
                                             // sizedBoxHeight(7.h),
-                                  
-                                  
-                                  
                                           ],
                                         ),
                                         // sizedBoxWidth(25.w),
@@ -285,7 +320,8 @@ class _HomeState extends State<Home> {
                                         //   ),
                                         // ),
                                         Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             status(),
                                             DottedLine(
@@ -305,17 +341,18 @@ class _HomeState extends State<Home> {
                                             ),
                                             // status(),
                                             CircleAvatar(
-                                              backgroundColor: AppColors.buttoncolour,
+                                              backgroundColor:
+                                                  AppColors.buttoncolour,
                                               radius: 11.w,
                                               child: CircleAvatar(
                                                 radius: 9.w,
-                                                backgroundColor: AppColors.pistaE3FFE9,
-                                                child: SvgPicture.asset("assets/images/delivery-truck-svgrepo-com.svg"),
+                                                backgroundColor:
+                                                    AppColors.pistaE3FFE9,
+                                                child: SvgPicture.asset(
+                                                    "assets/images/delivery-truck-svgrepo-com.svg"),
                                               ),
-                            
                                             ),
-                            
-                            
+
                                             DottedLine(
                                               direction: Axis.vertical,
                                               lineLength: 30,
@@ -330,14 +367,17 @@ class _HomeState extends State<Home> {
                                                   shape: BoxShape.circle,
                                                   color: AppColors.white,
                                                   border: Border.all(
-                                                      color: AppColors.buttoncolour)),
+                                                      color: AppColors
+                                                          .buttoncolour)),
                                             )
                                           ],
                                         ),
                                         sizedBoxWidth(9.w),
                                         Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Ordered",
@@ -347,7 +387,8 @@ class _HomeState extends State<Home> {
                                                   fontFamily: "Poppins"),
                                             ),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 SvgPicture.asset(
                                                   "assets/images/clock-svgrepo-com (1).svg",
@@ -366,14 +407,15 @@ class _HomeState extends State<Home> {
                                             ),
                                             sizedBoxHeight(14.h),
                                             Text(
-                                              "Packed and ready",
+                                              "Loaded",
                                               style: TextStyle(
                                                   fontSize: 14.sp,
                                                   color: Color(0XFF0E5F02),
                                                   fontFamily: "Poppins"),
                                             ),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 SvgPicture.asset(
                                                   "assets/images/clock-svgrepo-com (1).svg",
@@ -395,7 +437,8 @@ class _HomeState extends State<Home> {
                                               height: 30.h,
                                               width: 123.w,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(25.h),
+                                                borderRadius:
+                                                    BorderRadius.circular(25.h),
                                                 color: Color(0XFFF1F1F1),
                                               ),
                                               child: Center(
@@ -424,13 +467,10 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               )
-                          
                             ],
                           ),
-                        ), 
-                            
+                        ),
                         sizedBoxHeight(10.h),
-                            
                         Stack(
                           // fit: StackFit.loose,
                           children: [
@@ -447,38 +487,43 @@ class _HomeState extends State<Home> {
                                 color: AppColors.pistaE3FFE9,
                               ),
                               child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 15.h),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 3.w, vertical: 15.h),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: List.generate(5, (index) => 
-                                        currentFeedSelection(
-                                          imagePath: currentFeedData[index]["imagePath"],
-                                          index: index
-                                        )
-                                      ),
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: List.generate(
+                                          5,
+                                          (index) => currentFeedSelection(
+                                              imagePath: currentFeedData[index]
+                                                  ["imagePath"],
+                                              index: index)),
                                     ),
-                
+
                                     sizedBoxHeight(10.h),
-                                    
-                                    textBlack18W600Mon(currentFeedData[selectedCurrentFeed]["feedFor"]),
-                // /
+
+                                    textBlack18W600Mon(
+                                        currentFeedData[selectedCurrentFeed]
+                                            ["feedFor"]),
+                                    // /
                                     sizedBoxHeight(15.h),
-                                    
+
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        SvgPicture.asset("assets/images/current_feed.svg",
+                                        SvgPicture.asset(
+                                          "assets/images/current_feed.svg",
                                           height: 170.h,
                                           width: 100.w,
                                         ),
-                
+
                                         // sizedBoxWidth(20.w),
                                         // Spacer(),
-                
-                
+
                                         SizedBox(
                                           // height: 200.h,
                                           child: Column(
@@ -487,52 +532,69 @@ class _HomeState extends State<Home> {
                                                 height: 93.h,
                                                 width: 230.w,
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10.h),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.h),
                                                   color: AppColors.white,
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: Colors.black.withOpacity(0.04),
+                                                      color: Colors.black
+                                                          .withOpacity(0.04),
                                                       blurRadius: 10,
                                                       spreadRadius: 2,
                                                     )
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 13.w),
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 13.w),
                                                   child: Column(
-                                                    
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      textGrey4D4D4D_22("Dairy"),
-                                                      textBlack25W7000(currentFeedData[selectedCurrentFeed]["qty"] + " Kg")
+                                                      textGrey4D4D4D_22(
+                                                          "Dairy"),
+                                                      textBlack25W7000(
+                                                          currentFeedData[
+                                                                      selectedCurrentFeed]
+                                                                  ["qty"] +
+                                                              " Kg")
                                                     ],
                                                   ),
                                                 ),
                                               ),
-                                        
                                               sizedBoxHeight(10.h),
-                                        
                                               Container(
                                                 height: 93.h,
                                                 width: 230.w,
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10.h),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.h),
                                                   color: AppColors.white,
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: Colors.black.withOpacity(0.04),
+                                                      color: Colors.black
+                                                          .withOpacity(0.04),
                                                       blurRadius: 10,
                                                       spreadRadius: 2,
                                                     )
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 13.w),
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 13.w),
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      textGrey4D4D4D_16("Reordering Date"),
+                                                      textGrey4D4D4D_16(
+                                                          "Reordering Date"),
                                                       // textGrey4D4D4D_22("Dairy"),
                                                       // textBlack25W7000("100 Kg")
                                                       // Row()
@@ -540,39 +602,34 @@ class _HomeState extends State<Home> {
                                                         children: [
                                                           CircleAvatar(
                                                             radius: 20.h,
-                                                            backgroundColor: AppColors.greyF1F1F1,
+                                                            backgroundColor:
+                                                                AppColors
+                                                                    .greyF1F1F1,
                                                             child: Icon(
-                                                              Icons.calendar_today,
+                                                              Icons
+                                                                  .calendar_today,
                                                               size: 20.h,
-                                                              color: AppColors.buttoncolour,
+                                                              color: AppColors
+                                                                  .buttoncolour,
                                                             ),
-                                        
                                                           ),
-                                        
                                                           sizedBoxWidth(10.w),
-                                        
-                                                          textBlack20W7000("02/05/2023")
+                                                          textBlack20W7000(
+                                                              "02/05/2023")
                                                         ],
                                                       ),
-                                        
-                                                      
                                                     ],
                                                   ),
                                                 ),
                                               ),
-                                        
-                                              
-                                            
                                             ],
                                           ),
                                         ),
-                                        
-                
                                       ],
                                     ),
-                
+
                                     sizedBoxHeight(10.h),
-                
+
                                     Row(
                                       children: [
                                         Icon(
@@ -580,38 +637,24 @@ class _HomeState extends State<Home> {
                                           size: 30.h,
                                           color: AppColors.redFA5658,
                                         ),
-                
                                         textBlack18W7000(" Your Feed is Low!"),
-                
                                         Spacer(),
-                
                                         SizedBox(
                                           height: 45.h,
                                           width: 120.w,
-                                          child: customButtonCurve(text: "Refill Now",
-                                            onTap: (){
-                                              
-                                            }
-                                          ),
+                                          child: customButtonCurve(
+                                              text: "Refill Now", onTap: () {}),
                                         )
-                
-                                        
-                
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-                
-                
                           ],
-                        ), 
-                
+                        ),
                         sizedBoxHeight(20.h),
-                
                         textBlack18W7000("Profile"),
-                
                         Container(
                           // height: 93.h,
                           // width: 230.w,
@@ -619,9 +662,7 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(10.h),
                             color: AppColors.white,
                             border: Border.all(
-                              color: AppColors.buttoncolour,
-                              width: 1.h
-                            ),
+                                color: AppColors.buttoncolour, width: 1.h),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.04),
@@ -631,7 +672,8 @@ class _HomeState extends State<Home> {
                             ],
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.w,vertical: 10.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15.w, vertical: 10.h),
                             child: Row(
                               children: [
                                 Stack(
@@ -646,55 +688,53 @@ class _HomeState extends State<Home> {
                                         // semanticsValue: "df",
                                         // color: AppColors.redFA5658,
                                         backgroundColor: AppColors.buttoncolour,
-                                        valueColor: AlwaysStoppedAnimation(Colors.red),
+                                        valueColor:
+                                            AlwaysStoppedAnimation(Colors.red),
                                       ),
                                     ),
-                
                                     Positioned(
                                       bottom: -5.h,
                                       left: 20.h,
-                
                                       child: Container(
                                         // height: 93.h,
                                         // width: 230.w,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(2.h),
+                                          borderRadius:
+                                              BorderRadius.circular(2.h),
                                           color: AppColors.white,
                                           border: Border.all(
-                                            color: AppColors.buttoncolour,
-                                            width: 1.h
-                                          ),
+                                              color: AppColors.buttoncolour,
+                                              width: 1.h),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: Colors.grey.withOpacity(0.04),
+                                              color:
+                                                  Colors.grey.withOpacity(0.04),
                                               blurRadius: 2,
                                               spreadRadius: 1,
                                             )
                                           ],
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 2.w),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 2.w),
                                           child: textBlack10("42 %"),
                                         ),
                                       ),
                                     ),
-                                  
                                     Positioned(
-                                      top: 18.h,
-                                      left: 27.5.h,
-                                      child: textBlack18W7000("K"))
+                                        top: 15.h,
+                                        left: 22.5.h,
+                                        child: textBlack18W7000("K"))
                                   ],
                                 ),
-                
                                 sizedBoxWidth(20.w),
-                            
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     textBlack18W7000("Hey Kevin"),
-                
+
                                     InkWell(
-                                      onTap: (){
+                                      onTap: () {
                                         Get.toNamed("/profile");
                                         // Get
                                       },
@@ -702,19 +742,21 @@ class _HomeState extends State<Home> {
                                         height: 40.h,
                                         width: 175.w,
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.h),
+                                            borderRadius:
+                                                BorderRadius.circular(10.h),
                                             color: AppColors.buttoncolour),
                                         child: Center(
                                           child: Text(
                                             "Complete Your Profile",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(color: AppColors.white, fontSize: 14.sp),
+                                            style: TextStyle(
+                                                color: AppColors.white,
+                                                fontSize: 14.sp),
                                           ),
                                         ),
                                       ),
                                     )
-                
-                
+
                                     // SizedBox(
                                     //   height: 40.h,
                                     //   // width: 175.w,
@@ -725,11 +767,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                
                         sizedBoxHeight(25.h),
-                
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Get.toNamed("/trainingmain");
                           },
                           child: Container(
@@ -745,70 +785,61 @@ class _HomeState extends State<Home> {
                               color: AppColors.pistaE3FFE9,
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 15.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 13.w, vertical: 15.h),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   textBlack18W600Mon("Training"),
-                                        
                                   sizedBoxHeight(15.h),
-                                  
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Image.asset("assets/images/training1.png",
+                                      Image.asset(
+                                        "assets/images/training1.png",
                                         width: 104.w,
                                         height: 90.h,
                                       ),
+                                      sizedBoxWidth(14.w),
                                       // SvgPicture.asset("assets/images/current_feed.svg",
                                       //   height: 170.h,
                                       //   width: 100.w,
                                       // ),
-                                        
+
                                       // sizedBoxWidth(20.w),
                                       // Spacer(),
-                                        
-                                        
+
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                      
-                                            textBlack18W600Mon("Animal husbandry and management"),
-                                      
-                                            textGrey4D4D4D_16("textext of the printing andt"),
-                                      
+                                            textBlack18W600Mon(
+                                                "Animal husbandry and management"),
+                                            textGrey4D4D4D_16(
+                                                "textext of the printing andt"),
                                             textGreen14("14 Minutes ago")
-                                        
-                                            
-                                          
                                           ],
                                         ),
                                       ),
-                                      
-                                        
                                     ],
                                   ),
-                                        
                                 ],
                               ),
                             ),
                           ),
-                        ), 
-                
+                        ),
                         sizedBoxHeight(20.h),
-                
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Get.toNamed("/newsandarticlemain");
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: AppColors.grey4D4D4D,
-                                width: 0.5.h
-                              ),
+                                  color: AppColors.grey4D4D4D, width: 0.5.h),
                               borderRadius: BorderRadius.circular(27.h),
                               boxShadow: [
                                 BoxShadow(
@@ -820,49 +851,49 @@ class _HomeState extends State<Home> {
                               color: AppColors.white,
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 15.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 13.w, vertical: 15.h),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   textBlack18W600Mon("News & Articles"),
-                                        
                                   sizedBoxHeight(15.h),
-                                  
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Image.asset("assets/images/news&arti.png",
+                                      Image.asset(
+                                        "assets/images/news&arti.png",
                                         width: 104.w,
                                         height: 90.h,
                                       ),
+                                      sizedBoxWidth(14.w),
                                       // SvgPicture.asset("assets/images/current_feed.svg",
                                       //   height: 170.h,
                                       //   width: 100.w,
                                       // ),
-                                        
+
                                       // sizedBoxWidth(20.w),
                                       // Spacer(),
-                                        
-                                        
+
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                      
                                             textGrey4D4D4D_16("Livestock"),
-                                          
-                                            textBlack18W600Mon("Lorem Ipsum Is Simply Dummy Of The Printing"),
-                                      
+
+                                            textBlack18W600Mon(
+                                                "Lorem Ipsum Is Simply Dummy Of The Printing"),
+
                                             // textGreen14("14 Minutes ago")
                                             sizedBoxHeight(10.h),
-                                            
+
                                             Row(
                                               children: [
                                                 textGrey4D4D4D_14("7 Feb 2023"),
-                                        
                                                 Spacer(),
-                                              
                                                 InkWell(
                                                   onTap: share,
                                                   child: Container(
@@ -876,69 +907,60 @@ class _HomeState extends State<Home> {
                                                 SizedBox(
                                                   width: 20.w,
                                                 ),
-                                        
                                                 InkWell(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     setState(() {
                                                       saved = !saved;
                                                     });
                                                   },
-                                                  child: saved  ? Container(
-                                                    height: 25.h,
-                                                    width: 25.h,
-                                                    child: SvgPicture.asset(
-                                                      "assets/images/saveblank.svg",
-                                                    )
-                                                  ) : Container(
-                                                    height: 25.h,
-                                                    width: 25.h,
-                                                    child:
-                                                        SvgPicture.asset("assets/images/save.svg")
-                                                  ),
+                                                  child: saved
+                                                      ? Container(
+                                                          height: 25.h,
+                                                          width: 25.h,
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            "assets/images/saveblank.svg",
+                                                          ))
+                                                      : Container(
+                                                          height: 25.h,
+                                                          width: 25.h,
+                                                          child: SvgPicture.asset(
+                                                              "assets/images/save.svg")),
                                                 ),
                                               ],
                                             ),
-                                        
                                           ],
                                         ),
                                       ),
-                                      
-                                        
                                     ],
                                   ),
-                                        
                                 ],
                               ),
                             ),
                           ),
-                        ), 
-                
-                    
-                    
+                        ),
                       ],
                     ),
                   ),
                 ),
-             
                 Visibility(
                   visible: lowFeed,
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 5.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
                       child: Container(
                         // clipBehavior: Clip.none,
                         height: 93.h,
-                        
+
                         // width: double.negativeInfinity,
                         // width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.h),
                           color: AppColors.redFCDADA,
                           border: Border.all(
-                            color: AppColors.redFA5658,
-                            width: 1.h
-                          ),
+                              color: AppColors.redFA5658, width: 1.h),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.04),
@@ -948,7 +970,8 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.w,vertical: 10.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.w, vertical: 10.h),
                           child: Row(
                             children: [
                               CircleAvatar(
@@ -964,29 +987,26 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
-                                            
+
                               sizedBoxWidth(20.w),
-                          
+
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   textBlack18W7000("Feed Low! Refill Now"),
-                                            
                                   textGrey4D4D4D_14("Feed Quantity At 10%")
-                                            
                                 ],
                               ),
-                                            
+
                               Spacer(),
-                      
+
                               // circle
                               // ListWheelScrollView(itemExtent: itemExtent, children: children)
-                                            
+
                               InkWell(
-                                onTap: (){
+                                onTap: () {
                                   setState(() {
                                     lowFeed = false;
-                                    
                                   });
                                   // lowFeed = false;
                                 },
@@ -1007,18 +1027,17 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-
               ],
             ),
           )
-              ],
-            ),
-        ));
+        ],
+      ),
+    ));
   }
 
-  Widget currentFeedSelection({required String imagePath, required int index}){
+  Widget currentFeedSelection({required String imagePath, required int index}) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         setState(() {
           selectedCurrentFeed = index;
         });
@@ -1027,13 +1046,15 @@ class _HomeState extends State<Home> {
         width: 40.w,
         height: 30.h,
         decoration: BoxDecoration(
-          // dec
-          color: selectedCurrentFeed == index  ? Color.fromARGB(255, 236, 248, 239) :AppColors.white,
-          borderRadius: BorderRadius.circular(5.h),
-          border: Border.all(
-            color: selectedCurrentFeed == index  ? AppColors.buttoncolour : AppColors.grey4D4D4D
-          )
-        ),
+            // dec
+            color: selectedCurrentFeed == index
+                ? Color.fromARGB(255, 236, 248, 239)
+                : AppColors.white,
+            borderRadius: BorderRadius.circular(5.h),
+            border: Border.all(
+                color: selectedCurrentFeed == index
+                    ? AppColors.buttoncolour
+                    : AppColors.grey4D4D4D)),
         child: Padding(
           padding: EdgeInsets.all(4.h),
           child: Image.asset(imagePath),
@@ -1050,5 +1071,4 @@ class _HomeState extends State<Home> {
       // chooserTitle: 'Example Chooser Title'
     );
   }
-
 }
