@@ -27,7 +27,7 @@ class RouteName {
   static const String VideosDetails = '/videosdetails';
   static const String EditNote = '/editnote';
   //other
-  static const String settings = '/settings';
+  static const String notificationSettings = '/notificationSettings';
   static const String home = '/home';
   static const String verifyYourIdentity = '/verifyYourIdentity';
 
@@ -44,10 +44,8 @@ class RouteName {
 
   static const String yourordermain = '/yourordermain';
 
-
   static const String editVideos = '/editVideos';
   static const String feedBack = '/feedBack';
-
 
   static const String ongoingorder = '/ongoingorder';
 
@@ -59,12 +57,7 @@ class RouteName {
 
   static const String connect = '/connect';
 
-
-
-
   static const String feedbackform = '/feedbackform';
   static const String EntryPoint = '/EntryPoint';
-
-
-
+  static const String settings = '/settings';
 }

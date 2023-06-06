@@ -98,7 +98,7 @@ class _NotificationState extends State<Notification> {
                         children: [
                           InkWell(
                             onTap: () {
-                              Get.toNamed("/settings");
+                              Get.toNamed("/notificationSettings");
                             },
                             child: SvgPicture.asset(
                               "assets/images/setting-svgrepo-com (1).svg",
