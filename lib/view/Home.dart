@@ -139,7 +139,7 @@ class _HomeState extends State<Home> {
                       // )
                       InkWell(
                         onTap: () {
-                          // Get.toNamed("/settings");
+                          Get.toNamed("/settings");
                         },
                         child: SvgPicture.asset(
                           "assets/images/Settings.svg",

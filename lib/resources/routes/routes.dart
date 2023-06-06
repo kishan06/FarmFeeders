@@ -1,3 +1,4 @@
+import 'package:farmfeeders/Settings.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/view/Faqs/Accountandappfaq.dart';
 import 'package:farmfeeders/view/Faqs/faqs.dart';
@@ -65,7 +66,7 @@ class AppRoutes {
           page: () => const Notification(),
         ),
         GetPage(
-          name: RouteName.settings,
+          name: RouteName.notificationSettings,
           page: () => const NotificationSettings(),
         ),
         GetPage(
@@ -207,6 +208,12 @@ class AppRoutes {
         GetPage(
           name: RouteName.feedbackform,
           page: () => Feedbackform(
+              // onChanged: (value) => 0,
+              ),
+        ),
+        GetPage(
+          name: RouteName.settings,
+          page: () => Settings(
               // onChanged: (value) => 0,
               ),
         ),
