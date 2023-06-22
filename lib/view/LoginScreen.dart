@@ -53,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           top: -18 * fem,
                           child: SvgPicture.asset(
                             "assets/grass.svg",
+                             width: 430.w,
                           ),
                         ),
                         Positioned(
