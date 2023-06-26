@@ -26,6 +26,7 @@ class RouteName {
   static const String VideosList = '/videoslist';
   static const String VideosDetails = '/videosdetails';
   static const String EditNote = '/editnote';
+  static const String subscriptionPlan = '/SubscriptionPlan';
   //other
   static const String notificationSettings = '/notificationSettings';
   static const String home = '/home';

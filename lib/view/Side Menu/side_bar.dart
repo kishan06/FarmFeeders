@@ -96,6 +96,15 @@ class _SideBarState extends State<SideBar> {
     },
     {
       "icon": Image.asset(
+        "assets/images/connection_code.png",
+        height: 30.h,
+        width: 30.h,
+      ),
+      "text": "Subscription Plan",
+      "route": "/SubscriptionPlan"
+    },
+    {
+      "icon": Image.asset(
         "assets/images/logout.png",
         height: 30.h,
         width: 30.h,
@@ -194,7 +203,7 @@ class _SideBarState extends State<SideBar> {
 
                           text: sideBarData[index]["text"],
                           onTap: () {
-                            if (index == 8) {
+                            if (index == 9) {
                               // logoutDailog(context);
                               buildprofilelogoutdialog(context);
                             } else {

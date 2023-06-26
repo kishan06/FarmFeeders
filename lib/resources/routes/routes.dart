@@ -42,6 +42,7 @@ import 'package:farmfeeders/view/reset_password.dart';
 import 'package:farmfeeders/view/verify_number.dart';
 import 'package:farmfeeders/view/verify_your_identity.dart';
 import 'package:get/get.dart';
+import '../../view/Side Menu/NavigateTo pages/subscription_plan.dart';
 
 class AppRoutes {
   static appRoutes() => [
@@ -216,6 +217,10 @@ class AppRoutes {
           page: () => Settings(
               // onChanged: (value) => 0,
               ),
+        ),
+        GetPage(
+          name: RouteName.subscriptionPlan,
+          page: () => const SubscriptionPlan(),
         ),
       ];
 }
