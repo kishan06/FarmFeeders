@@ -25,18 +25,15 @@ Widget textBlack20W7000Mon(String text) {
 }
 
 Widget textBlack18W600Mon(String text) {
-
   return Text(
     text,
     // softWrap: false,
     style: TextStyle(
         fontSize: 18.sp,
-        
         color: AppColors.black,
         fontWeight: FontWeight.w600,
         fontFamily: "Montserrat"),
   );
-
 }
 
 Widget textBlack20W7000(String text) {
@@ -56,11 +53,11 @@ Widget textBlack18W7000(String text) {
     text,
     // textAlign: t,
     style: TextStyle(
-        fontSize: 18.sp,
-        color: AppColors.black,
-        fontWeight: FontWeight.w700,
-        // fontFamily: "Montserrat"
-        ),
+      fontSize: 18.sp,
+      color: AppColors.black,
+      fontWeight: FontWeight.w700,
+      // fontFamily: "Montserrat"
+    ),
   );
 }
 
@@ -69,24 +66,23 @@ Widget textBlack18W700Center(String text) {
     text,
     textAlign: TextAlign.center,
     style: TextStyle(
-        fontSize: 18.sp,
-        color: AppColors.black,
-        fontWeight: FontWeight.w700,
-        // fontFamily: "Montserrat"
-        ),
+      fontSize: 18.sp,
+      color: AppColors.black,
+      fontWeight: FontWeight.w700,
+      // fontFamily: "Montserrat"
+    ),
   );
 }
-
 
 Widget textBlack25W7000(String text) {
   return Text(
     text,
     style: TextStyle(
-        fontSize: 25.sp,
-        color: AppColors.black,
-        fontWeight: FontWeight.w700,
-        // fontFamily: "Montserrat"
-        ),
+      fontSize: 25.sp,
+      color: AppColors.black,
+      fontWeight: FontWeight.w700,
+      // fontFamily: "Montserrat"
+    ),
   );
 }
 
@@ -274,5 +270,50 @@ Widget textGrey4D4D4D_14(String text) {
       fontSize: 14.sp,
       color: AppColors.grey4D4D4D,
     ),
+  );
+}
+
+Widget textBlack141414_22w600(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.left,
+    style: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 22.sp,
+        color: const Color(0xff141414),
+        fontWeight: FontWeight.w600),
+  );
+}
+
+Widget textBlack60w600(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.left,
+    style: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 60.sp,
+        color: AppColors.black,
+        fontWeight: FontWeight.w600),
+  );
+}
+
+Widget textBlack20(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.left,
+    style: TextStyle(
+        fontFamily: 'Poppins', fontSize: 20.sp, color: const Color(0xff141414)),
+  );
+}
+
+Widget textBlack20Bold(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.left,
+    style: TextStyle(
+        fontWeight: FontWeight.w700,
+        fontFamily: 'Poppins',
+        fontSize: 20.sp,
+        color: const Color(0xff141414)),
   );
 }
