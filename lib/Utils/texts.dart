@@ -317,3 +317,25 @@ Widget textBlack20Bold(String text) {
         color: const Color(0xff141414)),
   );
 }
+
+Widget textBlack131313_28MediumCenter(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontFamily: 'Poppins',
+        fontSize: 28.sp,
+        color: const Color(0xff131313)),
+  );
+}
+Widget textBlack2C2C2C_20Center(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 20.sp,
+        color: const Color(0xff2C2C2C)),
+  );
+}

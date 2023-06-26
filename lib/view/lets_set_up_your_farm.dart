@@ -14,6 +14,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../Utils/custom_button.dart';
+import 'basic_subscription_plan.dart';
 
 bool isSetFarmInfo = false;
 // bool get isSetFarmInfo => isSetFarmInfo;
@@ -97,11 +98,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
 
               (isSetFarmInfo && isSetLiveStockInfo && isSetFeedInfo)
                   ? CustomButton(
-                      text: "Procced To Dashboard",
+                      text: "Procced To Subscription",
                       onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => addCommunityDailog());
+                        Get.to(const BasicSubscriptionPlan());
                       })
                   : GestureDetector(
                       onTap: () {
@@ -215,98 +214,6 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget addCommunityDailog() {
-    return Dialog(
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(16.w),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.h),
-              color: AppColors.white,
-            ),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 25.h),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Icon(
-                          Icons.close,
-                          size: 30.h,
-                          color: AppColors.grey4D4D4D,
-                        ),
-                      ),
-                    ],
-                  ),
-                  sizedBoxHeight(35.h),
-                  textBlack25W600Mon("Thank You!"),
-                  sizedBoxHeight(15.h),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: 'Thank you for creating an account with ',
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        color: AppColors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Farm Flow.',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: AppColors.buttoncolour,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  sizedBoxHeight(40.h),
-                  SizedBox(
-                    width: 270.w,
-                    child: CustomButton(
-                        text: "Go To Dashboard",
-                        onTap: () {
-                          // Get.to(() => SideMenu());
-                          Get.toNamed("/sideMenu");
-                        }),
-                  ),
-                  sizedBoxHeight(40.h),
-                ],
-              ),
-            ),
-          ),
-          Positioned.fill(
-            top: -60.h,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: CircleAvatar(
-                backgroundColor: AppColors.buttoncolour,
-                radius: 60.h,
-                child: SvgPicture.asset(
-                  "assets/images/wareHouse.svg",
-                  height: 60.h,
-                  width: 60.h,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
