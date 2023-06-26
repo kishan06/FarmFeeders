@@ -16,52 +16,76 @@ class BasicSubscriptionPlan extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(top: 30.h, left: 16.w, right: 16.w),
-        child: Column(
-          children: [
-            sizedBoxHeight(30.h),
-            Container(
-              padding: EdgeInsets.only(
-                  top: 20.h, left: 20.w, right: 20.w, bottom: 35.h),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: const Color(0xffC9E0FB))),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.only(top: 20.h, left: 16.w, right: 16.w),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              sizedBoxHeight(30.h),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: const Color(0xffE3FFE9),
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: const Color(0xffE3FFE9))),
+                child: SvgPicture.asset('assets/images/basePlan.svg'),
+              ),
+              sizedBoxHeight(10.h),
+              Stack(
+                alignment: AlignmentDirectional.topEnd,
                 children: [
-                  textBlack141414_22w600('Basic Farmer Plan'),
-                  Row(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [textBlack20Bold('€'), sizedBoxHeight(40.h)],
-                      ),
-                      textBlack60w600('99.9 '),
-                      textBlack20Bold('/mo')
-                    ],
-                  ),
-                  sizedBoxHeight(10.h),
-                  rowWidget('Attractive Discounts on all Feed Orders'),
-                  rowWidget('Feed Storage Tracking and Alerts'),
-                  rowWidget('Feed Delivery Tracking'),
-                  rowWidget('Connect with experts for assistance'),
-                  rowWidget('Farm Hand Training: Videos and Notes'),
-                  sizedBoxHeight(20.h),
-                  customButtonCurve(
-                    text: 'Get a 3 Months Trail',
-                    onTap: () {
-                      Get.to(() => const PaymentSuccessfull());
+                  Container(
+                    padding: EdgeInsets.only(
+                        top: 20.h, left: 20.w, right: 20.w, bottom: 35.h),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: const Color(0xffC9E0FB))),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        textBlack141414_22w600('Basic Farmer Plan'),
+                        Row(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                textBlack20Bold('€'),
+                                sizedBoxHeight(40.h)
+                              ],
+                            ),
+                            textBlack60w600('99.9 '),
+                            textBlack20Bold('/mo')
+                          ],
+                        ),
+                        sizedBoxHeight(10.h),
+                        rowWidget('Attractive Discounts on all Feed Orders'),
+                        rowWidget('Feed Storage Tracking and Alerts'),
+                        rowWidget('Feed Delivery Tracking'),
+                        rowWidget('Connect with experts for assistance'),
+                        rowWidget('Farm Hand Training: Videos and Notes'),
+                        sizedBoxHeight(20.h),
+                        customButtonCurve(
+                          text: 'Get a 3 Months Trail',
+                          onTap: () {
+                            Get.to(() => const PaymentSuccessfull());
 
-                      showDialog(
-                          context: context,
-                          builder: (context) => addCommunityDailog());
-                    },
-                  )
+                            showDialog(
+                                context: context,
+                                builder: (context) => addCommunityDailog());
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  SvgPicture.asset('assets/images/Line.svg'),
+                  SvgPicture.asset('assets/images/Line2.svg'),
                 ],
               ),
-            )
-          ],
+              sizedBoxHeight(20.h)
+            ],
+          ),
         ),
       ),
     );
@@ -168,11 +192,11 @@ class BasicSubscriptionPlan extends StatelessWidget {
             Column(
               children: [
                 sizedBoxHeight(5.h),
-                SvgPicture.asset('assets/images/checkCircle.svg'),
+                SvgPicture.asset('assets/images/check2.svg'),
               ],
             ),
             sizedBoxWidth(15.w),
-            Flexible(child: textBlack20(txt))
+            Flexible(child: textBlack18W7000(txt))
           ],
         ),
         sizedBoxHeight(20.h)
