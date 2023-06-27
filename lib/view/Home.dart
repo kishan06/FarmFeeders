@@ -33,7 +33,6 @@ class _HomeState extends State<Home> {
     {
       "imagePath": "assets/images/buffalo.png",
       "feedFor": "Buffalo",
-
       "qty": "100"
     },
     {"imagePath": "assets/images/cow.png", "feedFor": "Cow", "qty": "600"},
@@ -942,8 +941,7 @@ class _HomeState extends State<Home> {
                           EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
                       child: Container(
                         // clipBehavior: Clip.none,
-                        height: 73.h,
-
+                        height: 82.h,
                         // width: double.negativeInfinity,
                         // width: double.infinity,
                         decoration: BoxDecoration(
