@@ -576,38 +576,38 @@ class _ProfileState extends State<Profile> {
                           ),
                         ],
                       ),
-                      Divider(
-                        thickness: 1.h,
-                        color: Colors.grey.shade200,
-                      ),
-                      sizedBoxHeight(13.h),
-                      GestureDetector(
-                        onTap: () {
-                          buildprofiledeletedialog(context);
-                        },
-                        child: Text(
-                          "Delete Account",
-                          style: TextStyle(
-                              fontSize: 20.sp,
-                              color: Color(0XFF0E5F02),
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      sizedBoxHeight(12.h),
-                      GestureDetector(
-                        onTap: () {
-                          buildprofilelogoutdialog(context);
-                        },
-                        child: Text(
-                          "Logout",
-                          style: TextStyle(
-                              fontSize: 20.sp,
-                              color: Color(0XFF0E5F02),
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
+                      // Divider(
+                      //   thickness: 1.h,
+                      //   color: Colors.grey.shade200,
+                      // ),
+                      // sizedBoxHeight(13.h),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     buildprofiledeletedialog(context);
+                      //   },
+                      //   child: Text(
+                      //     "Delete Account",
+                      //     style: TextStyle(
+                      //         fontSize: 20.sp,
+                      //         color: Color(0XFF0E5F02),
+                      //         fontFamily: "Poppins",
+                      //         fontWeight: FontWeight.w600),
+                      //   ),
+                      // ),
+                      // sizedBoxHeight(12.h),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     buildprofilelogoutdialog(context);
+                      //   },
+                      //   child: Text(
+                      //     "Logout",
+                      //     style: TextStyle(
+                      //         fontSize: 20.sp,
+                      //         color: Color(0XFF0E5F02),
+                      //         fontFamily: "Poppins",
+                      //         fontWeight: FontWeight.w600),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

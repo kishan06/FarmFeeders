@@ -78,37 +78,37 @@ class _NotificationState extends State<Notification> {
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600),
                     ),
-                    Spacer(),
-                    Container(
-                      height: 42.h,
-                      width: 42.h,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25.h),
-                          color: AppColors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade400,
-                              blurRadius: 1.h,
-                              spreadRadius: 1.h,
-                              offset: Offset(0, 3),
-                            )
-                          ]),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Get.toNamed("/notificationSettings");
-                            },
-                            child: SvgPicture.asset(
-                              "assets/images/setting-svgrepo-com (1).svg",
-                              width: 23.w,
-                              height: 24.h,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                    // Spacer(),
+                    // Container(
+                    //   height: 42.h,
+                    //   width: 42.h,
+                    //   decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(25.h),
+                    //       color: AppColors.white,
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //           color: Colors.grey.shade400,
+                    //           blurRadius: 1.h,
+                    //           spreadRadius: 1.h,
+                    //           offset: Offset(0, 3),
+                    //         )
+                    //       ]),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       InkWell(
+                    //         onTap: () {
+                    //           Get.toNamed("/notificationSettings");
+                    //         },
+                    //         child: SvgPicture.asset(
+                    //           "assets/images/setting-svgrepo-com (1).svg",
+                    //           width: 23.w,
+                    //           height: 24.h,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
               ),

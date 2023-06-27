@@ -103,15 +103,15 @@ class _SideBarState extends State<SideBar> {
       "text": "Subscription Plan",
       "route": "/SubscriptionPlan"
     },
-    {
-      "icon": Image.asset(
-        "assets/images/logout.png",
-        height: 30.h,
-        width: 30.h,
-      ),
-      "text": "Log Out",
-      "route": ""
-    },
+    // {
+    //   "icon": Image.asset(
+    //     "assets/images/logout.png",
+    //     height: 30.h,
+    //     width: 30.h,
+    //   ),
+    //   "text": "Log Out",
+    //   "route": ""
+    // },
   ];
 
   @override
@@ -203,12 +203,13 @@ class _SideBarState extends State<SideBar> {
 
                           text: sideBarData[index]["text"],
                           onTap: () {
-                            if (index == 9) {
-                              // logoutDailog(context);
-                              buildprofilelogoutdialog(context);
-                            } else {
-                              Get.toNamed(sideBarData[index]["route"]);
-                            }
+                            // if (index == 9) {
+                            //   // logoutDailog(context);
+                            //   // buildprofilelogoutdialog(context);
+                            // } else
+                            // {
+                            Get.toNamed(sideBarData[index]["route"]);
+                            // }
                             // Get.toNamed(sideBarData[index]["route"]);
                           },
                         );
@@ -253,103 +254,103 @@ class _SideBarState extends State<SideBar> {
   }
 }
 
-buildprofilelogoutdialog(context) {
-  return showDialog(
-    context: context,
-    builder: (context) => Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AlertDialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 16),
-          backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
-          //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            side: BorderSide(
-                color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
-          ),
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //sizedBoxHeight(32.h),
-              Align(
-                alignment: Alignment.center,
-                child: Image.asset(
-                  "assets/images/logout (1)@2x.png",
-                  width: 40.w,
-                  height: 50.h,
-                ),
-              ),
-              SizedBox(
-                height: 22.h,
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "Are you sure you want to Logout?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22.sp,
-                    //fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+// buildprofilelogoutdialog(context) {
+//   return showDialog(
+//     context: context,
+//     builder: (context) => Column(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         AlertDialog(
+//           insetPadding: EdgeInsets.symmetric(horizontal: 16),
+//           backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+//           //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.all(Radius.circular(20)),
+//             side: BorderSide(
+//                 color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+//           ),
+//           content: Column(
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               //sizedBoxHeight(32.h),
+//               Align(
+//                 alignment: Alignment.center,
+//                 child: Image.asset(
+//                   "assets/images/logout (1)@2x.png",
+//                   width: 40.w,
+//                   height: 50.h,
+//                 ),
+//               ),
+//               SizedBox(
+//                 height: 22.h,
+//               ),
+//               Align(
+//                 alignment: Alignment.center,
+//                 child: Text(
+//                   "Are you sure you want to Logout?",
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                     color: Colors.black,
+//                     fontSize: 22.sp,
+//                     //fontWeight: FontWeight.w600,
+//                   ),
+//                 ),
+//               ),
 
-              sizedBoxHeight(21.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed("/loginScreen");
-                    },
-                    child: Container(
-                      height: 48.h,
-                      width: 140.w,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.h),
-                          color: AppColors.buttoncolour),
-                      child: Center(
-                        child: Text(
-                          "Yes",
-                          style: TextStyle(
-                              color: AppColors.white, fontSize: 18.sp),
-                        ),
-                      ),
-                    ),
-                  ),
-                  sizedBoxWidth(28.w),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 48.h,
-                      width: 140.w,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0XFF0E5F02)),
-                          borderRadius: BorderRadius.circular(10.h),
-                          color: AppColors.white),
-                      child: Center(
-                        child: Text(
-                          "No",
-                          style: TextStyle(
-                              color: AppColors.buttoncolour, fontSize: 18.sp),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
+//               sizedBoxHeight(21.h),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                 children: [
+//                   InkWell(
+//                     onTap: () {
+//                       Get.toNamed("/loginScreen");
+//                     },
+//                     child: Container(
+//                       height: 48.h,
+//                       width: 140.w,
+//                       decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(10.h),
+//                           color: AppColors.buttoncolour),
+//                       child: Center(
+//                         child: Text(
+//                           "Yes",
+//                           style: TextStyle(
+//                               color: AppColors.white, fontSize: 18.sp),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   sizedBoxWidth(28.w),
+//                   InkWell(
+//                     onTap: () {
+//                       Navigator.pop(context);
+//                     },
+//                     child: Container(
+//                       height: 48.h,
+//                       width: 140.w,
+//                       decoration: BoxDecoration(
+//                           border: Border.all(color: Color(0XFF0E5F02)),
+//                           borderRadius: BorderRadius.circular(10.h),
+//                           color: AppColors.white),
+//                       child: Center(
+//                         child: Text(
+//                           "No",
+//                           style: TextStyle(
+//                               color: AppColors.buttoncolour, fontSize: 18.sp),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
 void navigateTo(int index, BuildContext context) {
   switch (index) {
@@ -367,100 +368,100 @@ void navigateTo(int index, BuildContext context) {
   }
 }
 
-Future<dynamic> logoutDailog(BuildContext context) {
-  return showModalBottomSheet(
-    isScrollControlled: true,
-    context: context,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(30),
-        topRight: Radius.circular(30),
-      ),
-    ),
-    builder: (context) {
-      return Container(
-        color: Colors.blue,
-        margin: EdgeInsets.symmetric(horizontal: 16.h, vertical: 24.w),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: 30.h,
-            ),
-            Center(
-              child: Text(
-                'Are you sure want to log out?',
-                textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontSize: 17.sp, color: const Color(0xFF444444)),
-              ),
-            ),
-            SizedBox(
-              height: 37.h,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
-              ),
-              child: SizedBox(
-                  width: double.infinity,
-                  height: 50.h,
-                  child: const Text('Login')),
-            ),
-            SizedBox(
-              height: 27.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 15.w,
-                right: 15.w,
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  print("going to homepage");
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 50.h,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    color: Color(0xFFffffff),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 1.0, // soften the shadow
-                        spreadRadius: 0, //extend the shadow
-                        offset: Offset(
-                          0.0, // Move to right 5  horizontally
-                          2.0, // Move to bottom 5 Vertically
-                        ),
-                      )
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Cancel",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 18.sp,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+// Future<dynamic> logoutDailog(BuildContext context) {
+//   return showModalBottomSheet(
+//     isScrollControlled: true,
+//     context: context,
+//     shape: const RoundedRectangleBorder(
+//       borderRadius: BorderRadius.only(
+//         topLeft: Radius.circular(30),
+//         topRight: Radius.circular(30),
+//       ),
+//     ),
+//     builder: (context) {
+//       return Container(
+//         color: Colors.blue,
+//         margin: EdgeInsets.symmetric(horizontal: 16.h, vertical: 24.w),
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             SizedBox(
+//               height: 30.h,
+//             ),
+//             Center(
+//               child: Text(
+//                 'Are you sure want to log out?',
+//                 textAlign: TextAlign.center,
+//                 style:
+//                     TextStyle(fontSize: 17.sp, color: const Color(0xFF444444)),
+//               ),
+//             ),
+//             SizedBox(
+//               height: 37.h,
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.only(
+//                 left: 15,
+//                 right: 15,
+//               ),
+//               child: SizedBox(
+//                   width: double.infinity,
+//                   height: 50.h,
+//                   child: const Text('Login')),
+//             ),
+//             SizedBox(
+//               height: 27.h,
+//             ),
+//             Padding(
+//               padding: EdgeInsets.only(
+//                 left: 15.w,
+//                 right: 15.w,
+//               ),
+//               child: GestureDetector(
+//                 onTap: () {
+//                   print("going to homepage");
+//                   Navigator.pop(context);
+//                 },
+//                 child: Container(
+//                   width: double.infinity,
+//                   height: 50.h,
+//                   decoration: const BoxDecoration(
+//                     borderRadius: BorderRadius.all(
+//                       Radius.circular(10),
+//                     ),
+//                     color: Color(0xFFffffff),
+//                     boxShadow: [
+//                       BoxShadow(
+//                         color: Colors.grey,
+//                         blurRadius: 1.0, // soften the shadow
+//                         spreadRadius: 0, //extend the shadow
+//                         offset: Offset(
+//                           0.0, // Move to right 5  horizontally
+//                           2.0, // Move to bottom 5 Vertically
+//                         ),
+//                       )
+//                     ],
+//                   ),
+//                   child: Center(
+//                     child: Text(
+//                       "Cancel",
+//                       textAlign: TextAlign.center,
+//                       style: TextStyle(
+//                         fontFamily: 'Poppins',
+//                         fontSize: 18.sp,
+//                         color: Colors.black,
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
 
 class SideBarTile extends StatelessWidget {
   Widget icon;
