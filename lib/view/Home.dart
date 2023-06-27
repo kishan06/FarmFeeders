@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
     {
       "imagePath": "assets/images/buffalo.png",
       "feedFor": "Buffalo",
+
       "qty": "100"
     },
     {"imagePath": "assets/images/cow.png", "feedFor": "Cow", "qty": "600"},
@@ -876,11 +877,9 @@ class _HomeState extends State<Home> {
                                             textGrey4D4D4D_16("Livestock"),
 
                                             textBlack18W600Mon(
-                                                "Lorem Ipsum Is Simply Dummy Of The Printing"),
-
+                                                "New Cow Breed Introduced In The Market"),
                                             // textGreen14("14 Minutes ago")
                                             sizedBoxHeight(10.h),
-
                                             Row(
                                               children: [
                                                 textGrey4D4D4D_14("7 Feb 2023"),
@@ -943,7 +942,7 @@ class _HomeState extends State<Home> {
                           EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
                       child: Container(
                         // clipBehavior: Clip.none,
-                        height: 93.h,
+                        height: 73.h,
 
                         // width: double.negativeInfinity,
                         // width: double.infinity,
