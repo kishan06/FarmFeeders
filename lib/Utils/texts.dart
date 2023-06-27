@@ -339,3 +339,12 @@ Widget textBlack2C2C2C_20Center(String text) {
         color: const Color(0xff2C2C2C)),
   );
 }
+
+Widget textblack14M(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+        fontSize: 14.sp, color: AppColors.black, fontWeight: FontWeight.w500),
+  );
+}
