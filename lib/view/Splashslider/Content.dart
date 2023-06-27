@@ -27,7 +27,7 @@ List<Content> contents = [
     arrow: 'assets/images/Splasharrowmed.svg',
   ),
   Content(
-    image: 'assets/images/Splashslider3.png',
+    image: 'assets/images/splashslider3.png',
     title: 'Track Your Animals \nAnd Feed \nDeliveries',
     description:
         "Get Access To Real-Time Information On All Orders And Deliveries",

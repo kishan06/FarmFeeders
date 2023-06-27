@@ -198,7 +198,7 @@ class _addSubUserState extends State<addSubUser> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Email Id",
+                        "Email Address",
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 18.sp,
@@ -212,7 +212,7 @@ class _addSubUserState extends State<addSubUser> {
                   CustomTextFormField(
                       textEditingController: email,
                       leadingIcon: SvgPicture.asset("assets/images/mail.svg"),
-                      hintText: "Email Id",
+                      hintText: "Email Address",
                       validator: (value) {
                         if (value == value.isEmpty) {
                           return 'Please enter your email';
@@ -224,7 +224,7 @@ class _addSubUserState extends State<addSubUser> {
                         // v4 = true;
                         return null;
                       },
-                      validatorText: "Please Enter Email Id"),
+                      validatorText: "Please Enter Email Address"),
                   SizedBox(
                     height: 20.h,
                   ),
