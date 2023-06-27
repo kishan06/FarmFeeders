@@ -32,29 +32,14 @@ class _HomeState extends State<Home> {
   List currentFeedData = [
     {
       "imagePath": "assets/images/buffalo.png",
-      "feedFor": "Current Feed for Beef",
+      "feedFor": "Buffalo",
+
       "qty": "100"
     },
-    {
-      "imagePath": "assets/images/cow.png",
-      "feedFor": "Current Feed for Cow",
-      "qty": "600"
-    },
-    {
-      "imagePath": "assets/images/sheep.png",
-      "feedFor": "Current Feed for Sheep",
-      "qty": "100"
-    },
-    {
-      "imagePath": "assets/images/pig.png",
-      "feedFor": "Current Feed for Pig",
-      "qty": "600"
-    },
-    {
-      "imagePath": "assets/images/hen.png",
-      "feedFor": "Current Feed for Poultry",
-      "qty": "100"
-    },
+    {"imagePath": "assets/images/cow.png", "feedFor": "Cow", "qty": "600"},
+    {"imagePath": "assets/images/sheep.png", "feedFor": "Sheep", "qty": "100"},
+    {"imagePath": "assets/images/pig.png", "feedFor": "Pig", "qty": "600"},
+    {"imagePath": "assets/images/hen.png", "feedFor": "Hen", "qty": "100"},
   ];
 
   int selectedCurrentFeed = 0;
@@ -505,9 +490,9 @@ class _HomeState extends State<Home> {
 
                                     sizedBoxHeight(10.h),
 
-                                    textBlack18W600Mon(
-                                        currentFeedData[selectedCurrentFeed]
-                                            ["feedFor"]),
+                                    // textBlack18W600Mon(
+                                    //     currentFeedData[selectedCurrentFeed]
+                                    //         ["feedFor"]),
                                     // /
                                     sizedBoxHeight(15.h),
 
@@ -554,7 +539,14 @@ class _HomeState extends State<Home> {
                                                             .start,
                                                     children: [
                                                       textGrey4D4D4D_22(
-                                                          "Dairy"),
+                                                          // "Dairy"
+                                                          currentFeedData[
+                                                                  selectedCurrentFeed]
+                                                              ["feedFor"]
+                                                          // currentFeedData[
+                                                          //         selectedCurrentFeed]
+                                                          //     ["feedFor"]
+                                                          ),
                                                       textBlack25W7000(
                                                           currentFeedData[
                                                                       selectedCurrentFeed]

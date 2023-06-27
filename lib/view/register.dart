@@ -407,7 +407,26 @@ class _RegisterState extends State<Register> {
             context: context,
             initialDate: DateTime.now(),
             firstDate: DateTime(1922),
-            lastDate: DateTime.now())
+            lastDate: DateTime.now(),
+            builder: (context,child){
+              return Theme(
+                data: 
+                Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: AppColors.buttoncolour,
+                onPrimary: AppColors.white,
+                onSurface: Colors.blueAccent,
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  primary: AppColors.buttoncolour,
+                ),
+              ),
+            ),
+                 child: child!
+                 );
+            },
+            )
         .then((pickedDate) {
       // Check if no date is selected
       if (pickedDate == null) {

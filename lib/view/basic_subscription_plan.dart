@@ -71,9 +71,11 @@ class BasicSubscriptionPlan extends StatelessWidget {
                           onTap: () {
                             Get.to(() => const PaymentSuccessfull());
 
-                            showDialog(
-                                context: context,
-                                builder: (context) => addCommunityDailog());
+                            Future.delayed(Duration(seconds: 3), () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => addCommunityDailog());
+                            });
                           },
                         )
                       ],

@@ -96,7 +96,7 @@ class _SideBarState extends State<SideBar> {
     },
     {
       "icon": Image.asset(
-        "assets/images/connection_code.png",
+        "assets/images/subscription@2x.png",
         height: 30.h,
         width: 30.h,
       ),

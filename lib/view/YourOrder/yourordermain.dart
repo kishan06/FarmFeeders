@@ -1,6 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/Utils/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,7 +47,7 @@ class _YourorderState extends State<Yourorder> {
               padding: EdgeInsets.only(left: 16.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: 300.w,
@@ -100,22 +101,29 @@ class _YourorderState extends State<Yourorder> {
                       ),
                     ),
                   ),
-                  sizedBoxWidth(5.w),
-                  Container(
-                    width: 53.w,
-                    height: 45.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.h),
-                      color: Color(0XFF0E5F02),
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        "assets/images/order.svg",
-                        width: 31.w,
-                        height: 31.w,
-                      ),
-                    ),
-                  ),
+                  // sizedBoxWidth(5.w),
+                  filter(),
+
+                  // InkWell(
+                  //   onTap: () {
+                  //    filter();
+                  //   },
+                  //   child: Container(
+                  //     width: 53.w,
+                  //     height: 45.h,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(10.h),
+                  //       color: Color(0XFF0E5F02),
+                  //     ),
+                  //     child: Center(
+                  //       child: SvgPicture.asset(
+                  //         "assets/images/order.svg",
+                  //         width: 31.w,
+                  //         height: 31.w,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -527,7 +535,7 @@ class _YourorderState extends State<Yourorder> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                            left: 16.w, top: 9.h, bottom: 18.h),
+                                left: 16.w, top: 9.h, bottom: 18.h),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -841,6 +849,75 @@ class _YourorderState extends State<Yourorder> {
           ],
         ),
       ),
+    );
+  }
+
+  List filterList = ['buffalo', 'cow', 'sheep', 'pig', 'hen'];
+  Widget filter() {
+    return PopupMenuButton(
+      icon: SvgPicture.asset(
+        'assets/images/filter.svg',
+        // width: 53.w,
+        // height: 60.h,
+        fit: BoxFit.cover,
+      ),
+      itemBuilder: (context) {
+        return [
+          PopupMenuItem(
+              child: Column(
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                itemFilter(0),
+                GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(Icons.cancel_outlined))
+              ]),
+              itemFilter(1),
+              itemFilter(2),
+              itemFilter(3),
+              itemFilter(4),
+              GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 30.w, vertical: 25.h),
+                    decoration: BoxDecoration(
+                        color: AppColors.buttoncolour,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Center(child: textWhite16('Apply Now')),
+                  ))
+            ],
+          ))
+        ];
+      },
+    );
+  }
+
+  Widget itemFilter(int index) {
+    RxBool filter = false.obs;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Obx(
+          () => Checkbox(
+            activeColor: AppColors.buttoncolour,
+            value: filter.value,
+            onChanged: (value) {
+              filter.value = !filter.value;
+            },
+          ),
+        ),
+        Image.asset('assets/images/${filterList[index]}.png',
+            width: 40.w, height: 24.h),
+        sizedBoxWidth(5.w),
+        textblack14M(filterList[index]),
+      ],
     );
   }
 
