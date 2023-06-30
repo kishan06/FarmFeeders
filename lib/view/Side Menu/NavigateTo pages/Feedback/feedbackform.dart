@@ -168,7 +168,8 @@ class _FeedbackformState extends State<Feedbackform> {
                 sizedBoxHeight(2.h),
                 Center(
                   child: Text(
-                    "what was it? \nshare with us your experience!",
+                    "How did you feel while using FarmFlow?\nshare with us your experience!",
+                    // "what was it? \nshare with us your experience!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14.sp,
