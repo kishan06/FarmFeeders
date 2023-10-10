@@ -1,15 +1,18 @@
+import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/data/network/network_api_services.dart';
+import 'package:farmfeeders/view_models/VerifyIdentityAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 
 class VerifyYourIdentity extends StatefulWidget {
   const VerifyYourIdentity({super.key});
@@ -21,7 +24,41 @@ class VerifyYourIdentity extends StatefulWidget {
 class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController pincode = TextEditingController();
+  int? id;
+  String? phonenumber;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var args = Get.arguments;
+    id = args['id'];
+    phonenumber = args['phonenumber'];
+
+    // feedBackData = Get.arguments;
+  }
+
+  NetworkApiServices networkApiServices = NetworkApiServices();
+  _identitycheck() async {
+    final isValid = _form.currentState?.validate();
+    if (isValid!) {
+      Map<String, String> updata = {
+        "id": id.toString(),
+        "otp": pincode.text,
+      };
+      final resp = await VerifyIdentityAPI(updata).verifyidentityApi();
+      if (resp.status == ResponseStatus.SUCCESS) {
+        // int? id = resp.data['data']['id'];
+        Get.toNamed('/letsSetUpYourFarm', arguments: {'id': id.toString()});
+      } else if (resp.status == ResponseStatus.PRIVATE) {
+        String? message = resp.data['data'];
+        utils.showToast("$message");
+      } else {
+        utils.showToast(resp.message);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,32 +83,33 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // customAppBar(text: "Verify Your Number",),
-          
+
                 // Lottie.asset("assets/lotties/verifyYourIdentity.json",
                 //   width: 200.w,
                 //   height: 200.w
                 // ),
                 sizedBoxHeight(10.h),
-          
+
                 textBlack16(
                     "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry."),
-          
+
                 sizedBoxHeight(50.h),
-          
+
                 SizedBox(
                   width: 270.w,
                   child: textBlack16W5000(
-                      "Please enter the 4 digit code sent to 0249522174"),
+                      "Please enter the 4 digit code sent to $phonenumber"),
                 ),
-          
+
                 sizedBoxHeight(45.h),
-          
+
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: PinCodeTextField(
                     showCursor: true,
                     cursorColor: const Color(0xFF143C6D),
-                    textStyle: TextStyle(fontSize: 18.sp, color: AppColors.black),
+                    textStyle:
+                        TextStyle(fontSize: 18.sp, color: AppColors.black),
                     errorTextSpace: 30.h,
                     validator: (value) {
                       if (value != null && value.isEmpty) {
@@ -112,15 +150,15 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
                     },
                     beforeTextPaste: (text) {
                       print("Allowing to paste $text");
-          
+
                       return true;
                     },
                     appContext: context,
                   ),
                 ),
-          
+
                 sizedBoxHeight(30.h),
-          
+
                 Text(
                   "Resend Code",
                   style: TextStyle(
@@ -129,19 +167,19 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
                       color: AppColors.buttoncolour,
                       fontWeight: FontWeight.w500),
                 ),
-          
+
                 sizedBoxHeight(150.h),
                 // 130
                 customButtonCurve(
-                  text: "Verify",
-                  onTap: () {
-                    final isValid = _form.currentState?.validate();
-                    if (isValid!) {
-                      Get.toNamed('/letsSetUpYourFarm');
-                    } 
-                    // Get.toNamed("/letsSetUpYourFarm");
-                  }
-                ),
+                    text: "Verify",
+                    onTap: () {
+                      _identitycheck();
+                      // final isValid = _form.currentState?.validate();
+                      // if (isValid!) {
+                      //   Get.toNamed('/letsSetUpYourFarm');
+                      // }
+                      // Get.toNamed("/letsSetUpYourFarm");
+                    }),
               ],
             ),
           ),
