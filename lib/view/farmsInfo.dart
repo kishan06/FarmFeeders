@@ -13,6 +13,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../common/custom_button_curve.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 
 class FarmsInfo extends StatefulWidget {
   const FarmsInfo({super.key});
@@ -292,8 +293,8 @@ class _FarmsInfoState extends State<FarmsInfo> {
               ),
             )),
         // barrierColor: Colors.red[50],
-        // isDismissible: false,
-        isScrollControlled: true);
+        isScrollControlled: true,
+        enableDrag: false);
   }
 
   Padding cards(
