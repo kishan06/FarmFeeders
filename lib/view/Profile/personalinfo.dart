@@ -26,6 +26,11 @@ class PersonalInfo extends StatefulWidget {
 class _PersonalInfoState extends State<PersonalInfo> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //bool editBool = false;
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
   DateTime? _selectedDate;
   final ProfileImageController editProfileImage =
       Get.put(ProfileImageController());
@@ -35,7 +40,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       setState(() {
         // editBool = false;
         nameValue = nameController.text;
-        dateValue = datecontroller.text;
+        dateValue = dateController.text;
         phoneValue = phoneController.text;
         emailValue = emailController.text;
         // addressValue = addressController.text;
@@ -79,7 +84,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       }
       setState(() {
         _selectedDate = pickedDate;
-        datecontroller.text =
+        dateController.text =
             "${_selectedDate!.day.toString()}/${_selectedDate!.month.toString().padLeft(2, '0')}/${_selectedDate!.year.toString().padLeft(2, '0')}";
       });
     });
@@ -335,7 +340,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             }
                             return null;
                           },
-                          datecontroller: datecontroller,
+                          datecontroller: dateController,
                           ontap: () => _presentDatePicker(),
                         ),
                         sizedBoxHeight(21.h),

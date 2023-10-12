@@ -1,14 +1,17 @@
+import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
-import 'package:farmfeeders/view/profile.dart';
+import 'package:farmfeeders/data/network/network_api_services.dart';
+import 'package:farmfeeders/view_models/RegisterAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -20,20 +23,56 @@ class Register extends StatefulWidget {
 ScrollController? controller;
 ScrollController? _scrollviewcontroller;
 String? dateregistercontroller;
-DateTime? _selectedDate;
+
 String? _password;
 
 class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController cpasswordController = TextEditingController();
+  DateTime? _selectedDate;
 
-  void _submit() {
-    final FormState? form = _formKey.currentState;
-    if (form != null && form.validate()) {
-      form.save();
+//  void _submit() {
+  //   final FormState? form = _formKey.currentState;
+  //   if (form != null && form.validate()) {
+  //     form.save();
 
-      // Do something with the user credentials, such as login to the backend
-      // server and navigate to the home screen.
-      Get.toNamed("/verifyYourIdentity");
+  //     // Do something with the user credentials, such as login to the backend
+  //     // server and navigate to the home screen.
+  //     Get.toNamed("/verifyYourIdentity");
+  //   }
+  // }
+
+  NetworkApiServices networkApiServices = NetworkApiServices();
+  _registercheck() async {
+    // networkApiServices.getApiResponse();
+    // networkApiServices.getHttpResponse();
+
+    final isValid = _formKey.currentState?.validate();
+    if (isValid!) {
+      Map<String, String> updata = {
+        "name": nameController.text,
+        "dob": dateregistercontroller.toString(),
+        "phone_number": phoneController.text,
+        "email": emailController.text,
+        "password": passwordController.text,
+        "c_password": cpasswordController.text,
+      };
+      final resp = await RegisterAPI(updata).registerApi();
+      if (resp.status == ResponseStatus.SUCCESS) {
+        int? id = resp.data['data']['id'];
+        Get.toNamed('/verifyYourIdentity',
+            arguments: {'id': id, 'phonenumber': phoneController.text});
+      } else if (resp.status == ResponseStatus.PRIVATE) {
+        String? message = resp.data['message'];
+        utils.showToast("$message");
+      } else {
+        utils.showToast(resp.message);
+      }
     }
   }
 
@@ -124,6 +163,7 @@ class _RegisterState extends State<Register> {
                                 height: 10.h,
                               ),
                               CustomTextFormField(
+                                textEditingController: nameController,
                                 leadingIcon: SvgPicture.asset(
                                     "assets/images/profileimage.svg"),
                                 validator: (value) {
@@ -209,6 +249,7 @@ class _RegisterState extends State<Register> {
                                 height: 10.h,
                               ),
                               CustomTextFormField(
+                                textEditingController: phoneController,
                                 texttype: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
                                   LengthLimitingTextInputFormatter(10),
@@ -243,6 +284,7 @@ class _RegisterState extends State<Register> {
                                 height: 10.h,
                               ),
                               CustomTextFormField(
+                                textEditingController: emailController,
                                 texttype: TextInputType.emailAddress,
                                 leadingIcon:
                                     SvgPicture.asset("assets/images/mail.svg"),
@@ -275,6 +317,7 @@ class _RegisterState extends State<Register> {
                                 height: 10.h,
                               ),
                               CustomTextFormField(
+                                textEditingController: addressController,
                                 leadingIcon: SvgPicture.asset(
                                   "assets/images/location.svg",
                                 ),
@@ -301,6 +344,7 @@ class _RegisterState extends State<Register> {
                                 height: 10.h,
                               ),
                               CustomTextFormField(
+                                textEditingController: passwordController,
                                 leadingIcon: SvgPicture.asset(
                                     "assets/images/password.svg"),
                                 hintText: "",
@@ -331,6 +375,7 @@ class _RegisterState extends State<Register> {
                                 height: 10.h,
                               ),
                               CustomTextFormField(
+                                textEditingController: cpasswordController,
                                 leadingIcon: SvgPicture.asset(
                                     "assets/images/password.svg"),
                                 validator: (value) {
@@ -355,7 +400,7 @@ class _RegisterState extends State<Register> {
                           CustomButton(
                               text: "Register",
                               onTap: () {
-                                _submit();
+                                _registercheck();
                                 //   Get.toNamed("/verifyYourIdentity");
                               }),
                           SizedBox(
@@ -404,14 +449,13 @@ class _RegisterState extends State<Register> {
   void _presentDatePicker() {
     // showDatePicker is a pre-made funtion of Flutter
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1922),
-            lastDate: DateTime.now(),
-            builder: (context,child){
-              return Theme(
-                data: 
-                Theme.of(context).copyWith(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1922),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+            data: Theme.of(context).copyWith(
               colorScheme: const ColorScheme.light(
                 primary: AppColors.buttoncolour,
                 onPrimary: AppColors.white,
@@ -423,11 +467,9 @@ class _RegisterState extends State<Register> {
                 ),
               ),
             ),
-                 child: child!
-                 );
-            },
-            )
-        .then((pickedDate) {
+            child: child!);
+      },
+    ).then((pickedDate) {
       // Check if no date is selected
       if (pickedDate == null) {
         return setState(() {

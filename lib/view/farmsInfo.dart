@@ -3,16 +3,17 @@ import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
-import 'package:farmfeeders/common/custom_button.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../common/custom_button_curve.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 
 class FarmsInfo extends StatefulWidget {
   const FarmsInfo({super.key});
@@ -85,34 +86,30 @@ class _FarmsInfoState extends State<FarmsInfo> {
               // List.generate
               SizedBox(
                 height: 400.h,
-
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   child: ListView.builder(
-                    itemCount: farmNumber,
-                    itemBuilder: (context,index){
-                    return Column(
-                      children: [
-                        CustomTextFormField(
-                          readonly: true,
-                          onTap: (){
-                            locationBottomSheet();
-                          },
-                          hintText: "Select on map",
-                          validatorText: "",
-                          // texttype: TextInputType.phone,
-                          leadingIcon: SvgPicture.asset(
-                            "assets/images/location.svg",
-                          ),
-                        ),
-                              
-                        sizedBoxHeight(15.h)
-                      ],
-                    );
-                  
-                  }),
+                      itemCount: farmNumber,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            CustomTextFormField(
+                              readonly: true,
+                              onTap: () {
+                                locationBottomSheet();
+                              },
+                              hintText: "Select on map",
+                              validatorText: "",
+                              // texttype: TextInputType.phone,
+                              leadingIcon: SvgPicture.asset(
+                                "assets/images/location.svg",
+                              ),
+                            ),
+                            sizedBoxHeight(15.h)
+                          ],
+                        );
+                      }),
                 ),
-
               ),
               // CustomTextFormField(
               //   hintText: "Enter your farm location",
@@ -125,18 +122,15 @@ class _FarmsInfoState extends State<FarmsInfo> {
 
               // Spacer(),
 
-      
               customButtonCurve(
-                text: "Next",
-                onTap: (){
-                  isSetFarmInfo = true;
-                  Get.toNamed("/letsSetUpYourFarm");
+                  text: "Next",
+                  onTap: () {
+                    isSetFarmInfo = true;
+                    Get.toNamed("/letsSetUpYourFarm");
 
-                  // Get.back();
-                  // Get.toNamed("/ResetPassword");
-                }
-              ),
-      
+                    // Get.back();
+                    // Get.toNamed("/ResetPassword");
+                  }),
 
               // sizedBoxHeight(120.h)
             ],
@@ -147,145 +141,161 @@ class _FarmsInfoState extends State<FarmsInfo> {
   }
 
   Future<T?> locationBottomSheet<T>() {
+    late GoogleMapController mapController;
+    Marker? selectedMarker;
+    double? selectedLatitude;
+    double? selectedLongitude;
     return Get.bottomSheet(
-      
-      Container(
-          height: 700.h,
-          // color: AppColors.white,
-          decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.h),
-                  topRight: Radius.circular(20.h))),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+        Container(
+            height: 700.h,
+            // color: AppColors.white,
+            decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.h),
+                    topRight: Radius.circular(20.h))),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
 
-            // padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // textBlack16("asd")
-                customAppBar(
-                  text: "Choose On Map",
-                  inBottomSheet: true
-                ),
+              // padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // textBlack16("asd")
+                  customAppBar(text: "Choose On Map", inBottomSheet: true),
 
-                sizedBoxHeight(10.h),
+                  sizedBoxHeight(10.h),
 
-                textBlack18W5000("Drag the map to choose a place"),
+                  textBlack18W5000("Drag the map to choose a place"),
 
-                sizedBoxHeight(10.h),
+                  sizedBoxHeight(10.h),
 
-                Expanded(
-                  child: Container(
-                    // color: Colors.amber,
-                    // height: 400.h,
-                    // width: 358.w,
-                    width: double.infinity,
-                    child: Image.asset("assets/images/map.png",
-                      fit: BoxFit.fill,
-                    )
-                    // SvgPicture.asset("assets/images/map.svg",
-                    //   // height: 350.h,
-                    //   // width: 358.w,
-                    //   fit: BoxFit.fill,
-                    // ),
-                  ),
-                ),
+                  Expanded(
+                    child: Container(
+                      // color: Colors.amber,
+                      // height: 400.h,
+                      // width: 358.w,
+                      width: double.infinity,
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(37.7749,
+                              -122.4194), // Initial map location (San Francisco)
+                          zoom: 12.0,
+                        ),
+                        markers: Set<Marker>.of(
+                            selectedMarker != null ? [selectedMarker!] : []),
+                        onMapCreated: (GoogleMapController controller) {
+                          mapController = controller;
+                        },
+                        onTap: (LatLng latLng) async {
+                          final addresses = await placemarkFromCoordinates(
+                            latLng.latitude,
+                            latLng.longitude,
+                          );
 
-                sizedBoxHeight(10.h),
+                          if (addresses.isNotEmpty) {
+                            final selectedAddress = addresses.first;
+                            final address =
+                                "${selectedAddress.street}, ${selectedAddress.locality}, ${selectedAddress.country}";
+                            setState(() {
+                              selectedMarker = Marker(
+                                markerId: MarkerId('selected_location'),
+                                position: latLng,
+                              );
+                              selectedLatitude = latLng.latitude;
+                              selectedLongitude = latLng.longitude;
+                            });
 
-                Row(
-                  children: [
-                    Container(
-                      width: 30.w,
-                      height: 30.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.circular(5.w),
-                        color: AppColors.buttoncolour
+                            print('Selected Address: $address');
+                            print('Latitude: $selectedLatitude');
+                            print('Longitude: $selectedLongitude');
+                          }
+                        },
                       ),
-                      child: Icon(
-                        Icons.near_me,
-                        color: AppColors.white,
+
+                      // SvgPicture.asset("assets/images/map.svg",
+                      //   // height: 350.h,
+                      //   // width: 358.w,
+                      //   fit: BoxFit.fill,
+                      // ),
+                    ),
+                  ),
+
+                  sizedBoxHeight(10.h),
+
+                  Row(
+                    children: [
+                      Container(
+                        width: 30.w,
+                        height: 30.w,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(5.w),
+                            color: AppColors.buttoncolour),
+                        child: Icon(
+                          Icons.near_me,
+                          color: AppColors.white,
+                          size: 20.w,
+                        ),
+                      ),
+                      sizedBoxWidth(5.w),
+                      textBlack18("Dopped Pin"),
+                      const Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15.w,
+                      )
+                    ],
+                  ),
+
+                  Divider(
+                    thickness: 1.h,
+                    color: AppColors.black,
+                  ),
+
+                  textGrey4D4D4D_16("Suggestions"),
+
+                  textBlack18("Dopped Pin"),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        color: AppColors.buttoncolour,
                         size: 20.w,
                       ),
-                    ),
 
-                    sizedBoxWidth(5.w),
+                      sizedBoxWidth(5.w),
 
-                    textBlack18("Dopped Pin"),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          textBlack16("Decathlon Malad"),
+                          // textGrey4D4D4D_16(text)
+                          textGrey4D4D4D_14(
+                              "22b baker street St, Marylebone, Europe")
+                        ],
+                      ),
 
-                    const Spacer(),
+                      // textBlack18("Dopped Pin"),
 
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15.w,
-                      
-                    )
-                  ],
-                ),
+                      const Spacer(),
 
-                Divider(
-                  thickness: 1.h,
-                  color: AppColors.black,
-                ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15.w,
+                      )
+                    ],
+                  ),
 
-                textGrey4D4D4D_16("Suggestions"),
-
-                textBlack18("Dopped Pin"),
-
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      color: AppColors.buttoncolour,
-                      size: 20.w,
-                    ),
-
-                    sizedBoxWidth(5.w),
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        textBlack16("Decathlon Malad"),
-                        // textGrey4D4D4D_16(text)
-                        textGrey4D4D4D_14("22b baker street St, Marylebone, Europe")
-                      ],
-                    ),
-
-                    // textBlack18("Dopped Pin"),
-
-
-                    const Spacer(),
-
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15.w,
-                      
-                    )
-                  ],
-                ),
-
-
-                // textg
-
-
-
-
-
-                
-                
-
-              ],
-            ),
-          )),
-      // barrierColor: Colors.red[50],
-      // isDismissible: false,
-      isScrollControlled: true
-    );
+                  // textg
+                ],
+              ),
+            )),
+        // barrierColor: Colors.red[50],
+        isScrollControlled: true,
+        enableDrag: false);
   }
-
 
   Padding cards(
       {void Function()? onTap,

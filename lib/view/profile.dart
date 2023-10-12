@@ -19,11 +19,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
-TextEditingController nameController = TextEditingController();
-TextEditingController phoneController = TextEditingController();
-TextEditingController emailController = TextEditingController();
-TextEditingController datecontroller = TextEditingController();
-
 String? nameValue;
 String? dateValue;
 String? phoneValue;
@@ -39,6 +34,11 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   //final GlobalKey<ScaffoldState> _key = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController datecontroller = TextEditingController();
   // bool editBool = false;
 
   final ProfileImageController editProfileImage =
