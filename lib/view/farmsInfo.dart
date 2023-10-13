@@ -13,7 +13,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../common/custom_button_curve.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
+import '../models/AddressModel/search_responce_model.dart';
+import 'placeServices/place_services.dart';
+import 'search_address_details.dart';
 
 class FarmsInfo extends StatefulWidget {
   const FarmsInfo({super.key});
@@ -25,7 +27,14 @@ class FarmsInfo extends StatefulWidget {
 class _FarmsInfoState extends State<FarmsInfo> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController pincode = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   int farmNumber = 1;
+  final placesService = PlacesService();
+
+  String lat = "";
+  String lng = "";
+  List<Prediction> searchResults = [];
+  bool searchClear = true;
 
   @override
   Widget build(BuildContext context) {
@@ -154,144 +163,293 @@ class _FarmsInfoState extends State<FarmsInfo> {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.h),
                     topRight: Radius.circular(20.h))),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+            child: StatefulBuilder(builder: (context, StateSetter setState) {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
 
-              // padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // textBlack16("asd")
-                  customAppBar(text: "Choose On Map", inBottomSheet: true),
+                // padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // textBlack16("asd")
+                    customAppBar(text: "Choose On Map", inBottomSheet: true),
 
-                  sizedBoxHeight(10.h),
+                    sizedBoxHeight(10.h),
 
-                  textBlack18W5000("Drag the map to choose a place"),
-
-                  sizedBoxHeight(10.h),
-
-                  Expanded(
-                    child: Container(
-                      // color: Colors.amber,
-                      // height: 400.h,
-                      // width: 358.w,
-                      width: double.infinity,
-                      child: GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(37.7749,
-                              -122.4194), // Initial map location (San Francisco)
-                          zoom: 12.0,
+                    TextFormField(
+                      validator: (value) {
+                        if (value == '') {
+                          return "Please Enter Address";
+                        }
+                        return null;
+                      },
+                      controller: addressController,
+                      style: const TextStyle(color: Colors.black),
+                      cursorColor: Colors.black,
+                      cursorWidth: 1.5,
+                      decoration: InputDecoration(
+                        counterText: '',
+                        alignLabelWithHint: true,
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: const BorderSide(color: Colors.black45),
                         ),
-                        markers: Set<Marker>.of(
-                            selectedMarker != null ? [selectedMarker!] : []),
-                        onMapCreated: (GoogleMapController controller) {
-                          mapController = controller;
-                        },
-                        onTap: (LatLng latLng) async {
-                          final addresses = await placemarkFromCoordinates(
-                            latLng.latitude,
-                            latLng.longitude,
-                          );
-
-                          if (addresses.isNotEmpty) {
-                            final selectedAddress = addresses.first;
-                            final address =
-                                "${selectedAddress.street}, ${selectedAddress.locality}, ${selectedAddress.country}";
-                            setState(() {
-                              selectedMarker = Marker(
-                                markerId: MarkerId('selected_location'),
-                                position: latLng,
-                              );
-                              selectedLatitude = latLng.latitude;
-                              selectedLongitude = latLng.longitude;
-                            });
-
-                            print('Selected Address: $address');
-                            print('Latitude: $selectedLatitude');
-                            print('Longitude: $selectedLongitude');
-                          }
-                        },
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: const BorderSide(color: Colors.black45),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          borderSide: const BorderSide(color: Colors.black45),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 15),
+                        //  errorText: "Please Enter Address",
+                        hintText: "Enter Address",
+                        hintStyle: const TextStyle(
+                            color: Colors.black54, fontSize: 14),
+                        // contentPadding:
+                        //     const EdgeInsets.only(left: 16),
+                        suffixIcon: addressController.text.isEmpty
+                            ? null
+                            : GestureDetector(
+                                onTap: () {
+                                  print('clear search done');
+                                  addressController.clear();
+                                  //FocusScope.of(context).unfocus();
+                                  setState(() {});
+                                },
+                                child: const Padding(
+                                  padding: const EdgeInsets.only(top: 0),
+                                  child: Icon(
+                                    Icons.cancel_sharp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
                       ),
+                      onChanged: (value) async {
+                        searchClear = value.isEmpty;
+                        await placesService
+                            .getAutocomplete(value)
+                            .then((value) {
+                          final searchResponse =
+                              searchAddressListFromJson(value);
 
-                      // SvgPicture.asset("assets/images/map.svg",
-                      //   // height: 350.h,
-                      //   // width: 358.w,
-                      //   fit: BoxFit.fill,
-                      // ),
+                          searchResults = searchResponse.predictions!;
+                        });
+                        setState(() {});
+                      },
                     ),
-                  ),
+                    SizedBox(
+                      height:
+                          (!searchClear && addressController.text.isNotEmpty)
+                              ? 12
+                              : 0,
+                    ),
+                    Visibility(
+                      visible:
+                          !searchClear && addressController.text.isNotEmpty,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: MediaQuery.of(context).size.width * 0.91,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: ListView.builder(
+                          itemCount: searchResults.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                ListTile(
+                                  dense: true,
+                                  visualDensity: const VisualDensity(
+                                      horizontal: 0, vertical: -4),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, right: 12),
+                                  title: Text(
+                                    // change
+                                    searchResults[index].description.toString(),
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 18),
+                                  ),
+                                  onTap: () async {
+                                    setState(() {
+                                      searchClear = true;
+                                      String id = searchResults[index]
+                                          .placeId
+                                          .toString();
+                                      placesService
+                                          .getPlace(id)
+                                          .then((value) async {
+                                        final searchResponse =
+                                            searchAddressDetailsFromJson(value);
 
-                  sizedBoxHeight(10.h),
+                                        lat = searchResponse
+                                            .result!.geometry!.location!.lat
+                                            .toString();
+                                        lng = searchResponse
+                                            .result!.geometry!.location!.lng
+                                            .toString();
 
-                  Row(
-                    children: [
-                      Container(
-                        width: 30.w,
-                        height: 30.w,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(5.w),
-                            color: AppColors.buttoncolour),
-                        child: Icon(
-                          Icons.near_me,
-                          color: AppColors.white,
+                                        addressController.text = searchResponse
+                                            .result!.formattedAddress!;
+
+                                        LatLng mPostion = LatLng(
+                                            searchResponse.result!.geometry!
+                                                .location!.lat!,
+                                            searchResponse.result!.geometry!
+                                                .location!.lng!);
+                                        CameraPosition cameraPosition =
+                                            new CameraPosition(
+                                                target: mPostion, zoom: 17);
+                                        mapController!.animateCamera(
+                                            CameraUpdate.newCameraPosition(
+                                                cameraPosition));
+                                      });
+                                    });
+                                  },
+                                ),
+                                const Divider(
+                                  color: Colors.black,
+                                )
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    sizedBoxHeight(10.h),
+                    textBlack18W5000("Drag the map to choose a place"),
+
+                    sizedBoxHeight(10.h),
+
+                    Expanded(
+                      child: Container(
+                        // color: Colors.amber,
+                        // height: 400.h,
+                        // width: 358.w,
+                        width: double.infinity,
+                        child: GoogleMap(
+                          initialCameraPosition: const CameraPosition(
+                            target: LatLng(37.7749,
+                                -122.4194), // Initial map location (San Francisco)
+                            zoom: 12.0,
+                          ),
+                          markers: Set<Marker>.of(
+                              selectedMarker != null ? [selectedMarker!] : []),
+                          onMapCreated: (GoogleMapController controller) {
+                            mapController = controller;
+                          },
+                          onTap: (LatLng latLng) async {
+                            final addresses = await placemarkFromCoordinates(
+                              latLng.latitude,
+                              latLng.longitude,
+                            );
+
+                            if (addresses.isNotEmpty) {
+                              final selectedAddress = addresses.first;
+                              final address =
+                                  "${selectedAddress.street}, ${selectedAddress.locality}, ${selectedAddress.country}";
+                              setState(() {
+                                selectedMarker = Marker(
+                                  markerId: const MarkerId('selected_location'),
+                                  position: latLng,
+                                );
+                                selectedLatitude = latLng.latitude;
+                                selectedLongitude = latLng.longitude;
+                              });
+
+                              print('Selected Address: $address');
+                              print('Latitude: $selectedLatitude');
+                              print('Longitude: $selectedLongitude');
+                            }
+                          },
+                        ),
+
+                        // SvgPicture.asset("assets/images/map.svg",
+                        //   // height: 350.h,
+                        //   // width: 358.w,
+                        //   fit: BoxFit.fill,
+                        // ),
+                      ),
+                    ),
+
+                    sizedBoxHeight(10.h),
+
+                    Row(
+                      children: [
+                        Container(
+                          width: 30.w,
+                          height: 30.w,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadiusDirectional.circular(5.w),
+                              color: AppColors.buttoncolour),
+                          child: Icon(
+                            Icons.near_me,
+                            color: AppColors.white,
+                            size: 20.w,
+                          ),
+                        ),
+                        sizedBoxWidth(5.w),
+                        textBlack18("Dopped Pin"),
+                        const Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 15.w,
+                        )
+                      ],
+                    ),
+
+                    Divider(
+                      thickness: 1.h,
+                      color: AppColors.black,
+                    ),
+
+                    textGrey4D4D4D_16("Suggestions"),
+
+                    textBlack18("Dopped Pin"),
+
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: AppColors.buttoncolour,
                           size: 20.w,
                         ),
-                      ),
-                      sizedBoxWidth(5.w),
-                      textBlack18("Dopped Pin"),
-                      const Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15.w,
-                      )
-                    ],
-                  ),
 
-                  Divider(
-                    thickness: 1.h,
-                    color: AppColors.black,
-                  ),
+                        sizedBoxWidth(5.w),
 
-                  textGrey4D4D4D_16("Suggestions"),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            textBlack16("Decathlon Malad"),
+                            // textGrey4D4D4D_16(text)
+                            textGrey4D4D4D_14(
+                                "22b baker street St, Marylebone, Europe")
+                          ],
+                        ),
 
-                  textBlack18("Dopped Pin"),
+                        // textBlack18("Dopped Pin"),
 
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.location_on,
-                        color: AppColors.buttoncolour,
-                        size: 20.w,
-                      ),
+                        const Spacer(),
 
-                      sizedBoxWidth(5.w),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 15.w,
+                        )
+                      ],
+                    ),
 
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          textBlack16("Decathlon Malad"),
-                          // textGrey4D4D4D_16(text)
-                          textGrey4D4D4D_14(
-                              "22b baker street St, Marylebone, Europe")
-                        ],
-                      ),
-
-                      // textBlack18("Dopped Pin"),
-
-                      const Spacer(),
-
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15.w,
-                      )
-                    ],
-                  ),
-
-                  // textg
-                ],
-              ),
-            )),
+                    // textg
+                  ],
+                ),
+              );
+            })),
         // barrierColor: Colors.red[50],
         isScrollControlled: true,
         enableDrag: false);
