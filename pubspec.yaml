@@ -58,6 +58,10 @@ dependencies:
   intl: ^0.18.1
   scroll_snap_list: ^0.9.1
   flutter_keyboard_visibility: ^5.4.1
+  http:
+  google_maps_flutter: ^2.5.0
+  geocoding: ^2.1.1
+  #flutter_google_places: ^0.3.
 
 dev_dependencies:
   flutter_test:

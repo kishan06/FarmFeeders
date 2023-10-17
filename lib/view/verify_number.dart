@@ -1,15 +1,17 @@
+import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
-import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/data/network/network_api_services.dart';
+import 'package:farmfeeders/view_models/VerifyNumberAPI.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 
 class VerifyNumber extends StatefulWidget {
   const VerifyNumber({super.key});
@@ -21,15 +23,41 @@ class VerifyNumber extends StatefulWidget {
 class _VerifyNumberState extends State<VerifyNumber> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController pincode = TextEditingController();
-  String? phoneNumber;
+
+  int? id;
+  String? phonenumber;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    phoneNumber = Get.arguments;
+    var args = Get.arguments;
+    id = args['id'];
+    phonenumber = args['phonenumber'];
+
     // feedBackData = Get.arguments;
+  }
+
+  NetworkApiServices networkApiServices = NetworkApiServices();
+  _verifycheck() async {
+    final isValid = _form.currentState?.validate();
+    if (isValid!) {
+      Map<String, String> updata = {
+        "id": id.toString(),
+        "otp": pincode.text,
+      };
+      final resp = await VerifyNumberAPI(updata).verifynumberApi();
+      if (resp.status == ResponseStatus.SUCCESS) {
+        // int? id = resp.data['data']['id'];
+        Get.toNamed('/ResetPassword', arguments: {'id': id.toString()});
+      } else if (resp.status == ResponseStatus.PRIVATE) {
+        String? message = resp.data['data'];
+        utils.showToast("$message");
+      } else {
+        utils.showToast(resp.message);
+      }
+    }
   }
 
   @override
@@ -55,24 +83,25 @@ class _VerifyNumberState extends State<VerifyNumber> {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // customAppBar(text: "Verify Your Number",),
-          
+
                 Lottie.asset("assets/lotties/verifyNumber.json",
                     width: 200.w, height: 200.w),
-          
+
                 SizedBox(
                   width: 270.w,
                   child: textBlack16W5000(
-                      "Please enter the 4 digit code sent to $phoneNumber"),
+                      "Please enter the 4 digit code sent to $phonenumber"),
                 ),
-          
+
                 sizedBoxHeight(45.h),
-          
+
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: PinCodeTextField(
                     showCursor: true,
                     cursorColor: const Color(0xFF143C6D),
-                    textStyle: TextStyle(fontSize: 18.sp, color: AppColors.black),
+                    textStyle:
+                        TextStyle(fontSize: 18.sp, color: AppColors.black),
                     errorTextSpace: 30.h,
                     validator: (value) {
                       if (value != null && value.isEmpty) {
@@ -113,15 +142,15 @@ class _VerifyNumberState extends State<VerifyNumber> {
                     },
                     beforeTextPaste: (text) {
                       print("Allowing to paste $text");
-          
+
                       return true;
                     },
                     appContext: context,
                   ),
                 ),
-          
+
                 sizedBoxHeight(70.h),
-          
+
                 Text(
                   "Resend Code",
                   style: TextStyle(
@@ -130,16 +159,17 @@ class _VerifyNumberState extends State<VerifyNumber> {
                       color: AppColors.buttoncolour,
                       fontWeight: FontWeight.w500),
                 ),
-          
+
                 sizedBoxHeight(30.h),
                 // 130
                 customButtonCurve(
                     text: "Verify",
                     onTap: () {
-                      final isValid = _form.currentState?.validate();
-                      if (isValid!) {
-                        Get.toNamed('/ResetPassword');
-                      } 
+                      _verifycheck();
+                      // final isValid = _form.currentState?.validate();
+                      // if (isValid!) {
+                      //   Get.toNamed('/ResetPassword');
+                      // }
                       // else {
                       //   Get.snackbar("Error", "Please Enter OTP",
                       //     margin: EdgeInsets.all(8),

@@ -1,14 +1,68 @@
+import 'dart:convert';
+
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/base_api_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 class NetworkApiServices extends BaseApiServices {
   Dio dio = Dio();
 
+  getApiResponse() async {
+    print("getApiResponse");
+    var headers = {
+      'Authorization':
+          'Basic KzIkcVBiSlIzNncmaGUoalMmV0R6ZkpqdEVoSlVLVXA6dCRCZHEmSnQmc3Y0eUdqY0VVcTg5aEVZZHVSalhIMnU='
+    };
+    var data = FormData.fromMap(
+        {'email': 'subfarmer@wdimails.com', 'password': 'User@123'});
+
+    var dio = Dio();
+    var response = await dio.request(
+      'https://farmflow.betadelivery.com/api/login',
+      options: Options(
+        method: 'POST',
+        headers: headers,
+      ),
+      data: data,
+    );
+
+    if (response.statusCode == 200) {
+      print(json.encode(response.data));
+    } else {
+      print(response.statusMessage);
+    }
+  }
+
+  getHttpResponse() async {
+    print("getHttpResponse");
+    var headers = {
+      'Authorization':
+          'Basic KzIkcVBiSlIzNncmaGUoalMmV0R6ZkpqdEVoSlVLVXA6dCRCZHEmSnQmc3Y0eUdqY0VVcTg5aEVZZHVSalhIMnU='
+    };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('https://farmflow.betadelivery.com/api/login'));
+    request.fields
+        .addAll({'email': 'subfarmer@wdimails.com', 'password': 'User@123'});
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  String basicAuth = 'Basic ' +
+      base64.encode(utf8.encode(
+          '+2\$qPbJR36w&he(jS&WDzfJjtEhJUKUp:t\$Bdq&Jt&sv4yGjcEUq89hEYduRjXH2u'));
   @override
-  Future getApi(String url) async {
+  Future<ResponseData> getApi(String url) async {
     if (kDebugMode) {
       print("api url is >>> $url");
     }
@@ -17,7 +71,12 @@ class NetworkApiServices extends BaseApiServices {
     String? token = prefs.getString('token').toString();
     try {
       response = await dio.get(url,
-          options: Options(headers: {"authorization": "Bearer $token"}));
+          options: Options(headers: {
+            'method': 'POST',
+            "authorization": basicAuth,
+            'access-token': token,
+            // "device-id": deviceId
+          }));
     } on Exception catch (_) {
       return ResponseData<dynamic>(
           'Oops something Went Wrong', ResponseStatus.FAILED);
@@ -25,6 +84,7 @@ class NetworkApiServices extends BaseApiServices {
     if (response.statusCode == 200) {
       return ResponseData<dynamic>(
         "success",
+        data: response.data,
         ResponseStatus.SUCCESS,
       );
     } else {
@@ -39,28 +99,37 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  Future postApi(data, String url) async {
+  Future<ResponseData> postApi(data, String url) async {
     if (kDebugMode) {
       print("data >>> $data");
       print("api url is >>> $url");
     }
     Response response;
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token').toString();
+    String? token = prefs.getString('token');
     try {
       response = await dio.post(url,
           data: data,
-          options: Options(headers: {"authorization": "Bearer $token"}));
+          options: token != null
+              ? Options(headers: {
+                  "authorization": basicAuth,
+                  // 'access-token': token,
+                })
+              : Options(headers: {
+                  "authorization": basicAuth,
+                }));
     } on Exception catch (_) {
       return ResponseData<dynamic>(
           'Oops something Went Wrong', ResponseStatus.FAILED);
     }
 
     if (response.statusCode == 200) {
-      return ResponseData<dynamic>(
-        "success",
-        ResponseStatus.SUCCESS,
-      );
+      return ResponseData<dynamic>("success", ResponseStatus.SUCCESS,
+          data: response.data);
+    } else if (response.statusCode == 203) {
+      return ResponseData<dynamic>("success", ResponseStatus.PRIVATE,
+          data: response.data);
     } else {
       try {
         return ResponseData<dynamic>(

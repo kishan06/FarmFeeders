@@ -1,5 +1,5 @@
-
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LimitRange extends TextInputFormatter {
   LimitRange(
@@ -24,5 +24,13 @@ class LimitRange extends TextInputFormatter {
       return TextEditingValue(text: maxRange.toString());
     }
     return newValue;
+  }
+}
+
+class utils {
+  static showToast(String? msg) {
+    if (msg != null && msg != "null" && msg.isNotEmpty) {
+      Fluttertoast.showToast(msg: msg);
+    }
   }
 }

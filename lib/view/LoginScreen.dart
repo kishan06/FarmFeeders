@@ -2,10 +2,16 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/view_models/LoginAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:farmfeeders/common/limit_range.dart';
+
+import 'package:farmfeeders/Utils/base_manager.dart';
+
+import '../data/network/network_api_services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,15 +25,37 @@ ScrollController? _scrollviewcontroller;
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  TextEditingController tecEmail =
-      TextEditingController(text: "farm@gmail.com");
-  TextEditingController tecPassword = TextEditingController(text: "Farm@1234");
+  TextEditingController tecEmail = TextEditingController();
+  TextEditingController tecPassword = TextEditingController();
+  NetworkApiServices networkApiServices = NetworkApiServices();
+  _logincheck() async {
+    // networkApiServices.getApiResponse();
+    // networkApiServices.getHttpResponse();
+
+    final isValid = _form.currentState?.validate();
+    if (isValid!) {
+      Map<String, String> updata = {
+        "email": tecEmail.text,
+        "password": tecPassword.text
+      };
+      final resp = await LoginAPI(updata).loginApi();
+      if (resp.status == ResponseStatus.SUCCESS) {
+        Get.toNamed('/sideMenu');
+      } else if (resp.status == ResponseStatus.PRIVATE) {
+        String? message = resp.data['data'];
+        utils.showToast("$message");
+      } else {
+        utils.showToast(resp.message);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -53,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           top: -18 * fem,
                           child: SvgPicture.asset(
                             "assets/grass.svg",
-                             width: 430.w,
+                            width: 430.w,
                           ),
                         ),
                         Positioned(
@@ -190,23 +218,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         CustomButton(
                             text: "Login",
                             onTap: () {
-                              final isValid = _form.currentState?.validate();
-                              if (isValid!) {
-                                // Get.toNamed("/homepage");
-                                // Get.to(MainScreen());
+                              _logincheck();
+                              // final isValid = _form.currentState?.validate();
+                              // if (isValid!) {
+                              // Get.toNamed("/homepage");
+                              // Get.to(MainScreen());
 
-                                //bottomsheetpin(context);
+                              //bottomsheetpin(context);
 
-                                //bottomsheetfingerprint(context);
+                              //bottomsheetfingerprint(context);
 
-                                // final SharedPreferences prefs =
-                                //     await SharedPreferences.getInstance();
+                              // final SharedPreferences prefs =
+                              //     await SharedPreferences.getInstance();
 
-                                // await prefs.setBool('LogedIn', true);
-                                Get.toNamed("/sideMenu");
+                              // await prefs.setBool('LogedIn', true);
+                              // Get.toNamed("/sideMenu");
 
-                                // Get.toNamed("/EntryPoint", arguments: 0);
-                              }
+                              // Get.toNamed("/EntryPoint", arguments: 0);
+                              //     }
                               // else {
                               //   Get.snackbar(
                               //       "Error", "Please Enter Login Credentials",

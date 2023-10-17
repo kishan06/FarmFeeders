@@ -1,14 +1,18 @@
+import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/data/network/network_api_services.dart';
+import 'package:farmfeeders/view_models/ForgotPasswordAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -20,6 +24,26 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  NetworkApiServices networkApiServices = NetworkApiServices();
+  _forgotcheck() async {
+    final isValid = _form.currentState?.validate();
+    if (isValid!) {
+      Map<String, String> updata = {
+        "phone_number": phoneController.text,
+      };
+      final resp = await ForgotPasswordAPI(updata).forgotpasswordApi();
+      if (resp.status == ResponseStatus.SUCCESS) {
+        int? id = resp.data['data']['id'];
+        Get.toNamed('/verifyNumber',
+            arguments: {'id': id, 'phonenumber': phoneController.text});
+      } else if (resp.status == ResponseStatus.PRIVATE) {
+        String? message = resp.data['data']['phone_number'].first;
+        utils.showToast("$message");
+      } else {
+        utils.showToast("${resp.message}");
+      }
+    }
+  }
 
 // sing
   @override
@@ -52,23 +76,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       width: 200.w,
                       height: 200.w,
                     ),
-              
+
                     SizedBox(
                       width: 270.w,
                       child: textBlack16W5000(
                         "Please enter your phone number to receive a verification code.",
                       ),
                     ),
-              
+
                     sizedBoxHeight(35.h),
-              
+
                     Align(
                       alignment: Alignment.centerLeft,
                       child: textBlack16W5000("Phone Number"),
                     ),
-              
+
                     sizedBoxHeight(8.h),
-              
+
                     CustomTextFormField(
                         texttype: TextInputType.phone,
                         textEditingController: phoneController,
@@ -87,22 +111,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           return null;
                         },
                         hintText: "Enter your Phone Number",
-                        validatorText: "Enter your Phone Number"
-                      ),
+                        validatorText: "Enter your Phone Number"),
                     // Spacer(),
-              
+
                     sizedBoxHeight(130.h),
-              
+
                     customButtonCurve(
                         text: "Next",
                         onTap: () {
+                          _forgotcheck();
                           // Get.toNamed("/verifyNumber");
-                          final isValid = _form.currentState?.validate();
-                          if (isValid!) {
-                            Get.toNamed("/verifyNumber",
-                              arguments: phoneController.text
-                            );
-                          } 
+                          // final isValid = _form.currentState?.validate();
+                          // if (isValid!) {
+                          //   Get.toNamed("/verifyNumber",
+                          //     arguments: phoneController.text
+                          //   );
+                          // }
                         }),
                   ],
                 ),
