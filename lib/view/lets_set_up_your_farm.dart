@@ -4,6 +4,8 @@ import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/resources/routes/route_name.dart';
+import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +35,8 @@ class LetsSetUpYourFarm extends StatefulWidget {
 }
 
 class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController pincode = TextEditingController();
+  // TextEditingController phoneController = TextEditingController();
+  // TextEditingController pincode = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               sizedBoxHeight(25.h),
               cards(
                 onTap: () async {
-                  var res = await Get.toNamed("/livestockinfomain");
+                  var res = await Get.toNamed(RouteName.liveStockInfoMain);
                   if (res) {
                     setState(() {});
                   }
