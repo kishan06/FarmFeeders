@@ -1,41 +1,49 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../Utils/colors.dart';
 
 class DropdownBtn extends StatefulWidget {
-  const DropdownBtn({
+  DropdownBtn({
     required this.hint,
     required this.items,
     this.isEnabled = true,
     this.onItemSelected,
     bool showAddButton = false,
+    this.value,
     super.key,
   });
   final String hint;
-  final List<String>? items;
+  // final List? items;
   final void Function(String)? onItemSelected;
   final bool isEnabled;
+  final List<DropdownMenuItem<dynamic>>? items;
+  dynamic value;
   @override
   State<DropdownBtn> createState() => _DropdownBtnState();
 }
 
 class _DropdownBtnState extends State<DropdownBtn> {
   late String label;
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-    'Item5',
-    'Item6',
-    'Item7',
-    'Item8',
-  ];
+  // final List<String> items = [
+  //   'Item1',
+  //   'Item2',
+  //   'Item3',
+  //   'Item4',
+  //   'Item5',
+  //   'Item6',
+  //   'Item7',
+  //   'Item8',
+  // ];
+ 
   String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
+        
         isExpanded: true,
         hint: Row(
           children: [
@@ -55,21 +63,22 @@ class _DropdownBtnState extends State<DropdownBtn> {
             ),
           ],
         ),
-        items: widget.items!
-            .map((item) => DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF4D4D4D),
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ))
-            .toList(),
-        value: selectedValue,
+        items: widget.items,
+        // widget.items!
+        //     .map((item) => DropdownMenuItem<String>(
+        //           value: item,
+        //           child: Text(
+        //             item,
+        //             style: const TextStyle(
+        //               fontSize: 14,
+        //               fontWeight: FontWeight.bold,
+        //               color: Color(0xFF4D4D4D),
+        //             ),
+        //             overflow: TextOverflow.ellipsis,
+        //           ),
+        //         ))
+        //     .toList(),
+        value: widget.value,
         onChanged: (value) {
           setState(() {
             selectedValue = value as String;
@@ -120,3 +129,4 @@ class _DropdownBtnState extends State<DropdownBtn> {
     );
   }
 }
+

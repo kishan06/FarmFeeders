@@ -1,5 +1,6 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
+import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/view_models/LoginAPI.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 
 import 'package:farmfeeders/Utils/base_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/network/network_api_services.dart';
 
@@ -40,6 +42,12 @@ class _LoginScreenState extends State<LoginScreen> {
       };
       final resp = await LoginAPI(updata).loginApi();
       if (resp.status == ResponseStatus.SUCCESS) {
+        print("reslo ${resp.data}");
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        // print("token " + jsonResp["data"]["accessToken"]);
+        await prefs.setString('accessToken', resp.data["data"]["access_token"]);
+
+        token = resp.data["data"]["access_token"];
         Get.toNamed('/sideMenu');
       } else if (resp.status == ResponseStatus.PRIVATE) {
         String? message = resp.data['data'];
@@ -157,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return null;
                               },
                               validatorText: "",
-                              //  isInputPassword: true,
+                              //  isInputPasswordl: true,
                             ),
                           ],
                         ),
