@@ -84,13 +84,19 @@ class LiveStockInfoContro extends GetxController {
     }
   }
 
-  setApiLiveStockData({
+  Future<bool?> setApiLiveStockData({
     required String liveStockType, 
     required String liveStockAge, 
     required String liveStockBreed,
     required String count
   }) async {
     try {
+      print({
+          'livestock_type': liveStockType,
+          'livestock_age': liveStockAge,
+          'livestock_breed': liveStockBreed,
+          'count': count
+        });
       var headers = {
         'Authorization': bearerToken
       };
@@ -115,12 +121,16 @@ class LiveStockInfoContro extends GetxController {
 
       if (response.statusCode == 200) {
         print(json.encode(response.data));
+        return true;
       }
       else {
         print(response.statusMessage);
+        Get.snackbar("Error", "Something went wrong");
       }
     } catch (e) {
       print(e);
+      Get.snackbar("Error", "Something went wrong");
+
     }
   }
 }

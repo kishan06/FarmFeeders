@@ -309,33 +309,7 @@ class _RegisterState extends State<Register> {
                           SizedBox(
                             height: 20.h,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textBlack16W5000("Address"),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              CustomTextFormField(
-                                textEditingController: addressController,
-                                leadingIcon: SvgPicture.asset(
-                                  "assets/images/location.svg",
-                                ),
-                                hintText: "",
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please Enter address';
-                                  }
-                                  return null;
-                                },
-                                validatorText: "",
-                                isInputPassword: false,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20.h,
-                          ),
+                        
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
