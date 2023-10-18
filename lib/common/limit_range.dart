@@ -15,7 +15,13 @@ class LimitRange extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    var value = int.parse(newValue.text);
+    var value;
+    if (newValue.text.isNotEmpty) {
+      value = int.parse(newValue.text);
+    } else {
+      value = 1;
+    }
+
     if (value < minRange) {
       print('value print in between 1 - 20');
       return TextEditingValue(text: minRange.toString());

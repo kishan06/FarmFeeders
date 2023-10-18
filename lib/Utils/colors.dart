@@ -9,6 +9,7 @@ abstract class AppColors {
   static const redFA5658 = Color(0XFfFA5658);
   static const redFCDADA = Color(0XFfFCDADA);
   
+  static const blueL_006796 = Color(0xff006796);
   
   static const grey4D4D4D = Color(0XFf4D4D4D);
   static const transparent = Colors.transparent;
