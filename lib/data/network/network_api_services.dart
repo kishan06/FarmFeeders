@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/base_api_services.dart';
@@ -92,8 +93,8 @@ class NetworkApiServices extends BaseApiServices {
           data: data,
           options: token != null
               ? Options(headers: {
-                  "authorization": basicAuth,
-                  // 'access-token': token,
+                  "authorization": "Bearer $token",
+                  //'access-token': token,
                 })
               : Options(headers: {
                   "authorization": basicAuth,
@@ -107,6 +108,7 @@ class NetworkApiServices extends BaseApiServices {
       return ResponseData<dynamic>("success", ResponseStatus.SUCCESS,
           data: response.data);
     } else if (response.statusCode == 203) {
+      log(response.data);
       return ResponseData<dynamic>("success", ResponseStatus.PRIVATE,
           data: response.data);
     } else {

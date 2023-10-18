@@ -1,5 +1,6 @@
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
+import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:farmfeeders/common/limit_range.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyYourIdentity extends StatefulWidget {
   const VerifyYourIdentity({super.key});
@@ -49,6 +51,14 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
       };
       final resp = await VerifyIdentityAPI(updata).verifyidentityApi();
       if (resp.status == ResponseStatus.SUCCESS) {
+        print("resp ${resp.data}");
+        print(resp.data["data"]);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        // print("token " + jsonResp["data"]["accessToken"]);
+        await prefs.setString('accessToken', resp.data["data"]["token"]);
+
+        token = resp.data["data"]["token"];
+
         // int? id = resp.data['data']['id'];
         Get.toNamed('/letsSetUpYourFarm', arguments: {'id': id.toString()});
       } else if (resp.status == ResponseStatus.PRIVATE) {

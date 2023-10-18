@@ -1,10 +1,17 @@
 import 'package:farmfeeders/Utils/colors.dart';
+import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  // GlobalVariables globalVariables = GlobalVariables();
+  token = prefs.getString('accessToken');
   runApp(const MyApp());
 }
 
@@ -15,7 +22,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        // useInheritedMediaQuery: true,
+
+        useInheritedMediaQuery: true,
+
         designSize: const Size(390, 844),
         builder: (context, child) {
           return GetMaterialApp(
@@ -27,8 +36,12 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
 
-            // initialRoute: '/',
-            initialRoute: '/connectexperts',
+
+            // initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
+            initialRoute: '/letsSetUpYourFarm',
+            
+
+
 
             getPages: AppRoutes.appRoutes(),
           );
