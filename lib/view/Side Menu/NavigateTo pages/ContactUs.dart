@@ -1,12 +1,12 @@
-import 'dart:async';
-
-//import 'package:farmfeeders/Utils/SizedBox.dart';
+import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
-import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/data/network/network_api_services.dart';
+import 'package:farmfeeders/view_models/ContactusAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({super.key});
@@ -17,7 +17,46 @@ class ContactUs extends StatefulWidget {
 
 class _ContactUsState extends State<ContactUs> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController contactController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
   final residentialstatustexteditingcontroller = TextEditingController();
+  NetworkApiServices networkApiServices = NetworkApiServices();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    contactController.dispose();
+    subjectController.dispose();
+    messageController.dispose();
+    super.dispose();
+  }
+
+  _contactuscheck() async {
+    final isValid = _form.currentState?.validate();
+    if (isValid!) {
+      Map<String, String> updata = {
+        "name": nameController.text,
+        "email": emailController.text,
+        "contact_number": contactController.text,
+        "subject": subjectController.text,
+        "message": messageController.text
+      };
+      final resp = await ContactusAPI(updata).contactusApi();
+      if (resp.status == ResponseStatus.SUCCESS) {
+        utils.showToast("Sent");
+        Get.toNamed("/sidemenu");
+      } else if (resp.status == ResponseStatus.PRIVATE) {
+        String? message = resp.data['data'];
+        utils.showToast("$message");
+      } else {
+        utils.showToast(resp.message);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,13 +132,14 @@ class _ContactUsState extends State<ContactUs> {
                         height: 15.h,
                       ),
                       ContactTextformfield(
+                          textEditingController: nameController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Please Enter Your Name";
                             }
                             return null;
                           },
-                          hintText: "  Enter Name",
+                          hintText: "Enter Name",
                           validatorText: "Please Enter Name"),
                       SizedBox(
                         height: 25.h,
@@ -120,6 +160,7 @@ class _ContactUsState extends State<ContactUs> {
                         height: 15.h,
                       ),
                       ContactTextformfield(
+                          textEditingController: emailController,
                           validator: (value) {
                             if (value.isEmpty) {
                               return "Please Enter Your Email";
@@ -131,7 +172,7 @@ class _ContactUsState extends State<ContactUs> {
                             }
                             return null;
                           },
-                          hintText: "  Enter Email Address",
+                          hintText: "Enter Email Address",
                           validatorText: "Please Enter Email Address"),
                       SizedBox(height: 25.h),
                       Row(
@@ -150,6 +191,7 @@ class _ContactUsState extends State<ContactUs> {
                         height: 15.h,
                       ),
                       ContactTextformfield(
+                          textEditingController: contactController,
                           texttype: TextInputType.phone,
                           validator: (value) {
                             if (value == value.isEmpty) {
@@ -161,7 +203,7 @@ class _ContactUsState extends State<ContactUs> {
                             // v3 = true;
                             return null;
                           },
-                          hintText: "  Enter Mobile Number",
+                          hintText: "Enter Mobile Number",
                           validatorText: "Please Enter Mobile Number"),
                       SizedBox(height: 25.h),
                       Row(
@@ -180,13 +222,14 @@ class _ContactUsState extends State<ContactUs> {
                         height: 15.h,
                       ),
                       ContactTextformfield(
+                          textEditingController: subjectController,
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Subject is required';
                             }
                             return null;
                           },
-                          hintText: "  Enter Subject",
+                          hintText: "Enter Subject",
                           validatorText: "Please Enter Subject"),
                       SizedBox(
                         height: 25.h,
@@ -207,6 +250,8 @@ class _ContactUsState extends State<ContactUs> {
                         height: 15.h,
                       ),
                       TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: messageController,
                         style: TextStyle(fontSize: 16.sp),
                         cursorColor: const Color(0xFF3B3F43),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -245,7 +290,7 @@ class _ContactUsState extends State<ContactUs> {
                           ),
                           hintStyle: TextStyle(
                               color: const Color(0xFF4D4D4D), fontSize: 16.sp),
-                          hintText: "  Message",
+                          hintText: "Message",
                         ),
                         minLines: 5,
                         maxLines: null,
@@ -260,9 +305,7 @@ class _ContactUsState extends State<ContactUs> {
                       CustomButton(
                         text: "Send Now",
                         onTap: () {
-                          if (_form.currentState!.validate()) {
-                            print("error");
-                          }
+                          _contactuscheck();
                         },
                       ),
                       sizedBoxHeight(58.h)
