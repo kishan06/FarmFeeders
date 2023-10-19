@@ -42,11 +42,11 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
+            preferredSize: Size(Get.width, 56),
             child: Container(
-                margin: EdgeInsets.only(top: 15),
+                margin: const EdgeInsets.only(top: 15),
                 child:
-                    customAppBar(text: "Choose On Map", inBottomSheet: false)),
-            preferredSize: Size(Get.width, 56)),
+                    customAppBar(text: "Choose On Map", inBottomSheet: false))),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
 

@@ -1,20 +1,23 @@
+import 'dart:developer';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/colors.dart';
-import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_appbar_home.dart';
-import 'package:farmfeeders/common/custom_button.dart';
+import 'package:farmfeeders/common/limit_range.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
+import 'package:farmfeeders/view_models/WeatherApi.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:intl/intl.dart';
+import 'package:location/location.dart' as ls;
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
-import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_share/flutter_share.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/status.dart';
 
@@ -28,7 +31,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool lowFeed = true;
   bool saved = false;
-
+  DashboardController dashboardController = Get.put(DashboardController());
   List currentFeedData = [
     {
       "imagePath": "assets/images/buffalo.png",
@@ -42,6 +45,25 @@ class _HomeState extends State<Home> {
   ];
 
   int selectedCurrentFeed = 0;
+  Stream<DateTime>? _clockStream;
+  String? place;
+  String? temperature;
+  @override
+  void initState() {
+    getPrefData();
+    getCurrentAddress();
+    _clockStream = Stream<DateTime>.periodic(const Duration(seconds: 1), (_) {
+      return DateTime.now();
+    });
+
+    super.initState();
+  }
+
+  Future<void> getPrefData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    temperature = prefs.getString('temperature') ?? "00.0";
+    place = prefs.getString('location') ?? "Unknown";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,23 +225,50 @@ class _HomeState extends State<Home> {
                                                         sizedBoxWidth(5.w),
 
                                                         // textBlack20W7000("Ireland"),
-                                                        textBlack18W5000(
-                                                            "Ireland")
+                                                        Obx(
+                                                          () => textBlack18W5000(
+                                                              dashboardController
+                                                                      .isLocationFetching
+                                                                      .value
+                                                                  ? place!
+                                                                  : dashboardController
+                                                                      .locationText
+                                                                      .value),
+                                                        )
                                                       ],
                                                     ),
-                                                    textGreen50Bold("22° C"),
-                                                    textBlack18W5000(
-                                                        "Sat, 3 Nov -12.32PM"),
+                                                    Obx(
+                                                      () => textGreen50Bold(
+                                                          "${dashboardController.isLocationFetching.value ? temperature! : dashboardController.tempValue.value}° C"),
+                                                    ),
+                                                    StreamBuilder<DateTime>(
+                                                      stream: _clockStream,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          String
+                                                              formattedDateTime =
+                                                              DateFormat(
+                                                                      'E, d MMM - hh:mm a')
+                                                                  .format(snapshot
+                                                                      .data!);
+
+                                                          return Center(
+                                                            child:
+                                                                textBlack18W5000(
+                                                              formattedDateTime,
+                                                            ),
+                                                          );
+                                                        } else {
+                                                          return textBlack18W5000(
+                                                              'Loading...');
+                                                        }
+                                                      },
+                                                    ),
                                                   ],
                                                 ),
                                               ],
                                             ),
-
-                                            // LottieBuilder.asset(name)
-                                            // Lottie.asset("assets/lotties/cloud.json",
-                                            //   height: 100.h,
-                                            //   width: 200.w
-                                            // )
                                           ],
                                         )
                                       ],
@@ -1021,6 +1070,50 @@ class _HomeState extends State<Home> {
         ],
       ),
     ));
+  }
+
+  getCurrentAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    dashboardController.isLocationFetching.value = true;
+    final location = ls.Location();
+    final serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled && !await location.requestService()) {
+      return;
+    }
+
+    final permissionGranted = await location.hasPermission();
+    if (permissionGranted != ls.PermissionStatus.granted) {
+      if (await location.requestPermission() != ls.PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    try {
+      final locationData = await location.getLocation();
+      final placemarks = await placemarkFromCoordinates(
+        locationData.latitude!,
+        locationData.longitude!,
+      );
+
+      final locality = placemarks.isNotEmpty ? placemarks[0].locality : '';
+      dashboardController.locationText.value = locality!;
+      log("${locationData.latitude!},${locationData.longitude!}");
+      final weatherData = await WeatherApi().getWeatherData(
+        locationData.latitude!,
+        locationData.longitude!,
+      );
+
+      dashboardController.tempValue.value =
+          weatherData.data["current"]["temp_c"].toString();
+
+      await prefs.setString('location', locality);
+      await prefs.setString(
+          'temperature', weatherData.data["current"]["temp_c"].toString());
+    } catch (e) {
+      utils.showToast("Error fetching location or weather data");
+      //   print("Error fetching location or weather data: $e");
+    }
+    dashboardController.isLocationFetching.value = false;
   }
 
   Widget currentFeedSelection({required String imagePath, required int index}) {
