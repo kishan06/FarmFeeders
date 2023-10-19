@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      // useInheritedMediaQuery: true,
+        useInheritedMediaQuery: true,
         designSize: const Size(390, 844),
         builder: (context, child) {
           return GetMaterialApp(
@@ -34,10 +34,8 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
 
-            // initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
-            initialRoute: '/letsSetUpYourFarm',
-            
-
+             initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
+      //      initialRoute: '/',
 
             getPages: AppRoutes.appRoutes(),
           );

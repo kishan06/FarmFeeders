@@ -1,12 +1,14 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
-import 'package:farmfeeders/Utils/custom_button.dart';
+import 'package:farmfeeders/models/expertlistModel.dart';
 import 'package:farmfeeders/view/Side%20Menu/Connectexpertdata.dart';
+import 'package:farmfeeders/view_models/ExpertlistAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../../Utils/sized_box.dart';
 
 class ConnectExperts extends StatefulWidget {
@@ -17,6 +19,10 @@ class ConnectExperts extends StatefulWidget {
 }
 
 class _ConnectExpertsState extends State<ConnectExperts> {
+  Future<ResponseData<dynamic>> fetchData() async {
+    return ExpertListAPI().expertlistApi();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -104,15 +110,871 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                         ],
                       ),
                     ),
-                    const Expanded(
-                      child: TabBarView(
-                        children: [
-                          FirstTab(),
-                          FirstTab(),
-                          FirstTab(),
-                        ],
-                      ),
+                    FutureBuilder<ResponseData<dynamic>>(
+                      future: fetchData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.hasData &&
+                            snapshot.data?.status == ResponseStatus.SUCCESS) {
+                          final expertList =
+                              ExpertList.fromJson(snapshot.data!.data);
+
+                          final List<Advisors> advisors =
+                              expertList.data?.advisors ?? [];
+                          final List<Veterinarian> veterinarians =
+                              expertList.data?.veterinarian ?? [];
+                          final List<Repairmen> repairmen =
+                              expertList.data?.repairmen ?? [];
+
+                          return Expanded(
+                            child: TabBarView(
+                              children: [
+                                // List of Advisors
+                                ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: advisors.length,
+                                  itemBuilder: (context, index) {
+                                    final advisor = advisors[index];
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.symmetric(
+                                                  vertical: 7.h,
+                                                  horizontal: 15),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                              border: Border.all(
+                                                  color: Color(0XFf0E5F02)
+                                                      .withOpacity(1),
+                                                  width: 1),
+                                              color: Color(0xFFFFFFFF),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 11.h,
+                                                ),
+                                                Row(
+                                                  //mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 16.w),
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 3,
+                                                              color: advisor
+                                                                          .bookmarked ==
+                                                                      0
+                                                                  ? Colors.amber
+                                                                  : Colors
+                                                                      .white),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  100), //<-- SEE HERE
+                                                        ),
+                                                        child: Image.asset(
+                                                          // image,
+                                                          "assets/images/connect2.png",
+                                                          width: 66.w,
+                                                          height: 66.w,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    sizedBoxWidth(8.w),
+                                                    SizedBox(
+                                                      width: 195.w,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          RichText(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            text: TextSpan(
+                                                              text:
+                                                                  advisor.name,
+                                                              // "Roma dsouza",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                "assets/images/call.svg",
+                                                                width: 13.w,
+                                                                height: 13.w,
+                                                              ),
+                                                              sizedBoxWidth(
+                                                                  5.w),
+                                                              RichText(
+                                                                text: TextSpan(
+                                                                  text: advisor
+                                                                      .contactNumber,
+                                                                  // "0225845855",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0XFF585858),
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top: 3
+                                                                            .h),
+                                                                child:
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  "assets/images/locationconnect.svg",
+                                                                  width: 13.w,
+                                                                  height: 13.w,
+                                                                ),
+                                                              ),
+                                                              sizedBoxWidth(
+                                                                  5.w),
+                                                              SizedBox(
+                                                                width: 180.w,
+                                                                child: RichText(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  text:
+                                                                      TextSpan(
+                                                                    text: advisor
+                                                                        .location,
+                                                                    // "Canada",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Color(
+                                                                          0XFF585858),
+                                                                      fontSize:
+                                                                          16.sp,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                                    // sizedBoxWidth(16.w),
+
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            children: [
+                                                              IconButton(
+                                                                icon: advisor
+                                                                            .bookmarked ==
+                                                                        0
+                                                                    // _isChecked
+                                                                    ? CircleAvatar(
+                                                                        radius:
+                                                                            25.h,
+                                                                        backgroundColor:
+                                                                            Color(0XFFF1F1F1),
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .star,
+                                                                          color:
+                                                                              Colors.amber,
+                                                                        ),
+                                                                      )
+                                                                    : Icon(
+                                                                        Icons
+                                                                            .star_border,
+                                                                        color: Color(
+                                                                            0XFF707070),
+                                                                      ),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    expertData[index]
+                                                                            [
+                                                                            "isConnect"] =
+                                                                        advisor.bookmarked ==
+                                                                                0
+                                                                            ? 1
+                                                                            : 0;
+                                                                    // _isChecked = !_isChecked;
+                                                                  });
+                                                                },
+                                                              ),
+                                                              InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  launch(
+                                                                      'tel://${advisor.contactNumber}');
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            7.h),
+                                                                    color: AppColors
+                                                                        .buttoncolour,
+                                                                  ),
+                                                                  height: 40,
+                                                                  width: 60,
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Call",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.white),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ]),
+
+                                                    // SvgPicture.asset(
+                                                    //   "assets/images/starconnect.svg",
+                                                    //   width: 38.w,
+                                                    //   height: 38.w,
+                                                    // ),
+
+                                                    // CircleAvatar(
+                                                    //   radius: 25.h,
+                                                    //   backgroundColor: Color(0XFFF1F1F1),
+                                                    //   child: Center(
+                                                    //     child: Icon(
+                                                    //       Icons.star,
+                                                    //       size: 35.h,
+                                                    //       color: Color.fromARGB(255, 248, 211, 2),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 11.h,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5.h,
+                                        )
+                                      ],
+                                    );
+
+                                    // ListTile(
+                                    //   title: Text(advisor.name ?? ''),
+                                    //   subtitle:
+                                    //       Text(advisor.contactNumber ?? ''),
+                                    //   // You can display other information like location, image, etc.
+                                    // );
+                                  },
+                                ),
+
+                                // List of Veterinarians
+                                ListView.builder(
+                                  itemCount: veterinarians.length,
+                                  itemBuilder: (context, index) {
+                                    final vet = veterinarians[index];
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.symmetric(
+                                                  vertical: 7.h,
+                                                  horizontal: 15),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                              border: Border.all(
+                                                  color: Color(0XFf0E5F02)
+                                                      .withOpacity(1),
+                                                  width: 1),
+                                              color: Color(0xFFFFFFFF),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 11.h,
+                                                ),
+                                                Row(
+                                                  //mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 16.w),
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 3,
+                                                              color:
+                                                                  vet.bookmarked ==
+                                                                          0
+                                                                      ? Colors
+                                                                          .amber
+                                                                      : Colors
+                                                                          .white),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  100), //<-- SEE HERE
+                                                        ),
+                                                        child: Image.asset(
+                                                          // image,
+                                                          "assets/images/connect2.png",
+                                                          width: 66.w,
+                                                          height: 66.w,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    sizedBoxWidth(8.w),
+                                                    SizedBox(
+                                                      width: 195.w,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          RichText(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            text: TextSpan(
+                                                              text: vet.name,
+                                                              // "Roma dsouza",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                "assets/images/call.svg",
+                                                                width: 13.w,
+                                                                height: 13.w,
+                                                              ),
+                                                              sizedBoxWidth(
+                                                                  5.w),
+                                                              RichText(
+                                                                text: TextSpan(
+                                                                  text: vet
+                                                                      .contactNumber,
+                                                                  // "0225845855",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0XFF585858),
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top: 3
+                                                                            .h),
+                                                                child:
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  "assets/images/locationconnect.svg",
+                                                                  width: 13.w,
+                                                                  height: 13.w,
+                                                                ),
+                                                              ),
+                                                              sizedBoxWidth(
+                                                                  5.w),
+                                                              SizedBox(
+                                                                width: 180.w,
+                                                                child: RichText(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  text:
+                                                                      TextSpan(
+                                                                    text: vet
+                                                                        .location,
+                                                                    // "Canada",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Color(
+                                                                          0XFF585858),
+                                                                      fontSize:
+                                                                          16.sp,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                                    // sizedBoxWidth(16.w),
+
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            children: [
+                                                              IconButton(
+                                                                icon: vet.bookmarked ==
+                                                                        0
+                                                                    // _isChecked
+                                                                    ? CircleAvatar(
+                                                                        radius:
+                                                                            25.h,
+                                                                        backgroundColor:
+                                                                            Color(0XFFF1F1F1),
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .star,
+                                                                          color:
+                                                                              Colors.amber,
+                                                                        ),
+                                                                      )
+                                                                    : Icon(
+                                                                        Icons
+                                                                            .star_border,
+                                                                        color: Color(
+                                                                            0XFF707070),
+                                                                      ),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    expertData[index]
+                                                                            [
+                                                                            "isConnect"] =
+                                                                        vet.bookmarked ==
+                                                                                0
+                                                                            ? 1
+                                                                            : 0;
+                                                                    // _isChecked = !_isChecked;
+                                                                  });
+                                                                },
+                                                              ),
+                                                              InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  launch(
+                                                                      'tel://${vet.contactNumber}');
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            7.h),
+                                                                    color: AppColors
+                                                                        .buttoncolour,
+                                                                  ),
+                                                                  height: 40,
+                                                                  width: 60,
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Call",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.white),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ]),
+
+                                                    // SvgPicture.asset(
+                                                    //   "assets/images/starconnect.svg",
+                                                    //   width: 38.w,
+                                                    //   height: 38.w,
+                                                    // ),
+
+                                                    // CircleAvatar(
+                                                    //   radius: 25.h,
+                                                    //   backgroundColor: Color(0XFFF1F1F1),
+                                                    //   child: Center(
+                                                    //     child: Icon(
+                                                    //       Icons.star,
+                                                    //       size: 35.h,
+                                                    //       color: Color.fromARGB(255, 248, 211, 2),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 11.h,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5.h,
+                                        )
+                                      ],
+                                    );
+                                  },
+                                ),
+
+                                // List of Repairmen
+                                ListView.builder(
+                                  itemCount: repairmen.length,
+                                  itemBuilder: (context, index) {
+                                    final repairman = repairmen[index];
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.symmetric(
+                                                  vertical: 7.h,
+                                                  horizontal: 15),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                              border: Border.all(
+                                                  color: Color(0XFf0E5F02)
+                                                      .withOpacity(1),
+                                                  width: 1),
+                                              color: Color(0xFFFFFFFF),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 11.h,
+                                                ),
+                                                Row(
+                                                  //mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 16.w),
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 3,
+                                                              color: repairman
+                                                                          .bookmarked ==
+                                                                      0
+                                                                  ? Colors.amber
+                                                                  : Colors
+                                                                      .white),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  100), //<-- SEE HERE
+                                                        ),
+                                                        child: Image.asset(
+                                                          // image,
+                                                          "assets/images/connect2.png",
+                                                          width: 66.w,
+                                                          height: 66.w,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    sizedBoxWidth(8.w),
+                                                    SizedBox(
+                                                      width: 195.w,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          RichText(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            text: TextSpan(
+                                                              text: repairman
+                                                                  .name,
+                                                              // "Roma dsouza",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                "assets/images/call.svg",
+                                                                width: 13.w,
+                                                                height: 13.w,
+                                                              ),
+                                                              sizedBoxWidth(
+                                                                  5.w),
+                                                              RichText(
+                                                                text: TextSpan(
+                                                                  text: repairman
+                                                                      .contactNumber,
+                                                                  // "0225845855",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color(
+                                                                        0XFF585858),
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top: 3
+                                                                            .h),
+                                                                child:
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                  "assets/images/locationconnect.svg",
+                                                                  width: 13.w,
+                                                                  height: 13.w,
+                                                                ),
+                                                              ),
+                                                              sizedBoxWidth(
+                                                                  5.w),
+                                                              SizedBox(
+                                                                width: 180.w,
+                                                                child: RichText(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  text:
+                                                                      TextSpan(
+                                                                    text: repairman
+                                                                        .location,
+                                                                    // "Canada",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Color(
+                                                                          0XFF585858),
+                                                                      fontSize:
+                                                                          16.sp,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                                    // sizedBoxWidth(16.w),
+
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            children: [
+                                                              IconButton(
+                                                                icon: repairman
+                                                                            .bookmarked ==
+                                                                        0
+                                                                    // _isChecked
+                                                                    ? CircleAvatar(
+                                                                        radius:
+                                                                            25.h,
+                                                                        backgroundColor:
+                                                                            Color(0XFFF1F1F1),
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .star,
+                                                                          color:
+                                                                              Colors.amber,
+                                                                        ),
+                                                                      )
+                                                                    : Icon(
+                                                                        Icons
+                                                                            .star_border,
+                                                                        color: Color(
+                                                                            0XFF707070),
+                                                                      ),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    expertData[index]
+                                                                            [
+                                                                            "isConnect"] =
+                                                                        repairman.bookmarked ==
+                                                                                0
+                                                                            ? 1
+                                                                            : 0;
+                                                                    // _isChecked = !_isChecked;
+                                                                  });
+                                                                },
+                                                              ),
+                                                              InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  launch(
+                                                                      'tel://${repairman.contactNumber}');
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            7.h),
+                                                                    color: AppColors
+                                                                        .buttoncolour,
+                                                                  ),
+                                                                  height: 40,
+                                                                  width: 60,
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Call",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.white),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )
+                                                        ]),
+
+                                                    // SvgPicture.asset(
+                                                    //   "assets/images/starconnect.svg",
+                                                    //   width: 38.w,
+                                                    //   height: 38.w,
+                                                    // ),
+
+                                                    // CircleAvatar(
+                                                    //   radius: 25.h,
+                                                    //   backgroundColor: Color(0XFFF1F1F1),
+                                                    //   child: Center(
+                                                    //     child: Icon(
+                                                    //       Icons.star,
+                                                    //       size: 35.h,
+                                                    //       color: Color.fromARGB(255, 248, 211, 2),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 11.h,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5.h,
+                                        )
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Center(child: Text('Failed to load data.'));
+                        }
+                      },
                     ),
+                    // const Expanded(
+                    //   child: TabBarView(
+                    //     children: [
+                    //       FirstTab(),
+                    //       FirstTab(),
+                    //       FirstTab(),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

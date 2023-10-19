@@ -1,23 +1,24 @@
-import 'package:farmfeeders/Utils/base_manager.dart';
-import 'package:farmfeeders/data/network/network_api_services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-class VerifyIdentityAPI {
-  VerifyIdentityAPI(this.data);
-  var data;
-  Future<ResponseData<dynamic>> verifyidentityApi() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+import 'package:farmfeeders/Utils/base_manager.dart';
+import 'package:farmfeeders/common/limit_range.dart';
+import 'package:farmfeeders/data/network/network_api_services.dart';
+import 'package:farmfeeders/models/FarmInfoModel/FarmInfoModel.dart';
+
+class FarmInfoApi {
+  Future<ResponseData<dynamic>> farmInfoAddressApi(
+      FarmInfoAddressModel farmInfoAddressModel) async {
     final response = await NetworkApiServices().postApi(
-      data,
-      "https://farmflow.betadelivery.com/api/verify-otp",
+      jsonEncode(farmInfoAddressModel),
+      "https://farmflow.betadelivery.com/api/store/farm-info",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {
       Map<String, dynamic> responseData =
           Map<String, dynamic>.from(response.data);
       if (responseData['success']) {
-        await prefs.setString('token', responseData["data"]["token"]);
-        print("token is ${responseData["data"]["token"]}");
+        //     log(responseData.toString());
+        utils.showToast("${responseData['message']}");
       } else {
         return ResponseData<dynamic>(
             responseData['message'], ResponseStatus.FAILED);

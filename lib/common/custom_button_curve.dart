@@ -2,7 +2,8 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget customButtonCurve({void Function()? onTap, required String text}) {
+Widget customButtonCurve(
+    {void Function()? onTap, required String text, Color? bgColor}) {
   return InkWell(
     onTap: onTap,
     child: Container(
@@ -10,7 +11,7 @@ Widget customButtonCurve({void Function()? onTap, required String text}) {
       width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.h),
-          color: AppColors.buttoncolour),
+          color: bgColor ?? AppColors.buttoncolour),
       child: Center(
         child: Text(
           text,
