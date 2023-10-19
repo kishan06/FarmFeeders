@@ -87,8 +87,12 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               sizedBoxHeight(25.h),
 
               cards(
-                onTap: () {
-                  Get.toNamed("/farmfeedtracker");
+                onTap: () async {
+                  // Get.toNamed("/farmfeedtracker");
+                  var res = await Get.toNamed("/farmfeedtracker");
+                  if (res) {
+                    setState(() {});
+                  }
                 },
                 set: isSetFeedInfo,
                 imagePath: "assets/images/setupFarm3.png",

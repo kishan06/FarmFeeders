@@ -565,6 +565,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                   // ],
                                 ),
                               )
+                           
                             ],
                           ),
                           SizedBox(
