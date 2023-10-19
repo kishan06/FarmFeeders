@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
@@ -12,6 +14,7 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   // GlobalVariables globalVariables = GlobalVariables();
   token = prefs.getString('accessToken');
+  log(token!);
   runApp(const MyApp());
 }
 
@@ -34,8 +37,8 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
 
-             initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
-      //      initialRoute: '/',
+            initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
+            //      initialRoute: '/',
 
             getPages: AppRoutes.appRoutes(),
           );
