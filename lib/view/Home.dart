@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:dotted_line/dotted_line.dart';
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
+import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
@@ -20,6 +22,7 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../common/status.dart';
 import '../models/dashboardModel.dart';
@@ -124,15 +127,15 @@ class _HomeState extends State<Home> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 65,
+                      const SizedBox(
+                        height: 75,
                       ),
                       SizedBox(
                         width: Get.width,
                         height: 500,
                         child: Shimmer.fromColors(
                             baseColor: AppColors.pistaE3FFE9,
-                            highlightColor: AppColors.pistaE3FFE9,
+                            highlightColor: AppColors.greyF1F1F1,
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(27.h),
@@ -147,9 +150,7 @@ class _HomeState extends State<Home> {
                               ),
                             )),
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
+                      sizedBoxHeight(10.h),
                       SizedBox(
                         width: Get.width,
                         height: 500,
@@ -1008,10 +1009,12 @@ class _HomeState extends State<Home> {
                                               height: 55.w,
                                               width: 55.w,
                                               child: CircularProgressIndicator(
-                                                value: 0.42,
+                                                value: dashboardController
+                                                        .dashboardModel
+                                                        .data!
+                                                        .profileCompletionPercentage! /
+                                                    100,
                                                 strokeWidth: 5.w,
-                                                // semanticsValue: "df",
-                                                // color: AppColors.redFA5658,
                                                 backgroundColor:
                                                     AppColors.buttoncolour,
                                                 valueColor:
@@ -1046,7 +1049,8 @@ class _HomeState extends State<Home> {
                                                 child: Padding(
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 2.w),
-                                                  child: textBlack10("42 %"),
+                                                  child: textBlack10(
+                                                      "${dashboardController.dashboardModel.data!.profileCompletionPercentage} %"),
                                                 ),
                                               ),
                                             ),
@@ -1150,11 +1154,24 @@ class _HomeState extends State<Home> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     textBlack18W600Mon(
-                                                        "Animal husbandry and management"),
+                                                        dashboardController
+                                                            .dashboardModel
+                                                            .data!
+                                                            .trainingVideos!
+                                                            .title!),
                                                     textGrey4D4D4D_16(
-                                                        "textext of the printing andt"),
+                                                        dashboardController
+                                                            .dashboardModel
+                                                            .data!
+                                                            .trainingVideos!
+                                                            .smallDescription!),
                                                     textGreen14(
-                                                        "14 Minutes ago")
+                                                        Utils.formattedTimeAgo(
+                                                            dashboardController
+                                                                .dashboardModel
+                                                                .data!
+                                                                .trainingVideos!
+                                                                .publishedDatetime!))
                                                   ],
                                                 ),
                                               ),
@@ -1199,11 +1216,28 @@ class _HomeState extends State<Home> {
                                                 CrossAxisAlignment.start,
                                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
+                                              // dashboardController
+                                              //         .dashboardModel
+                                              //         .data!
+                                              //         .article!
+                                              //         .smallImageUrl!
+                                              //         .isEmpty
+                                              //     ?
                                               Image.asset(
                                                 "assets/images/news&arti.png",
                                                 width: 104.w,
                                                 height: 90.h,
                                               ),
+                                              // : Image.network(
+                                              //     "https://farmflow.betadelivery.com/api" +
+                                              //         dashboardController
+                                              //             .dashboardModel
+                                              //             .data!
+                                              //             .article!
+                                              //             .smallImageUrl!,
+                                              //     width: 104.w,
+                                              //     height: 90.h,
+                                              //   ),
                                               sizedBoxWidth(14.w),
                                               // SvgPicture.asset("assets/images/current_feed.svg",
                                               //   height: 170.h,
@@ -1219,16 +1253,48 @@ class _HomeState extends State<Home> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     textGrey4D4D4D_16(
-                                                        "Livestock"),
+                                                        dashboardController
+                                                            .dashboardModel
+                                                            .data!
+                                                            .article!
+                                                            .title!),
 
-                                                    textBlack18W600Mon(
-                                                        "New Cow Breed Introduced In The Market"),
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        if (await canLaunch(
+                                                            dashboardController
+                                                                .dashboardModel
+                                                                .data!
+                                                                .article!
+                                                                .smallDescription!)) {
+                                                          await launch(
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .article!
+                                                                  .smallDescription!);
+                                                        } else {
+                                                          throw 'Could not launch ${dashboardController.dashboardModel.data!.article!.smallDescription!}';
+                                                        }
+                                                      },
+                                                      child: textBlack18W600Mon(
+                                                          dashboardController
+                                                              .dashboardModel
+                                                              .data!
+                                                              .article!
+                                                              .smallDescription!),
+                                                    ),
                                                     // textGreen14("14 Minutes ago")
                                                     sizedBoxHeight(10.h),
                                                     Row(
                                                       children: [
                                                         textGrey4D4D4D_14(
-                                                            "7 Feb 2023"),
+                                                            Utils.formattedDate(
+                                                                dashboardController
+                                                                    .dashboardModel
+                                                                    .data!
+                                                                    .article!
+                                                                    .publishedDatetime!)),
                                                         const Spacer(),
                                                         SizedBox(
                                                           width: 20.w,
