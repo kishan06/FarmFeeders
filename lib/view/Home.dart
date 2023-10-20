@@ -74,6 +74,8 @@ class _HomeState extends State<Home> {
       DashboardApi().getDashboardData().then((value) {
         dashboardController.dashboardModel =
             DashboardModel.fromJson(value.data);
+        saved = dashboardController.dashboardModel.data!.article!.bookmarked!;
+
         getCurrentAddress();
       });
     });
@@ -135,7 +137,7 @@ class _HomeState extends State<Home> {
                         height: 500,
                         child: Shimmer.fromColors(
                             baseColor: AppColors.pistaE3FFE9,
-                            highlightColor: AppColors.greyF1F1F1,
+                            highlightColor: AppColors.white,
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(27.h),
@@ -789,7 +791,11 @@ class _HomeState extends State<Home> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: List.generate(
-                                                  5,
+                                                  dashboardController
+                                                      .dashboardModel
+                                                      .data!
+                                                      .currentFeed!
+                                                      .length,
                                                   (index) =>
                                                       currentFeedSelection(
                                                           imagePath:
@@ -868,11 +874,7 @@ class _HomeState extends State<Home> {
                                                                   //     ["feedFor"]
                                                                   ),
                                                               textBlack25W7000(
-                                                                  currentFeedData[
-                                                                              selectedCurrentFeed]
-                                                                          [
-                                                                          "qty"] +
-                                                                      " Kg")
+                                                                  "${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].currentFeedAvailable!} Kg")
                                                             ],
                                                           ),
                                                         ),
@@ -937,8 +939,12 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                   sizedBoxWidth(
                                                                       10.w),
-                                                                  textBlack20W7000(
-                                                                      "02/05/2023")
+                                                                  textBlack20W7000(Utils.convertISOToFormattedDate(dashboardController
+                                                                      .dashboardModel
+                                                                      .data!
+                                                                      .currentFeed![
+                                                                          selectedCurrentFeed]
+                                                                      .reorderingDate!))
                                                                 ],
                                                               ),
                                                             ],
@@ -1258,7 +1264,6 @@ class _HomeState extends State<Home> {
                                                             .data!
                                                             .article!
                                                             .title!),
-
                                                     InkWell(
                                                       onTap: () async {
                                                         if (await canLaunch(
@@ -1277,15 +1282,25 @@ class _HomeState extends State<Home> {
                                                           throw 'Could not launch ${dashboardController.dashboardModel.data!.article!.smallDescription!}';
                                                         }
                                                       },
-                                                      child: textBlack18W600Mon(
-                                                          dashboardController
-                                                              .dashboardModel
-                                                              .data!
-                                                              .article!
-                                                              .smallDescription!),
+                                                      child: RichText(
+                                                        text: TextSpan(
+                                                          text:
+                                                              'Link to article',
+                                                          style: TextStyle(
+                                                            fontSize: 18.sp,
+                                                            color: Colors.blue,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily:
+                                                                "Montserrat",
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                    // textGreen14("14 Minutes ago")
-                                                    sizedBoxHeight(10.h),
+                                                    sizedBoxHeight(8.h),
                                                     Row(
                                                       children: [
                                                         textGrey4D4D4D_14(
@@ -1305,7 +1320,7 @@ class _HomeState extends State<Home> {
                                                               saved = !saved;
                                                             });
                                                           },
-                                                          child: saved
+                                                          child: !saved
                                                               ? Container(
                                                                   height: 25.h,
                                                                   width: 25.h,

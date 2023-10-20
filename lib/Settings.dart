@@ -1,5 +1,4 @@
 import 'package:farmfeeders/Utils/colors.dart';
-import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -367,7 +366,6 @@ class _SettingsState extends State<Settings> {
                             await SharedPreferences.getInstance();
                         await prefs.setString('accessToken', "");
                         await prefs.setString('token', "");
-                        token = null;
                         Get.offAllNamed("/loginScreen");
                       },
                       child: Container(
