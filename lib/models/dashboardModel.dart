@@ -130,6 +130,8 @@ class CurrentFeed {
   int? qtyPerSeed;
   int? minBinCapacity;
   int? maxBinCapacity;
+  String? createdAt;
+  String? reorderingDate;
 
   CurrentFeed(
       {this.id,
@@ -140,7 +142,9 @@ class CurrentFeed {
       this.feedFrequencyXid,
       this.qtyPerSeed,
       this.minBinCapacity,
-      this.maxBinCapacity});
+      this.maxBinCapacity,
+      this.createdAt,
+      this.reorderingDate});
 
   CurrentFeed.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -152,6 +156,8 @@ class CurrentFeed {
     qtyPerSeed = json['qty_per_seed'];
     minBinCapacity = json['min_bin_capacity'];
     maxBinCapacity = json['max_bin_capacity'];
+    createdAt = json['created_at'];
+    reorderingDate = json['reordering_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -165,6 +171,8 @@ class CurrentFeed {
     data['qty_per_seed'] = qtyPerSeed;
     data['min_bin_capacity'] = minBinCapacity;
     data['max_bin_capacity'] = maxBinCapacity;
+    data['created_at'] = createdAt;
+    data['reordering_date'] = reorderingDate;
     return data;
   }
 }

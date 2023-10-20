@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
 
-            initialRoute: '/sideMenu',
+            initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
             //      initialRoute: '/',
 
             getPages: AppRoutes.appRoutes(),

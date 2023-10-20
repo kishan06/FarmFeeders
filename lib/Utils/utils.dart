@@ -36,4 +36,17 @@ class Utils {
     final inputDate = DateTime.parse(dateTime);
     return DateFormat('d MMM y').format(inputDate);
   }
+
+  static String convertISOToFormattedDate(String isoDateString) {
+    try {
+      DateTime isoDate = DateTime.parse(isoDateString);
+
+      String formattedDate = DateFormat('MM/dd/yyyy').format(isoDate);
+
+      return formattedDate;
+    } catch (e) {
+      // Handle any errors, e.g., invalid date format
+      return 'Invalid Date';
+    }
+  }
 }
