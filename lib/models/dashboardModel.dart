@@ -27,14 +27,16 @@ class DashboardModel {
 
 class Data {
   Order? order;
-  PrimaryFarmLocation? primaryFarmLocation;
+  String? userName;
+  List<PrimaryFarmLocation>? primaryFarmLocation;
   List<CurrentFeed>? currentFeed;
   int? profileCompletionPercentage;
-  TrainingVideos? trainingVideos;
+  List<TrainingVideos>? trainingVideos;
   Article? article;
 
   Data(
       {this.order,
+      this.userName,
       this.primaryFarmLocation,
       this.currentFeed,
       this.profileCompletionPercentage,
@@ -42,10 +44,14 @@ class Data {
       this.article});
 
   Data.fromJson(Map<String, dynamic> json) {
+    userName = json['user_name'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
-    primaryFarmLocation = json['primaryFarmLocation'] != null
-        ? PrimaryFarmLocation.fromJson(json['primaryFarmLocation'])
-        : null;
+    if (json['primaryFarmLocation'] != null) {
+      primaryFarmLocation = <PrimaryFarmLocation>[];
+      json['primaryFarmLocation'].forEach((v) {
+        primaryFarmLocation!.add(PrimaryFarmLocation.fromJson(v));
+      });
+    }
     if (json['current_feed'] != null) {
       currentFeed = <CurrentFeed>[];
       json['current_feed'].forEach((v) {
@@ -53,27 +59,32 @@ class Data {
       });
     }
     profileCompletionPercentage = json['profileCompletionPercentage'];
-    trainingVideos = json['trainingVideos'] != null
-        ? TrainingVideos.fromJson(json['trainingVideos'])
-        : null;
+    if (json['trainingVideos'] != null) {
+      trainingVideos = <TrainingVideos>[];
+      json['trainingVideos'].forEach((v) {
+        trainingVideos!.add(TrainingVideos.fromJson(v));
+      });
+    }
     article =
         json['article'] != null ? Article.fromJson(json['article']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['user_name'] = userName;
     if (order != null) {
       data['order'] = order!.toJson();
     }
     if (primaryFarmLocation != null) {
-      data['primaryFarmLocation'] = primaryFarmLocation!.toJson();
+      data['primaryFarmLocation'] =
+          primaryFarmLocation!.map((v) => v.toJson()).toList();
     }
     if (currentFeed != null) {
       data['current_feed'] = currentFeed!.map((v) => v.toJson()).toList();
     }
     data['profileCompletionPercentage'] = profileCompletionPercentage;
     if (trainingVideos != null) {
-      data['trainingVideos'] = trainingVideos!.toJson();
+      data['trainingVideos'] = trainingVideos!.map((v) => v.toJson()).toList();
     }
     if (article != null) {
       data['article'] = article!.toJson();
@@ -130,7 +141,6 @@ class CurrentFeed {
   int? qtyPerSeed;
   int? minBinCapacity;
   int? maxBinCapacity;
-  String? createdAt;
   String? reorderingDate;
 
   CurrentFeed(
@@ -143,7 +153,6 @@ class CurrentFeed {
       this.qtyPerSeed,
       this.minBinCapacity,
       this.maxBinCapacity,
-      this.createdAt,
       this.reorderingDate});
 
   CurrentFeed.fromJson(Map<String, dynamic> json) {
@@ -156,7 +165,7 @@ class CurrentFeed {
     qtyPerSeed = json['qty_per_seed'];
     minBinCapacity = json['min_bin_capacity'];
     maxBinCapacity = json['max_bin_capacity'];
-    createdAt = json['created_at'];
+
     reorderingDate = json['reordering_date'];
   }
 
@@ -171,7 +180,7 @@ class CurrentFeed {
     data['qty_per_seed'] = qtyPerSeed;
     data['min_bin_capacity'] = minBinCapacity;
     data['max_bin_capacity'] = maxBinCapacity;
-    data['created_at'] = createdAt;
+
     data['reordering_date'] = reorderingDate;
     return data;
   }

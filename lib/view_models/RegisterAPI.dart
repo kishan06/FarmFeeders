@@ -7,7 +7,6 @@ class RegisterAPI {
   RegisterAPI(this.data);
   var data;
   Future<ResponseData<dynamic>> registerApi() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await NetworkApiServices().postApi(
       data,
       "https://farmflow.betadelivery.com/api/register",
