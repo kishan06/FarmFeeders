@@ -14,7 +14,7 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   // GlobalVariables globalVariables = GlobalVariables();
   token = prefs.getString('accessToken');
-  log(token!);
+  // log(token!);
   runApp(const MyApp());
 }
 
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
             ),
 
             initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
-            //      initialRoute: '/',
+                //  initialRoute: '/letsSetUpYourFarm',
 
             getPages: AppRoutes.appRoutes(),
           );
