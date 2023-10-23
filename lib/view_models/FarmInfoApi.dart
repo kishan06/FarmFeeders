@@ -10,7 +10,7 @@ class FarmInfoApi {
       FarmInfoAddressModel farmInfoAddressModel) async {
     final response = await NetworkApiServices().postApi(
       jsonEncode(farmInfoAddressModel),
-      "https://farmflow.betadelivery.com/api/store/farm-info",
+      "https://farmflow.betadelivery.com/api/farm-info",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

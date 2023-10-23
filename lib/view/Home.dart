@@ -6,7 +6,10 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
+import 'package:farmfeeders/controller/notification_controller.dart';
+import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
+import 'package:farmfeeders/view_models/NotificationAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
@@ -38,6 +41,8 @@ class _HomeState extends State<Home> {
   bool lowFeed = true;
   bool saved = false;
   DashboardController dashboardController = Get.put(DashboardController());
+  NotificationController notificationController =
+      Get.put(NotificationController());
   List currentFeedData = [
     {
       "imagePath": "assets/images/buffalo.png",
@@ -70,13 +75,20 @@ class _HomeState extends State<Home> {
       return DateTime.now();
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      getCurrentAddress();
       getPrefData();
+
       DashboardApi().getDashboardData().then((value) {
         dashboardController.dashboardModel =
             DashboardModel.fromJson(value.data);
         saved = dashboardController.dashboardModel.data!.article!.bookmarked!;
-
-        getCurrentAddress();
+        NotificationAPI().getNotificationCount().then((value) {
+          NotificationCountModel notificationCountModel =
+              NotificationCountModel.fromJson(value.data);
+          notificationController.notificationCount.value =
+              notificationCountModel.data.toString();
+          getCurrentAddress();
+        });
       });
     });
 
@@ -187,40 +199,68 @@ class _HomeState extends State<Home> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             textBlack20W7000Mon("Welcome Back"),
-                            textBlack25W600Mon("Kevin")
+                            textBlack25W600Mon(dashboardController
+                                .dashboardModel.data!.userName!)
                           ],
                         ),
                         const Spacer(),
-                        Container(
-                          height: 42.h,
-                          width: 42.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.h),
-                            color: AppColors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade400,
-                                blurRadius: 5.h,
-                                spreadRadius: 2.h,
-                              )
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Get.toNamed("/notification");
-                                },
-                                child: SvgPicture.asset(
-                                  "assets/images/notification_bell.svg",
-                                  height: 28.h,
-                                  width: 28.h,
-                                  color: AppColors.black,
-                                ),
+                        Stack(
+                          children: [
+                            Container(
+                              height: 42.h,
+                              width: 42.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.h),
+                                color: AppColors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade400,
+                                    blurRadius: 5.h,
+                                    spreadRadius: 2.h,
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.toNamed("/notification");
+                                    },
+                                    child: SvgPicture.asset(
+                                      "assets/images/notification_bell.svg",
+                                      height: 28.h,
+                                      width: 28.h,
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            notificationController.notificationCount.value ==
+                                    "0"
+                                ? const SizedBox()
+                                : Positioned(
+                                    top: -6,
+                                    right: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4.0),
+                                      decoration: const BoxDecoration(
+                                        color: Colors.red,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Text(
+                                        notificationController
+                                            .notificationCount.value,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ],
                         ),
                         sizedBoxWidth(10.w),
                         Container(
@@ -985,209 +1025,240 @@ class _HomeState extends State<Home> {
                                   ],
                                 ),
                                 sizedBoxHeight(20.h),
-                                textBlack18W7000("Profile"),
-                                Container(
-                                  // height: 93.h,
-                                  // width: 230.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.h),
-                                    color: AppColors.white,
-                                    border: Border.all(
-                                        color: AppColors.buttoncolour,
-                                        width: 1.h),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.04),
-                                        blurRadius: 10,
-                                        spreadRadius: 2,
-                                      )
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15.w, vertical: 10.h),
-                                    child: Row(
-                                      children: [
-                                        Stack(
-                                          clipBehavior: Clip.none,
-                                          children: [
-                                            SizedBox(
-                                              height: 55.w,
-                                              width: 55.w,
-                                              child: CircularProgressIndicator(
-                                                value: dashboardController
-                                                        .dashboardModel
-                                                        .data!
-                                                        .profileCompletionPercentage! /
-                                                    100,
-                                                strokeWidth: 5.w,
-                                                backgroundColor:
-                                                    AppColors.buttoncolour,
-                                                valueColor:
-                                                    const AlwaysStoppedAnimation(
-                                                        Colors.red),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              bottom: -5.h,
-                                              left: 20.h,
-                                              child: Container(
-                                                // height: 93.h,
-                                                // width: 230.w,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          2.h),
-                                                  color: AppColors.white,
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .buttoncolour,
-                                                      width: 1.h),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.04),
-                                                      blurRadius: 2,
-                                                      spreadRadius: 1,
-                                                    )
-                                                  ],
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 2.w),
-                                                  child: textBlack10(
-                                                      "${dashboardController.dashboardModel.data!.profileCompletionPercentage} %"),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                                top: 15.h,
-                                                left: 22.5.h,
-                                                child: textBlack18W7000("K"))
+                                dashboardController.dashboardModel.data!
+                                            .profileCompletionPercentage! >=
+                                        100
+                                    ? SizedBox()
+                                    : textBlack18W7000("Profile"),
+                                dashboardController.dashboardModel.data!
+                                            .profileCompletionPercentage! >=
+                                        100
+                                    ? SizedBox()
+                                    : Container(
+                                        // height: 93.h,
+                                        // width: 230.w,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.h),
+                                          color: AppColors.white,
+                                          border: Border.all(
+                                              color: AppColors.buttoncolour,
+                                              width: 1.h),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.04),
+                                              blurRadius: 10,
+                                              spreadRadius: 2,
+                                            )
                                           ],
                                         ),
-                                        sizedBoxWidth(20.w),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            textBlack18W7000("Hey Kevin"),
-
-                                            InkWell(
-                                              onTap: () {
-                                                Get.toNamed("/profile");
-                                                // Get
-                                              },
-                                              child: Container(
-                                                height: 40.h,
-                                                width: 175.w,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.h),
-                                                    color:
-                                                        AppColors.buttoncolour),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Complete Your Profile",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: AppColors.white,
-                                                        fontSize: 14.sp),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-
-                                            // SizedBox(
-                                            //   height: 40.h,
-                                            //   // width: 175.w,
-                                            //   child: customButton(text: "Complete Your Profile"))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                sizedBoxHeight(25.h),
-                                InkWell(
-                                  onTap: () {
-                                    Get.toNamed("/trainingmain");
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(27.h),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.04),
-                                          blurRadius: 10,
-                                          spreadRadius: 2,
-                                        )
-                                      ],
-                                      color: AppColors.pistaE3FFE9,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 13.w, vertical: 15.h),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          textBlack18W600Mon("Training"),
-                                          sizedBoxHeight(15.h),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15.w, vertical: 10.h),
+                                          child: Row(
                                             children: [
-                                              Image.asset(
-                                                "assets/images/training1.png",
-                                                width: 104.w,
-                                                height: 90.h,
+                                              Stack(
+                                                clipBehavior: Clip.none,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 55.w,
+                                                    width: 55.w,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: dashboardController
+                                                              .dashboardModel
+                                                              .data!
+                                                              .profileCompletionPercentage! /
+                                                          100,
+                                                      strokeWidth: 5.w,
+                                                      backgroundColor: AppColors
+                                                          .buttoncolour,
+                                                      valueColor:
+                                                          const AlwaysStoppedAnimation(
+                                                              Colors.red),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    bottom: -5.h,
+                                                    left: 20.h,
+                                                    child: Container(
+                                                      // height: 93.h,
+                                                      // width: 230.w,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(2.h),
+                                                        color: AppColors.white,
+                                                        border: Border.all(
+                                                            color: AppColors
+                                                                .buttoncolour,
+                                                            width: 1.h),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.04),
+                                                            blurRadius: 2,
+                                                            spreadRadius: 1,
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    2.w),
+                                                        child: textBlack10(
+                                                            "${dashboardController.dashboardModel.data!.profileCompletionPercentage} %"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                      top: 15.h,
+                                                      left: 22.5.h,
+                                                      child:
+                                                          textBlack18W7000("K"))
+                                                ],
                                               ),
-                                              sizedBoxWidth(14.w),
-                                              // SvgPicture.asset("assets/images/current_feed.svg",
-                                              //   height: 170.h,
-                                              //   width: 100.w,
-                                              // ),
+                                              sizedBoxWidth(20.w),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  textBlack18W7000(
+                                                      "Hey ${dashboardController.dashboardModel.data!.userName!}"),
 
-                                              // sizedBoxWidth(20.w),
-                                              // Spacer(),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.toNamed("/profile");
+                                                      // Get
+                                                    },
+                                                    child: Container(
+                                                      height: 40.h,
+                                                      width: 175.w,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.h),
+                                                          color: AppColors
+                                                              .buttoncolour),
+                                                      child: Center(
+                                                        child: Text(
+                                                          "Complete Your Profile",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .white,
+                                                              fontSize: 14.sp),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
 
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    textBlack18W600Mon(
-                                                        dashboardController
-                                                            .dashboardModel
-                                                            .data!
-                                                            .trainingVideos!
-                                                            .title!),
-                                                    textGrey4D4D4D_16(
-                                                        dashboardController
-                                                            .dashboardModel
-                                                            .data!
-                                                            .trainingVideos!
-                                                            .smallDescription!),
-                                                    textGreen14(
-                                                        Utils.formattedTimeAgo(
-                                                            dashboardController
-                                                                .dashboardModel
-                                                                .data!
-                                                                .trainingVideos!
-                                                                .publishedDatetime!))
-                                                  ],
-                                                ),
-                                              ),
+                                                  // SizedBox(
+                                                  //   height: 40.h,
+                                                  //   // width: 175.w,
+                                                  //   child: customButton(text: "Complete Your Profile"))
+                                                ],
+                                              )
                                             ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
+                                dashboardController.dashboardModel.data!
+                                        .trainingVideos!.isEmpty
+                                    ? SizedBox()
+                                    : sizedBoxHeight(25.h),
+                                dashboardController.dashboardModel.data!
+                                        .trainingVideos!.isEmpty
+                                    ? SizedBox()
+                                    : InkWell(
+                                        onTap: () {
+                                          Get.toNamed("/trainingmain");
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(27.h),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.04),
+                                                blurRadius: 10,
+                                                spreadRadius: 2,
+                                              )
+                                            ],
+                                            color: AppColors.pistaE3FFE9,
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 13.w,
+                                                vertical: 15.h),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                textBlack18W600Mon("Training"),
+                                                sizedBoxHeight(15.h),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Image.asset(
+                                                      "assets/images/video_thumbnail.jpg",
+                                                      width: 104.w,
+                                                      height: 90.h,
+                                                    ),
+                                                    sizedBoxWidth(14.w),
+                                                    // SvgPicture.asset("assets/images/current_feed.svg",
+                                                    //   height: 170.h,
+                                                    //   width: 100.w,
+                                                    // ),
+
+                                                    // sizedBoxWidth(20.w),
+                                                    // Spacer(),
+
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          textBlack18W600Mon(
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .trainingVideos![
+                                                                      0]
+                                                                  .title!),
+                                                          textGrey4D4D4D_16(
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .trainingVideos![
+                                                                      0]
+                                                                  .smallDescription!),
+                                                          textGreen14(Utils.formattedTimeAgo(
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .trainingVideos![
+                                                                      0]
+                                                                  .publishedDatetime!))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                 sizedBoxHeight(20.h),
                                 InkWell(
                                   onTap: () {
@@ -1222,28 +1293,22 @@ class _HomeState extends State<Home> {
                                                 CrossAxisAlignment.start,
                                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              // dashboardController
-                                              //         .dashboardModel
-                                              //         .data!
-                                              //         .article!
-                                              //         .smallImageUrl!
-                                              //         .isEmpty
-                                              //     ?
-                                              Image.asset(
-                                                "assets/images/news&arti.png",
-                                                width: 104.w,
-                                                height: 90.h,
-                                              ),
-                                              // : Image.network(
-                                              //     "https://farmflow.betadelivery.com/api" +
-                                              //         dashboardController
-                                              //             .dashboardModel
-                                              //             .data!
-                                              //             .article!
-                                              //             .smallImageUrl!,
-                                              //     width: 104.w,
-                                              //     height: 90.h,
-                                              //   ),
+                                              dashboardController
+                                                      .dashboardModel
+                                                      .data!
+                                                      .article!
+                                                      .smallImageUrl!
+                                                      .isEmpty
+                                                  ? Image.asset(
+                                                      "assets/images/news&arti.png",
+                                                      width: 104.w,
+                                                      height: 90.h,
+                                                    )
+                                                  : Image.network(
+                                                      "${ApiUrls.imageBase}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
+                                                      width: 104.w,
+                                                      height: 90.h,
+                                                    ),
                                               sizedBoxWidth(14.w),
                                               // SvgPicture.asset("assets/images/current_feed.svg",
                                               //   height: 170.h,
@@ -1463,26 +1528,23 @@ class _HomeState extends State<Home> {
     );
   }
 
-  getCurrentAddress() async {
+  getCurrentWeatherData(
+    double lat,
+    double lng,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    dashboardController.isLocationFetching.value = true;
-
     try {
       final placemarks = await placemarkFromCoordinates(
-        double.parse(dashboardController
-            .dashboardModel.data!.primaryFarmLocation!.farmLatitude!),
-        double.parse(dashboardController
-            .dashboardModel.data!.primaryFarmLocation!.farmLongitude!),
+        lat,
+        lng,
       );
 
       final locality = placemarks.isNotEmpty ? placemarks[0].locality : '';
       dashboardController.locationText.value = locality!;
       // log("${locationData.latitude!},${locationData.longitude!}");
       final weatherData = await WeatherApi().getWeatherData(
-        double.parse(dashboardController
-            .dashboardModel.data!.primaryFarmLocation!.farmLatitude!),
-        double.parse(dashboardController
-            .dashboardModel.data!.primaryFarmLocation!.farmLongitude!),
+        lat,
+        lng,
       );
 
       dashboardController.tempValue.value =
@@ -1507,6 +1569,26 @@ class _HomeState extends State<Home> {
       utils.showToast("Error fetching location or weather data");
       //   print("Error fetching location or weather data: $e");
     }
+  }
+
+  getCurrentAddress() async {
+    final location = ls.Location();
+    final serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled && !await location.requestService()) {
+      return;
+    }
+
+    final permissionGranted = await location.hasPermission();
+    if (permissionGranted != ls.PermissionStatus.granted) {
+      if (await location.requestPermission() != ls.PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    dashboardController.isLocationFetching.value = true;
+    final locationData = await location.getLocation();
+    await getCurrentWeatherData(
+        locationData.latitude!, locationData.longitude!);
     dashboardController.isDashboardApiLoading.value = false;
     dashboardController.isLocationFetching.value = false;
   }
