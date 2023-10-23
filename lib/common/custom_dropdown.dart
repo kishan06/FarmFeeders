@@ -12,6 +12,7 @@ class DropdownBtn extends StatefulWidget {
     this.onItemSelected,
     bool showAddButton = false,
     this.value,
+    this.bgColor,
     super.key,
   });
   final String hint;
@@ -20,6 +21,7 @@ class DropdownBtn extends StatefulWidget {
   final bool isEnabled;
   final List<DropdownMenuItem<dynamic>>? items;
   dynamic value;
+  final Color? bgColor;
   @override
   State<DropdownBtn> createState() => _DropdownBtnState();
 }
@@ -36,14 +38,13 @@ class _DropdownBtnState extends State<DropdownBtn> {
   //   'Item7',
   //   'Item8',
   // ];
- 
+
   String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
-        
         isExpanded: true,
         hint: Row(
           children: [
@@ -91,9 +92,9 @@ class _DropdownBtnState extends State<DropdownBtn> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: Color(0xFFF1F1F1),
+              color: widget.bgColor ?? Color(0xFFF1F1F1),
             ),
-            color: Color(0xFFF1F1F1),
+            color: widget.bgColor ?? const Color(0xFFF1F1F1),
           ),
           elevation: 0,
         ),
@@ -129,4 +130,3 @@ class _DropdownBtnState extends State<DropdownBtn> {
     );
   }
 }
-

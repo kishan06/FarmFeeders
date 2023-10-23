@@ -12,6 +12,7 @@ import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as ls;
 import 'package:farmfeeders/common/custom_button_curve.dart';
@@ -27,6 +28,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../common/custom_dropdown.dart';
 import '../common/status.dart';
 import '../models/dashboardModel.dart';
 
@@ -40,6 +42,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool lowFeed = true;
   bool saved = false;
+  final location = ls.Location();
+  String? selectedLocation, currentLocationName;
+  double? currentLat, currentLng;
+  List<String> locationName = [];
+  List<LatLng> locationLatLng = [];
   DashboardController dashboardController = Get.put(DashboardController());
   NotificationController notificationController =
       Get.put(NotificationController());
@@ -74,20 +81,37 @@ class _HomeState extends State<Home> {
     _clockStream = Stream<DateTime>.periodic(const Duration(seconds: 1), (_) {
       return DateTime.now();
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getCurrentAddress();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getCurrentAddress();
       getPrefData();
 
-      DashboardApi().getDashboardData().then((value) {
+      DashboardApi().getDashboardData().then((value) async {
         dashboardController.dashboardModel =
             DashboardModel.fromJson(value.data);
+        final permissionGranted = await location.hasPermission();
+        if (permissionGranted == ls.PermissionStatus.granted) {
+          currentLocationName =
+              await getAddressFromLatLng(currentLat!, currentLng!);
+          locationLatLng.add(LatLng(currentLat!, currentLng!));
+          locationName
+              .add(await getAddressFromLatLng(currentLat!, currentLng!));
+        }
+        for (var i
+            in dashboardController.dashboardModel.data!.primaryFarmLocation!) {
+          locationLatLng.add(LatLng(
+              double.parse(i.farmLatitude!), double.parse(i.farmLongitude!)));
+          locationName.add(await getAddressFromLatLng(
+              double.parse(i.farmLatitude!), double.parse(i.farmLongitude!)));
+        }
+        setState(() {});
         saved = dashboardController.dashboardModel.data!.article!.bookmarked!;
         NotificationAPI().getNotificationCount().then((value) {
           NotificationCountModel notificationCountModel =
               NotificationCountModel.fromJson(value.data);
           notificationController.notificationCount.value =
               notificationCountModel.data.toString();
-          getCurrentAddress();
+          //     getCurrentAddress();
+          dashboardController.isDashboardApiLoading.value = false;
         });
       });
     });
@@ -241,7 +265,7 @@ class _HomeState extends State<Home> {
                                     "0"
                                 ? const SizedBox()
                                 : Positioned(
-                                    top: -6,
+                                    top: -5,
                                     right: 0,
                                     child: Container(
                                       padding: const EdgeInsets.all(4.0),
@@ -342,13 +366,13 @@ class _HomeState extends State<Home> {
                                                     ? isDaytime
                                                         ? Lottie.asset(
                                                             "assets/lotties/sun_animation.json",
-                                                            height: 200.h,
-                                                            width: 200.w,
+                                                            height: 240.h,
+                                                            width: 240.w,
                                                           )
                                                         : Lottie.asset(
                                                             "assets/lotties/moon_animation.json",
-                                                            height: 200.h,
-                                                            width: 200.w,
+                                                            height: 240.h,
+                                                            width: 240.w,
                                                           )
                                                     : (dashboardController
                                                                 .weatherCondition
@@ -357,13 +381,13 @@ class _HomeState extends State<Home> {
                                                         ? isDaytime
                                                             ? Lottie.asset(
                                                                 "assets/lotties/sun_with_cloud_animation.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                             : Lottie.asset(
                                                                 "assets/lotties/moon_with_cloud_animation.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                         : (dashboardController
                                                                         .weatherCondition
@@ -375,8 +399,8 @@ class _HomeState extends State<Home> {
                                                                     "Overcast")
                                                             ? Lottie.asset(
                                                                 "assets/lotties/clouds.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                             : (dashboardController.weatherCondition.value == "Mist" ||
                                                                     dashboardController
@@ -390,9 +414,9 @@ class _HomeState extends State<Home> {
                                                                 ? Lottie.asset(
                                                                     "assets/lotties/cloud2.json",
                                                                     height:
-                                                                        200.h,
+                                                                        240.h,
                                                                     width:
-                                                                        200.w,
+                                                                        240.w,
                                                                   )
                                                                 : (dashboardController.weatherCondition.value == "Patchy rain possible" ||
                                                                         dashboardController.weatherCondition.value == "Patchy freezing drizzle possible" ||
@@ -416,28 +440,28 @@ class _HomeState extends State<Home> {
                                                                     ? Lottie.asset(
                                                                         "assets/lotties/cloud_with_rain_animation.json",
                                                                         height:
-                                                                            200.h,
+                                                                            240.h,
                                                                         width:
-                                                                            200.w,
+                                                                            240.w,
                                                                       )
                                                                     : (dashboardController.weatherCondition.value == "Patchy snow possible" || dashboardController.weatherCondition.value == "Patchy sleet possible" || dashboardController.weatherCondition.value == "Light sleet" || dashboardController.weatherCondition.value == "Moderate or heavy sleet" || dashboardController.weatherCondition.value == "Patchy light snow" || dashboardController.weatherCondition.value == "Light snow" || dashboardController.weatherCondition.value == "Patchy moderate snow" || dashboardController.weatherCondition.value == "Moderate snow" || dashboardController.weatherCondition.value == "Patchy heavy snow" || dashboardController.weatherCondition.value == "Heavy snow" || dashboardController.weatherCondition.value == "Ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy sleet showers" || dashboardController.weatherCondition.value == "Light snow showers" || dashboardController.weatherCondition.value == "Moderate or heavy snow showers" || dashboardController.weatherCondition.value == "Light showers of ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy showers of ice pellets")
                                                                         ? Lottie.asset(
                                                                             "assets/lotties/snow_animation.json",
                                                                             height:
-                                                                                200.h,
+                                                                                240.h,
                                                                             width:
-                                                                                200.w,
+                                                                                240.w,
                                                                           )
                                                                         : (dashboardController.weatherCondition.value == "Blowing snow" || dashboardController.weatherCondition.value == "Blizzard" || dashboardController.weatherCondition.value == "Patchy light snow with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy snow with thunder")
                                                                             ? Lottie.asset(
-                                                                                "assets/lotties/cloud2.json",
-                                                                                height: 200.h,
-                                                                                width: 200.w,
+                                                                                "assets/lotties/snow_animation.json",
+                                                                                height: 240.h,
+                                                                                width: 240.w,
                                                                               )
                                                                             : Lottie.asset(
                                                                                 "assets/lotties/cloud2.json",
-                                                                                height: 200.h,
-                                                                                width: 200.w,
+                                                                                height: 240.h,
+                                                                                width: 240.w,
                                                                               )),
                                           ),
                                           Padding(
@@ -471,19 +495,49 @@ class _HomeState extends State<Home> {
                                                                   width: 20.h,
                                                                 ),
 
-                                                                sizedBoxWidth(
-                                                                    5.w),
-
                                                                 // textBlack20W7000("Ireland"),
-                                                                Obx(
-                                                                  () => textBlack18W5000(dashboardController
-                                                                          .isLocationFetching
-                                                                          .value
-                                                                      ? place!
-                                                                      : dashboardController
-                                                                          .locationText
-                                                                          .value),
-                                                                )
+                                                                SizedBox(
+                                                                  width: 160.w,
+                                                                  child:
+                                                                      DropdownBtn(
+                                                                    bgColor:
+                                                                        AppColors
+                                                                            .pistaE3FFE9,
+                                                                    hint: currentLat
+                                                                            .toString()
+                                                                            .isNotEmpty
+                                                                        ? currentLocationName!
+                                                                        : locationName[
+                                                                            0],
+                                                                    // items: ,
+                                                                    items: locationName
+                                                                        .map((e) => DropdownMenuItem(
+                                                                              value: e,
+                                                                              onTap: () {
+                                                                                setState(() {
+                                                                                  selectedLocation = e;
+
+                                                                                  getCurrentWeatherData(
+                                                                                    locationLatLng[locationName.indexOf(e)].latitude,
+                                                                                    locationLatLng[locationName.indexOf(e)].longitude,
+                                                                                  );
+                                                                                });
+                                                                              },
+                                                                              child: Text(
+                                                                                e,
+                                                                                style: const TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: Color(0xFF4D4D4D),
+                                                                                ),
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                              ),
+                                                                            ))
+                                                                        .toList(),
+                                                                    value:
+                                                                        selectedLocation,
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                             Obx(
@@ -1528,6 +1582,17 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<String> getAddressFromLatLng(double lat, lng) async {
+    final placemarks = await placemarkFromCoordinates(
+      lat,
+      lng,
+    );
+    log(placemarks[0].toString());
+
+    final locality = placemarks.isNotEmpty ? placemarks[0].locality : '';
+    return locality!;
+  }
+
   getCurrentWeatherData(
     double lat,
     double lng,
@@ -1571,8 +1636,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  getCurrentAddress() async {
-    final location = ls.Location();
+  Future getCurrentAddress() async {
     final serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled && !await location.requestService()) {
       return;
@@ -1587,9 +1651,11 @@ class _HomeState extends State<Home> {
 
     dashboardController.isLocationFetching.value = true;
     final locationData = await location.getLocation();
+    currentLat = locationData.latitude!;
+    currentLng = locationData.longitude!;
     await getCurrentWeatherData(
         locationData.latitude!, locationData.longitude!);
-    dashboardController.isDashboardApiLoading.value = false;
+
     dashboardController.isLocationFetching.value = false;
   }
 
