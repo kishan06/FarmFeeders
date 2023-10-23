@@ -62,9 +62,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               sizedBoxHeight(15.h),
               cards(
                 onTap: () {
-                  if (!isSetFarmInfo) {
-                    Get.toNamed("/farmsInfo");
-                  }
+                  //  if (!isSetFarmInfo) {
+                  Get.toNamed("/farmsInfo");
+                  //  }
                 },
                 set: isSetFarmInfo,
                 imagePath: "assets/images/setupFarm1.png",
@@ -126,11 +126,13 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                         Get.to(const BasicSubscriptionPlan());
                       })
                   : SizedBox()
+
                   // GestureDetector(
                   //     onTap: () {
                   //       Get.to(SideMenu());
                   //     },
                   //     child: textGreen16W700("Skip & Procced to dashboard"))
+
 
               // textBlack16(text)
             ],
