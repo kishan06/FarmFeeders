@@ -4,6 +4,7 @@ import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/common/flush_bar.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
@@ -73,10 +74,17 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               sizedBoxHeight(25.h),
               cards(
                 onTap: () async {
-                  var res = await Get.toNamed(RouteName.liveStockInfoMain);
-                  if (res) {
-                    setState(() {});
+                  if (isSetFarmInfo) {
+                    var res = await Get.toNamed(RouteName.liveStockInfoMain);
+                    if (res == true) {
+                      setState(() {});
+                    }
+                  } else {
+                    commonFlushBar(context, msg: "Please update Farm information");
                   }
+                    // var res = await Get.toNamed(RouteName.liveStockInfoMain);
+
+                  
                 },
                 set: isSetLiveStockInfo,
                 imagePath: "assets/images/setupFarm2.png",
@@ -88,11 +96,18 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
 
               cards(
                 onTap: () async {
-                  // Get.toNamed("/farmfeedtracker");
-                  var res = await Get.toNamed("/farmfeedtracker");
-                  if (res) {
-                    setState(() {});
+                  if (isSetFarmInfo && isSetLiveStockInfo) {
+                    var res = await Get.toNamed("/farmfeedtracker");
+                    if (res == true) {
+                      setState(() {});
+                    }
+                  } else {
+                    commonFlushBar(context, msg: "Please update Farm information & Live stock information");
                   }
+                    // var res = await Get.toNamed("/farmfeedtracker");
+
+                  // Get.toNamed("/farmfeedtracker");
+                  
                 },
                 set: isSetFeedInfo,
                 imagePath: "assets/images/setupFarm3.png",
@@ -111,6 +126,13 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                         Get.to(const BasicSubscriptionPlan());
                       })
                   : SizedBox()
+
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Get.to(SideMenu());
+                  //     },
+                  //     child: textGreen16W700("Skip & Procced to dashboard"))
+
 
               // textBlack16(text)
             ],

@@ -18,39 +18,23 @@ class FeedInfoContro extends GetxController {
   FeedDropDownInfo? _feedDropdownData;
   FeedDropDownInfo? get feedDropdownData => _feedDropdownData;
 
-  List _feedType = [
-    {
-      "titleText": "Dairy",
-      "imagePath": "assets/images/dairy.png",
-      "Updated": false
-    },
-    {
-      "titleText": "Beef",
-      "imagePath": "assets/images/beef.svg",
-      "Updated": false
-    },
-    {
-      "titleText": "Sheep",
-      "imagePath": "assets/images/sheep.svg",
-      "Updated": false
-    },
-    {
-      "titleText": "Pig",
-      "imagePath": "assets/images/pig.svg",
-      "Updated": false
-    },
-    {
-      "titleText": "Poultry",
-      "imagePath": "assets/images/poultry.svg",
-      "Updated": false
-    },
-  ];
 
-  List get feedType => _feedType;
+
+  // List _feedType = [
+  //   {"titleText": "Dairy", "imagePath": "assets/images/dairy.png", "Updated": false},
+  //   {"titleText": "Beef", "imagePath": "assets/images/beef.svg", "Updated": false},
+  //   {"titleText": "Sheep", "imagePath": "assets/images/sheep.svg", "Updated": false},
+  //   {"titleText": "Pig", "imagePath": "assets/images/pig.svg", "Updated": false},
+  //   {"titleText": "Poultry", "imagePath": "assets/images/poultry.svg", "Updated": false},
+  // ];
+
+  // List get feedType => _feedType; 
+
 
   changeUpdated(int index) {
     print("preesed");
-    _feedType[index]["Updated"] = true;
+    // _feedType[index]["Updated"] = true;
+    _feedDropdownData!.data.livestockType[index].updated = true;
     update();
   }
 

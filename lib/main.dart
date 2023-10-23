@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
             ),
 
             initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
-            //      initialRoute: '/',
+                //  initialRoute: '/letsSetUpYourFarm',
 
             getPages: AppRoutes.appRoutes(),
           );

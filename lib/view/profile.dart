@@ -7,6 +7,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/view/Profile/personalinfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -455,10 +456,15 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w600),
                           ),
                           Spacer(),
-                          SvgPicture.asset(
-                            'assets/images/profileEdit.svg',
-                            width: 18.w,
-                            height: 19.h,
+                          InkWell(
+                            onTap: (){
+                              Get.toNamed(RouteName.notification);
+                            },
+                            child: SvgPicture.asset(
+                              'assets/images/profileEdit.svg',
+                              width: 18.w,
+                              height: 19.h,
+                            ),
                           ),
                         ],
                       ),
