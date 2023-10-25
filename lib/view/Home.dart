@@ -7,9 +7,12 @@ import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/notification_controller.dart';
+import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
+import 'package:farmfeeders/models/ProfileModel/profile_info_model.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
+import 'package:farmfeeders/view_models/ProfileAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -48,6 +51,7 @@ class _HomeState extends State<Home> {
   List<String> locationName = [];
   List<LatLng> locationLatLng = [];
   DashboardController dashboardController = Get.put(DashboardController());
+  ProfileController profileController = Get.put(ProfileController());
   NotificationController notificationController =
       Get.put(NotificationController());
   List currentFeedData = [

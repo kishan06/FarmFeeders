@@ -3,10 +3,12 @@ import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Utils/global.dart';
 
-void main() {
-
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   // GlobalVariables globalVariables = GlobalVariables();
   token = prefs.getString('accessToken');
@@ -33,10 +35,8 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
 
-
             initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
-                //  initialRoute: '/letsSetUpYourFarm',
-
+            //  initialRoute: '/letsSetUpYourFarm',
 
             getPages: AppRoutes.appRoutes(),
           );
