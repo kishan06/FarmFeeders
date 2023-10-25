@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
@@ -7,6 +8,7 @@ import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_dropdown.dart';
 import 'package:farmfeeders/common/flush_bar.dart';
 import 'package:farmfeeders/controller/farm_feed_controller.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -101,23 +103,31 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
               child: GetBuilder<FeedInfoContro>(builder: (builder){
                 return feedInfoController.isLoading 
                 ? Center(child: CircularProgressIndicator())
-                : Column(
+                : 
+                // feedInfoController.feedDropdownData == null 
+                // ? 
+                // : 
+                Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: feedInfoController.feedType.length,
+                      itemCount: feedInfoController.feedDropdownData!.data.livestockType.length,
                       itemBuilder: (context, index) {
+                        // final liveStockData = feedInfoController
                         return Column(
                           children: [
                             // FeedContainer(),
                             FeedContainer(
-                              titleText:  feedInfoController.feedType[index]["titleText"], 
-                              imagePath: feedInfoController.feedType[index]["imagePath"],
+                              titleText: feedInfoController.feedDropdownData!.data.livestockType[index].name,
+                              // feedInfoController.feedType[index]["titleText"], 
+                              imagePath: feedInfoController.feedDropdownData!.data.livestockType[index].smallImageUrl,
+                              // feedInfoController.feedType[index]["imagePath"],
                               index: index,
-                              updated: feedInfoController.feedType[index]["Updated"],
+                              updated: feedInfoController.feedDropdownData!.data.livestockType[index].updated,
+                              feedId: feedInfoController.feedDropdownData!.data.livestockType[index].id,
                             ),
                             sizedBoxHeight(15.h),
 
@@ -166,6 +176,7 @@ class FeedContainer extends StatefulWidget {
   String imagePath;
   int index;
   bool updated;
+  int feedId;
 
 
   FeedContainer({
@@ -173,7 +184,8 @@ class FeedContainer extends StatefulWidget {
     required this.titleText,
     required this.imagePath,
     required this.index,
-    required this.updated
+    required this.updated,
+    required this.feedId
   });
 
   @override
@@ -201,6 +213,7 @@ class _FeedContainerState extends State<FeedContainer> {
 
   @override
   Widget build(BuildContext context) {
+    print((ApiUrls.baseImageUrl + widget.imagePath));
     return Container(
       decoration: BoxDecoration(
           border:
@@ -226,22 +239,31 @@ class _FeedContainerState extends State<FeedContainer> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              widget.index == 0 
-              ? Image.asset(
-                widget.imagePath,
-                // "assets/images/FeedContainer.png",
+              // widget.index == 0 
+              // ? Image.asset(
+              //   widget.imagePath,
+              //   // "assets/images/FeedContainer.png",
+              //   width: 59.w,
+              //   height: 42.h,
+              // )
+              // :SizedBox(
+              //   width: 59.w,
+              //   height: 42.h,
+              //   child: SvgPicture.asset(
+              //     widget.imagePath,
+              //     // "assets/images/poultry.svg",
+              //     // width: 59.w,
+              //     // height: 42.h,
+              //   ),
+              // ),
+              // NetworkImage(widget.imagePath),
+              Image.network((ApiUrls.baseImageUrl + widget.imagePath),
                 width: 59.w,
+                // width: 100.w,
+
                 height: 42.h,
-              )
-              :SizedBox(
-                width: 59.w,
-                height: 42.h,
-                child: SvgPicture.asset(
-                  widget.imagePath,
-                  // "assets/images/poultry.svg",
-                  // width: 59.w,
-                  // height: 42.h,
-                ),
+                // height: 100.h,
+
               ),
               sizedBoxWidth(19.w),
               Text(
@@ -623,7 +645,7 @@ class _FeedContainerState extends State<FeedContainer> {
                           buttonPressed = true;
                         });
                         final resp = await feedInfoController.setApiFarmFeed(map:  {
-                          'livestock_type': (widget.index + 1).toString(),
+                          'livestock_type': widget.feedId.toString(),
                           'current_feed': tecCurrentFeed.text,
                           'feed_type': selectedFeedTypeIndex.toString(),
                           'feed_frequency': selectedFrequencyIndex.toString(),

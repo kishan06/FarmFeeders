@@ -6,9 +6,13 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
+import 'package:farmfeeders/controller/notification_controller.dart';
+import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
+import 'package:farmfeeders/view_models/NotificationAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as ls;
 import 'package:farmfeeders/common/custom_button_curve.dart';
@@ -24,6 +28,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../common/custom_dropdown.dart';
 import '../common/status.dart';
 import '../models/dashboardModel.dart';
 
@@ -37,7 +42,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool lowFeed = true;
   bool saved = false;
+  final location = ls.Location();
+  String? selectedLocation, currentLocationName;
+  double? currentLat, currentLng;
+  List<String> locationName = [];
+  List<LatLng> locationLatLng = [];
   DashboardController dashboardController = Get.put(DashboardController());
+  NotificationController notificationController =
+      Get.put(NotificationController());
   List currentFeedData = [
     {
       "imagePath": "assets/images/buffalo.png",
@@ -69,14 +81,38 @@ class _HomeState extends State<Home> {
     _clockStream = Stream<DateTime>.periodic(const Duration(seconds: 1), (_) {
       return DateTime.now();
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getCurrentAddress();
       getPrefData();
-      DashboardApi().getDashboardData().then((value) {
+
+      DashboardApi().getDashboardData().then((value) async {
         dashboardController.dashboardModel =
             DashboardModel.fromJson(value.data);
+        final permissionGranted = await location.hasPermission();
+        if (permissionGranted == ls.PermissionStatus.granted) {
+          currentLocationName =
+              await getAddressFromLatLng(currentLat!, currentLng!);
+          locationLatLng.add(LatLng(currentLat!, currentLng!));
+          locationName
+              .add(await getAddressFromLatLng(currentLat!, currentLng!));
+        }
+        for (var i
+            in dashboardController.dashboardModel.data!.primaryFarmLocation!) {
+          locationLatLng.add(LatLng(
+              double.parse(i.farmLatitude!), double.parse(i.farmLongitude!)));
+          locationName.add(await getAddressFromLatLng(
+              double.parse(i.farmLatitude!), double.parse(i.farmLongitude!)));
+        }
+        setState(() {});
         saved = dashboardController.dashboardModel.data!.article!.bookmarked!;
-
-        getCurrentAddress();
+        NotificationAPI().getNotificationCount().then((value) {
+          NotificationCountModel notificationCountModel =
+              NotificationCountModel.fromJson(value.data);
+          notificationController.notificationCount.value =
+              notificationCountModel.data.toString();
+          //     getCurrentAddress();
+          dashboardController.isDashboardApiLoading.value = false;
+        });
       });
     });
 
@@ -187,40 +223,68 @@ class _HomeState extends State<Home> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             textBlack20W7000Mon("Welcome Back"),
-                            textBlack25W600Mon("Kevin")
+                            textBlack25W600Mon(dashboardController
+                                .dashboardModel.data!.userName!)
                           ],
                         ),
                         const Spacer(),
-                        Container(
-                          height: 42.h,
-                          width: 42.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.h),
-                            color: AppColors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade400,
-                                blurRadius: 5.h,
-                                spreadRadius: 2.h,
-                              )
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Get.toNamed("/notification");
-                                },
-                                child: SvgPicture.asset(
-                                  "assets/images/notification_bell.svg",
-                                  height: 28.h,
-                                  width: 28.h,
-                                  color: AppColors.black,
-                                ),
+                        Stack(
+                          children: [
+                            Container(
+                              height: 42.h,
+                              width: 42.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.h),
+                                color: AppColors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade400,
+                                    blurRadius: 5.h,
+                                    spreadRadius: 2.h,
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.toNamed("/notification");
+                                    },
+                                    child: SvgPicture.asset(
+                                      "assets/images/notification_bell.svg",
+                                      height: 28.h,
+                                      width: 28.h,
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            notificationController.notificationCount.value ==
+                                    "0"
+                                ? const SizedBox()
+                                : Positioned(
+                                    top: -5,
+                                    right: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4.0),
+                                      decoration: const BoxDecoration(
+                                        color: Colors.red,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Text(
+                                        notificationController
+                                            .notificationCount.value,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ],
                         ),
                         sizedBoxWidth(10.w),
                         Container(
@@ -302,13 +366,13 @@ class _HomeState extends State<Home> {
                                                     ? isDaytime
                                                         ? Lottie.asset(
                                                             "assets/lotties/sun_animation.json",
-                                                            height: 200.h,
-                                                            width: 200.w,
+                                                            height: 240.h,
+                                                            width: 240.w,
                                                           )
                                                         : Lottie.asset(
                                                             "assets/lotties/moon_animation.json",
-                                                            height: 200.h,
-                                                            width: 200.w,
+                                                            height: 240.h,
+                                                            width: 240.w,
                                                           )
                                                     : (dashboardController
                                                                 .weatherCondition
@@ -317,13 +381,13 @@ class _HomeState extends State<Home> {
                                                         ? isDaytime
                                                             ? Lottie.asset(
                                                                 "assets/lotties/sun_with_cloud_animation.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                             : Lottie.asset(
                                                                 "assets/lotties/moon_with_cloud_animation.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                         : (dashboardController
                                                                         .weatherCondition
@@ -335,8 +399,8 @@ class _HomeState extends State<Home> {
                                                                     "Overcast")
                                                             ? Lottie.asset(
                                                                 "assets/lotties/clouds.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                             : (dashboardController.weatherCondition.value == "Mist" ||
                                                                     dashboardController
@@ -350,9 +414,9 @@ class _HomeState extends State<Home> {
                                                                 ? Lottie.asset(
                                                                     "assets/lotties/cloud2.json",
                                                                     height:
-                                                                        200.h,
+                                                                        240.h,
                                                                     width:
-                                                                        200.w,
+                                                                        240.w,
                                                                   )
                                                                 : (dashboardController.weatherCondition.value == "Patchy rain possible" ||
                                                                         dashboardController.weatherCondition.value == "Patchy freezing drizzle possible" ||
@@ -376,28 +440,28 @@ class _HomeState extends State<Home> {
                                                                     ? Lottie.asset(
                                                                         "assets/lotties/cloud_with_rain_animation.json",
                                                                         height:
-                                                                            200.h,
+                                                                            240.h,
                                                                         width:
-                                                                            200.w,
+                                                                            240.w,
                                                                       )
                                                                     : (dashboardController.weatherCondition.value == "Patchy snow possible" || dashboardController.weatherCondition.value == "Patchy sleet possible" || dashboardController.weatherCondition.value == "Light sleet" || dashboardController.weatherCondition.value == "Moderate or heavy sleet" || dashboardController.weatherCondition.value == "Patchy light snow" || dashboardController.weatherCondition.value == "Light snow" || dashboardController.weatherCondition.value == "Patchy moderate snow" || dashboardController.weatherCondition.value == "Moderate snow" || dashboardController.weatherCondition.value == "Patchy heavy snow" || dashboardController.weatherCondition.value == "Heavy snow" || dashboardController.weatherCondition.value == "Ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy sleet showers" || dashboardController.weatherCondition.value == "Light snow showers" || dashboardController.weatherCondition.value == "Moderate or heavy snow showers" || dashboardController.weatherCondition.value == "Light showers of ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy showers of ice pellets")
                                                                         ? Lottie.asset(
                                                                             "assets/lotties/snow_animation.json",
                                                                             height:
-                                                                                200.h,
+                                                                                240.h,
                                                                             width:
-                                                                                200.w,
+                                                                                240.w,
                                                                           )
                                                                         : (dashboardController.weatherCondition.value == "Blowing snow" || dashboardController.weatherCondition.value == "Blizzard" || dashboardController.weatherCondition.value == "Patchy light snow with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy snow with thunder")
                                                                             ? Lottie.asset(
-                                                                                "assets/lotties/cloud2.json",
-                                                                                height: 200.h,
-                                                                                width: 200.w,
+                                                                                "assets/lotties/snow_animation.json",
+                                                                                height: 240.h,
+                                                                                width: 240.w,
                                                                               )
                                                                             : Lottie.asset(
                                                                                 "assets/lotties/cloud2.json",
-                                                                                height: 200.h,
-                                                                                width: 200.w,
+                                                                                height: 240.h,
+                                                                                width: 240.w,
                                                                               )),
                                           ),
                                           Padding(
@@ -431,19 +495,49 @@ class _HomeState extends State<Home> {
                                                                   width: 20.h,
                                                                 ),
 
-                                                                sizedBoxWidth(
-                                                                    5.w),
-
                                                                 // textBlack20W7000("Ireland"),
-                                                                Obx(
-                                                                  () => textBlack18W5000(dashboardController
-                                                                          .isLocationFetching
-                                                                          .value
-                                                                      ? place!
-                                                                      : dashboardController
-                                                                          .locationText
-                                                                          .value),
-                                                                )
+                                                                SizedBox(
+                                                                  width: 160.w,
+                                                                  child:
+                                                                      DropdownBtn(
+                                                                    bgColor:
+                                                                        AppColors
+                                                                            .pistaE3FFE9,
+                                                                    hint: currentLat
+                                                                            .toString()
+                                                                            .isNotEmpty
+                                                                        ? currentLocationName!
+                                                                        : locationName[
+                                                                            0],
+                                                                    // items: ,
+                                                                    items: locationName
+                                                                        .map((e) => DropdownMenuItem(
+                                                                              value: e,
+                                                                              onTap: () {
+                                                                                setState(() {
+                                                                                  selectedLocation = e;
+
+                                                                                  getCurrentWeatherData(
+                                                                                    locationLatLng[locationName.indexOf(e)].latitude,
+                                                                                    locationLatLng[locationName.indexOf(e)].longitude,
+                                                                                  );
+                                                                                });
+                                                                              },
+                                                                              child: Text(
+                                                                                e,
+                                                                                style: const TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: Color(0xFF4D4D4D),
+                                                                                ),
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                              ),
+                                                                            ))
+                                                                        .toList(),
+                                                                    value:
+                                                                        selectedLocation,
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                             Obx(
@@ -985,209 +1079,240 @@ class _HomeState extends State<Home> {
                                   ],
                                 ),
                                 sizedBoxHeight(20.h),
-                                textBlack18W7000("Profile"),
-                                Container(
-                                  // height: 93.h,
-                                  // width: 230.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.h),
-                                    color: AppColors.white,
-                                    border: Border.all(
-                                        color: AppColors.buttoncolour,
-                                        width: 1.h),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.04),
-                                        blurRadius: 10,
-                                        spreadRadius: 2,
-                                      )
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15.w, vertical: 10.h),
-                                    child: Row(
-                                      children: [
-                                        Stack(
-                                          clipBehavior: Clip.none,
-                                          children: [
-                                            SizedBox(
-                                              height: 55.w,
-                                              width: 55.w,
-                                              child: CircularProgressIndicator(
-                                                value: dashboardController
-                                                        .dashboardModel
-                                                        .data!
-                                                        .profileCompletionPercentage! /
-                                                    100,
-                                                strokeWidth: 5.w,
-                                                backgroundColor:
-                                                    AppColors.buttoncolour,
-                                                valueColor:
-                                                    const AlwaysStoppedAnimation(
-                                                        Colors.red),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              bottom: -5.h,
-                                              left: 20.h,
-                                              child: Container(
-                                                // height: 93.h,
-                                                // width: 230.w,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          2.h),
-                                                  color: AppColors.white,
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .buttoncolour,
-                                                      width: 1.h),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.04),
-                                                      blurRadius: 2,
-                                                      spreadRadius: 1,
-                                                    )
-                                                  ],
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 2.w),
-                                                  child: textBlack10(
-                                                      "${dashboardController.dashboardModel.data!.profileCompletionPercentage} %"),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                                top: 15.h,
-                                                left: 22.5.h,
-                                                child: textBlack18W7000("K"))
+                                dashboardController.dashboardModel.data!
+                                            .profileCompletionPercentage! >=
+                                        100
+                                    ? SizedBox()
+                                    : textBlack18W7000("Profile"),
+                                dashboardController.dashboardModel.data!
+                                            .profileCompletionPercentage! >=
+                                        100
+                                    ? SizedBox()
+                                    : Container(
+                                        // height: 93.h,
+                                        // width: 230.w,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.h),
+                                          color: AppColors.white,
+                                          border: Border.all(
+                                              color: AppColors.buttoncolour,
+                                              width: 1.h),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.04),
+                                              blurRadius: 10,
+                                              spreadRadius: 2,
+                                            )
                                           ],
                                         ),
-                                        sizedBoxWidth(20.w),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            textBlack18W7000("Hey Kevin"),
-
-                                            InkWell(
-                                              onTap: () {
-                                                Get.toNamed("/profile");
-                                                // Get
-                                              },
-                                              child: Container(
-                                                height: 40.h,
-                                                width: 175.w,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.h),
-                                                    color:
-                                                        AppColors.buttoncolour),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Complete Your Profile",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: AppColors.white,
-                                                        fontSize: 14.sp),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-
-                                            // SizedBox(
-                                            //   height: 40.h,
-                                            //   // width: 175.w,
-                                            //   child: customButton(text: "Complete Your Profile"))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                sizedBoxHeight(25.h),
-                                InkWell(
-                                  onTap: () {
-                                    Get.toNamed("/trainingmain");
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(27.h),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.04),
-                                          blurRadius: 10,
-                                          spreadRadius: 2,
-                                        )
-                                      ],
-                                      color: AppColors.pistaE3FFE9,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 13.w, vertical: 15.h),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          textBlack18W600Mon("Training"),
-                                          sizedBoxHeight(15.h),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15.w, vertical: 10.h),
+                                          child: Row(
                                             children: [
-                                              Image.asset(
-                                                "assets/images/training1.png",
-                                                width: 104.w,
-                                                height: 90.h,
+                                              Stack(
+                                                clipBehavior: Clip.none,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 55.w,
+                                                    width: 55.w,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: dashboardController
+                                                              .dashboardModel
+                                                              .data!
+                                                              .profileCompletionPercentage! /
+                                                          100,
+                                                      strokeWidth: 5.w,
+                                                      backgroundColor: AppColors
+                                                          .buttoncolour,
+                                                      valueColor:
+                                                          const AlwaysStoppedAnimation(
+                                                              Colors.red),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    bottom: -5.h,
+                                                    left: 20.h,
+                                                    child: Container(
+                                                      // height: 93.h,
+                                                      // width: 230.w,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(2.h),
+                                                        color: AppColors.white,
+                                                        border: Border.all(
+                                                            color: AppColors
+                                                                .buttoncolour,
+                                                            width: 1.h),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.04),
+                                                            blurRadius: 2,
+                                                            spreadRadius: 1,
+                                                          )
+                                                        ],
+                                                      ),
+                                                      child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    2.w),
+                                                        child: textBlack10(
+                                                            "${dashboardController.dashboardModel.data!.profileCompletionPercentage} %"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                      top: 15.h,
+                                                      left: 22.5.h,
+                                                      child:
+                                                          textBlack18W7000("K"))
+                                                ],
                                               ),
-                                              sizedBoxWidth(14.w),
-                                              // SvgPicture.asset("assets/images/current_feed.svg",
-                                              //   height: 170.h,
-                                              //   width: 100.w,
-                                              // ),
+                                              sizedBoxWidth(20.w),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  textBlack18W7000(
+                                                      "Hey ${dashboardController.dashboardModel.data!.userName!}"),
 
-                                              // sizedBoxWidth(20.w),
-                                              // Spacer(),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Get.toNamed("/profile");
+                                                      // Get
+                                                    },
+                                                    child: Container(
+                                                      height: 40.h,
+                                                      width: 175.w,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.h),
+                                                          color: AppColors
+                                                              .buttoncolour),
+                                                      child: Center(
+                                                        child: Text(
+                                                          "Complete Your Profile",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .white,
+                                                              fontSize: 14.sp),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
 
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    textBlack18W600Mon(
-                                                        dashboardController
-                                                            .dashboardModel
-                                                            .data!
-                                                            .trainingVideos!
-                                                            .title!),
-                                                    textGrey4D4D4D_16(
-                                                        dashboardController
-                                                            .dashboardModel
-                                                            .data!
-                                                            .trainingVideos!
-                                                            .smallDescription!),
-                                                    textGreen14(
-                                                        Utils.formattedTimeAgo(
-                                                            dashboardController
-                                                                .dashboardModel
-                                                                .data!
-                                                                .trainingVideos!
-                                                                .publishedDatetime!))
-                                                  ],
-                                                ),
-                                              ),
+                                                  // SizedBox(
+                                                  //   height: 40.h,
+                                                  //   // width: 175.w,
+                                                  //   child: customButton(text: "Complete Your Profile"))
+                                                ],
+                                              )
                                             ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
+                                dashboardController.dashboardModel.data!
+                                        .trainingVideos!.isEmpty
+                                    ? SizedBox()
+                                    : sizedBoxHeight(25.h),
+                                dashboardController.dashboardModel.data!
+                                        .trainingVideos!.isEmpty
+                                    ? SizedBox()
+                                    : InkWell(
+                                        onTap: () {
+                                          Get.toNamed("/trainingmain");
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(27.h),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.04),
+                                                blurRadius: 10,
+                                                spreadRadius: 2,
+                                              )
+                                            ],
+                                            color: AppColors.pistaE3FFE9,
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 13.w,
+                                                vertical: 15.h),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                textBlack18W600Mon("Training"),
+                                                sizedBoxHeight(15.h),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Image.asset(
+                                                      "assets/images/video_thumbnail.jpg",
+                                                      width: 104.w,
+                                                      height: 90.h,
+                                                    ),
+                                                    sizedBoxWidth(14.w),
+                                                    // SvgPicture.asset("assets/images/current_feed.svg",
+                                                    //   height: 170.h,
+                                                    //   width: 100.w,
+                                                    // ),
+
+                                                    // sizedBoxWidth(20.w),
+                                                    // Spacer(),
+
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          textBlack18W600Mon(
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .trainingVideos![
+                                                                      0]
+                                                                  .title!),
+                                                          textGrey4D4D4D_16(
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .trainingVideos![
+                                                                      0]
+                                                                  .smallDescription!),
+                                                          textGreen14(Utils.formattedTimeAgo(
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .trainingVideos![
+                                                                      0]
+                                                                  .publishedDatetime!))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                 sizedBoxHeight(20.h),
                                 InkWell(
                                   onTap: () {
@@ -1222,28 +1347,22 @@ class _HomeState extends State<Home> {
                                                 CrossAxisAlignment.start,
                                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              // dashboardController
-                                              //         .dashboardModel
-                                              //         .data!
-                                              //         .article!
-                                              //         .smallImageUrl!
-                                              //         .isEmpty
-                                              //     ?
-                                              Image.asset(
-                                                "assets/images/news&arti.png",
-                                                width: 104.w,
-                                                height: 90.h,
-                                              ),
-                                              // : Image.network(
-                                              //     "https://farmflow.betadelivery.com/api" +
-                                              //         dashboardController
-                                              //             .dashboardModel
-                                              //             .data!
-                                              //             .article!
-                                              //             .smallImageUrl!,
-                                              //     width: 104.w,
-                                              //     height: 90.h,
-                                              //   ),
+                                              dashboardController
+                                                      .dashboardModel
+                                                      .data!
+                                                      .article!
+                                                      .smallImageUrl!
+                                                      .isEmpty
+                                                  ? Image.asset(
+                                                      "assets/images/news&arti.png",
+                                                      width: 104.w,
+                                                      height: 90.h,
+                                                    )
+                                                  : Image.network(
+                                                      "${ApiUrls.imageBase}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
+                                                      width: 104.w,
+                                                      height: 90.h,
+                                                    ),
                                               sizedBoxWidth(14.w),
                                               // SvgPicture.asset("assets/images/current_feed.svg",
                                               //   height: 170.h,
@@ -1463,26 +1582,34 @@ class _HomeState extends State<Home> {
     );
   }
 
-  getCurrentAddress() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    dashboardController.isLocationFetching.value = true;
+  Future<String> getAddressFromLatLng(double lat, lng) async {
+    final placemarks = await placemarkFromCoordinates(
+      lat,
+      lng,
+    );
+    log(placemarks[0].toString());
 
+    final locality = placemarks.isNotEmpty ? placemarks[0].locality : '';
+    return locality!;
+  }
+
+  getCurrentWeatherData(
+    double lat,
+    double lng,
+  ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       final placemarks = await placemarkFromCoordinates(
-        double.parse(dashboardController
-            .dashboardModel.data!.primaryFarmLocation!.farmLatitude!),
-        double.parse(dashboardController
-            .dashboardModel.data!.primaryFarmLocation!.farmLongitude!),
+        lat,
+        lng,
       );
 
       final locality = placemarks.isNotEmpty ? placemarks[0].locality : '';
       dashboardController.locationText.value = locality!;
       // log("${locationData.latitude!},${locationData.longitude!}");
       final weatherData = await WeatherApi().getWeatherData(
-        double.parse(dashboardController
-            .dashboardModel.data!.primaryFarmLocation!.farmLatitude!),
-        double.parse(dashboardController
-            .dashboardModel.data!.primaryFarmLocation!.farmLongitude!),
+        lat,
+        lng,
       );
 
       dashboardController.tempValue.value =
@@ -1507,7 +1634,28 @@ class _HomeState extends State<Home> {
       utils.showToast("Error fetching location or weather data");
       //   print("Error fetching location or weather data: $e");
     }
-    dashboardController.isDashboardApiLoading.value = false;
+  }
+
+  Future getCurrentAddress() async {
+    final serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled && !await location.requestService()) {
+      return;
+    }
+
+    final permissionGranted = await location.hasPermission();
+    if (permissionGranted != ls.PermissionStatus.granted) {
+      if (await location.requestPermission() != ls.PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    dashboardController.isLocationFetching.value = true;
+    final locationData = await location.getLocation();
+    currentLat = locationData.latitude!;
+    currentLng = locationData.longitude!;
+    await getCurrentWeatherData(
+        locationData.latitude!, locationData.longitude!);
+
     dashboardController.isLocationFetching.value = false;
   }
 

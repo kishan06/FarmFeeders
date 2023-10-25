@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+
 void main() {
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  // GlobalVariables globalVariables = GlobalVariables();
+  token = prefs.getString('accessToken');
+  // log(token!);
+
   runApp(const MyApp());
 }
 
@@ -25,7 +32,12 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: AppColors.white,
               primarySwatch: Colors.blue,
             ),
-            initialRoute: '/',
+
+
+            initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
+                //  initialRoute: '/letsSetUpYourFarm',
+
+
             getPages: AppRoutes.appRoutes(),
           );
         });
