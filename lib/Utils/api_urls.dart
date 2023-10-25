@@ -13,6 +13,7 @@ class ApiUrls {
   static const setFeedInfo = base + "feed-info";
 
   static const notificationCountApi = base + "farmer/notifications-count";
+  static const getNotificationData = base + "farmer/notifications";
 
   static const weatherApi = "http://api.weatherapi.com/v1/current.json";
 }

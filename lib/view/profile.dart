@@ -448,7 +448,8 @@ class _ProfileState extends State<Profile> {
                           ),
                           sizedBoxWidth(24.w),
                           Text(
-                            "Animal Information",
+                            // "Animal Information",
+                            'Livestock Information',
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 color: Color(0XFF141414),
@@ -486,7 +487,8 @@ class _ProfileState extends State<Profile> {
                           ),
                           sizedBoxWidth(24.w),
                           Text(
-                            "Farm Feed Tracker",
+                            // "Farm Feed Tracker",
+                            "Feed Information",
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 color: Color(0XFF141414),
@@ -519,7 +521,7 @@ class _ProfileState extends State<Profile> {
                           ),
                           sizedBoxWidth(24.w),
                           Text(
-                            "Farm Info",
+                            "Farm Information",
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 color: Color(0XFF141414),
