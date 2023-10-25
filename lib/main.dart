@@ -1,20 +1,10 @@
-import 'dart:developer';
-
 import 'package:farmfeeders/Utils/colors.dart';
-import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  // GlobalVariables globalVariables = GlobalVariables();
-  token = prefs.getString('accessToken');
-  log(token!);
+void main() {
   runApp(const MyApp());
 }
 
@@ -25,7 +15,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        useInheritedMediaQuery: true,
         designSize: const Size(390, 844),
         builder: (context, child) {
           return GetMaterialApp(
@@ -36,10 +25,7 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: AppColors.white,
               primarySwatch: Colors.blue,
             ),
-
-            initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
-            //      initialRoute: '/',
-
+            initialRoute: '/',
             getPages: AppRoutes.appRoutes(),
           );
         });
