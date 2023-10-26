@@ -1282,11 +1282,24 @@ class _HomeState extends State<Home> {
                                                       CrossAxisAlignment.start,
                                                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Image.asset(
-                                                      "assets/images/thumbnail_icon.png",
-                                                      width: 104.w,
-                                                      height: 75.h,
-                                                      //   fit: BoxFit.cover,
+                                                    Card(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(4.0),
+                                                        child: Image.asset(
+                                                          "assets/images/thumbnail_icon.png",
+                                                          width: 104.w,
+                                                          height: 75.h,
+                                                          //   fit: BoxFit.cover,
+                                                        ),
+                                                      ),
                                                     ),
                                                     sizedBoxWidth(14.w),
                                                     // SvgPicture.asset("assets/images/current_feed.svg",
