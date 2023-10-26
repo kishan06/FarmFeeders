@@ -1,12 +1,29 @@
+import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as getx;
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'dart:typed_data';
 
 class Utils {
+  static Future<MultipartFile> networkImageToMultipartFile(
+      String imageUrl) async {
+    Dio dio = Dio();
+
+    Response<Uint8List> response = await dio.get<Uint8List>(imageUrl,
+        options: Options(responseType: ResponseType.bytes));
+
+    MultipartFile multipartFile = MultipartFile.fromBytes(
+      response.data!,
+      filename: imageUrl.substring(imageUrl.lastIndexOf("/") + 1),
+    );
+
+    return multipartFile;
+  }
+
   static loader() {
-    Get.dialog(
+    getx.Get.dialog(
       Dialog(
         elevation: 0,
         backgroundColor: Colors.transparent,

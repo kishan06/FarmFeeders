@@ -1,20 +1,29 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:farmfeeders/common/limit_range.dart';
+import '../../Utils/api_urls.dart';
+import '../../Utils/base_manager.dart';
+import '../../Utils/utils.dart';
+import '../../models/ProfileModel/profile_info_model.dart';
+import '../../view_models/ProfileAPI.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({super.key});
@@ -35,18 +44,63 @@ class _PersonalInfoState extends State<PersonalInfo> {
   final ProfileImageController editProfileImage =
       Get.put(ProfileImageController());
 
-  void _submit() {
-    setState(() {
-      setState(() {
-        // editBool = false;
-        nameValue = nameController.text;
-        dateValue = dateController.text;
-        phoneValue = phoneController.text;
-        emailValue = emailController.text;
-        // addressValue = addressController.text;
-      });
+  ProfileController profileController = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    List<String> formattedDate = profileController
+        .profileInfoModel.value.data!.dateOfBirth!
+        .split(" ")[0]
+        .split("-");
+    String formattedDate1 =
+        "${formattedDate[2]}/${formattedDate[1]}/${formattedDate[0]}";
+    nameController.text =
+        profileController.profileInfoModel.value.data!.userName!;
+    phoneController.text =
+        profileController.profileInfoModel.value.data!.phoneNumber!;
+    emailController.text =
+        profileController.profileInfoModel.value.data!.emailAddress!;
+    dateController.text = formattedDate1;
+    super.initState();
+  }
+
+  void uploadData() async {
+    Utils.loader();
+    var imageFile;
+
+    if (editProfileImage.profilePicPath.value.isNotEmpty) {
+      imageFile = await MultipartFile.fromFile(
+        editProfileImage.profilePicPath.value,
+        filename: path.basename(editProfileImage.profilePicPath.value),
+      );
+    } else {
+      imageFile = await Utils.networkImageToMultipartFile(
+        "",
+      );
+    }
+    List<String> formattedDate = dateController.text.split("/");
+    String formattedDate1 =
+        "${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}";
+    final data = await ProfileAPI().updateProfileApi(map: {
+      "name": nameController.text,
+      "phone_number": phoneController.text,
+      "dob": formattedDate1,
+      "email": emailController.text,
+      'profile_photo': imageFile,
     });
-    // }
+    if (data.status == ResponseStatus.SUCCESS) {
+      ProfileAPI().getProfileInfo().then((value) {
+        profileController.profileInfoModel.value =
+            ProfileInfoModel.fromJson(value.data);
+        utils.showToast("Profile added Successfully!");
+
+        Get.back();
+        Get.back(result: true);
+      });
+    } else {
+      Get.back();
+      utils.showToast(data.message);
+    }
   }
 
   Future<File> saveFilePermanently(String imagePath) async {
@@ -58,7 +112,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
     // showDatePicker is a pre-made funtion of Flutter
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime.parse(profileController
+          .profileInfoModel.value.data!.dateOfBirth!
+          .split(" ")[0]),
       firstDate: DateTime(1922),
       lastDate: DateTime.now(),
       builder: (context, child) {
@@ -267,8 +323,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                               width: 200.w,
                                               height: 200.h,
                                             )
-                                          : Image.asset(
-                                              'assets/images/profile.png'),
+                                          : Image.network(
+                                              "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
                                     ),
                                   ),
                                 ),
@@ -376,6 +432,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               color: Color(0XFF141414)),
                         ),
                         CustomTextFormField(
+                          readonly: true,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(50),
                           ],
@@ -398,8 +455,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             onTap: () {
                               final isValid = _formKey.currentState?.validate();
                               if (isValid!) {
-                                _submit();
-                                Get.toNamed("/profile");
+                                uploadData();
                               } else {
                                 Flushbar(
                                   message: "Please fill all fields",

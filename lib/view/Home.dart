@@ -7,11 +7,15 @@ import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/notification_controller.dart';
+import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
+import 'package:farmfeeders/models/ProfileModel/profile_info_model.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
+import 'package:farmfeeders/view_models/ProfileAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as ls;
 import 'package:farmfeeders/common/custom_button_curve.dart';
@@ -27,6 +31,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../common/custom_dropdown.dart';
 import '../common/status.dart';
 import '../models/dashboardModel.dart';
 
@@ -40,7 +45,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool lowFeed = true;
   bool saved = false;
+  final location = ls.Location();
+  String? selectedLocation, currentLocationName;
+  double? currentLat, currentLng;
+  List<String> locationName = [];
+  List<LatLng> locationLatLng = [];
   DashboardController dashboardController = Get.put(DashboardController());
+  ProfileController profileController = Get.put(ProfileController());
   NotificationController notificationController =
       Get.put(NotificationController());
   List currentFeedData = [
@@ -74,20 +85,37 @@ class _HomeState extends State<Home> {
     _clockStream = Stream<DateTime>.periodic(const Duration(seconds: 1), (_) {
       return DateTime.now();
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getCurrentAddress();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getCurrentAddress();
       getPrefData();
 
-      DashboardApi().getDashboardData().then((value) {
+      DashboardApi().getDashboardData().then((value) async {
         dashboardController.dashboardModel =
             DashboardModel.fromJson(value.data);
+        final permissionGranted = await location.hasPermission();
+        if (permissionGranted == ls.PermissionStatus.granted) {
+          currentLocationName =
+              await getAddressFromLatLng(currentLat!, currentLng!);
+          locationLatLng.add(LatLng(currentLat!, currentLng!));
+          locationName
+              .add(await getAddressFromLatLng(currentLat!, currentLng!));
+        }
+        for (var i
+            in dashboardController.dashboardModel.data!.primaryFarmLocation!) {
+          locationLatLng.add(LatLng(
+              double.parse(i.farmLatitude!), double.parse(i.farmLongitude!)));
+          locationName.add(await getAddressFromLatLng(
+              double.parse(i.farmLatitude!), double.parse(i.farmLongitude!)));
+        }
+        setState(() {});
         saved = dashboardController.dashboardModel.data!.article!.bookmarked!;
         NotificationAPI().getNotificationCount().then((value) {
           NotificationCountModel notificationCountModel =
               NotificationCountModel.fromJson(value.data);
           notificationController.notificationCount.value =
               notificationCountModel.data.toString();
-          getCurrentAddress();
+          //     getCurrentAddress();
+          dashboardController.isDashboardApiLoading.value = false;
         });
       });
     });
@@ -241,7 +269,7 @@ class _HomeState extends State<Home> {
                                     "0"
                                 ? const SizedBox()
                                 : Positioned(
-                                    top: -6,
+                                    top: -5,
                                     right: 0,
                                     child: Container(
                                       padding: const EdgeInsets.all(4.0),
@@ -342,13 +370,13 @@ class _HomeState extends State<Home> {
                                                     ? isDaytime
                                                         ? Lottie.asset(
                                                             "assets/lotties/sun_animation.json",
-                                                            height: 200.h,
-                                                            width: 200.w,
+                                                            height: 240.h,
+                                                            width: 240.w,
                                                           )
                                                         : Lottie.asset(
                                                             "assets/lotties/moon_animation.json",
-                                                            height: 200.h,
-                                                            width: 200.w,
+                                                            height: 175.h,
+                                                            width: 175.w,
                                                           )
                                                     : (dashboardController
                                                                 .weatherCondition
@@ -357,13 +385,13 @@ class _HomeState extends State<Home> {
                                                         ? isDaytime
                                                             ? Lottie.asset(
                                                                 "assets/lotties/sun_with_cloud_animation.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                             : Lottie.asset(
                                                                 "assets/lotties/moon_with_cloud_animation.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                         : (dashboardController
                                                                         .weatherCondition
@@ -375,8 +403,8 @@ class _HomeState extends State<Home> {
                                                                     "Overcast")
                                                             ? Lottie.asset(
                                                                 "assets/lotties/clouds.json",
-                                                                height: 200.h,
-                                                                width: 200.w,
+                                                                height: 240.h,
+                                                                width: 240.w,
                                                               )
                                                             : (dashboardController.weatherCondition.value == "Mist" ||
                                                                     dashboardController
@@ -390,9 +418,9 @@ class _HomeState extends State<Home> {
                                                                 ? Lottie.asset(
                                                                     "assets/lotties/cloud2.json",
                                                                     height:
-                                                                        200.h,
+                                                                        240.h,
                                                                     width:
-                                                                        200.w,
+                                                                        240.w,
                                                                   )
                                                                 : (dashboardController.weatherCondition.value == "Patchy rain possible" ||
                                                                         dashboardController.weatherCondition.value == "Patchy freezing drizzle possible" ||
@@ -416,28 +444,28 @@ class _HomeState extends State<Home> {
                                                                     ? Lottie.asset(
                                                                         "assets/lotties/cloud_with_rain_animation.json",
                                                                         height:
-                                                                            200.h,
+                                                                            240.h,
                                                                         width:
-                                                                            200.w,
+                                                                            240.w,
                                                                       )
                                                                     : (dashboardController.weatherCondition.value == "Patchy snow possible" || dashboardController.weatherCondition.value == "Patchy sleet possible" || dashboardController.weatherCondition.value == "Light sleet" || dashboardController.weatherCondition.value == "Moderate or heavy sleet" || dashboardController.weatherCondition.value == "Patchy light snow" || dashboardController.weatherCondition.value == "Light snow" || dashboardController.weatherCondition.value == "Patchy moderate snow" || dashboardController.weatherCondition.value == "Moderate snow" || dashboardController.weatherCondition.value == "Patchy heavy snow" || dashboardController.weatherCondition.value == "Heavy snow" || dashboardController.weatherCondition.value == "Ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy sleet showers" || dashboardController.weatherCondition.value == "Light snow showers" || dashboardController.weatherCondition.value == "Moderate or heavy snow showers" || dashboardController.weatherCondition.value == "Light showers of ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy showers of ice pellets")
                                                                         ? Lottie.asset(
                                                                             "assets/lotties/snow_animation.json",
                                                                             height:
-                                                                                200.h,
+                                                                                240.h,
                                                                             width:
-                                                                                200.w,
+                                                                                240.w,
                                                                           )
                                                                         : (dashboardController.weatherCondition.value == "Blowing snow" || dashboardController.weatherCondition.value == "Blizzard" || dashboardController.weatherCondition.value == "Patchy light snow with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy snow with thunder")
                                                                             ? Lottie.asset(
-                                                                                "assets/lotties/cloud2.json",
-                                                                                height: 200.h,
-                                                                                width: 200.w,
+                                                                                "assets/lotties/snow_animation.json",
+                                                                                height: 240.h,
+                                                                                width: 240.w,
                                                                               )
                                                                             : Lottie.asset(
                                                                                 "assets/lotties/cloud2.json",
-                                                                                height: 200.h,
-                                                                                width: 200.w,
+                                                                                height: 240.h,
+                                                                                width: 240.w,
                                                                               )),
                                           ),
                                           Padding(
@@ -471,19 +499,49 @@ class _HomeState extends State<Home> {
                                                                   width: 20.h,
                                                                 ),
 
-                                                                sizedBoxWidth(
-                                                                    5.w),
-
                                                                 // textBlack20W7000("Ireland"),
-                                                                Obx(
-                                                                  () => textBlack18W5000(dashboardController
-                                                                          .isLocationFetching
-                                                                          .value
-                                                                      ? place!
-                                                                      : dashboardController
-                                                                          .locationText
-                                                                          .value),
-                                                                )
+                                                                SizedBox(
+                                                                  width: 160.w,
+                                                                  child:
+                                                                      DropdownBtn(
+                                                                    bgColor:
+                                                                        AppColors
+                                                                            .pistaE3FFE9,
+                                                                    hint: currentLat
+                                                                            .toString()
+                                                                            .isNotEmpty
+                                                                        ? currentLocationName!
+                                                                        : locationName[
+                                                                            0],
+                                                                    // items: ,
+                                                                    items: locationName
+                                                                        .map((e) => DropdownMenuItem(
+                                                                              value: e,
+                                                                              onTap: () {
+                                                                                setState(() {
+                                                                                  selectedLocation = e;
+
+                                                                                  getCurrentWeatherData(
+                                                                                    locationLatLng[locationName.indexOf(e)].latitude,
+                                                                                    locationLatLng[locationName.indexOf(e)].longitude,
+                                                                                  );
+                                                                                });
+                                                                              },
+                                                                              child: Text(
+                                                                                e,
+                                                                                style: const TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  color: Color(0xFF4D4D4D),
+                                                                                ),
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                              ),
+                                                                            ))
+                                                                        .toList(),
+                                                                    value:
+                                                                        selectedLocation,
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                             Obx(
@@ -827,22 +885,25 @@ class _HomeState extends State<Home> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
                                               children: List.generate(
                                                   dashboardController
                                                       .dashboardModel
                                                       .data!
                                                       .currentFeed!
                                                       .length,
-                                                  (index) =>
-                                                      currentFeedSelection(
-                                                          imagePath:
-                                                              currentFeedData[
-                                                                      index]
-                                                                  ["imagePath"],
-                                                          index: index)),
+                                                  (index) => Container(
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 15),
+                                                        child: currentFeedSelection(
+                                                            imagePath: dashboardController
+                                                                .dashboardModel
+                                                                .data!
+                                                                .currentFeed![
+                                                                    index]
+                                                                .livestockUri!,
+                                                            index: index),
+                                                      )),
                                             ),
 
                                             sizedBoxHeight(10.h),
@@ -905,10 +966,12 @@ class _HomeState extends State<Home> {
                                                             children: [
                                                               textGrey4D4D4D_22(
                                                                   // "Dairy"
-                                                                  currentFeedData[
+                                                                  dashboardController
+                                                                      .dashboardModel
+                                                                      .data!
+                                                                      .currentFeed![
                                                                           selectedCurrentFeed]
-                                                                      [
-                                                                      "feedFor"]
+                                                                      .livestockName!
                                                                   // currentFeedData[
                                                                   //         selectedCurrentFeed]
                                                                   //     ["feedFor"]
@@ -999,25 +1062,34 @@ class _HomeState extends State<Home> {
 
                                             sizedBoxHeight(10.h),
 
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.warning_amber_rounded,
-                                                  size: 30.h,
-                                                  color: AppColors.redFA5658,
-                                                ),
-                                                textBlack18W7000(
-                                                    " Your Feed is Low!"),
-                                                const Spacer(),
-                                                SizedBox(
-                                                  height: 45.h,
-                                                  width: 120.w,
-                                                  child: customButtonCurve(
-                                                      text: "Refill Now",
-                                                      onTap: () {}),
-                                                )
-                                              ],
-                                            ),
+                                            dashboardController
+                                                    .dashboardModel
+                                                    .data!
+                                                    .currentFeed![
+                                                        selectedCurrentFeed]
+                                                    .feedLow!
+                                                ? Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .warning_amber_rounded,
+                                                        size: 30.h,
+                                                        color:
+                                                            AppColors.redFA5658,
+                                                      ),
+                                                      textBlack18W7000(
+                                                          " Your Feed is Low!"),
+                                                      const Spacer(),
+                                                      SizedBox(
+                                                        height: 45.h,
+                                                        width: 120.w,
+                                                        child: customButtonCurve(
+                                                            text: "Refill Now",
+                                                            onTap: () {}),
+                                                      )
+                                                    ],
+                                                  )
+                                                : SizedBox(),
                                           ],
                                         ),
                                       ),
@@ -1169,11 +1241,13 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                 dashboardController.dashboardModel.data!
-                                        .trainingVideos!.isEmpty
+                                            .trainingVideos! ==
+                                        null
                                     ? SizedBox()
                                     : sizedBoxHeight(25.h),
                                 dashboardController.dashboardModel.data!
-                                        .trainingVideos!.isEmpty
+                                            .trainingVideos! ==
+                                        null
                                     ? SizedBox()
                                     : InkWell(
                                         onTap: () {
@@ -1209,9 +1283,10 @@ class _HomeState extends State<Home> {
                                                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Image.asset(
-                                                      "assets/images/video_thumbnail.jpg",
+                                                      "assets/images/thumbnail_icon.png",
                                                       width: 104.w,
-                                                      height: 90.h,
+                                                      height: 75.h,
+                                                      //   fit: BoxFit.cover,
                                                     ),
                                                     sizedBoxWidth(14.w),
                                                     // SvgPicture.asset("assets/images/current_feed.svg",
@@ -1232,22 +1307,19 @@ class _HomeState extends State<Home> {
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .title!),
                                                           textGrey4D4D4D_16(
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .smallDescription!),
                                                           textGreen14(Utils.formattedTimeAgo(
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .publishedDatetime!))
                                                         ],
                                                       ),
@@ -1305,7 +1377,7 @@ class _HomeState extends State<Home> {
                                                       height: 90.h,
                                                     )
                                                   : Image.network(
-                                                      "${ApiUrls.imageBase}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
+                                                      "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
                                                       width: 104.w,
                                                       height: 90.h,
                                                     ),
@@ -1528,6 +1600,17 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<String> getAddressFromLatLng(double lat, lng) async {
+    final placemarks = await placemarkFromCoordinates(
+      lat,
+      lng,
+    );
+    log(placemarks[0].toString());
+
+    final locality = placemarks.isNotEmpty ? placemarks[0].locality : '';
+    return locality!;
+  }
+
   getCurrentWeatherData(
     double lat,
     double lng,
@@ -1571,8 +1654,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  getCurrentAddress() async {
-    final location = ls.Location();
+  Future getCurrentAddress() async {
     final serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled && !await location.requestService()) {
       return;
@@ -1587,9 +1669,11 @@ class _HomeState extends State<Home> {
 
     dashboardController.isLocationFetching.value = true;
     final locationData = await location.getLocation();
+    currentLat = locationData.latitude!;
+    currentLng = locationData.longitude!;
     await getCurrentWeatherData(
         locationData.latitude!, locationData.longitude!);
-    dashboardController.isDashboardApiLoading.value = false;
+
     dashboardController.isLocationFetching.value = false;
   }
 
@@ -1615,7 +1699,7 @@ class _HomeState extends State<Home> {
                     : AppColors.grey4D4D4D)),
         child: Padding(
           padding: EdgeInsets.all(4.h),
-          child: Image.asset(imagePath),
+          child: Image.network("${ApiUrls.baseImageUrl}/$imagePath"),
         ),
       ),
     );

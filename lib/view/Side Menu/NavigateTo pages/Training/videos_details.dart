@@ -1,12 +1,18 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
+import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/networkPlayer.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
+import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/addNote.dart';
+import 'package:farmfeeders/view_models/TrainingNotesAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../common/custom_button.dart';
 
 class VideosDetails extends StatefulWidget {
   const VideosDetails({super.key});
@@ -19,6 +25,7 @@ class _VideosDetailsState extends State<VideosDetails> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
   late VideoPlayerController videoController;
+  final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -45,79 +52,128 @@ class _VideosDetailsState extends State<VideosDetails> {
     dialoBox() {
       return showDialog(
         context: context,
-        builder: (context) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.r)),
-            insetPadding: const EdgeInsets.symmetric(vertical: 10),
-            title: Row(
-              children: [
-                Text(
-                  "Notes",
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22.sp,
-                      color: const Color(0xff141414)),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xFFF1F1F1),
-                    radius: 15,
-                    child: Icon(
-                      Icons.clear,
-                      color: Color(0xFF0E5F02),
-                    ),
+        builder: (context) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+          insetPadding: EdgeInsets.symmetric(horizontal: 20),
+          title: Row(
+            children: [
+              Text(
+                "Notes",
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 22.sp,
+                    color: const Color(0xff141414)),
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: CircleAvatar(
+                  backgroundColor: Color(0xFFF1F1F1),
+                  radius: 15,
+                  child: Icon(
+                    Icons.clear,
+                    color: Color(0xFF0E5F02),
                   ),
                 ),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Title",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
+              ),
+            ],
+          ),
+          content: Form(
+            key: _formdairy,
+            child: Container(
+              width: Get.width,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Title",
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                CustomTextFormField(
-                  textEditingController: _titleController,
-                  hintText: "",
-                  validatorText: '',
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xFFF1F1F1),
-                    radius: 15,
-                    child: Icon(
-                      Icons.clear,
-                      color: Color(0xFF0E5F02),
-                    ),
+                    ],
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  CustomTextFormField(
+                    textEditingController: _titleController,
+                    hintText: "",
+                    validatorText: '',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Title Required";
+                      }
+                      return null;
+                    },
+                    fillColor: AppColors.white,
+                    borderColor: Color(0xFF0E5F02),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Description",
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  CustomTextFormField(
+                    textEditingController: _contentController,
+                    hintText: "",
+                    validatorText: '',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Description Required";
+                      }
+                      return null;
+                    },
+                    fillColor: AppColors.white,
+                    borderColor: Color(0xFF0E5F02),
+                    maxLines: 8,
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  customButton(
+                    radiusValue: 25.h,
+                    text: "Add",
+                    onTap: () {
+                      final isValid = _formdairy.currentState?.validate();
+                      if (isValid!) {
+                        Utils.loader();
+                        TrainingNotesApi().addNotesApi(map: {
+                          "id": 2,
+                          "title": _titleController.text,
+                          "description": _contentController.text,
+                        }).then((value) {
+                          _titleController.clear();
+                          _contentController.clear();
+                          Get.back();
+                          Get.back();
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

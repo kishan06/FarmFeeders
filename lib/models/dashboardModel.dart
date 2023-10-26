@@ -31,7 +31,7 @@ class Data {
   List<PrimaryFarmLocation>? primaryFarmLocation;
   List<CurrentFeed>? currentFeed;
   int? profileCompletionPercentage;
-  List<TrainingVideos>? trainingVideos;
+  TrainingVideos? trainingVideos;
   Article? article;
 
   Data(
@@ -59,12 +59,9 @@ class Data {
       });
     }
     profileCompletionPercentage = json['profileCompletionPercentage'];
-    if (json['trainingVideos'] != null) {
-      trainingVideos = <TrainingVideos>[];
-      json['trainingVideos'].forEach((v) {
-        trainingVideos!.add(TrainingVideos.fromJson(v));
-      });
-    }
+    trainingVideos = json['trainingVideos'] != null
+        ? TrainingVideos.fromJson(json['trainingVideos'])
+        : null;
     article =
         json['article'] != null ? Article.fromJson(json['article']) : null;
   }
@@ -84,7 +81,7 @@ class Data {
     }
     data['profileCompletionPercentage'] = profileCompletionPercentage;
     if (trainingVideos != null) {
-      data['trainingVideos'] = trainingVideos!.map((v) => v.toJson()).toList();
+      data['trainingVideos'] = trainingVideos!.toJson();
     }
     if (article != null) {
       data['article'] = article!.toJson();
@@ -142,6 +139,9 @@ class CurrentFeed {
   int? minBinCapacity;
   int? maxBinCapacity;
   String? reorderingDate;
+  bool? feedLow;
+  String? livestockName;
+  String? livestockUri;
 
   CurrentFeed(
       {this.id,
@@ -153,7 +153,10 @@ class CurrentFeed {
       this.qtyPerSeed,
       this.minBinCapacity,
       this.maxBinCapacity,
-      this.reorderingDate});
+      this.reorderingDate,
+      this.feedLow,
+      this.livestockName,
+      this.livestockUri});
 
   CurrentFeed.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -165,8 +168,10 @@ class CurrentFeed {
     qtyPerSeed = json['qty_per_seed'];
     minBinCapacity = json['min_bin_capacity'];
     maxBinCapacity = json['max_bin_capacity'];
-
     reorderingDate = json['reordering_date'];
+    feedLow = json['feed_low'];
+    livestockName = json['livestock_name'];
+    livestockUri = json['livestock_uri'];
   }
 
   Map<String, dynamic> toJson() {
@@ -180,8 +185,10 @@ class CurrentFeed {
     data['qty_per_seed'] = qtyPerSeed;
     data['min_bin_capacity'] = minBinCapacity;
     data['max_bin_capacity'] = maxBinCapacity;
-
     data['reordering_date'] = reorderingDate;
+    data['feed_low'] = feedLow;
+    data['livestock_name'] = livestockName;
+    data['livestock_uri'] = livestockUri;
     return data;
   }
 }
