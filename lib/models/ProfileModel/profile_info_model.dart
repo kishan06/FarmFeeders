@@ -34,16 +34,19 @@ class Data {
   String? phoneNumber;
   String? emailAddress;
   String? addressLine1;
+  String? profilePhoto;
 
-  Data(
-      {this.id,
-      this.principalTypeXid,
-      this.principalSourceXid,
-      this.userName,
-      this.dateOfBirth,
-      this.phoneNumber,
-      this.emailAddress,
-      this.addressLine1});
+  Data({
+    this.id,
+    this.principalTypeXid,
+    this.principalSourceXid,
+    this.userName,
+    this.dateOfBirth,
+    this.phoneNumber,
+    this.emailAddress,
+    this.addressLine1,
+    this.profilePhoto,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,6 +57,7 @@ class Data {
     phoneNumber = json['phone_number'];
     emailAddress = json['email_address'];
     addressLine1 = json['address_line1'] ?? "";
+    profilePhoto = json["profile_photo"];
   }
 
   Map<String, dynamic> toJson() {
@@ -66,6 +70,7 @@ class Data {
     data['phone_number'] = phoneNumber;
     data['email_address'] = emailAddress;
     data['address_line1'] = addressLine1;
+    data['profile_photo'] = profilePhoto;
     return data;
   }
 }

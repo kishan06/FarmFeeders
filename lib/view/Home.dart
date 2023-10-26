@@ -375,8 +375,8 @@ class _HomeState extends State<Home> {
                                                           )
                                                         : Lottie.asset(
                                                             "assets/lotties/moon_animation.json",
-                                                            height: 240.h,
-                                                            width: 240.w,
+                                                            height: 175.h,
+                                                            width: 175.w,
                                                           )
                                                     : (dashboardController
                                                                 .weatherCondition
@@ -1363,7 +1363,7 @@ class _HomeState extends State<Home> {
                                                       height: 90.h,
                                                     )
                                                   : Image.network(
-                                                      "${ApiUrls.imageBase}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
+                                                      "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
                                                       width: 104.w,
                                                       height: 90.h,
                                                     ),

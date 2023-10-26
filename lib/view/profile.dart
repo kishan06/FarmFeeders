@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:dio/dio.dart';
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
@@ -379,8 +380,8 @@ class _ProfileState extends State<Profile> {
                                           width: 200.w,
                                           height: 200.h,
                                         )
-                                      : Image.asset(
-                                          "assets/images/profile.png")),
+                                      : Image.network(
+                                          "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}")),
                             ),
                           ),
                           sizedBoxWidth(18.w),
