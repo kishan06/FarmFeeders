@@ -236,9 +236,13 @@ class _HomeState extends State<Home> {
                           children: [
                             Container(
                               height: 42.h,
+                              width: 45.h,
+                            ),
+                            Container(
+                              height: 42.h,
                               width: 42.h,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25.h),
+                                shape: BoxShape.circle,
                                 color: AppColors.white,
                                 boxShadow: [
                                   BoxShadow(
@@ -269,7 +273,7 @@ class _HomeState extends State<Home> {
                                     "0"
                                 ? const SizedBox()
                                 : Positioned(
-                                    top: -5,
+                                    top: 0,
                                     right: 0,
                                     child: Container(
                                       padding: const EdgeInsets.all(4.0),
@@ -282,7 +286,7 @@ class _HomeState extends State<Home> {
                                             .notificationCount.value,
                                         style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 12.0,
+                                          fontSize: 11.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),

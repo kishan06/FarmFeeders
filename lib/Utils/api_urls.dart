@@ -12,5 +12,6 @@ class ApiUrls {
   static const getNotificationData = base + "farmer/notifications";
   static const profileInfoAPI = "${base}profile-info";
   static const updateProfileInfoAPI = "${base}profile-update";
+  static const feedbackApi = "${base}feedback";
   static const weatherApi = "http://api.weatherapi.com/v1/current.json";
 }
