@@ -1093,7 +1093,7 @@ class _HomeState extends State<Home> {
                                                       )
                                                     ],
                                                   )
-                                                : SizedBox(),
+                                                : const SizedBox(),
                                           ],
                                         ),
                                       ),
@@ -1104,12 +1104,12 @@ class _HomeState extends State<Home> {
                                 dashboardController.dashboardModel.data!
                                             .profileCompletionPercentage! >=
                                         100
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : textBlack18W7000("Profile"),
                                 dashboardController.dashboardModel.data!
                                             .profileCompletionPercentage! >=
                                         100
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : Container(
                                         // height: 93.h,
                                         // width: 230.w,
@@ -1245,14 +1245,18 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                 dashboardController.dashboardModel.data!
-                                            .trainingVideos! ==
-                                        null
-                                    ? SizedBox()
+                                            .trainingVideos!.id ==
+                                        0 &&   dashboardController.dashboardModel.data!
+                                            .trainingVideos!.title ==
+                                        ""
+                                    ? const SizedBox()
                                     : sizedBoxHeight(25.h),
-                                dashboardController.dashboardModel.data!
-                                            .trainingVideos! ==
-                                        null
-                                    ? SizedBox()
+                               dashboardController.dashboardModel.data!
+                                            .trainingVideos!.id ==
+                                        0 &&   dashboardController.dashboardModel.data!
+                                            .trainingVideos!.title ==
+                                        ""
+                                    ? const SizedBox()
                                     : InkWell(
                                         onTap: () {
                                           Get.toNamed("/trainingmain");

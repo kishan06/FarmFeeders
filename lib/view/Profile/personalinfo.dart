@@ -323,8 +323,16 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                               width: 200.w,
                                               height: 200.h,
                                             )
-                                          : Image.network(
-                                              "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
+                                          : profileController
+                                                  .profileInfoModel
+                                                  .value
+                                                  .data!
+                                                  .profilePhoto!
+                                                  .isEmpty
+                                              ? Image.asset(
+                                                  "assets/images/profile.png")
+                                              : Image.network(
+                                                  "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
                                     ),
                                   ),
                                 ),

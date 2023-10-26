@@ -57,7 +57,7 @@ class Data {
     phoneNumber = json['phone_number'];
     emailAddress = json['email_address'];
     addressLine1 = json['address_line1'] ?? "";
-    profilePhoto = json["profile_photo"];
+    profilePhoto = json["profile_photo"] ?? "";
   }
 
   Map<String, dynamic> toJson() {

@@ -380,7 +380,14 @@ class _ProfileState extends State<Profile> {
                                           width: 200.w,
                                           height: 200.h,
                                         )
-                                      : Image.network(
+                                      : profileController
+                                                  .profileInfoModel
+                                                  .value
+                                                  .data!
+                                                  .profilePhoto!
+                                                  .isEmpty
+                                              ? Image.asset(
+                                                  "assets/images/profile.png"):Image.network(
                                           "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}")),
                             ),
                           ),
