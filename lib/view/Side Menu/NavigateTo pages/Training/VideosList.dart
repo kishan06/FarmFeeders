@@ -15,7 +15,7 @@ class VideosList extends StatefulWidget {
 }
 
 class _VideosListState extends State<VideosList> {
-  int categoryindex = Get.arguments["categoryindex"];
+  String categoryindex = Get.arguments["categoryindex"];
   @override
   Widget build(BuildContext context) {
     return SafeArea(

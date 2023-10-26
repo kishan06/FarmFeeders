@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.0.15
   get: ^4.6.5
-  dio: ^4.0.6
+  #dio: ^4.0.6
   fluttertoast: ^8.0.9
   flutter_svg: ^2.0.5
   flutter_screenutil: ^5.7.0
@@ -68,6 +68,9 @@ dependencies:
   timeago: ^3.5.0
 
   timezone: ^0.9.2
+  file_picker: ^6.0.0
+  path: ^1.8.3
+  dio: ^5.1.2
 
 
   #flutter_google_places: ^0.3.

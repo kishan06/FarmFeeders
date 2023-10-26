@@ -1,29 +1,28 @@
-import 'dart:ffi';
 import 'dart:io';
-
+import 'dart:async';
 import 'package:appinio_video_player/appinio_video_player.dart';
+import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
+import 'package:farmfeeders/common/Videouploadbottomsheet.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/view/NotificationSettings.dart';
-// import 'package:farmfeeders/view/Settings.dart';
-import 'package:farmfeeders/view/videoplayer.dart';
 import 'package:farmfeeders/view_models/UploadvideoAPI.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:farmfeeders/view/Settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as Getx hide MultipartFile, FormData;
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import '../Utils/networkPlayer.dart';
+import 'package:path/path.dart' as path;
 
 String longVideo =
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
@@ -125,27 +124,66 @@ class _EditVideosState extends State<EditVideos> {
     // );
   }
 
+  String? attachimage;
+
+  List<String> fileList = [];
+
   _uploadcheck() async {
-    final isValid = _form.currentState?.validate();
-    if (isValid!) {
-      Map<dynamic, dynamic> updata = {
+    try {
+      List<MultipartFile> multipartFiles = [];
+
+      if (attachimage != null) {
+        fileList.add(attachimage!);
+
+        for (String file in fileList) {
+          multipartFiles.add(
+            await MultipartFile.fromFile(
+              file,
+              filename: path.basename(file),
+            ),
+          );
+        }
+      }
+
+      var formData = FormData.fromMap({
         "title": titlecontroller.text,
         "sub_title": subtitlecontroller.text,
-        "video": file!.path,
+        "video": multipartFiles.isNotEmpty ? multipartFiles : null,
+        // file!.path,
         "category_id": categoryindex.toString(),
         "access_ids[0]": "80"
-      };
-      final resp = await UploadvideoAPI(updata).uploadvideoApi();
-      if (resp.status == ResponseStatus.SUCCESS) {
-        utils.showToast("Video Uploaded Successfully");
-        Get.toNamed("/sidemenu");
-      } else if (resp.status == ResponseStatus.PRIVATE) {
-        String? message = resp.data['data'];
-        utils.showToast("$message");
+      });
+
+      final data = await UploadvideoAPI(formData).uploadvideoApi();
+
+      if (data.status == ResponseStatus.SUCCESS) {
+        Get.toNamed("/sideMenu");
+        utils.showToast(data.message);
       } else {
-        utils.showToast(resp.message);
+        utils.showToast(data.message);
       }
-    }
+    } catch (e) {}
+
+    // final isValid = _form.currentState?.validate();
+    // if (isValid!) {
+    //   Map<dynamic, dynamic> updata = {
+    //     "title": titlecontroller.text,
+    //     "sub_title": subtitlecontroller.text,
+    //     "video": _image!.path,
+    //     "category_id": categoryindex.toString(),
+    //     "access_ids[0]": "80"
+    //   };
+    //   final resp = await UploadvideoAPI(updata).uploadvideoApi();
+    //   if (resp.status == ResponseStatus.SUCCESS) {
+    //     utils.showToast("Video Uploaded Successfully");
+    //     Get.toNamed("/sidemenu");
+    //   } else if (resp.status == ResponseStatus.PRIVATE) {
+    //     String? message = resp.data['data'];
+    //     utils.showToast("$message");
+    //   } else {
+    //     utils.showToast(resp.message);
+    //   }
+    // }
   }
 
   @override
@@ -196,6 +234,18 @@ class _EditVideosState extends State<EditVideos> {
                         ? InkWell(
                             onTap: () {
                               builduploadprofile(true);
+
+//                               VideoUploadBottomSheet().showModal(
+//   context,
+//   (result) {
+//     // This function will be called when a video is picked.
+//     // You can assign the selected video to the 'attachimage' variable.
+//     attachimage = result.toString();
+//     // Optionally, you can extract the file name from 'result' and update the message.
+//     // var filenameresult = extractFileName(result);
+//     // messageController.text = filenameresult;
+//   },
+// );
                             },
                             child: Container(
                               width: double.infinity,
@@ -455,6 +505,7 @@ class _EditVideosState extends State<EditVideos> {
     // if (isVideo) {
     file = await _picker.pickVideo(
         source: source, maxDuration: const Duration(seconds: 10));
+    attachimage = file!.path;
     setState(() {});
     // await _playVideo(file);
     // Get.to(()=> FilePlayerWidget(file: file));

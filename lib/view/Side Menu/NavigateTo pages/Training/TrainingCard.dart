@@ -40,6 +40,7 @@ class _TrainingMaincardState extends State<TrainingMainCard> {
                       TrainingMainData[index]["trainingimage"],
                       TrainingMainData[index]["title"],
                       TrainingMainData[index]["route"],
+                      TrainingMainData[index]["id"],
                       index,
                     )
                   ],
@@ -54,13 +55,14 @@ class _TrainingMaincardState extends State<TrainingMainCard> {
     dynamic trainingimage,
     dynamic title,
     dynamic route,
+    dynamic id,
     int index,
   ) {
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            Get.toNamed(route, arguments: {"categoryindex": index});
+            Get.toNamed(route, arguments: {"categoryindex": id});
           },
           child: Container(
             decoration: BoxDecoration(
