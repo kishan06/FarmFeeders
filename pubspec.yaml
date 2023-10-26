@@ -66,6 +66,7 @@ dependencies:
   shimmer: ^3.0.0
   another_flushbar: ^1.12.30
   timeago: ^3.5.0
+  
 
   #flutter_google_places: ^0.3.
 
