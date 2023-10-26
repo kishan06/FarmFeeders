@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../Utils/api_urls.dart';
 import '../../models/ProfileModel/profile_info_model.dart';
 import '../../view_models/ProfileAPI.dart';
 import '../Profile/personalinfo.dart';
@@ -155,20 +156,20 @@ class _SideBarState extends State<SideBar> {
                       children: [
                         Stack(
                           children: [
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: SizedBox(
-                                height: 26.h,
-                                width: 26.h,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Container(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Positioned(
+                            //   bottom: 0,
+                            //   right: 0,
+                            //   child: SizedBox(
+                            //     height: 26.h,
+                            //     width: 26.h,
+                            //     child: ClipRRect(
+                            //       borderRadius: BorderRadius.circular(100),
+                            //       child: Container(
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 65.w,
                               width: 65.w,
@@ -185,22 +186,20 @@ class _SideBarState extends State<SideBar> {
                                           width: 50.w,
                                           height: 50.h,
                                         )
-                                      : Image.asset(
-                                          'assets/images/profile.png',
-                                          fit: BoxFit.fill,
-                                        ),
+                                      : Image.network(
+                                          "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
                                 ),
                               ),
                             ),
-                            Positioned(
-                              bottom: 5.h,
-                              right: 5,
-                              child: Icon(
-                                Icons.add_a_photo_outlined,
-                                color: const Color(0xff0E5F02),
-                                size: 15.h,
-                              ),
-                            ),
+                            // Positioned(
+                            //   bottom: 5.h,
+                            //   right: 5,
+                            //   child: Icon(
+                            //     Icons.add_a_photo_outlined,
+                            //     color: const Color(0xff0E5F02),
+                            //     size: 15.h,
+                            //   ),
+                            // ),
                           ],
                         ),
                         sizedBoxWidth(15.w),

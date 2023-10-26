@@ -19,6 +19,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:farmfeeders/common/limit_range.dart';
+import '../../Utils/api_urls.dart';
 import '../../Utils/base_manager.dart';
 import '../../Utils/utils.dart';
 import '../../models/ProfileModel/profile_info_model.dart';
@@ -322,8 +323,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                               width: 200.w,
                                               height: 200.h,
                                             )
-                                          : Image.asset(
-                                              'assets/images/profile.png'),
+                                          : Image.network(
+                                              "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
                                     ),
                                   ),
                                 ),
