@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/TrainingCard.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/VideosCard.dart';
@@ -13,6 +15,7 @@ class VideosList extends StatefulWidget {
 }
 
 class _VideosListState extends State<VideosList> {
+  int categoryindex = Get.arguments["categoryindex"];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,7 +29,8 @@ class _VideosListState extends State<VideosList> {
         ),
         floatingActionButton: GestureDetector(
           onTap: () {
-            Get.toNamed("/editVideos");
+            Get.toNamed("/editVideos",
+                arguments: {"categoryindex": categoryindex});
           },
           child: const CircleAvatar(
             radius: 25,
