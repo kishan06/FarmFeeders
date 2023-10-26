@@ -60,7 +60,7 @@ class _TrainingMaincardState extends State<TrainingMainCard> {
       children: [
         GestureDetector(
           onTap: () {
-            Get.toNamed(route);
+            Get.toNamed(route, arguments: {"categoryindex": index});
           },
           child: Container(
             decoration: BoxDecoration(

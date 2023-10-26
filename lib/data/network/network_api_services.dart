@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:farmfeeders/Utils/base_manager.dart';
-import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/data/network/base_api_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -148,8 +147,8 @@ class NetworkApiServices extends BaseApiServices {
       return ResponseData<dynamic>("success", ResponseStatus.SUCCESS,
           data: response.data);
     } else if (response.statusCode == 203) {
-      log(response.data);
-      return ResponseData<dynamic>("success", ResponseStatus.PRIVATE,
+      print(response.data);
+      return ResponseData<String>("success", ResponseStatus.PRIVATE,
           data: response.data);
     } else {
       try {
