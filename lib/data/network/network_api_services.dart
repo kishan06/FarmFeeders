@@ -148,7 +148,7 @@ class NetworkApiServices extends BaseApiServices {
           data: response.data);
     } else if (response.statusCode == 203) {
       print(response.data);
-      return ResponseData<String>("success", ResponseStatus.PRIVATE,
+      return ResponseData<dynamic>("success", ResponseStatus.PRIVATE,
           data: response.data);
     } else {
       try {

@@ -60,7 +60,15 @@ class Data {
     }
     profileCompletionPercentage = json['profileCompletionPercentage'];
     trainingVideos = json['trainingVideos'] != null
-        ? TrainingVideos.fromJson(json['trainingVideos'])
+        ? json['trainingVideos'].isNotEmpty
+            ? TrainingVideos.fromJson(json['trainingVideos'])
+            : TrainingVideos(
+                bookmarked: false,
+                id: 0,
+                publishedDatetime: "",
+                smallDescription: "",
+                title: "",
+                videoUrl: "")
         : null;
     article =
         json['article'] != null ? Article.fromJson(json['article']) : null;
