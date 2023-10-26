@@ -885,22 +885,25 @@ class _HomeState extends State<Home> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
                                               children: List.generate(
                                                   dashboardController
                                                       .dashboardModel
                                                       .data!
                                                       .currentFeed!
                                                       .length,
-                                                  (index) =>
-                                                      currentFeedSelection(
-                                                          imagePath:
-                                                              currentFeedData[
-                                                                      index]
-                                                                  ["imagePath"],
-                                                          index: index)),
+                                                  (index) => Container(
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 15),
+                                                        child: currentFeedSelection(
+                                                            imagePath: dashboardController
+                                                                .dashboardModel
+                                                                .data!
+                                                                .currentFeed![
+                                                                    index]
+                                                                .livestockUri!,
+                                                            index: index),
+                                                      )),
                                             ),
 
                                             sizedBoxHeight(10.h),
@@ -963,10 +966,12 @@ class _HomeState extends State<Home> {
                                                             children: [
                                                               textGrey4D4D4D_22(
                                                                   // "Dairy"
-                                                                  currentFeedData[
+                                                                  dashboardController
+                                                                      .dashboardModel
+                                                                      .data!
+                                                                      .currentFeed![
                                                                           selectedCurrentFeed]
-                                                                      [
-                                                                      "feedFor"]
+                                                                      .livestockName!
                                                                   // currentFeedData[
                                                                   //         selectedCurrentFeed]
                                                                   //     ["feedFor"]
@@ -1057,25 +1062,34 @@ class _HomeState extends State<Home> {
 
                                             sizedBoxHeight(10.h),
 
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.warning_amber_rounded,
-                                                  size: 30.h,
-                                                  color: AppColors.redFA5658,
-                                                ),
-                                                textBlack18W7000(
-                                                    " Your Feed is Low!"),
-                                                const Spacer(),
-                                                SizedBox(
-                                                  height: 45.h,
-                                                  width: 120.w,
-                                                  child: customButtonCurve(
-                                                      text: "Refill Now",
-                                                      onTap: () {}),
-                                                )
-                                              ],
-                                            ),
+                                            dashboardController
+                                                    .dashboardModel
+                                                    .data!
+                                                    .currentFeed![
+                                                        selectedCurrentFeed]
+                                                    .feedLow!
+                                                ? Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .warning_amber_rounded,
+                                                        size: 30.h,
+                                                        color:
+                                                            AppColors.redFA5658,
+                                                      ),
+                                                      textBlack18W7000(
+                                                          " Your Feed is Low!"),
+                                                      const Spacer(),
+                                                      SizedBox(
+                                                        height: 45.h,
+                                                        width: 120.w,
+                                                        child: customButtonCurve(
+                                                            text: "Refill Now",
+                                                            onTap: () {}),
+                                                      )
+                                                    ],
+                                                  )
+                                                : SizedBox(),
                                           ],
                                         ),
                                       ),
@@ -1227,11 +1241,13 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                 dashboardController.dashboardModel.data!
-                                        .trainingVideos!.isEmpty
+                                            .trainingVideos! ==
+                                        null
                                     ? SizedBox()
                                     : sizedBoxHeight(25.h),
                                 dashboardController.dashboardModel.data!
-                                        .trainingVideos!.isEmpty
+                                            .trainingVideos! ==
+                                        null
                                     ? SizedBox()
                                     : InkWell(
                                         onTap: () {
@@ -1267,9 +1283,10 @@ class _HomeState extends State<Home> {
                                                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Image.asset(
-                                                      "assets/images/video_thumbnail.jpg",
+                                                      "assets/images/thumbnail_icon.png",
                                                       width: 104.w,
-                                                      height: 90.h,
+                                                      height: 75.h,
+                                                      //   fit: BoxFit.cover,
                                                     ),
                                                     sizedBoxWidth(14.w),
                                                     // SvgPicture.asset("assets/images/current_feed.svg",
@@ -1290,22 +1307,19 @@ class _HomeState extends State<Home> {
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .title!),
                                                           textGrey4D4D4D_16(
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .smallDescription!),
                                                           textGreen14(Utils.formattedTimeAgo(
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .publishedDatetime!))
                                                         ],
                                                       ),
@@ -1685,7 +1699,7 @@ class _HomeState extends State<Home> {
                     : AppColors.grey4D4D4D)),
         child: Padding(
           padding: EdgeInsets.all(4.h),
-          child: Image.asset(imagePath),
+          child: Image.network("${ApiUrls.baseImageUrl}/$imagePath"),
         ),
       ),
     );
