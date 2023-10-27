@@ -1,8 +1,16 @@
+import 'dart:io';
+
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../Utils/api_urls.dart';
+import '../../models/ProfileModel/profile_info_model.dart';
+import '../../view_models/ProfileAPI.dart';
+import '../Profile/personalinfo.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({
@@ -20,6 +28,8 @@ class SideBar extends StatefulWidget {
 class _SideBarState extends State<SideBar> {
   // final ProfileImageController editProfileImage =
   //     Get.put(ProfileImageController());
+
+  ProfileController profileController = Get.put(ProfileController());
 
   List sideBarData = [
     {
@@ -114,6 +124,20 @@ class _SideBarState extends State<SideBar> {
     // },
   ];
 
+  final ProfileImageController editProfileImage =
+      Get.put(ProfileImageController());
+  RxBool isLoading = false.obs;
+  @override
+  void initState() {
+    isLoading.value = true;
+    ProfileAPI().getProfileInfo().then((value) {
+      profileController.profileInfoModel.value =
+          ProfileInfoModel.fromJson(value.data);
+      isLoading.value = false;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,56 +159,82 @@ class _SideBarState extends State<SideBar> {
                       children: [
                         Stack(
                           children: [
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: SizedBox(
-                                height: 26.h,
-                                width: 26.h,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Container(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Positioned(
+                            //   bottom: 0,
+                            //   right: 0,
+                            //   child: SizedBox(
+                            //     height: 26.h,
+                            //     width: 26.h,
+                            //     child: ClipRRect(
+                            //       borderRadius: BorderRadius.circular(100),
+                            //       child: Container(
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 65.w,
                               width: 65.w,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Image.asset(
-                                  'assets/images/person.png',
-                                  fit: BoxFit.fill,
-                                ),
+                              child: Obx(
+                                () => isLoading.value
+                                    ? SizedBox()
+                                    : ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: editProfileImage
+                                                    .profilePicPath.value !=
+                                                ''
+                                            ? Image(
+                                                image: FileImage(File(
+                                                    editProfileImage
+                                                        .profilePicPath.value)),
+                                                fit: BoxFit.cover,
+                                                width: 50.w,
+                                                height: 50.h,
+                                              )
+                                            : profileController
+                                                    .profileInfoModel
+                                                    .value
+                                                    .data!
+                                                    .profilePhoto!
+                                                    .isEmpty
+                                                ? Image.asset(
+                                                    "assets/images/profile.png")
+                                                : Image.network(
+                                                    "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
+                                      ),
                               ),
                             ),
-                            Positioned(
-                              bottom: 5.h,
-                              right: 5,
-                              child: Icon(
-                                Icons.add_a_photo_outlined,
-                                color: const Color(0xff0E5F02),
-                                size: 15.h,
-                              ),
-                            ),
+                            // Positioned(
+                            //   bottom: 5.h,
+                            //   right: 5,
+                            //   child: Icon(
+                            //     Icons.add_a_photo_outlined,
+                            //     color: const Color(0xff0E5F02),
+                            //     size: 15.h,
+                            //   ),
+                            // ),
                           ],
                         ),
                         sizedBoxWidth(15.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Kevin Mounsey',
-                              style: TextStyle(fontSize: 18.sp),
-                            ),
-                            sizedBoxHeight(4.h),
-                            Text(
-                              "0863621359",
-                              style: TextStyle(fontSize: 16.sp),
-                            )
-                          ],
+                        Obx(
+                          () => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                profileController
+                                    .profileInfoModel.value.data!.userName!,
+                                style: TextStyle(fontSize: 18.sp),
+                              ),
+                              sizedBoxHeight(4.h),
+                              Text(
+                                profileController
+                                    .profileInfoModel.value.data!.phoneNumber!,
+                                style: TextStyle(fontSize: 16.sp),
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),

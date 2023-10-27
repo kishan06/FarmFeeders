@@ -23,14 +23,12 @@ class _FeedBackState extends State<FeedBack> {
   TextEditingController phoneController = TextEditingController();
   int focusedValue = 0;
   List feedbackData = [
-    {"image":"assets/images/bad.svg","text":"It Was Very Bad"},
-    {"image":"assets/images/poor.svg","text":"It Was Poor"},
-    {"image":"assets/images/medium.svg","text":"It Was Medium"},
-    {"image":"assets/images/good.svg","text":"It Was Good"},
-    {"image":"assets/images/excellent.svg","text":"It Was Excellent"},
+    {"image": "assets/images/bad.svg", "text": "It Was Very Bad"},
+    {"image": "assets/images/poor.svg", "text": "It Was Poor"},
+    {"image": "assets/images/medium.svg", "text": "It Was Medium"},
+    {"image": "assets/images/good.svg", "text": "It Was Good"},
+    {"image": "assets/images/excellent.svg", "text": "It Was Excellent"},
     // {"image":"","text":""},
-
-
   ];
 
   @override
@@ -38,13 +36,14 @@ class _FeedBackState extends State<FeedBack> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.white,
-        title: customAppBar(text: "Feedback",
-          actions: true,
-          icon: Icon(Icons.more_vert,
-            size: 35.h,
-            color: AppColors.black,
-          )
-        ),
+        title: customAppBar(
+            text: "Feedback",
+            actions: true,
+            icon: Icon(
+              Icons.more_vert,
+              size: 35.h,
+              color: AppColors.black,
+            )),
 
         // backgroundColor: Color(0xFFF5F8FA),
         elevation: 0,
@@ -68,9 +67,9 @@ class _FeedBackState extends State<FeedBack> {
                   //   height: 200.w,
                   // ),
                   sizedBoxHeight(25.h),
-                          
+
                   textBlack20W7000Mon("Rate your experience"),
-                          
+
                   textBlack16W5000(
                     "How did you feel while using farmflow?",
                   ),
@@ -79,7 +78,8 @@ class _FeedBackState extends State<FeedBack> {
 
                   sizedBoxHeight(80.h),
 
-                  SvgPicture.asset(feedbackData[focusedValue]["image"],
+                  SvgPicture.asset(
+                    feedbackData[focusedValue]["image"],
                     height: 82.h,
                     width: 82.h,
                   ),
@@ -90,7 +90,8 @@ class _FeedBackState extends State<FeedBack> {
 
                   sizedBoxHeight(20.h),
 
-                  Icon(Icons.expand_more,
+                  Icon(
+                    Icons.expand_more,
                     size: 50.h,
                   ),
 
@@ -100,7 +101,7 @@ class _FeedBackState extends State<FeedBack> {
                   //   child: ListWheelScrollView(
                   //     // scrollBehavior: ,
 
-                  //     itemExtent: 82.h, 
+                  //     itemExtent: 82.h,
                   //     children: List.generate(10, (index) => textBlack10("2"))
                   //   ),
                   // )
@@ -108,41 +109,39 @@ class _FeedBackState extends State<FeedBack> {
                   SizedBox(
                     height: 250.h,
                     child: Container(
-                      // color: AppColors.redFA5658,
-                      child: ScrollSnapList(
-                        itemBuilder: _buildItemList,
-                        itemSize: 150,
+                        // color: AppColors.redFA5658,
+                        child: ScrollSnapList(
+                      itemBuilder: _buildItemList,
+                      itemSize: 150,
                       curve: Curves.decelerate,
                       dynamicItemSize: true,
-                      onReachEnd: (){
-                          print('Done!');
+                      onReachEnd: () {
+                        print('Done!');
                       },
                       itemCount: 5,
-                      onItemFocus: (val){
+                      onItemFocus: (val) {
                         setState(() {
                           focusedValue = val;
                         });
                         // focusedValue = val;
                       },
-                    )
-                    ),
+                    )),
                   ),
 
                   SizedBox(
-                    // width: 300.w,
-                    child: customButtonCurve(text: "Next",
-                      onTap: (){
-                        // feedbackform
-                        Get.toNamed("/feedbackform",
-                          arguments: feedbackData[focusedValue]["text"],
-                        );
-                      }
-                    )
-                  )
-
-
-                          
-                  
+                      // width: 300.w,
+                      child: customButtonCurve(
+                          text: "Next",
+                          onTap: () {
+                            // feedbackform
+                            Get.toNamed(
+                              "/feedbackform",
+                              arguments: {
+                                "text": feedbackData[focusedValue]["text"],
+                                "index": focusedValue + 1,
+                              },
+                            );
+                          }))
                 ],
               ),
             ],
@@ -152,12 +151,10 @@ class _FeedBackState extends State<FeedBack> {
     );
   }
 
-  List<int> data = [
-    10,9,8,7,6,5,4,3,2,1
-  ];
+  List<int> data = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
-  Widget _buildItemList(BuildContext context, int index){
-    if(index == data.length)
+  Widget _buildItemList(BuildContext context, int index) {
+    if (index == data.length)
       return Center(
         child: CircularProgressIndicator(),
       );
@@ -166,7 +163,8 @@ class _FeedBackState extends State<FeedBack> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(feedbackData[index]["image"],
+          SvgPicture.asset(
+            feedbackData[index]["image"],
             height: 82.h,
             width: 82.h,
           ),

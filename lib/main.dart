@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Utils/global.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,10 +36,8 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
 
-
             initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
-                //  initialRoute: '/letsSetUpYourFarm',
-
+            //  initialRoute: '/letsSetUpYourFarm',
 
             getPages: AppRoutes.appRoutes(),
           );

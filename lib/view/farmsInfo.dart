@@ -20,6 +20,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../common/custom_button_curve.dart';
+import '../controller/set_farm.dart';
 import '../models/AddressModel/search_responce_model.dart';
 import 'farmInfoAddress.dart';
 import 'placeServices/place_services.dart';
@@ -36,6 +37,8 @@ class _FarmsInfoState extends State<FarmsInfo> {
   FramsInfoMap framsInfoMapController = Get.put(FramsInfoMap());
   TextEditingController phoneController = TextEditingController();
   TextEditingController pincode = TextEditingController();
+  TextEditingController noOfFarmController = TextEditingController();
+
   int farmNumber = 0;
   final placesService = PlacesService();
   final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
@@ -44,6 +47,39 @@ class _FarmsInfoState extends State<FarmsInfo> {
   String lng = "";
   List<Prediction> searchResults = [];
   bool searchClear = true;
+
+  SetFarm setFarm = Get.put(SetFarm());
+
+  @override
+  void initState() {
+    if (setFarm.isFarmInfoUpdate.value) {
+      List<Farms> farms = [];
+      farmNumber = setFarm.farmInfoModel.data!.length;
+      noOfFarmController.text = farmNumber.toString();
+      framsInfoMapController.addressList =
+          List.generate(farmNumber, (_) => TextEditingController());
+      framsInfoMapController.farmInfoAddressModel.farmCount = farmNumber;
+      for (int i = 0; i < farmNumber; i++) {
+        farms.add(Farms(
+          city: setFarm.farmInfoModel.data![i].city!,
+          country: setFarm.farmInfoModel.data![i].country!,
+          farmAddress: setFarm.farmInfoModel.data![i].farmAddress!,
+          farmLatitude:
+              double.parse(setFarm.farmInfoModel.data![i].farmLatitude!),
+          farmLongitude:
+              double.parse(setFarm.farmInfoModel.data![i].farmLongitude!),
+          postalCode: setFarm.farmInfoModel.data![i].postalCode!,
+          province: setFarm.farmInfoModel.data![i].province!,
+          street: setFarm.farmInfoModel.data![i].street!,
+        ));
+        framsInfoMapController.addressList[i].text =
+            "${setFarm.farmInfoModel.data![i].street!}, ${setFarm.farmInfoModel.data![i].city}, ${setFarm.farmInfoModel.data![i].province}, ${setFarm.farmInfoModel.data![i].postalCode!}, ${setFarm.farmInfoModel.data![i].country}";
+      }
+      framsInfoMapController.farmInfoAddressModel.farms = farms;
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +98,7 @@ class _FarmsInfoState extends State<FarmsInfo> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 25.h),
         child: customButtonCurve(
-            text: "Next",
+            text: setFarm.isFarmInfoUpdate.value ? "Update" : "Next",
             onTap: () {
               final isValid = _formdairy.currentState?.validate();
               if (isValid!) {
@@ -73,7 +109,11 @@ class _FarmsInfoState extends State<FarmsInfo> {
                     .then((value) {
                   Get.back();
                   isSetFarmInfo = true;
-                  Get.toNamed("/letsSetUpYourFarm");
+                  if (setFarm.isFarmInfoUpdate.value) {
+                    Get.back();
+                  } else {
+                    Get.toNamed("/letsSetUpYourFarm");
+                  }
                 });
               }
 
@@ -107,6 +147,7 @@ class _FarmsInfoState extends State<FarmsInfo> {
                   },
                   // leadingIcon:
                   //     SvgPicture.asset("assets/images/password.svg"),
+                  textEditingController: noOfFarmController,
                   hintText: "Enter No of farms",
                   validatorText: "Required",
                   texttype: TextInputType.number,
@@ -115,11 +156,42 @@ class _FarmsInfoState extends State<FarmsInfo> {
                     framsInfoMapController.farmInfoAddressModel =
                         FarmInfoAddressModel(farmCount: 0, farms: []);
                     setState(() {
-                      log(value);
                       if (value.isNotEmpty) {
                         farmNumber = int.tryParse(value) ?? 1;
                         framsInfoMapController.addressList = List.generate(
                             farmNumber, (_) => TextEditingController());
+                        if (setFarm.isFarmInfoUpdate.value) {
+                          List<Farms> farms = [];
+                          farmNumber = int.tryParse(value) ?? 1;
+
+                          framsInfoMapController.addressList = List.generate(
+                              farmNumber, (_) => TextEditingController());
+                          framsInfoMapController
+                              .farmInfoAddressModel.farmCount = farmNumber;
+                          for (int i = 0;
+                              i < setFarm.farmInfoModel.data!.length;
+                              i++) {
+                            farms.add(Farms(
+                              city: setFarm.farmInfoModel.data![i].city!,
+                              country: setFarm.farmInfoModel.data![i].country!,
+                              farmAddress:
+                                  setFarm.farmInfoModel.data![i].farmAddress!,
+                              farmLatitude: double.parse(
+                                  setFarm.farmInfoModel.data![i].farmLatitude!),
+                              farmLongitude: double.parse(setFarm
+                                  .farmInfoModel.data![i].farmLongitude!),
+                              postalCode:
+                                  setFarm.farmInfoModel.data![i].postalCode!,
+                              province:
+                                  setFarm.farmInfoModel.data![i].province!,
+                              street: setFarm.farmInfoModel.data![i].street!,
+                            ));
+                            framsInfoMapController.addressList[i].text =
+                                "${setFarm.farmInfoModel.data![i].street!}, ${setFarm.farmInfoModel.data![i].city}, ${setFarm.farmInfoModel.data![i].province}, ${setFarm.farmInfoModel.data![i].postalCode!}, ${setFarm.farmInfoModel.data![i].country}";
+                          }
+                          framsInfoMapController.farmInfoAddressModel.farms =
+                              farms;
+                        }
                       } else {
                         farmNumber = 0;
                       }

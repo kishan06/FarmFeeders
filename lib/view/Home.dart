@@ -7,9 +7,12 @@ import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/notification_controller.dart';
+import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
+import 'package:farmfeeders/models/ProfileModel/profile_info_model.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
+import 'package:farmfeeders/view_models/ProfileAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -48,6 +51,7 @@ class _HomeState extends State<Home> {
   List<String> locationName = [];
   List<LatLng> locationLatLng = [];
   DashboardController dashboardController = Get.put(DashboardController());
+  ProfileController profileController = Get.put(ProfileController());
   NotificationController notificationController =
       Get.put(NotificationController());
   List currentFeedData = [
@@ -232,9 +236,13 @@ class _HomeState extends State<Home> {
                           children: [
                             Container(
                               height: 42.h,
+                              width: 45.h,
+                            ),
+                            Container(
+                              height: 42.h,
                               width: 42.h,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25.h),
+                                shape: BoxShape.circle,
                                 color: AppColors.white,
                                 boxShadow: [
                                   BoxShadow(
@@ -265,7 +273,7 @@ class _HomeState extends State<Home> {
                                     "0"
                                 ? const SizedBox()
                                 : Positioned(
-                                    top: -5,
+                                    top: 0,
                                     right: 0,
                                     child: Container(
                                       padding: const EdgeInsets.all(4.0),
@@ -278,7 +286,7 @@ class _HomeState extends State<Home> {
                                             .notificationCount.value,
                                         style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 12.0,
+                                          fontSize: 11.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -371,8 +379,8 @@ class _HomeState extends State<Home> {
                                                           )
                                                         : Lottie.asset(
                                                             "assets/lotties/moon_animation.json",
-                                                            height: 240.h,
-                                                            width: 240.w,
+                                                            height: 175.h,
+                                                            width: 175.w,
                                                           )
                                                     : (dashboardController
                                                                 .weatherCondition
@@ -856,238 +864,273 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                                 sizedBoxHeight(10.h),
-                                Stack(
-                                  // fit: StackFit.loose,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(27.h),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.04),
-                                            blurRadius: 10,
-                                            spreadRadius: 2,
-                                          )
-                                        ],
-                                        color: AppColors.pistaE3FFE9,
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 3.w, vertical: 15.h),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: List.generate(
-                                                  dashboardController
-                                                      .dashboardModel
-                                                      .data!
-                                                      .currentFeed!
-                                                      .length,
-                                                  (index) =>
-                                                      currentFeedSelection(
-                                                          imagePath:
-                                                              currentFeedData[
-                                                                      index]
-                                                                  ["imagePath"],
-                                                          index: index)),
+                                dashboardController.dashboardModel.data!
+                                        .currentFeed!.isEmpty
+                                    ? SizedBox()
+                                    : Stack(
+                                        // fit: StackFit.loose,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(27.h),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.04),
+                                                  blurRadius: 10,
+                                                  spreadRadius: 2,
+                                                )
+                                              ],
+                                              color: AppColors.pistaE3FFE9,
                                             ),
-
-                                            sizedBoxHeight(10.h),
-
-                                            // textBlack18W600Mon(
-                                            //     currentFeedData[selectedCurrentFeed]
-                                            //         ["feedFor"]),
-                                            // /
-                                            sizedBoxHeight(15.h),
-
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  "assets/images/current_feed.svg",
-                                                  height: 170.h,
-                                                  width: 100.w,
-                                                ),
-
-                                                // sizedBoxWidth(20.w),
-                                                // Spacer(),
-
-                                                SizedBox(
-                                                  // height: 200.h,
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                        height: 93.h,
-                                                        width: 230.w,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.h),
-                                                          color:
-                                                              AppColors.white,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: Colors
-                                                                  .black
-                                                                  .withOpacity(
-                                                                      0.04),
-                                                              blurRadius: 10,
-                                                              spreadRadius: 2,
-                                                            )
-                                                          ],
-                                                        ),
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      13.w),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              textGrey4D4D4D_22(
-                                                                  // "Dairy"
-                                                                  currentFeedData[
-                                                                          selectedCurrentFeed]
-                                                                      [
-                                                                      "feedFor"]
-                                                                  // currentFeedData[
-                                                                  //         selectedCurrentFeed]
-                                                                  //     ["feedFor"]
-                                                                  ),
-                                                              textBlack25W7000(
-                                                                  "${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].currentFeedAvailable!} Kg")
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      sizedBoxHeight(10.h),
-                                                      Container(
-                                                        height: 93.h,
-                                                        width: 230.w,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.h),
-                                                          color:
-                                                              AppColors.white,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: Colors
-                                                                  .black
-                                                                  .withOpacity(
-                                                                      0.04),
-                                                              blurRadius: 10,
-                                                              spreadRadius: 2,
-                                                            )
-                                                          ],
-                                                        ),
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      13.w),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              textGrey4D4D4D_16(
-                                                                  "Reordering Date"),
-                                                              // textGrey4D4D4D_22("Dairy"),
-                                                              // textBlack25W7000("100 Kg")
-                                                              // Row()
-                                                              Row(
-                                                                children: [
-                                                                  CircleAvatar(
-                                                                    radius:
-                                                                        20.h,
-                                                                    backgroundColor:
-                                                                        AppColors
-                                                                            .greyF1F1F1,
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .calendar_today,
-                                                                      size:
-                                                                          20.h,
-                                                                      color: AppColors
-                                                                          .buttoncolour,
-                                                                    ),
-                                                                  ),
-                                                                  sizedBoxWidth(
-                                                                      10.w),
-                                                                  textBlack20W7000(Utils.convertISOToFormattedDate(dashboardController
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 3.w,
+                                                  vertical: 15.h),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: List.generate(
+                                                        dashboardController
+                                                            .dashboardModel
+                                                            .data!
+                                                            .currentFeed!
+                                                            .length,
+                                                        (index) => Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          15),
+                                                              child: currentFeedSelection(
+                                                                  imagePath: dashboardController
                                                                       .dashboardModel
                                                                       .data!
                                                                       .currentFeed![
-                                                                          selectedCurrentFeed]
-                                                                      .reorderingDate!))
+                                                                          index]
+                                                                      .livestockUri!,
+                                                                  index: index),
+                                                            )),
+                                                  ),
+
+                                                  sizedBoxHeight(10.h),
+
+                                                  // textBlack18W600Mon(
+                                                  //     currentFeedData[selectedCurrentFeed]
+                                                  //         ["feedFor"]),
+                                                  // /
+                                                  sizedBoxHeight(15.h),
+
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .currentFeed![
+                                                                      selectedCurrentFeed]
+                                                                  .container ==
+                                                              "empty container image"
+                                                          ? SvgPicture.asset(
+                                                              "assets/images/current_feed.svg",
+                                                              height: 170.h,
+                                                              width: 100.w,
+                                                            )
+                                                          : Image.network(
+                                                              "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].container}",
+                                                              height: 170.h,
+                                                              width: 100.w,
+                                                            ),
+
+                                                      // sizedBoxWidth(20.w),
+                                                      // Spacer(),
+
+                                                      SizedBox(
+                                                        // height: 200.h,
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              height: 93.h,
+                                                              width: 230.w,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.h),
+                                                                color: AppColors
+                                                                    .white,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.04),
+                                                                    blurRadius:
+                                                                        10,
+                                                                    spreadRadius:
+                                                                        2,
+                                                                  )
                                                                 ],
                                                               ),
-                                                            ],
-                                                          ),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            13.w),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    textGrey4D4D4D_22(
+                                                                        // "Dairy"
+                                                                        dashboardController
+                                                                            .dashboardModel
+                                                                            .data!
+                                                                            .currentFeed![selectedCurrentFeed]
+                                                                            .livestockName!
+                                                                        // currentFeedData[
+                                                                        //         selectedCurrentFeed]
+                                                                        //     ["feedFor"]
+                                                                        ),
+                                                                    textBlack25W7000(
+                                                                        "${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].currentFeedAvailable!} Kg")
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            sizedBoxHeight(
+                                                                10.h),
+                                                            Container(
+                                                              height: 93.h,
+                                                              width: 230.w,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.h),
+                                                                color: AppColors
+                                                                    .white,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.04),
+                                                                    blurRadius:
+                                                                        10,
+                                                                    spreadRadius:
+                                                                        2,
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            13.w),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    textGrey4D4D4D_16(
+                                                                        "Reordering Date"),
+                                                                    // textGrey4D4D4D_22("Dairy"),
+                                                                    // textBlack25W7000("100 Kg")
+                                                                    // Row()
+                                                                    Row(
+                                                                      children: [
+                                                                        CircleAvatar(
+                                                                          radius:
+                                                                              20.h,
+                                                                          backgroundColor:
+                                                                              AppColors.greyF1F1F1,
+                                                                          child:
+                                                                              Icon(
+                                                                            Icons.calendar_today,
+                                                                            size:
+                                                                                20.h,
+                                                                            color:
+                                                                                AppColors.buttoncolour,
+                                                                          ),
+                                                                        ),
+                                                                        sizedBoxWidth(
+                                                                            10.w),
+                                                                        textBlack20W7000(Utils.convertISOToFormattedDate(dashboardController
+                                                                            .dashboardModel
+                                                                            .data!
+                                                                            .currentFeed![selectedCurrentFeed]
+                                                                            .reorderingDate!))
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
-                                              ],
-                                            ),
 
-                                            sizedBoxHeight(10.h),
+                                                  sizedBoxHeight(10.h),
 
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.warning_amber_rounded,
-                                                  size: 30.h,
-                                                  color: AppColors.redFA5658,
-                                                ),
-                                                textBlack18W7000(
-                                                    " Your Feed is Low!"),
-                                                const Spacer(),
-                                                SizedBox(
-                                                  height: 45.h,
-                                                  width: 120.w,
-                                                  child: customButtonCurve(
-                                                      text: "Refill Now",
-                                                      onTap: () {}),
-                                                )
-                                              ],
+                                                  dashboardController
+                                                          .dashboardModel
+                                                          .data!
+                                                          .currentFeed![
+                                                              selectedCurrentFeed]
+                                                          .feedLow!
+                                                      ? Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .warning_amber_rounded,
+                                                              size: 30.h,
+                                                              color: AppColors
+                                                                  .redFA5658,
+                                                            ),
+                                                            textBlack18W7000(
+                                                                " Your Feed is Low!"),
+                                                            const Spacer(),
+                                                            SizedBox(
+                                                              height: 45.h,
+                                                              width: 120.w,
+                                                              child: customButtonCurve(
+                                                                  text:
+                                                                      "Refill Now",
+                                                                  onTap: () {}),
+                                                            )
+                                                          ],
+                                                        )
+                                                      : const SizedBox(),
+                                                ],
+                                              ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
                                 sizedBoxHeight(20.h),
                                 dashboardController.dashboardModel.data!
                                             .profileCompletionPercentage! >=
                                         100
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : textBlack18W7000("Profile"),
                                 dashboardController.dashboardModel.data!
                                             .profileCompletionPercentage! >=
                                         100
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : Container(
                                         // height: 93.h,
                                         // width: 230.w,
@@ -1223,12 +1266,20 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                 dashboardController.dashboardModel.data!
-                                        .trainingVideos!.isEmpty
-                                    ? SizedBox()
+                                                .trainingVideos!.id ==
+                                            0 &&
+                                        dashboardController.dashboardModel.data!
+                                                .trainingVideos!.title ==
+                                            ""
+                                    ? const SizedBox()
                                     : sizedBoxHeight(25.h),
                                 dashboardController.dashboardModel.data!
-                                        .trainingVideos!.isEmpty
-                                    ? SizedBox()
+                                                .trainingVideos!.id ==
+                                            0 &&
+                                        dashboardController.dashboardModel.data!
+                                                .trainingVideos!.title ==
+                                            ""
+                                    ? const SizedBox()
                                     : InkWell(
                                         onTap: () {
                                           Get.toNamed("/trainingmain");
@@ -1262,10 +1313,24 @@ class _HomeState extends State<Home> {
                                                       CrossAxisAlignment.start,
                                                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Image.asset(
-                                                      "assets/images/video_thumbnail.jpg",
-                                                      width: 104.w,
-                                                      height: 90.h,
+                                                    Card(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(4.0),
+                                                        child: Image.asset(
+                                                          "assets/images/thumbnail_icon.png",
+                                                          width: 104.w,
+                                                          height: 75.h,
+                                                          //   fit: BoxFit.cover,
+                                                        ),
+                                                      ),
                                                     ),
                                                     sizedBoxWidth(14.w),
                                                     // SvgPicture.asset("assets/images/current_feed.svg",
@@ -1286,22 +1351,19 @@ class _HomeState extends State<Home> {
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .title!),
                                                           textGrey4D4D4D_16(
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .smallDescription!),
                                                           textGreen14(Utils.formattedTimeAgo(
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
-                                                                  .trainingVideos![
-                                                                      0]
+                                                                  .trainingVideos!
                                                                   .publishedDatetime!))
                                                         ],
                                                       ),
@@ -1359,7 +1421,7 @@ class _HomeState extends State<Home> {
                                                       height: 90.h,
                                                     )
                                                   : Image.network(
-                                                      "${ApiUrls.imageBase}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
+                                                      "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
                                                       width: 104.w,
                                                       height: 90.h,
                                                     ),
@@ -1681,7 +1743,7 @@ class _HomeState extends State<Home> {
                     : AppColors.grey4D4D4D)),
         child: Padding(
           padding: EdgeInsets.all(4.h),
-          child: Image.asset(imagePath),
+          child: Image.network("${ApiUrls.baseImageUrl}/$imagePath"),
         ),
       ),
     );

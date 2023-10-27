@@ -3,22 +3,32 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:dio/dio.dart';
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/controller/profile_controller.dart';
+import 'package:farmfeeders/controller/set_farm.dart';
+import 'package:farmfeeders/models/SetupFarmInfoModel/farm_info_model.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/view/Profile/personalinfo.dart';
+import 'package:farmfeeders/view_models/SetupFarmInfoAPI.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Utils/base_manager.dart';
+import '../view_models/ProfileAPI.dart';
 
 String? nameValue;
 String? dateValue;
@@ -44,6 +54,8 @@ class _ProfileState extends State<Profile> {
 
   final ProfileImageController editProfileImage =
       Get.put(ProfileImageController());
+  SetFarm setFarm = Get.put(SetFarm());
+  ProfileController profileController = Get.put(ProfileController());
 
   buildprofiledelete2dialog(context) {
     return showDialog(
@@ -371,41 +383,45 @@ class _ProfileState extends State<Profile> {
                                           width: 200.w,
                                           height: 200.h,
                                         )
-                                      : Image.asset(
-                                          "assets/images/profile.png")),
+                                      : profileController.profileInfoModel.value
+                                              .data!.profilePhoto!.isEmpty
+                                          ? Image.asset(
+                                              "assets/images/profile.png")
+                                          : Image.network(
+                                              "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}")),
                             ),
                           ),
                           sizedBoxWidth(18.w),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                nameValue == null || nameValue!.isEmpty
-                                    ? 'Kevin'
-                                    : '$nameValue',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 22.sp,
-                                  fontFamily: 'Poppins',
-                                  color: Color(0XFF141414),
-                                  fontWeight: FontWeight.w600,
+                          Obx(
+                            () => Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  profileController
+                                      .profileInfoModel.value.data!.userName!,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 22.sp,
+                                    fontFamily: 'Poppins',
+                                    color: Color(0XFF141414),
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              sizedBoxHeight(1.h),
-                              Text(
-                                phoneValue == null || phoneValue!.isEmpty
-                                    ? '0863621359'
-                                    : '$phoneValue',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontFamily: 'Poppins',
-                                  color: Color(0xFF4D4D4D),
-                                  fontWeight: FontWeight.w500,
+                                sizedBoxHeight(1.h),
+                                Text(
+                                  profileController.profileInfoModel.value.data!
+                                      .phoneNumber!,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontFamily: 'Poppins',
+                                    color: Color(0xFF4D4D4D),
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Spacer(),
                           GestureDetector(
@@ -458,8 +474,8 @@ class _ProfileState extends State<Profile> {
                           ),
                           Spacer(),
                           InkWell(
-                            onTap: (){
-                              Get.toNamed(RouteName.notification);
+                            onTap: () {
+                              Get.toNamed(RouteName.liveStockInfoMain);
                             },
                             child: SvgPicture.asset(
                               'assets/images/profileEdit.svg',
@@ -496,10 +512,15 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w600),
                           ),
                           Spacer(),
-                          SvgPicture.asset(
-                            'assets/images/profileEdit.svg',
-                            width: 18.w,
-                            height: 19.h,
+                          InkWell(
+                            onTap: () {
+                              Get.toNamed("/farmfeedtracker");
+                            },
+                            child: SvgPicture.asset(
+                              'assets/images/profileEdit.svg',
+                              width: 18.w,
+                              height: 19.h,
+                            ),
                           ),
                         ],
                       ),
@@ -529,10 +550,20 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w600),
                           ),
                           Spacer(),
-                          SvgPicture.asset(
-                            'assets/images/profileEdit.svg',
-                            width: 18.w,
-                            height: 19.h,
+                          InkWell(
+                            onTap: () {
+                              SetupFarmInfoApi().getFarmInfoApi().then((value) {
+                                setFarm.isFarmInfoUpdate.value = true;
+                                setFarm.farmInfoModel =
+                                    FarmInfoModel.fromJson(value.data);
+                                Get.toNamed("/farmsInfo");
+                              });
+                            },
+                            child: SvgPicture.asset(
+                              'assets/images/profileEdit.svg',
+                              width: 18.w,
+                              height: 19.h,
+                            ),
                           ),
                         ],
                       ),
