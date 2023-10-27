@@ -5,6 +5,7 @@ import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/common/flush_bar.dart';
 import 'package:farmfeeders/models/feed_Info_dropdown.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:http/http.dart' as http;
@@ -12,13 +13,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/live_stock_model.dart';
 
 class FeedInfoContro extends GetxController {
+  final tecCurrentFeed = TextEditingController();
+  final tecQuantity = TextEditingController();
+  final tecMin = TextEditingController();
+  final tecMax = TextEditingController();
+
+  String? selectedFeedType;
+  int? selectedFeedTypeIndex;
+
+  String? selectedFrequency;
+  int? selectedFrequencyIndex;
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
   FeedDropDownInfo? _feedDropdownData;
   FeedDropDownInfo? get feedDropdownData => _feedDropdownData;
-
-
 
   // List _feedType = [
   //   {"titleText": "Dairy", "imagePath": "assets/images/dairy.png", "Updated": false},
@@ -28,8 +37,7 @@ class FeedInfoContro extends GetxController {
   //   {"titleText": "Poultry", "imagePath": "assets/images/poultry.svg", "Updated": false},
   // ];
 
-  // List get feedType => _feedType; 
-
+  // List get feedType => _feedType;
 
   changeUpdated(int index) {
     print("preesed");
@@ -38,7 +46,7 @@ class FeedInfoContro extends GetxController {
     update();
   }
 
-  getApiFeedDropdownData() async {
+  getApiFeedDropdownData(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     try {
@@ -48,7 +56,7 @@ class FeedInfoContro extends GetxController {
       };
       var dio = Dio();
       var response = await dio.request(
-        ApiUrls.getFeedInfoDropdownData,
+        ApiUrls.getFeedInfoDropdownData + id,
         options: Options(
           method: 'GET',
           headers: headers,

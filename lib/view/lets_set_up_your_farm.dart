@@ -17,6 +17,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../Utils/custom_button.dart';
+import '../controller/set_farm.dart';
 import 'basic_subscription_plan.dart';
 
 bool isSetFarmInfo = false;
@@ -39,6 +40,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
   // TextEditingController phoneController = TextEditingController();
   // TextEditingController pincode = TextEditingController();
 
+  SetFarm setFarm = Get.put(SetFarm());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +65,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               cards(
                 onTap: () {
                   //  if (!isSetFarmInfo) {
+                  setFarm.isFarmInfoUpdate.value = false;
                   Get.toNamed("/farmsInfo");
                   //  }
                 },
@@ -80,11 +83,10 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                       setState(() {});
                     }
                   } else {
-                    commonFlushBar(context, msg: "Please update Farm information");
+                    commonFlushBar(context,
+                        msg: "Please update Farm information");
                   }
-                    // var res = await Get.toNamed(RouteName.liveStockInfoMain);
-
-                  
+                  // var res = await Get.toNamed(RouteName.liveStockInfoMain);
                 },
                 set: isSetLiveStockInfo,
                 imagePath: "assets/images/setupFarm2.png",
@@ -102,12 +104,13 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                       setState(() {});
                     }
                   } else {
-                    commonFlushBar(context, msg: "Please update Farm information & Live stock information");
+                    commonFlushBar(context,
+                        msg:
+                            "Please update Farm information & Live stock information");
                   }
-                    // var res = await Get.toNamed("/farmfeedtracker");
+                  // var res = await Get.toNamed("/farmfeedtracker");
 
                   // Get.toNamed("/farmfeedtracker");
-                  
                 },
                 set: isSetFeedInfo,
                 imagePath: "assets/images/setupFarm3.png",
@@ -127,12 +130,11 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                       })
                   : SizedBox()
 
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       Get.to(SideMenu());
-                  //     },
-                  //     child: textGreen16W700("Skip & Procced to dashboard"))
-
+              // GestureDetector(
+              //     onTap: () {
+              //       Get.to(SideMenu());
+              //     },
+              //     child: textGreen16W700("Skip & Procced to dashboard"))
 
               // textBlack16(text)
             ],

@@ -14,26 +14,24 @@ class LiveStockInfoContro extends GetxController {
 
   String? _selectedAge;
   String? get selectedAge => _selectedAge;
-  
 
   String? _selectedBreed;
   String? get selectedBreed => _selectedBreed;
-  
 
   LiveStockModel? _liveStockData;
   LiveStockModel? get liveStockData => _liveStockData;
 
-  updateSelectedAge(String selectedtext){
+  updateSelectedAge(String selectedtext) {
     _selectedAge = selectedtext;
     update();
   }
 
-  updateSelectedBreed(String selectedText){
+  updateSelectedBreed(String selectedText) {
     _selectedBreed = selectedText;
     update();
   }
 
-  getApiForLiveStockData({required String selectedNum}) async {
+  Future<void> getApiForLiveStockData({required String selectedNum}) async {
     try {
       print(bearerToken);
       _isLoading = true;
@@ -66,48 +64,39 @@ class LiveStockInfoContro extends GetxController {
         _liveStockData = LiveStockModel.fromJson(response.data);
         _isLoading = false;
         update();
-      }
-      else {
+      } else {
         print("else");
         print(response.statusMessage);
         _isLoading = false;
         update();
       }
-
-
     } catch (e) {
       print("catch");
       print(e);
       _isLoading = false;
       update();
-
     }
   }
 
-  Future<bool?> setApiLiveStockData({
-    required String liveStockType, 
-    required String liveStockAge, 
-    required String liveStockBreed,
-    required String count
-  }) async {
+  Future<bool?> setApiLiveStockData(
+      {required String liveStockType,
+      required String liveStockAge,
+      required String liveStockBreed,
+      required String count}) async {
     try {
       print({
-          'livestock_type': liveStockType,
-          'livestock_age': liveStockAge,
-          'livestock_breed': liveStockBreed,
-          'count': count
-        });
-      var headers = {
-        'Authorization': bearerToken
-      };
-      var data = FormData.fromMap(
-        {
-          'livestock_type': liveStockType,
-          'livestock_age': liveStockAge,
-          'livestock_breed': liveStockBreed,
-          'count': count
-        }
-      );
+        'livestock_type': liveStockType,
+        'livestock_age': liveStockAge,
+        'livestock_breed': liveStockBreed,
+        'count': count
+      });
+      var headers = {'Authorization': bearerToken};
+      var data = FormData.fromMap({
+        'livestock_type': liveStockType,
+        'livestock_age': liveStockAge,
+        'livestock_breed': liveStockBreed,
+        'count': count
+      });
 
       var dio = Dio();
       var response = await dio.request(
@@ -122,15 +111,13 @@ class LiveStockInfoContro extends GetxController {
       if (response.statusCode == 200) {
         print(json.encode(response.data));
         return true;
-      }
-      else {
+      } else {
         print(response.statusMessage);
         Get.snackbar("Error", "Something went wrong");
       }
     } catch (e) {
       print(e);
       Get.snackbar("Error", "Something went wrong");
-
     }
   }
 }

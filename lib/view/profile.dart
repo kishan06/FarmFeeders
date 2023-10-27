@@ -11,8 +11,11 @@ import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
+import 'package:farmfeeders/controller/set_farm.dart';
+import 'package:farmfeeders/models/SetupFarmInfoModel/farm_info_model.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/view/Profile/personalinfo.dart';
+import 'package:farmfeeders/view_models/SetupFarmInfoAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,7 +54,7 @@ class _ProfileState extends State<Profile> {
 
   final ProfileImageController editProfileImage =
       Get.put(ProfileImageController());
-
+  SetFarm setFarm = Get.put(SetFarm());
   ProfileController profileController = Get.put(ProfileController());
 
   buildprofiledelete2dialog(context) {
@@ -380,15 +383,12 @@ class _ProfileState extends State<Profile> {
                                           width: 200.w,
                                           height: 200.h,
                                         )
-                                      : profileController
-                                                  .profileInfoModel
-                                                  .value
-                                                  .data!
-                                                  .profilePhoto!
-                                                  .isEmpty
-                                              ? Image.asset(
-                                                  "assets/images/profile.png"):Image.network(
-                                          "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}")),
+                                      : profileController.profileInfoModel.value
+                                              .data!.profilePhoto!.isEmpty
+                                          ? Image.asset(
+                                              "assets/images/profile.png")
+                                          : Image.network(
+                                              "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}")),
                             ),
                           ),
                           sizedBoxWidth(18.w),
@@ -475,7 +475,7 @@ class _ProfileState extends State<Profile> {
                           Spacer(),
                           InkWell(
                             onTap: () {
-                              Get.toNamed(RouteName.notification);
+                              Get.toNamed(RouteName.liveStockInfoMain);
                             },
                             child: SvgPicture.asset(
                               'assets/images/profileEdit.svg',
@@ -512,10 +512,15 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w600),
                           ),
                           Spacer(),
-                          SvgPicture.asset(
-                            'assets/images/profileEdit.svg',
-                            width: 18.w,
-                            height: 19.h,
+                          InkWell(
+                            onTap: () {
+                              Get.toNamed("/farmfeedtracker");
+                            },
+                            child: SvgPicture.asset(
+                              'assets/images/profileEdit.svg',
+                              width: 18.w,
+                              height: 19.h,
+                            ),
                           ),
                         ],
                       ),
@@ -545,10 +550,20 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w600),
                           ),
                           Spacer(),
-                          SvgPicture.asset(
-                            'assets/images/profileEdit.svg',
-                            width: 18.w,
-                            height: 19.h,
+                          InkWell(
+                            onTap: () {
+                              SetupFarmInfoApi().getFarmInfoApi().then((value) {
+                                setFarm.isFarmInfoUpdate.value = true;
+                                setFarm.farmInfoModel =
+                                    FarmInfoModel.fromJson(value.data);
+                                Get.toNamed("/farmsInfo");
+                              });
+                            },
+                            child: SvgPicture.asset(
+                              'assets/images/profileEdit.svg',
+                              width: 18.w,
+                              height: 19.h,
+                            ),
                           ),
                         ],
                       ),
