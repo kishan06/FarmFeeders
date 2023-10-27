@@ -40,4 +40,22 @@ class SetupFarmInfoApi {
     }
     return response;
   }
+
+  Future<ResponseData<dynamic>> getFeedLivestockApi() async {
+    final response = await NetworkApiServices().getApi1(
+      ApiUrls.feedLivestockApi,
+    );
+    log(response.data.toString());
+    if (response.status == ResponseStatus.SUCCESS) {
+      Map<String, dynamic> responseData =
+          Map<String, dynamic>.from(response.data);
+      if (responseData['success']) {
+        return response;
+      } else {
+        return ResponseData<dynamic>(
+            responseData['message'], ResponseStatus.FAILED);
+      }
+    }
+    return response;
+  }
 }
