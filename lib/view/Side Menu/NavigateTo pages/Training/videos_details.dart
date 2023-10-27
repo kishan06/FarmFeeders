@@ -26,15 +26,17 @@ class _VideosDetailsState extends State<VideosDetails> {
   TextEditingController _contentController = TextEditingController();
   late VideoPlayerController videoController;
   final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
+  String? videourl;
 
   @override
   void initState() {
     super.initState();
     // TODO: implement initState
+    videourl = Get.arguments["videourl"];
     VideosDetails();
     NotesData;
     videoController = VideoPlayerController.network(
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
+        'https://farmflow.betadelivery.com/public/$videourl')
       ..addListener(() => setState(() {}))
       ..setLooping(true)
       ..initialize().then((_) => videoController.pause());
@@ -237,9 +239,8 @@ class _VideosDetailsState extends State<VideosDetails> {
                   ),
                   Row(
                     children: [
-                      textGrey4D4D4D_14('1.2M Views.'),
-                      sizedBoxWidth(50.w),
-                      textGrey4D4D4D_14('2 years ago'),
+                      // textGrey4D4D4D_14(Utils.formattedTimeAgo(
+                      //     videoData.publishedDatetime ?? "")),
                     ],
                   ),
                   sizedBoxHeight(14.h),

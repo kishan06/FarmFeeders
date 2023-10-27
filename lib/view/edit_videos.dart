@@ -44,7 +44,7 @@ class _EditVideosState extends State<EditVideos> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   TextEditingController titlecontroller = TextEditingController();
   TextEditingController subtitlecontroller = TextEditingController();
-  int? categoryindex;
+  String? categoryindex;
 
   // late CustomVideoPlayerWebController _customVideoPlayerWebController;
   // late CustomVideoPlayerController _customVideoPlayerController;
