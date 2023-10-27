@@ -69,7 +69,7 @@ class _SavedArticleState extends State<SavedArticleMain> {
                     textBlack18W600Mon("Latest News"),
                   ],
                 ),
-                Expanded(child: newsCard())
+                // Expanded(child: newsCard())
               ],
             ),
           ),
