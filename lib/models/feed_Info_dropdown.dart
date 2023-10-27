@@ -29,20 +29,16 @@ class FeedDropDownInfo {
 
 class Data {
   Data({
-    required this.livestockType,
     required this.feedType,
     required this.feedFrequency,
     required this.feed,
   });
-  late final List<LivestockType> livestockType;
+
   late final List<FeedType> feedType;
   late final List<FeedFrequency> feedFrequency;
   late final Feed? feed;
 
   Data.fromJson(Map<String, dynamic> json) {
-    livestockType = List.from(json['livestockType'])
-        .map((e) => LivestockType.fromJson(e))
-        .toList();
     feedType =
         List.from(json['feedType']).map((e) => FeedType.fromJson(e)).toList();
     feedFrequency = List.from(json['feedFrequency'])
@@ -53,38 +49,12 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['livestockType'] = livestockType.map((e) => e.toJson()).toList();
+
     _data['feedType'] = feedType.map((e) => e.toJson()).toList();
     _data['feedFrequency'] = feedFrequency.map((e) => e.toJson()).toList();
     if (this.feed != null) {
       _data['feed'] = feed!.toJson();
     }
-    return _data;
-  }
-}
-
-class LivestockType {
-  LivestockType({
-    required this.id,
-    required this.name,
-    required this.smallImageUrl,
-  });
-  late final int id;
-  late final String name;
-  late final String smallImageUrl;
-  bool updated = false;
-
-  LivestockType.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    smallImageUrl = json['small_image_url'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['name'] = name;
-    _data['small_image_url'] = smallImageUrl;
     return _data;
   }
 }

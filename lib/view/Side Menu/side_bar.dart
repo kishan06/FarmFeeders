@@ -126,11 +126,14 @@ class _SideBarState extends State<SideBar> {
 
   final ProfileImageController editProfileImage =
       Get.put(ProfileImageController());
+  RxBool isLoading = false.obs;
   @override
   void initState() {
+    isLoading.value = true;
     ProfileAPI().getProfileInfo().then((value) {
       profileController.profileInfoModel.value =
           ProfileInfoModel.fromJson(value.data);
+      isLoading.value = false;
     });
     super.initState();
   }
@@ -174,25 +177,33 @@ class _SideBarState extends State<SideBar> {
                               height: 65.w,
                               width: 65.w,
                               child: Obx(
-                                () => ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: editProfileImage
-                                              .profilePicPath.value !=
-                                          ''
-                                      ? Image(
-                                          image: FileImage(File(editProfileImage
-                                              .profilePicPath.value)),
-                                          fit: BoxFit.cover,
-                                          width: 50.w,
-                                          height: 50.h,
-                                        )
-                                      : profileController.profileInfoModel.value
-                                              .data!.profilePhoto!.isEmpty
-                                          ? Image.asset(
-                                              "assets/images/profile.png")
-                                          : Image.network(
-                                              "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
-                                ),
+                                () => isLoading.value
+                                    ? SizedBox()
+                                    : ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: editProfileImage
+                                                    .profilePicPath.value !=
+                                                ''
+                                            ? Image(
+                                                image: FileImage(File(
+                                                    editProfileImage
+                                                        .profilePicPath.value)),
+                                                fit: BoxFit.cover,
+                                                width: 50.w,
+                                                height: 50.h,
+                                              )
+                                            : profileController
+                                                    .profileInfoModel
+                                                    .value
+                                                    .data!
+                                                    .profilePhoto!
+                                                    .isEmpty
+                                                ? Image.asset(
+                                                    "assets/images/profile.png")
+                                                : Image.network(
+                                                    "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
+                                      ),
                               ),
                             ),
                             // Positioned(

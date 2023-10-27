@@ -150,21 +150,24 @@ class CurrentFeed {
   bool? feedLow;
   String? livestockName;
   String? livestockUri;
+  String? container;
 
-  CurrentFeed(
-      {this.id,
-      this.farmerXid,
-      this.livestockTypeXid,
-      this.currentFeedAvailable,
-      this.feedTypeXid,
-      this.feedFrequencyXid,
-      this.qtyPerSeed,
-      this.minBinCapacity,
-      this.maxBinCapacity,
-      this.reorderingDate,
-      this.feedLow,
-      this.livestockName,
-      this.livestockUri});
+  CurrentFeed({
+    this.id,
+    this.farmerXid,
+    this.livestockTypeXid,
+    this.currentFeedAvailable,
+    this.feedTypeXid,
+    this.feedFrequencyXid,
+    this.qtyPerSeed,
+    this.minBinCapacity,
+    this.maxBinCapacity,
+    this.reorderingDate,
+    this.feedLow,
+    this.livestockName,
+    this.livestockUri,
+    this.container,
+  });
 
   CurrentFeed.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -180,6 +183,7 @@ class CurrentFeed {
     feedLow = json['feed_low'];
     livestockName = json['livestock_name'];
     livestockUri = json['livestock_uri'];
+    container = json["container"];
   }
 
   Map<String, dynamic> toJson() {
@@ -197,6 +201,7 @@ class CurrentFeed {
     data['feed_low'] = feedLow;
     data['livestock_name'] = livestockName;
     data['livestock_uri'] = livestockUri;
+    data['container'] = container;
     return data;
   }
 }

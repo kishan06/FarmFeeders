@@ -15,5 +15,6 @@ class ApiUrls {
   static const feedbackApi = "${base}feedback";
   static const farmInfoApi = "${base}edit/farm-info";
   static const livestockTypeApi = "${base}livestock/types";
+  static const feedLivestockApi = "${base}feed/livestocks";
   static const weatherApi = "http://api.weatherapi.com/v1/current.json";
 }

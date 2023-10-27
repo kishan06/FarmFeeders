@@ -900,10 +900,11 @@ class _HomeState extends State<Home> {
                                                             .currentFeed!
                                                             .length,
                                                         (index) => Container(
-                                                              margin: const EdgeInsets
+                                                              margin:
+                                                                  const EdgeInsets
                                                                       .symmetric(
-                                                                  horizontal:
-                                                                      15),
+                                                                      horizontal:
+                                                                          15),
                                                               child: currentFeedSelection(
                                                                   imagePath: dashboardController
                                                                       .dashboardModel
@@ -928,11 +929,23 @@ class _HomeState extends State<Home> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      SvgPicture.asset(
-                                                        "assets/images/current_feed.svg",
-                                                        height: 170.h,
-                                                        width: 100.w,
-                                                      ),
+                                                      dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .currentFeed![
+                                                                      selectedCurrentFeed]
+                                                                  .container ==
+                                                              "empty container image"
+                                                          ? SvgPicture.asset(
+                                                              "assets/images/current_feed.svg",
+                                                              height: 170.h,
+                                                              width: 100.w,
+                                                            )
+                                                          : Image.network(
+                                                              "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].container}",
+                                                              height: 170.h,
+                                                              width: 100.w,
+                                                            ),
 
                                                       // sizedBoxWidth(20.w),
                                                       // Spacer(),
