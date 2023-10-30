@@ -60,163 +60,158 @@ class _VideosListState extends State<VideosList> {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData) {
-                return Center(child: Text('No data available.'));
-              } else {
-                return ListView.builder(
-                  itemCount: snapshot.data!.data!.length,
-                  itemBuilder: (context, index) {
-                    Data videoData = snapshot.data!.data![index];
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed("/videosdetails", arguments: {
-                              "videourl": videoData.videoUrl,
-                              "title": videoData.title,
-                              "publisheddate": videoData.publishedDatetime,
-                              "videoId": videoData.id
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Color(0xFFF1F1F1),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(11.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Image.asset(
-                                        "assets/images/thumbnail_icon.png",
-                                        width: 70.w,
-                                        height: 70.h,
-                                        //   fit: BoxFit.cover,
-                                      ),
+              } else if (snapshot.data?.data == null ||
+                  snapshot.data!.data!.isEmpty) {
+                return Center(child: Text('No videos available'));
+              }
+              return ListView.builder(
+                itemCount: snapshot.data!.data!.length,
+                itemBuilder: (context, index) {
+                  Data videoData = snapshot.data!.data![index];
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/videosdetails", arguments: {
+                            "videourl": videoData.videoUrl,
+                            "title": videoData.title,
+                            "publisheddate": videoData.publishedDatetime,
+                            "videoId": videoData.id
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Color(0xFFF1F1F1),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(11.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Image.asset(
+                                      "assets/images/thumbnail_icon.png",
+                                      width: 70.w,
+                                      height: 70.h,
+                                      //   fit: BoxFit.cover,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 17.w,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            height: 41.h,
-                                            width: 206.w,
-                                            child: Text(
-                                              videoData.title ?? 'No Title',
-                                              style: TextStyle(
-                                                height: 1.1,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: const Color(0xFF141414),
-                                              ),
-                                            ),
-                                          ),
-                                          Icon(Icons.more_vert)
-                                        ],
-                                      ),
-                                      Container(
-                                        width: 230.w,
-                                        child: Text(
-                                          videoData.smallDescription ??
-                                              'No Description',
-                                          style: TextStyle(
-                                              fontSize: 13.sp,
-                                              fontWeight: FontWeight.w300,
-                                              color: Color(0xFF141414)),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            Utils.formattedTimeAgo(
-                                                videoData.publishedDatetime ??
-                                                    ""),
+                                ),
+                                SizedBox(
+                                  width: 17.w,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 41.h,
+                                          width: 206.w,
+                                          child: Text(
+                                            videoData.title ?? 'No Title',
                                             style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFF4D4D4D)),
-                                          ),
-                                          SizedBox(
-                                            width: 100,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              share();
-                                            },
-                                            child: Container(
-                                              height: 40,
-                                              child: SvgPicture.asset(
-                                                "assets/images/share.svg",
-                                              ),
+                                              height: 1.1,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: const Color(0xFF141414),
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                videoData.bookmarked == 1
-                                                    ? 1
-                                                    : 0;
-                                                //  savevideo == 0 ? 1 : 0;
-                                              });
-                                            },
-                                            child: videoData.bookmarked == 0
-                                                ? Container(
-                                                    height: 40,
-                                                    child: SvgPicture.asset(
-                                                        "assets/images/saveblank.svg"))
-                                                : Container(
-                                                    height: 40,
-                                                    child: SvgPicture.asset(
-                                                        "assets/images/save.svg")),
-                                          ),
-                                        ],
+                                        ),
+                                        Icon(Icons.more_vert)
+                                      ],
+                                    ),
+                                    Container(
+                                      width: 230.w,
+                                      child: Text(
+                                        videoData.smallDescription ??
+                                            'No Description',
+                                        style: TextStyle(
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeight.w300,
+                                            color: Color(0xFF141414)),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                    SizedBox(
+                                      height: 5.h,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          Utils.formattedTimeAgo(
+                                              videoData.publishedDatetime ??
+                                                  ""),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF4D4D4D)),
+                                        ),
+                                        SizedBox(
+                                          width: 100,
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            share();
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            child: SvgPicture.asset(
+                                              "assets/images/share.svg",
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              videoData.bookmarked == 1 ? 1 : 0;
+                                              //  savevideo == 0 ? 1 : 0;
+                                            });
+                                          },
+                                          child: videoData.bookmarked == 0
+                                              ? Container(
+                                                  height: 40,
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/saveblank.svg"))
+                                              : Container(
+                                                  height: 40,
+                                                  child: SvgPicture.asset(
+                                                      "assets/images/save.svg")),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                      ],
-                    );
-                    //  snapshot.data!.data!.isEmpty
-                    //     ? Center(
-                    //         child: Text("No data available"),
-                    //       )
-                    //     : ListTile(
-                    //         title: Text(videoData.title ?? 'No Title'),
-                    //         subtitle: Text(
-                    //             videoData.smallDescription ?? 'No Description'),
-                    //       );
-                  },
-                );
-              }
+                      ),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                    ],
+                  );
+                  //  snapshot.data!.data!.isEmpty
+                  //     ? Center(
+                  //         child: Text("No data available"),
+                  //       )
+                  //     : ListTile(
+                  //         title: Text(videoData.title ?? 'No Title'),
+                  //         subtitle: Text(
+                  //             videoData.smallDescription ?? 'No Description'),
+                  //       );
+                },
+              );
             },
           ),
         ),

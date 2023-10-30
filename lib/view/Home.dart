@@ -1447,12 +1447,14 @@ class _HomeState extends State<Home> {
                                                             .title!),
                                                     InkWell(
                                                       onTap: () async {
+                                                        
                                                         if (await canLaunch(
                                                             dashboardController
                                                                 .dashboardModel
                                                                 .data!
                                                                 .article!
-                                                                .smallDescription!)) {
+                                                                .smallDescription!
+                                                                )) {
                                                           await launch(
                                                               dashboardController
                                                                   .dashboardModel
