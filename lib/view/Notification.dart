@@ -1,3 +1,4 @@
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/controller/notification_controller.dart';
 import 'package:flutter/material.dart';
@@ -122,149 +123,225 @@ class _NotificationState extends State<Notification> {
                 ),
 
                 Expanded(
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      GetBuilder<NotificationController>(builder: (builder){
-                        return controllerNotification.isLoading 
-                        ? Center(child: CircularProgressIndicator())
-                        : controllerNotification.notificationData == null 
-                        ? Center(
-                          child: Text(
-                            // _data[index]['title'] ?? "",
-                            "Something went wrong",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        GetBuilder<NotificationController>(builder: (builder){
+                          return controllerNotification.isLoading 
+                          ? Center(child: CircularProgressIndicator())
+                          : controllerNotification.notificationData == null 
+                          ? Center(
+                            child: Text(
+                              // _data[index]['title'] ?? "",
+                              "Something went wrong",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                        )
-                        : Column(
-                          children: [
-                            
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                  child: Text(
-                                    "Today",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ],
+                          )
+                          : (controllerNotification.notificationData!.data.today.isEmpty && controllerNotification.notificationData!.data.yesterday.isEmpty && controllerNotification.notificationData!.data.other.isEmpty)
+                          ? Center(
+                            child: Text(
+                              // _data[index]['title'] ?? "",
+                              "No Notifications available",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
                             ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: controllerNotification.notificationData!.data.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final data = controllerNotification.notificationData!.data[index];
-                                  String originalDate = data.createdAt;
-                                          DateTime parsedDate =
-                                              DateTime.parse(originalDate);
-                                          String formattedDate =
-                                              DateFormat.Hm().format(parsedDate);
-                                  return Column(
+                          )
+                          : Column(
+                            children: [
+                              //today
+                              controllerNotification.notificationData!.data.today.isEmpty 
+                              ? SizedBox()
+                              : Column(
+                                children: [
+                                  Row(
                                     children: [
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            SvgPicture.asset(
-                                              // _data[index]['image']!,
-                                              "assets/images/Notification.svg",
-                                              width: 42,
-                                              height: 42,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            SizedBox(
-                                              width: 13.h,
-                                            ),
-                                            Expanded(
-                                              flex: 5,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left: 8.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      // _data[index]['title'] ?? "",
-                                                      "Your feed is getting low!.",
-                                                      style: TextStyle(
-                                                        fontSize: 18.sp,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    Text(
-                                                      // _data[index]['subtitle']!
-                                                      data.message,
-                                                      style: TextStyle(
-                                                        color: Color(0xFF444444),
-                                                        fontSize: 16.sp,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 0,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(right: 7.0),
-                                                child: Text(
-                                                  // _data[index]['text']!,
-                                                  formattedDate,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF707070),
-                                                    fontSize: 12.sp,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                        child: Text(
+                                          "Today",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400),
                                         ),
                                       ),
                                     ],
-                                  );
-                                  // );
-                                },
-                                separatorBuilder: (BuildContext context, int index) {
-                                  return Divider(
-                                    height: 40.h,
-                                    thickness: 1,
-                                  );
-                                },
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                          
+                                      itemCount: controllerNotification.notificationData!.data.today.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        final data = controllerNotification.notificationData!.data.today[index];
+                                        String originalDate = data.readAt;
+                                                DateTime parsedDate =
+                                                    DateTime.parse(originalDate);
+                                                String formattedDate =
+                                                    DateFormat.jm().format(parsedDate);
+                                        return NotificationCard(
+                                          imageUrl: data.image, 
+                                          title: data.title, 
+                                          msg: data.message, 
+                                          dateTime: formattedDate,
+                                        );
+                                        // );
+                                      },
+                                      separatorBuilder: (BuildContext context, int index) {
+                                        return Divider(
+                                          height: 40.h,
+                                          thickness: 1,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                ],
                               ),
-                            ),
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                  
-                  
-                  
-                      
-                          ],
-                        );
-                        
-                      }),
-                    ],
+                              
+                              //yesterday
+                              controllerNotification.notificationData!.data.yesterday.isEmpty 
+                              ? SizedBox()
+                              : Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                        child: Text(
+                                          "Yesterday",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                          
+                                      itemCount: controllerNotification.notificationData!.data.yesterday.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        final data = controllerNotification.notificationData!.data.yesterday[index];
+                                        String originalDate = data.readAt;
+                                                DateTime parsedDate =
+                                                    DateTime.parse(originalDate);
+                                                String formattedDate =
+                                                    DateFormat.jm().format(parsedDate);
+                                        return NotificationCard(
+                                          imageUrl: data.image, 
+                                          title: data.title, 
+                                          msg: data.message, 
+                                          dateTime: formattedDate,
+                                        );
+                                        // );
+                                      },
+                                      separatorBuilder: (BuildContext context, int index) {
+                                        return Divider(
+                                          height: 40.h,
+                                          thickness: 1,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                ],
+                              ),
+                                          
+                              //earlier
+                              controllerNotification.notificationData!.data.other.isEmpty 
+                              ? SizedBox()
+                              : Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                        child: Text(
+                                          "Earlier",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: controllerNotification.notificationData!.data.other.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        final data = controllerNotification.notificationData!.data.other[index];
+                                        String originalDate = data.readAt;
+                                                DateTime parsedDate =
+                                                    DateTime.parse(originalDate);
+                                                String formattedDate =
+                                                    DateFormat('d MMM y').format(parsedDate);
+                                        return NotificationCard(
+                                          imageUrl: data.image, 
+                                          title: data.title, 
+                                          msg: data.message, 
+                                          dateTime: formattedDate,
+                                        );
+                                        // );
+                                      },
+                                      separatorBuilder: (BuildContext context, int index) {
+                                        return Divider(
+                                          height: 40.h,
+                                          thickness: 1,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.h,
+                                  ),
+                                ],
+                              ),
+                                          
+                                          
+                                          
+                                              
+                            ],
+                          );
+                          
+                        }),
+                      ],
+                    ),
                   ),
                 )
 
@@ -276,5 +353,106 @@ class _NotificationState extends State<Notification> {
         //),
       ),
     );
+  }
+}
+
+class NotificationCard extends StatefulWidget {
+  String imageUrl;
+  String title;
+  String msg;
+  String dateTime;
+  NotificationCard({super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.msg,
+    required this.dateTime,
+  });
+
+  @override
+  State<NotificationCard> createState() => _NotificationCardState();
+}
+
+class _NotificationCardState extends State<NotificationCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // SvgPicture.asset(
+              //   // _data[index]['image']!,
+              //   "assets/images/Notification.svg",
+              //   width: 42,
+              //   height: 42,
+              //   fit: BoxFit.cover,
+              // ),
+              // NetworkImage("url"),
+              Image.network(ApiUrls.baseImageUrl + widget.imageUrl,
+                width: 42.w,
+                height: 42.w,
+                fit: BoxFit.cover,
+              ),
+              SizedBox(
+                width: 13.h,
+              ),
+              Expanded(
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        // _data[index]['title'] ?? "",
+                        // "Your feed is getting low!.",
+                        widget.title,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        // _data[index]['subtitle']!
+                        // data.message,
+                        widget.msg,
+                        style: TextStyle(
+                          color: Color(0xFF444444),
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 7.0),
+                  child: Text(
+                    // _data[index]['text']!,
+                    // formattedDate,
+                    widget.dateTime,
+                    style: TextStyle(
+                      color: Color(0xFF707070),
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+    
   }
 }
