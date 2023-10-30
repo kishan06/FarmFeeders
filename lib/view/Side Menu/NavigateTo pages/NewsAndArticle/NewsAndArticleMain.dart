@@ -1,15 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
-import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_button.dart';
 import 'package:farmfeeders/common/error_msg.dart';
 import 'package:farmfeeders/common/loading.dart';
 import 'package:farmfeeders/controller/news_article.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsCard.dart';
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -59,7 +56,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                   child: Icon(
                     Icons.bookmark_rounded,
                     size: 26.sp,
-                    color: Color(0xFF0E5F02),
+                    color: const Color(0xFF0E5F02),
                   ),
                 )),
             backgroundColor: Colors.white,
@@ -70,9 +67,9 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
           backgroundColor: Colors.white,
           body: GetBuilder<NewsArticleController>(builder: (builder) {
             return controllerNewsArticle.isLoading
-                ? Loading()
+                ? const Loading()
                 : controllerNewsArticle.newsArticlesData == null
-                    ? ErrorMsg()
+                    ? const ErrorMsg()
                     : NestedScrollView(
                         controller: _scrollviewcontroller,
                         headerSliverBuilder:
@@ -95,21 +92,23 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                               .newsArticlesData!.data.length
                                           : 5,
                                       itemBuilder: (context, index, realIndex) {
-                                        final cardData = controllerNewsArticle.newsArticlesData!.data[index];
+                                        final cardData = controllerNewsArticle
+                                            .newsArticlesData!.data[index];
                                         // final data = controllerNotification.notificationData!.data[index];
-                                  String originalDate = cardData.publishedDatetime;
-                                          DateTime parsedDate =
-                                              DateTime.parse(originalDate);
-                                          String formattedDate =
-                                              DateFormat('d MMM y').format(parsedDate);
+                                        String originalDate =
+                                            cardData.publishedDatetime;
+                                        DateTime parsedDate =
+                                            DateTime.parse(originalDate);
+                                        String formattedDate =
+                                            DateFormat('d MMM y')
+                                                .format(parsedDate);
                                         return CarouselCard(
                                             type: cardData.artCategory,
                                             title: cardData.title,
                                             // description: description,
                                             date: formattedDate,
                                             imageUrl: cardData.smallImageUrl,
-                                            bookmarked: cardData.bookmarked
-                                        );
+                                            bookmarked: cardData.bookmarked);
                                       },
                                       options: CarouselOptions(
                                           enlargeCenterPage: true,
@@ -184,9 +183,8 @@ class CarouselCard extends StatelessWidget {
         color: Colors.blue.shade100,
         borderRadius: BorderRadius.circular(15),
         image: DecorationImage(
-            image: 
-            NetworkImage(ApiUrls.baseImageUrl + imageUrl),
-            // AssetImage("assets/images/newsback.png"), 
+            image: NetworkImage(ApiUrls.baseImageUrl + imageUrl),
+            // AssetImage("assets/images/newsback.png"),
             fit: BoxFit.cover),
       ),
       child: Padding(
@@ -200,12 +198,13 @@ class CarouselCard extends StatelessWidget {
                   // height: 28.h,
                   // width: 70.w,
                   decoration: BoxDecoration(
-                    color: Color(0xFF80B918),
+                    color: const Color(0xFF80B918),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                       child: Text(
                         type,
                         style: TextStyle(
@@ -216,100 +215,90 @@ class CarouselCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Spacer(),
-                bookmarked 
-                
-                  ? Container(
-                      height: 40,
-                      child: SvgPicture.asset(
-                          "assets/images/save.svg"))
-                  : Container(
-                      height: 40,
-                      child:
-                          SvgPicture.asset("assets/images/saveblank.svg"))
+                const Spacer(),
+                bookmarked
+                    ? SizedBox(
+                        height: 40,
+                        child: SvgPicture.asset("assets/images/save.svg"))
+                    : SizedBox(
+                        height: 40,
+                        child: SvgPicture.asset("assets/images/saveblank.svg"))
               ],
             ),
-            Spacer(),
-            Container(
-              // color: AppColors.black.withOpacity(0.1),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      // Text(
-                      //   "ABCIreland",
-                      //   style: TextStyle(
-                      //       color: Color(0xFFEEEEEE),
-                      //       fontSize: 14.sp,
-                      //       fontWeight: FontWeight.w300),
-                      // ),
-                      // SizedBox(
-                      //   width: 5.w,
-                      // ),
-                      // CircleAvatar(
-                      //   backgroundColor: Color(0xFF80B918),
-                      //   radius: 7.r,
-                      //   child: Icon(
-                      //     Icons.check_rounded,
-                      //     color: Colors.white,
-                      //     size: 15.sp,
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   width: 10.w,
-                      // ),
-                      // Text(
-                      //   "• ",
-                      //   style: TextStyle(color: Colors.white, fontSize: 20.sp),
-                      // ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.h),
-                          color: Colors.black.withOpacity(0.5),
-
-                        ),
-                        // color: Colors.black.withOpacity(0.5),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          child: Text(
-                            date,
-                            style: TextStyle(
-                                color: Color(0xFFEEEEEE),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w300),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-
-                  sizedBoxHeight(5.h),
-                
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
+            const Spacer(),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    // Text(
+                    //   "ABCIreland",
+                    //   style: TextStyle(
+                    //       color: Color(0xFFEEEEEE),
+                    //       fontSize: 14.sp,
+                    //       fontWeight: FontWeight.w300),
+                    // ),
+                    // SizedBox(
+                    //   width: 5.w,
+                    // ),
+                    // CircleAvatar(
+                    //   backgroundColor: Color(0xFF80B918),
+                    //   radius: 7.r,
+                    //   child: Icon(
+                    //     Icons.check_rounded,
+                    //     color: Colors.white,
+                    //     size: 15.sp,
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 10.w,
+                    // ),
+                    // Text(
+                    //   "• ",
+                    //   style: TextStyle(color: Colors.white, fontSize: 20.sp),
+                    // ),
+                    Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.h),
                         color: Colors.black.withOpacity(0.5),
-
                       ),
+                      // color: Colors.black.withOpacity(0.5),
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.w),
-
-                        // padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          title,
-                          // "Sustainable Farming Boosts Yields, Preserves Soil",
+                          date,
                           style: TextStyle(
-                              color: Color(0xFFEEEEEE),
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
+                              color: const Color(0xFFEEEEEE),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w300),
                         ),
                       ),
+                    )
+                  ],
+                ),
+                sizedBoxHeight(5.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.h),
+                      color: Colors.black.withOpacity(0.5),
                     ),
-              )
-                ],
-              ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+
+                      // padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        title,
+                        // "Sustainable Farming Boosts Yields, Preserves Soil",
+                        style: TextStyle(
+                            color: const Color(0xFFEEEEEE),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
             // Align(
             //   alignment: Alignment.centerLeft,
@@ -322,12 +311,9 @@ class CarouselCard extends StatelessWidget {
             //         fontWeight: FontWeight.w500),
             //   ),
             // )
-       
           ],
         ),
       ),
     );
   }
 }
-
-

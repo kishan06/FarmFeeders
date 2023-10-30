@@ -4,7 +4,6 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/view/Home.dart';
-import 'package:farmfeeders/view/order.dart';
 import 'package:farmfeeders/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -159,7 +158,7 @@ class _SideMenuState extends State<SideMenu>
                                 ),
                         ),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
               ],
             ),
             bottomNavigationBar: isSideMenuClosed
@@ -229,11 +228,11 @@ class _SideMenuState extends State<SideMenu>
               ),
             ),
 
-            selectedIndex == index ? sizedBoxWidth(10.w) : SizedBox(),
+            selectedIndex == index ? sizedBoxWidth(10.w) : const SizedBox(),
             // /
             selectedIndex == index
                 ? textWhite16(bottomBarData[index]["label"])
-                : SizedBox()
+                : const SizedBox()
           ],
         ),
       ),

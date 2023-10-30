@@ -84,14 +84,14 @@ class _ContactUsState extends State<ContactUs> {
                         },
                         child: CircleAvatar(
                           radius: 20.h,
-                          backgroundColor: Color(0XFFF1F1F1),
+                          backgroundColor: const Color(0XFFF1F1F1),
                           child: Center(
                             child: Padding(
                               padding: EdgeInsets.only(left: 8.w),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 size: 25.h,
-                                color: Color(0XFF141414),
+                                color: const Color(0XFF141414),
                               ),
                             ),
                           ),
@@ -101,7 +101,7 @@ class _ContactUsState extends State<ContactUs> {
                       Text(
                         "Contact us",
                         style: TextStyle(
-                          color: Color(0XFF141414),
+                          color: const Color(0XFF141414),
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600,
                         ),
@@ -259,23 +259,23 @@ class _ContactUsState extends State<ContactUs> {
                           errorStyle: TextStyle(fontSize: 16.sp),
                           contentPadding: EdgeInsets.all(17.h),
                           filled: true,
-                          fillColor: Color(0xFFF1F1F1),
+                          fillColor: const Color(0xFFF1F1F1),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
                             borderSide: BorderSide(
-                                color: Color(0xFF707070).withOpacity(0),
+                                color: const Color(0xFF707070).withOpacity(0),
                                 width: 1),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
                             borderSide: BorderSide(
-                                color: Color(0xFF707070).withOpacity(0),
+                                color: const Color(0xFF707070).withOpacity(0),
                                 width: 1),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
                             borderSide: BorderSide(
-                                color: Color(0xFF707070).withOpacity(0),
+                                color: const Color(0xFF707070).withOpacity(0),
                                 width: 1),
                           ),
                           errorBorder: OutlineInputBorder(
@@ -368,21 +368,21 @@ class ContactTextformfield extends StatelessWidget {
           suffixIconConstraints: const BoxConstraints(),
           contentPadding: EdgeInsets.all(17.h),
           filled: true,
-          fillColor: Color(0xFFF1F1F1),
+          fillColor: const Color(0xFFF1F1F1),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
-            borderSide:
-                BorderSide(color: Color(0xFF707070).withOpacity(0), width: 1),
+            borderSide: BorderSide(
+                color: const Color(0xFF707070).withOpacity(0), width: 1),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
-            borderSide:
-                BorderSide(color: Color(0xFF707070).withOpacity(0), width: 1),
+            borderSide: BorderSide(
+                color: const Color(0xFF707070).withOpacity(0), width: 1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
-            borderSide:
-                BorderSide(color: Color(0xFF707070).withOpacity(0), width: 1),
+            borderSide: BorderSide(
+                color: const Color(0xFF707070).withOpacity(0), width: 1),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),

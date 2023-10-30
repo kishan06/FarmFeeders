@@ -41,14 +41,14 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                     },
                     child: CircleAvatar(
                       radius: 20.h,
-                      backgroundColor: Color(0XFFF1F1F1),
+                      backgroundColor: const Color(0XFFF1F1F1),
                       child: Center(
                         child: Padding(
                           padding: EdgeInsets.only(left: 8.w),
                           child: Icon(
                             Icons.arrow_back_ios,
                             size: 25.h,
-                            color: Color(0XFF141414),
+                            color: const Color(0XFF141414),
                           ),
                         ),
                       ),
@@ -58,7 +58,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                   Text(
                     "Connect With Experts",
                     style: TextStyle(
-                      color: Color(0XFF141414),
+                      color: const Color(0XFF141414),
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -73,38 +73,39 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                 length: 3,
                 child: Column(
                   children: <Widget>[
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border:
-                              Border.all(color: Color(0XFf0E5F02), width: 1)),
+                          border: Border.all(
+                              color: const Color(0XFf0E5F02), width: 1)),
                       child: ButtonsTabBar(
                         buttonMargin: EdgeInsets.zero,
-                        contentPadding: EdgeInsets.only(left: 28, right: 28),
+                        contentPadding:
+                            const EdgeInsets.only(left: 28, right: 28),
                         radius: 8,
-                        backgroundColor: Color(0XFf0E5F02),
+                        backgroundColor: const Color(0XFf0E5F02),
                         unselectedBorderColor: Colors.white,
                         //borderWidth: 1,
                         //borderColor: Color(0XFf0E5F02),
-                        unselectedBackgroundColor: Color(0xFFFFFFFF),
+                        unselectedBackgroundColor: const Color(0xFFFFFFFF),
                         unselectedLabelStyle:
-                            TextStyle(color: Color(0xFF0F0C0C)),
-                        labelStyle: TextStyle(
+                            const TextStyle(color: Color(0xFF0F0C0C)),
+                        labelStyle: const TextStyle(
                           color: Color(0xFFFFFFFF),
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
                         tabs: [
-                          Tab(
+                          const Tab(
                             text: "Advisor",
                           ),
-                          Tab(
+                          const Tab(
                             text: "Vets",
                           ),
-                          Tab(
+                          const Tab(
                             text: "Repairmen",
                           ),
                         ],
@@ -115,7 +116,8 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
                           return Center(
                               child: Text('Error: ${snapshot.error}'));
@@ -137,7 +139,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                 // List of Advisors
                                 ListView.builder(
                                   scrollDirection: Axis.vertical,
-                                  physics: ScrollPhysics(),
+                                  physics: const ScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: advisors.length,
                                   itemBuilder: (context, index) {
@@ -151,13 +153,14 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                   horizontal: 15),
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(15)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(15)),
                                               border: Border.all(
-                                                  color: Color(0XFf0E5F02)
+                                                  color: const Color(0XFf0E5F02)
                                                       .withOpacity(1),
                                                   width: 1),
-                                              color: Color(0xFFFFFFFF),
+                                              color: const Color(0xFFFFFFFF),
                                             ),
                                             child: Column(
                                               children: [
@@ -238,7 +241,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                   // "0225845855",
                                                                   style:
                                                                       TextStyle(
-                                                                    color: Color(
+                                                                    color: const Color(
                                                                         0XFF585858),
                                                                     fontSize:
                                                                         16.sp,
@@ -280,7 +283,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                     // "Canada",
                                                                     style:
                                                                         TextStyle(
-                                                                      color: Color(
+                                                                      color: const Color(
                                                                           0XFF585858),
                                                                       fontSize:
                                                                           16.sp,
@@ -315,16 +318,16 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                         radius:
                                                                             25.h,
                                                                         backgroundColor:
-                                                                            Color(0XFFF1F1F1),
+                                                                            const Color(0XFFF1F1F1),
                                                                         child:
-                                                                            Icon(
+                                                                            const Icon(
                                                                           Icons
                                                                               .star,
                                                                           color:
                                                                               Colors.amber,
                                                                         ),
                                                                       )
-                                                                    : Icon(
+                                                                    : const Icon(
                                                                         Icons
                                                                             .star_border,
                                                                         color: Color(
@@ -361,7 +364,8 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                   ),
                                                                   height: 40,
                                                                   width: 60,
-                                                                  child: Center(
+                                                                  child:
+                                                                      const Center(
                                                                     child: Text(
                                                                       "Call",
                                                                       style: TextStyle(
@@ -430,13 +434,14 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                   horizontal: 15),
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(15)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(15)),
                                               border: Border.all(
-                                                  color: Color(0XFf0E5F02)
+                                                  color: const Color(0XFf0E5F02)
                                                       .withOpacity(1),
                                                   width: 1),
-                                              color: Color(0xFFFFFFFF),
+                                              color: const Color(0xFFFFFFFF),
                                             ),
                                             child: Column(
                                               children: [
@@ -517,7 +522,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                   // "0225845855",
                                                                   style:
                                                                       TextStyle(
-                                                                    color: Color(
+                                                                    color: const Color(
                                                                         0XFF585858),
                                                                     fontSize:
                                                                         16.sp,
@@ -559,7 +564,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                     // "Canada",
                                                                     style:
                                                                         TextStyle(
-                                                                      color: Color(
+                                                                      color: const Color(
                                                                           0XFF585858),
                                                                       fontSize:
                                                                           16.sp,
@@ -593,16 +598,16 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                         radius:
                                                                             25.h,
                                                                         backgroundColor:
-                                                                            Color(0XFFF1F1F1),
+                                                                            const Color(0XFFF1F1F1),
                                                                         child:
-                                                                            Icon(
+                                                                            const Icon(
                                                                           Icons
                                                                               .star,
                                                                           color:
                                                                               Colors.amber,
                                                                         ),
                                                                       )
-                                                                    : Icon(
+                                                                    : const Icon(
                                                                         Icons
                                                                             .star_border,
                                                                         color: Color(
@@ -639,7 +644,8 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                   ),
                                                                   height: 40,
                                                                   width: 60,
-                                                                  child: Center(
+                                                                  child:
+                                                                      const Center(
                                                                     child: Text(
                                                                       "Call",
                                                                       style: TextStyle(
@@ -701,13 +707,14 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                   horizontal: 15),
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(15)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(15)),
                                               border: Border.all(
-                                                  color: Color(0XFf0E5F02)
+                                                  color: const Color(0XFf0E5F02)
                                                       .withOpacity(1),
                                                   width: 1),
-                                              color: Color(0xFFFFFFFF),
+                                              color: const Color(0xFFFFFFFF),
                                             ),
                                             child: Column(
                                               children: [
@@ -788,7 +795,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                   // "0225845855",
                                                                   style:
                                                                       TextStyle(
-                                                                    color: Color(
+                                                                    color: const Color(
                                                                         0XFF585858),
                                                                     fontSize:
                                                                         16.sp,
@@ -830,7 +837,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                     // "Canada",
                                                                     style:
                                                                         TextStyle(
-                                                                      color: Color(
+                                                                      color: const Color(
                                                                           0XFF585858),
                                                                       fontSize:
                                                                           16.sp,
@@ -865,16 +872,16 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                         radius:
                                                                             25.h,
                                                                         backgroundColor:
-                                                                            Color(0XFFF1F1F1),
+                                                                            const Color(0XFFF1F1F1),
                                                                         child:
-                                                                            Icon(
+                                                                            const Icon(
                                                                           Icons
                                                                               .star,
                                                                           color:
                                                                               Colors.amber,
                                                                         ),
                                                                       )
-                                                                    : Icon(
+                                                                    : const Icon(
                                                                         Icons
                                                                             .star_border,
                                                                         color: Color(
@@ -911,7 +918,8 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                   ),
                                                                   height: 40,
                                                                   width: 60,
-                                                                  child: Center(
+                                                                  child:
+                                                                      const Center(
                                                                     child: Text(
                                                                       "Call",
                                                                       style: TextStyle(
@@ -962,7 +970,8 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                             ),
                           );
                         } else {
-                          return Center(child: Text('Failed to load data.'));
+                          return const Center(
+                              child: Text('Failed to load data.'));
                         }
                       },
                     ),
@@ -1001,13 +1010,15 @@ class _FirstTabState extends State<FirstTab> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AlertDialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
             //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               side: BorderSide(
-                  color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
             ),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -1068,7 +1079,7 @@ class _FirstTabState extends State<FirstTab> {
                         height: 48.h,
                         width: 140.w,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Color(0XFF0E5F02)),
+                            border: Border.all(color: const Color(0XFF0E5F02)),
                             borderRadius: BorderRadius.circular(10.h),
                             color: AppColors.white),
                         child: Center(
@@ -1097,13 +1108,15 @@ class _FirstTabState extends State<FirstTab> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AlertDialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
-            contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
+            contentPadding: const EdgeInsets.fromLTRB(96, 32, 96, 28),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               side: BorderSide(
-                  color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
             ),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -1137,7 +1150,7 @@ class _FirstTabState extends State<FirstTab> {
                     Text(
                       "0225845855",
                       style: TextStyle(
-                        color: Color(0XFF585858),
+                        color: const Color(0XFF585858),
                         fontSize: 20.sp,
                       ),
                     )
@@ -1155,7 +1168,7 @@ class _FirstTabState extends State<FirstTab> {
                     Text(
                       "Canada",
                       style: TextStyle(
-                        color: Color(0XFF585858),
+                        color: const Color(0XFF585858),
                         fontSize: 20.sp,
                       ),
                     )
@@ -1210,7 +1223,7 @@ class _FirstTabState extends State<FirstTab> {
                 return sizedBoxHeight(15.h);
               },
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: expertData.length,
               itemBuilder: (context, index) {
                 return Column(
@@ -1238,9 +1251,10 @@ class _FirstTabState extends State<FirstTab> {
       dynamic location, int index, int isConnect) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        border: Border.all(color: Color(0XFf0E5F02).withOpacity(1), width: 1),
-        color: Color(0xFFFFFFFF),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        border:
+            Border.all(color: const Color(0XFf0E5F02).withOpacity(1), width: 1),
+        color: const Color(0xFFFFFFFF),
       ),
       child: Column(
         children: [
@@ -1299,7 +1313,7 @@ class _FirstTabState extends State<FirstTab> {
                             text: number,
                             // "0225845855",
                             style: TextStyle(
-                              color: Color(0XFF585858),
+                              color: const Color(0XFF585858),
                               fontSize: 16.sp,
                             ),
                           ),
@@ -1323,7 +1337,7 @@ class _FirstTabState extends State<FirstTab> {
                             text: location,
                             // "Canada",
                             style: TextStyle(
-                              color: Color(0XFF585858),
+                              color: const Color(0XFF585858),
                               fontSize: 16.sp,
                             ),
                           ),
@@ -1342,13 +1356,13 @@ class _FirstTabState extends State<FirstTab> {
                       // _isChecked
                       ? CircleAvatar(
                           radius: 25.h,
-                          backgroundColor: Color(0XFFF1F1F1),
-                          child: Icon(
+                          backgroundColor: const Color(0XFFF1F1F1),
+                          child: const Icon(
                             Icons.star,
                             color: Colors.amber,
                           ),
                         )
-                      : Icon(
+                      : const Icon(
                           Icons.star_border,
                           color: Color(0XFF707070),
                         ),
