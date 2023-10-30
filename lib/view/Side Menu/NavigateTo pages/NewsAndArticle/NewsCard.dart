@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/controller/news_article.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsData.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class newsCard extends StatefulWidget {
   // String type;
@@ -62,12 +65,22 @@ class _newsState extends State<newsCard> {
                     DateFormat('d MMM y').format(parsedDate);
                 return Column(
                   children: [
-                    newslistCard(
-                        imageUrl: cardData.smallImageUrl,
-                        type: cardData.artCategory,
-                        title: cardData.title,
-                        date: formattedDate,
-                        bookmarked: cardData.bookmarked)
+                    InkWell(
+                      onTap: () async {
+                        print("preeesd");
+                        log(cardData.smallDescription);
+
+                          await launchUrl(Uri.parse(  cardData.smallDescription)
+                            );
+
+                      },
+                      child: newslistCard(
+                          imageUrl: cardData.smallImageUrl,
+                          type: cardData.artCategory,
+                          title: cardData.title,
+                          date: formattedDate,
+                          bookmarked: cardData.bookmarked),
+                    )
                     // newslistCard(
                     //   newsData[index]["recipeimage"],
                     //   newsData[index]["title"],
