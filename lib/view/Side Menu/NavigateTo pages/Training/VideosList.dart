@@ -73,7 +73,9 @@ class _VideosListState extends State<VideosList> {
                           onTap: () {
                             Get.toNamed("/videosdetails", arguments: {
                               "videourl": videoData.videoUrl,
-                              "publisheddate": videoData.publishedDatetime
+                              "title": videoData.title,
+                              "publisheddate": videoData.publishedDatetime,
+                              "videoId": videoData.id
                             });
                           },
                           child: Container(

@@ -5,7 +5,10 @@ import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/models/NotesModel.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/addNote.dart';
+import 'package:farmfeeders/view_models/DeleteNotesAPI.dart';
+import 'package:farmfeeders/view_models/NotesListAPI.dart';
 import 'package:farmfeeders/view_models/TrainingNotesAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +30,9 @@ class _VideosDetailsState extends State<VideosDetails> {
   late VideoPlayerController videoController;
   final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
   String? videourl;
+  String? title;
   String? Time;
+  int? videoId;
 
   @override
   void initState() {
@@ -36,6 +41,8 @@ class _VideosDetailsState extends State<VideosDetails> {
 
     videourl = Get.arguments["videourl"];
     Time = Get.arguments["publisheddate"];
+    videoId = Get.arguments["videoId"];
+    title = Get.arguments["title"];
     VideosDetails();
     NotesData;
     videoController = VideoPlayerController.network(
@@ -165,7 +172,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                       if (isValid!) {
                         Utils.loader();
                         TrainingNotesApi().addNotesApi(map: {
-                          "id": 2,
+                          "id": videoId,
                           "title": _titleController.text,
                           "description": _contentController.text,
                         }).then((value) {
@@ -173,6 +180,9 @@ class _VideosDetailsState extends State<VideosDetails> {
                           _contentController.clear();
                           Get.back();
                           Get.back();
+                          setState(() {
+                            NotesListAPI(videoId).noteslistApi();
+                          });
                         });
                       }
                     },
@@ -234,7 +244,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                       ),
                   sizedBoxHeight(15.h),
                   Text(
-                    'Animal Husbandry And Management',
+                    title ?? "",
                     style: TextStyle(
                         color: const Color(0xff4D4D4D),
                         fontSize: 18.sp,
@@ -253,27 +263,221 @@ class _VideosDetailsState extends State<VideosDetails> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: ListView.builder(
-                  itemCount: NotesData.length,
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        addNotes(
-                          NotesData[index]["id"],
-                          NotesData[index]["Content"].toString(),
-                          NotesData[index]["title"].toString(),
-                          NotesData[index]["time"],
-                          index,
-                        ),
-                        sizedBoxHeight(12.h),
-                      ],
-                    );
+                child: FutureBuilder<NotesModel>(
+                  future: NotesListAPI(videoId).noteslistApi(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData ||
+                        snapshot.data!.data == null) {
+                      return Center(child: Text('No data available'));
+                    } else {
+                      final NotesData = snapshot.data!.data!;
+                      return ListView.builder(
+                        itemCount: NotesData.length,
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(8.w),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xFFF1F1F1),
+                                    borderRadius: BorderRadius.circular(10.r)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 5.r,
+                                          backgroundColor:
+                                              const Color(0xff0E5F02),
+                                        ),
+                                        sizedBoxWidth(11.w),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            RichText(
+                                              text: TextSpan(
+                                                // 'Lorem Ipsum Is Simple Dummy',
+                                                text: NotesData.elementAt(index)
+                                                    .title,
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                            sizedBoxHeight(5.h),
+                                            RichText(
+                                              text: TextSpan(
+                                                //'Text of the printing and typesetting Industry',
+                                                text: NotesData.elementAt(index)
+                                                    .description!,
+                                                style: TextStyle(
+                                                  fontSize: 13.sp,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                            sizedBoxHeight(5.h),
+                                            RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    // '5:30 pm',
+                                                    " Edited on : ${Utils.formattedTimeAgo(NotesData.elementAt(index).publishedDatetime ?? "")}",
+                                                style: TextStyle(
+                                                    fontSize: 13.sp,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            final result = await showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    icon: Icon(
+                                                      Icons.info,
+                                                      color: Color(0xFF0E5F02),
+                                                    ),
+                                                    title: Text(
+                                                      "Are you sure you want to delete?",
+                                                      style: TextStyle(
+                                                          color: Colors.black),
+                                                    ),
+                                                    content: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            DeleteNoteAPI(NotesData
+                                                                        .elementAt(
+                                                                            index)
+                                                                    .id)
+                                                                .deleteNoteApi();
+                                                            Get.back();
+                                                            setState(() {
+                                                              NotesListAPI(
+                                                                      videoId)
+                                                                  .noteslistApi();
+                                                            });
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                            backgroundColor:
+                                                                Color(
+                                                                    0xFF0E5F02),
+                                                          ),
+                                                          child: SizedBox(
+                                                            width: 60.w,
+                                                            child: Text(
+                                                              "Yes",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context, false);
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                                  side:
+                                                                      BorderSide(
+                                                                    color: Color(
+                                                                        0xFF0E5F02),
+                                                                  ),
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                  ),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .white),
+                                                          child: SizedBox(
+                                                            width: 60.w,
+                                                            child: Text(
+                                                              "No",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                color: Color(
+                                                                    0xFF0E5F02),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                });
+                                            if (result != null && result) {
+                                              deleteNote(index);
+                                            }
+                                          },
+                                          child: Icon(
+                                            Icons.delete_rounded,
+                                            size: 20.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              sizedBoxHeight(12.h),
+                            ],
+                          );
+                        },
+                        // separatorBuilder: (context, index) {
+                        //   return addNotes();
+                        // },
+                      );
+                    }
                   },
-                  // separatorBuilder: (context, index) {
-                  //   return addNotes();
-                  // },
                 ),
               ),
             ),
@@ -283,7 +487,7 @@ class _VideosDetailsState extends State<VideosDetails> {
     );
   }
 
-  Widget addNotes(
+  Widget Notes(
     int id,
     dynamic Content,
     dynamic title,
@@ -314,7 +518,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                   RichText(
                     text: TextSpan(
                       // 'Lorem Ipsum Is Simple Dummy',
-                      text: NotesData[index]["title"],
+                      text: NotesData.elementAt(index).title,
                       style: TextStyle(
                           fontSize: 16.sp,
                           color: Colors.black,
@@ -325,7 +529,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                   RichText(
                     text: TextSpan(
                       //'Text of the printing and typesetting Industry',
-                      text: NotesData[index]["Content"],
+                      text: NotesData.elementAt(index).description!,
                       style: TextStyle(
                         fontSize: 13.sp,
                         color: Colors.black,

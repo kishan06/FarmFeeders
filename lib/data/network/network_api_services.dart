@@ -160,4 +160,41 @@ class NetworkApiServices extends BaseApiServices {
       }
     }
   }
+
+  @override
+  Future<ResponseData> deleteApi(String url) async {
+    if (kDebugMode) {
+      print("api url is >>> $url");
+    }
+    Response response;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token').toString();
+    log(token);
+    try {
+      response = await dio.delete(url,
+          options: Options(headers: {
+            'authorization': "Bearer $token",
+
+            // "device-id": deviceId
+          }));
+    } on Exception catch (_) {
+      return ResponseData<dynamic>(
+          'Oops something Went Wrong', ResponseStatus.FAILED);
+    }
+    if (response.statusCode == 200) {
+      return ResponseData<dynamic>(
+        "success",
+        data: response.data,
+        ResponseStatus.SUCCESS,
+      );
+    } else {
+      try {
+        return ResponseData<dynamic>(
+            response.data['message'].toString(), ResponseStatus.FAILED);
+      } catch (_) {
+        return ResponseData<dynamic>(
+            response.statusMessage!, ResponseStatus.FAILED);
+      }
+    }
+  }
 }
