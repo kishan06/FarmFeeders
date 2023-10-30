@@ -145,6 +145,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                               Expanded(
                                   child: GestureDetector(
                                       onTap: () {
+                                      
                                         // Get.toNamed("/articledetails");
                                       },
                                       child: newsCard()))
