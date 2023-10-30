@@ -1402,20 +1402,12 @@ class _HomeState extends State<Home> {
                                         sizedBoxHeight(15.h),
                                         InkWell(
                                           onTap: () async {
-                                            if (await canLaunch(
+                                            await launchUrl(Uri.parse(
                                                 dashboardController
                                                     .dashboardModel
                                                     .data!
                                                     .article!
-                                                    .smallDescription!)) {
-                                              await launch(dashboardController
-                                                  .dashboardModel
-                                                  .data!
-                                                  .article!
-                                                  .smallDescription!);
-                                            } else {
-                                              throw 'Could not launch ${dashboardController.dashboardModel.data!.article!.smallDescription!}';
-                                            }
+                                                    .smallDescription!));
                                           },
                                           child: Row(
                                             crossAxisAlignment:
@@ -1464,9 +1456,10 @@ class _HomeState extends State<Home> {
                                                               FontWeight.w400,
                                                           color: const Color(
                                                               0xFF4D4D4D)),
-                                                    ),SizedBox(
-                    height: 5.h,
-                  ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5.h,
+                                                    ),
                                                     Text(
                                                       dashboardController
                                                           .dashboardModel
