@@ -100,7 +100,7 @@ class _addSubUserState extends State<addSubUser> {
                           SvgPicture.asset("assets/images/profileimage.svg"),
                       hintText: "Full Name",
                       validatorText: "Please Enter Full Name"),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -126,9 +126,9 @@ class _addSubUserState extends State<addSubUser> {
                       height: 60.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Color(0xFFF1F1F1),
+                        color: const Color(0xFFF1F1F1),
                         border: Border.all(
-                          color: Color(0xffF1F1F1),
+                          color: const Color(0xffF1F1F1),
                         ),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
@@ -149,7 +149,7 @@ class _addSubUserState extends State<addSubUser> {
                                   _selectedDate == null
                                       ? ''
                                       : '$subuserdatecontroller',
-                                  style: TextStyle(color: Colors.black),
+                                  style: const TextStyle(color: Colors.black),
                                 ),
                               ],
                             ),
@@ -158,7 +158,7 @@ class _addSubUserState extends State<addSubUser> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -191,7 +191,7 @@ class _addSubUserState extends State<addSubUser> {
                         return null;
                       },
                       validatorText: "Please Enter phone Number"),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -255,7 +255,7 @@ class _addSubUserState extends State<addSubUser> {
                         return null;
                       },
                       validatorText: "please Enter Address"),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -270,28 +270,28 @@ class _addSubUserState extends State<addSubUser> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
                     height: 32,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Color(0xFFF1F1F1),
+                        color: const Color(0xFFF1F1F1),
                         borderRadius: BorderRadius.circular(8)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         children: [
-                          Text(
+                          const Text(
                             "Orders",
                             style: TextStyle(
                                 fontSize: 18, color: Color(0xFF4D4D4D)),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xFF0E5F02),
+                            activeColor: const Color(0xFF0E5F02),
                             value: isChecked,
                             onChanged: (bool? value) {
                               setState(() {
@@ -303,28 +303,28 @@ class _addSubUserState extends State<addSubUser> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 6,
                   ),
                   Container(
                     height: 32,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Color(0xFFF1F1F1),
+                        color: const Color(0xFFF1F1F1),
                         borderRadius: BorderRadius.circular(8)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         children: [
-                          Text(
+                          const Text(
                             "Livestock",
                             style: TextStyle(
                                 fontSize: 18, color: Color(0xFF4D4D4D)),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xFF0E5F02),
+                            activeColor: const Color(0xFF0E5F02),
                             value: isChecked1,
                             onChanged: (bool? value) {
                               setState(() {
@@ -336,28 +336,28 @@ class _addSubUserState extends State<addSubUser> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 6,
                   ),
                   Container(
                     height: 32,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Color(0xFFF1F1F1),
+                        color: const Color(0xFFF1F1F1),
                         borderRadius: BorderRadius.circular(8)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         children: [
-                          Text(
+                          const Text(
                             "Feed",
                             style: TextStyle(
                                 fontSize: 18, color: Color(0xFF4D4D4D)),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Checkbox(
                             checkColor: Colors.white,
-                            activeColor: Color(0xFF0E5F02),
+                            activeColor: const Color(0xFF0E5F02),
                             value: isChecked2,
                             onChanged: (bool? value) {
                               setState(() {
@@ -369,7 +369,7 @@ class _addSubUserState extends State<addSubUser> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   customButton(

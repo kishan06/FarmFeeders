@@ -13,31 +13,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/live_stock_model.dart';
 
 class FeedInfoContro extends GetxController {
-  final tecCurrentFeed = TextEditingController();
-  final tecQuantity = TextEditingController();
-  final tecMin = TextEditingController();
-  final tecMax = TextEditingController();
-
-  String? selectedFeedType;
-  int? selectedFeedTypeIndex;
-
-  String? selectedFrequency;
-  int? selectedFrequencyIndex;
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
   FeedDropDownInfo? _feedDropdownData;
   FeedDropDownInfo? get feedDropdownData => _feedDropdownData;
-
-  // List _feedType = [
-  //   {"titleText": "Dairy", "imagePath": "assets/images/dairy.png", "Updated": false},
-  //   {"titleText": "Beef", "imagePath": "assets/images/beef.svg", "Updated": false},
-  //   {"titleText": "Sheep", "imagePath": "assets/images/sheep.svg", "Updated": false},
-  //   {"titleText": "Pig", "imagePath": "assets/images/pig.svg", "Updated": false},
-  //   {"titleText": "Poultry", "imagePath": "assets/images/poultry.svg", "Updated": false},
-  // ];
-
-  // List get feedType => _feedType;
 
   changeUpdated(int index) {
     print("preesed");

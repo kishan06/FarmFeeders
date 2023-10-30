@@ -116,15 +116,12 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
                                             // final liveStockData = feedInfoController
                                             return Column(
                                               children: [
-                                                // FeedContainer(),
                                                 FeedContainer(
                                                   titleText: feedLivestockModel
                                                       .data![index].name!,
-                                                  // feedInfoController.feedType[index]["titleText"],
                                                   imagePath: feedLivestockModel
                                                       .data![index]
                                                       .smallImageUrl!,
-                                                  // feedInfoController.feedType[index]["imagePath"],
                                                   index: index,
                                                   updated: false,
                                                   feedId: feedLivestockModel
@@ -184,6 +181,17 @@ class _FeedContainerState extends State<FeedContainer> {
   bool buttonPressed = false;
   RxBool isLoading = false.obs;
 
+  final tecCurrentFeed = TextEditingController();
+  final tecQuantity = TextEditingController();
+  final tecMin = TextEditingController();
+  final tecMax = TextEditingController();
+
+  String? selectedFeedType;
+  int? selectedFeedTypeIndex;
+
+  String? selectedFrequency;
+  int? selectedFrequencyIndex;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -212,8 +220,8 @@ class _FeedContainerState extends State<FeedContainer> {
                     if (i.id ==
                         feedInfoController
                             .feedDropdownData!.data.feed!.feedTypeXid) {
-                      feedInfoController.selectedFeedType = i.name;
-                      feedInfoController.selectedFeedTypeIndex = i.id;
+                      selectedFeedType = i.name;
+                      selectedFeedTypeIndex = i.id;
                     }
                   }
 
@@ -222,32 +230,32 @@ class _FeedContainerState extends State<FeedContainer> {
                     if (i.id ==
                         feedInfoController
                             .feedDropdownData!.data.feed!.feedFrequencyXid) {
-                      feedInfoController.selectedFrequency = i.name;
-                      feedInfoController.selectedFrequencyIndex = i.id;
+                      selectedFrequency = i.name;
+                      selectedFrequencyIndex = i.id;
                     }
                   }
 
-                  feedInfoController.tecCurrentFeed.text = feedInfoController
+                  tecCurrentFeed.text = feedInfoController
                       .feedDropdownData!.data.feed!.currentFeedAvailable!
                       .toString();
-                  feedInfoController.tecQuantity.text = feedInfoController
+                  tecQuantity.text = feedInfoController
                       .feedDropdownData!.data.feed!.qtyPerSeed!
                       .toString();
-                  feedInfoController.tecMin.text = feedInfoController
+                  tecMin.text = feedInfoController
                       .feedDropdownData!.data.feed!.minBinCapacity!
                       .toString();
-                  feedInfoController.tecMax.text = feedInfoController
+                  tecMax.text = feedInfoController
                       .feedDropdownData!.data.feed!.maxBinCapacity!
                       .toString();
                 } else {
-                  feedInfoController.selectedFrequencyIndex = null;
-                  feedInfoController.selectedFeedTypeIndex = null;
-                  feedInfoController.selectedFeedType = null;
-                  feedInfoController.selectedFrequency = null;
-                  feedInfoController.tecCurrentFeed.clear();
-                  feedInfoController.tecMax.clear();
-                  feedInfoController.tecMin.clear();
-                  feedInfoController.tecQuantity.clear();
+                  selectedFrequencyIndex = null;
+                  selectedFeedTypeIndex = null;
+                  selectedFeedType = null;
+                  selectedFrequency = null;
+                  tecCurrentFeed.clear();
+                  tecMax.clear();
+                  tecMin.clear();
+                  tecQuantity.clear();
                 }
                 isLoading.value = false;
               });
@@ -266,24 +274,6 @@ class _FeedContainerState extends State<FeedContainer> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // widget.index == 0
-              // ? Image.asset(
-              //   widget.imagePath,
-              //   // "assets/images/FeedContainer.png",
-              //   width: 59.w,
-              //   height: 42.h,
-              // )
-              // :SizedBox(
-              //   width: 59.w,
-              //   height: 42.h,
-              //   child: SvgPicture.asset(
-              //     widget.imagePath,
-              //     // "assets/images/poultry.svg",
-              //     // width: 59.w,
-              //     // height: 42.h,
-              //   ),
-              // ),
-              // NetworkImage(widget.imagePath),
               Image.network(
                 (ApiUrls.baseImageUrl + widget.imagePath),
                 width: 59.w,
@@ -294,7 +284,6 @@ class _FeedContainerState extends State<FeedContainer> {
               ),
               sizedBoxWidth(19.w),
               Text(
-                // "FeedContainer",
                 widget.titleText,
                 style: TextStyle(
                     color: AppColors.black,
@@ -337,8 +326,7 @@ class _FeedContainerState extends State<FeedContainer> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Feedtextformfield(
-                                textEditingController:
-                                    feedInfoController.tecCurrentFeed,
+                                textEditingController: tecCurrentFeed,
                                 hintText: "",
                                 texttype: TextInputType.number,
                                 validatorText: "Please Enter Feed",
@@ -393,10 +381,8 @@ class _FeedContainerState extends State<FeedContainer> {
                                       value: e.name,
                                       onTap: () {
                                         setState(() {
-                                          feedInfoController.selectedFeedType =
-                                              e.name;
-                                          feedInfoController
-                                              .selectedFeedTypeIndex = e.id;
+                                          selectedFeedType = e.name;
+                                          selectedFeedTypeIndex = e.id;
                                         });
                                       },
                                       child: Text(
@@ -410,7 +396,7 @@ class _FeedContainerState extends State<FeedContainer> {
                                       ),
                                     ))
                                 .toList(),
-                            value: feedInfoController.selectedFeedType,
+                            value: selectedFeedType,
                           ),
 
                           sizedBoxHeight(30.h),
@@ -442,10 +428,8 @@ class _FeedContainerState extends State<FeedContainer> {
                                       value: e.name,
                                       onTap: () {
                                         setState(() {
-                                          feedInfoController.selectedFrequency =
-                                              e.name;
-                                          feedInfoController
-                                              .selectedFrequencyIndex = e.id;
+                                          selectedFrequency = e.name;
+                                          selectedFrequencyIndex = e.id;
                                         });
                                         // selectedBreed = e.name;
                                         // liveStockInfoController
@@ -463,7 +447,7 @@ class _FeedContainerState extends State<FeedContainer> {
                                       ),
                                     ))
                                 .toList(),
-                            value: feedInfoController.selectedFrequency,
+                            value: selectedFrequency,
                             // liveStockInfoController.liveStockData!.data.ageList
                             // [
                             //   "<2 Yrs",
@@ -498,8 +482,7 @@ class _FeedContainerState extends State<FeedContainer> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Feedtextformfield(
-                                textEditingController:
-                                    feedInfoController.tecQuantity,
+                                textEditingController: tecQuantity,
                                 hintText: "",
                                 validatorText: "Please Enter Quantity",
                                 texttype: TextInputType.number,
@@ -568,7 +551,7 @@ class _FeedContainerState extends State<FeedContainer> {
                                     width: 107.w,
                                     // height: 46.h,
                                     child: TextFormField(
-                                      controller: feedInfoController.tecMin,
+                                      controller: tecMin,
                                       textAlignVertical:
                                           TextAlignVertical.center,
                                       style: TextStyle(
@@ -618,7 +601,7 @@ class _FeedContainerState extends State<FeedContainer> {
                                     width: 107.w,
                                     // height: 46.h,
                                     child: TextFormField(
-                                      controller: feedInfoController.tecMax,
+                                      controller: tecMax,
                                       textAlignVertical:
                                           TextAlignVertical.center,
                                       style: TextStyle(
@@ -677,20 +660,14 @@ class _FeedContainerState extends State<FeedContainer> {
                                           .setApiFarmFeed(map: {
                                         'livestock_type':
                                             widget.feedId.toString(),
-                                        'current_feed': feedInfoController
-                                            .tecCurrentFeed.text,
-                                        'feed_type': feedInfoController
-                                            .selectedFeedTypeIndex
-                                            .toString(),
-                                        'feed_frequency': feedInfoController
-                                            .selectedFrequencyIndex
-                                            .toString(),
-                                        'qty_per_seed':
-                                            feedInfoController.tecQuantity.text,
-                                        'min_capacity':
-                                            feedInfoController.tecMin.text,
-                                        'max_capacity':
-                                            feedInfoController.tecMax.text
+                                        'current_feed': tecCurrentFeed.text,
+                                        'feed_type':
+                                            selectedFeedTypeIndex.toString(),
+                                        'feed_frequency':
+                                            selectedFrequencyIndex.toString(),
+                                        'qty_per_seed': tecQuantity.text,
+                                        'min_capacity': tecMin.text,
+                                        'max_capacity': tecMax.text
                                       });
                                       if (resp!) {
                                         commonFlushBar(context,
@@ -713,16 +690,11 @@ class _FeedContainerState extends State<FeedContainer> {
                                       // isSetFeedInfo = true;
                                       // Get.to(LetsSetUpYourFarm())
                                       // Get.toNamed("/letsSetUpYourFarm");
-                                    } else if ((feedInfoController
-                                                .selectedFeedTypeIndex ==
+                                    } else if ((selectedFeedTypeIndex ==
                                             null) ||
-                                        (feedInfoController
-                                                .selectedFrequencyIndex ==
-                                            null) ||
-                                        (feedInfoController
-                                            .tecMin.text.isEmpty) ||
-                                        (feedInfoController
-                                            .tecMax.text.isEmpty)) {
+                                        (selectedFrequencyIndex == null) ||
+                                        (tecMin.text.isEmpty) ||
+                                        (tecMax.text.isEmpty)) {
                                       Flushbar(
                                         message: "Please fill all fields",
                                         duration: const Duration(seconds: 3),

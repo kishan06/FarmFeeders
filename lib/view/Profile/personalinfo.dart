@@ -120,7 +120,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       builder: (context, child) {
         return Theme(
             data: Theme.of(context).copyWith(
-              colorScheme: ColorScheme.light(
+              colorScheme: const ColorScheme.light(
                 primary: AppColors.buttoncolour,
                 onPrimary: AppColors.white,
                 onSurface: Colors.blueAccent,
@@ -171,7 +171,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 Text(
                   'Profile Photo',
                   style: TextStyle(
-                      color: Color(0xff444444),
+                      color: const Color(0xff444444),
                       fontSize: 22.sp,
                       fontFamily: 'Poppins'),
                 ),
@@ -189,7 +189,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         children: [
                           CircleAvatar(
                             radius: 27.r,
-                            backgroundColor: Color(0xff143C6D),
+                            backgroundColor: const Color(0xff143C6D),
                             child: Icon(
                               Icons.camera_alt_outlined,
                               size: 30.sp,
@@ -203,7 +203,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             'Camera',
                             style: TextStyle(
                                 fontSize: 13.sp,
-                                color: Color(0xff444444),
+                                color: const Color(0xff444444),
                                 fontFamily: 'Poppins'),
                           )
                         ],
@@ -219,7 +219,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         children: [
                           CircleAvatar(
                             radius: 27.r,
-                            backgroundColor: Color(0xff143C6D),
+                            backgroundColor: const Color(0xff143C6D),
                             child: Icon(
                               Icons.image_outlined,
                               size: 30.sp,
@@ -233,7 +233,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             'Gallery',
                             style: TextStyle(
                                 fontSize: 13.sp,
-                                color: Color(0xff444444),
+                                color: const Color(0xff444444),
                                 fontFamily: 'Poppins'),
                           )
                         ],
@@ -267,14 +267,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     },
                     child: CircleAvatar(
                       radius: 20.h,
-                      backgroundColor: Color(0XFFF1F1F1),
+                      backgroundColor: const Color(0XFFF1F1F1),
                       child: Center(
                         child: Padding(
                           padding: EdgeInsets.only(left: 8.w),
                           child: Icon(
                             Icons.arrow_back_ios,
                             size: 25.h,
-                            color: Color(0XFF141414),
+                            color: const Color(0XFF141414),
                           ),
                         ),
                       ),
@@ -284,7 +284,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   Text(
                     "Personal Information",
                     style: TextStyle(
-                      color: Color(0XFF141414),
+                      color: const Color(0XFF141414),
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -345,10 +345,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                     },
                                     child: Material(
                                       elevation: 1,
-                                      shape: CircleBorder(),
+                                      shape: const CircleBorder(),
                                       child: CircleAvatar(
                                           radius: 16.5.r,
-                                          backgroundColor: Color(0XFF0E5F02),
+                                          backgroundColor:
+                                              const Color(0XFF0E5F02),
                                           child: SvgPicture.asset(
                                             "assets/images/camera-svgrepo-com.svg",
                                             width: 20.w,
@@ -370,7 +371,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 18.sp,
-                              color: Color(0XFF141414)),
+                              color: const Color(0XFF141414)),
                         ),
                         CustomTextFormField(
                           textEditingController: nameController,
@@ -395,7 +396,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 18.sp,
-                              color: Color(0XFF141414)),
+                              color: const Color(0XFF141414)),
                         ),
                         Personaldatepicker(
                           validator: (value) {
@@ -413,7 +414,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 18.sp,
-                              color: Color(0XFF141414)),
+                              color: const Color(0XFF141414)),
                         ),
                         CustomTextFormField(
                           inputFormatters: [
@@ -437,7 +438,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 18.sp,
-                              color: Color(0XFF141414)),
+                              color: const Color(0XFF141414)),
                         ),
                         CustomTextFormField(
                           readonly: true,
@@ -578,27 +579,27 @@ class Personaldatepicker extends StatelessWidget {
       controller: datecontroller,
       onTap: (() => ontap()),
       readOnly: true,
-      cursorColor: Color(0xFF3B3F43),
+      cursorColor: const Color(0xFF3B3F43),
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
           errorStyle: TextStyle(fontSize: 14.sp),
           contentPadding: EdgeInsets.all(17.h),
           filled: true,
-          fillColor: Color(0xFFF1F1F1),
+          fillColor: const Color(0xFFF1F1F1),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
-            borderSide:
-                BorderSide(color: Color(0xFF707070).withOpacity(0), width: 1),
+            borderSide: BorderSide(
+                color: const Color(0xFF707070).withOpacity(0), width: 1),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
-            borderSide:
-                BorderSide(color: Color(0xFF707070).withOpacity(0), width: 1),
+            borderSide: BorderSide(
+                color: const Color(0xFF707070).withOpacity(0), width: 1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
-            borderSide:
-                BorderSide(color: Color(0xFF707070).withOpacity(0), width: 1),
+            borderSide: BorderSide(
+                color: const Color(0xFF707070).withOpacity(0), width: 1),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -634,7 +635,7 @@ class Personaldatepicker extends StatelessWidget {
               fontWeight: FontWeight.w400,
               color: Get.isDarkMode
                   ? Colors.white
-                  : Color(0xFF4D4D4D).withOpacity(0.3)),
+                  : const Color(0xFF4D4D4D).withOpacity(0.3)),
           hintText: "Select Date"),
     );
   }

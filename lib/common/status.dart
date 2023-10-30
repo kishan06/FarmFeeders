@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../Utils/colors.dart';
@@ -23,5 +22,3 @@ Widget status() {
     ],
   );
 }
-
-

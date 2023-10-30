@@ -35,14 +35,14 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                       },
                       child: CircleAvatar(
                           radius: 20.h,
-                          backgroundColor: Color(0XFFF1F1F1),
+                          backgroundColor: const Color(0XFFF1F1F1),
                           child: Center(
                             child: Padding(
                               padding: EdgeInsets.only(left: 8.w),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 size: 25.h,
-                                color: Color(0xFF141414),
+                                color: const Color(0xFF141414),
                               ),
                             ),
                           )),
@@ -53,11 +53,11 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                     Text(
                       "Notification Settings",
                       style: TextStyle(
-                          color: Color(0xFF141414),
+                          color: const Color(0xFF141414),
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Container(
                       height: 42.h,
                       width: 42.h,
@@ -69,7 +69,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                               color: Colors.grey.shade400,
                               blurRadius: 1.h,
                               spreadRadius: 1.h,
-                              offset: Offset(0, 3),
+                              offset: const Offset(0, 3),
                             )
                           ]),
                       child: Row(
@@ -135,13 +135,13 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                 statecontroller: state,
                 //sizefactor: MediaQuery.of(context).size.width * 0.4,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Divider(
+              const Divider(
                 thickness: 1,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               CustomListTile(
@@ -149,13 +149,13 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                 statecontroller: fingerstate,
                 // sizefactor: MediaQuery.of(context).size.width * 0.39,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Divider(
+              const Divider(
                 thickness: 1,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               CustomListTile(
@@ -163,13 +163,13 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                 statecontroller: fingerstate,
                 //sizefactor: MediaQuery.of(context).size.width * 0.4,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Divider(
+              const Divider(
                 thickness: 1,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               CustomListTile(
@@ -222,7 +222,7 @@ class _CustomListTileState extends State<CustomListTile> {
                 // color: Color(0XFF4D4D4D),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             FlutterSwitch(
               switchBorder: Border.all(
                 strokeAlign: BorderSide.strokeAlignCenter,
@@ -232,10 +232,10 @@ class _CustomListTileState extends State<CustomListTile> {
               ),
               width: 50.0,
               height: 25.0,
-              toggleColor: Color(0xFF0E5F02),
+              toggleColor: const Color(0xFF0E5F02),
               activeColor: AppColors.white,
               inactiveColor: Colors.white,
-              inactiveToggleColor: Color(0xff686868),
+              inactiveToggleColor: const Color(0xff686868),
               value: widget.statecontroller,
               onToggle: (val) {
                 setState(() {

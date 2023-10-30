@@ -2,10 +2,7 @@ import 'dart:async';
 
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -17,7 +14,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -31,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //   }
     // );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,38 +39,31 @@ class _SplashScreenState extends State<SplashScreen> {
             Padding(
               padding: EdgeInsets.only(left: 80.h),
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   Get.toNamed("/splashslider");
                 },
                 child: Stack(
                   // fit: StackFit.expand,
                   clipBehavior: Clip.none,
-                      
-                      
+
                   alignment: Alignment.center,
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                      
                     SizedBox(
                       height: 130.h,
-                      child: Image.asset("assets/images/farmFlow.png",
+                      child: Image.asset(
+                        "assets/images/farmFlow.png",
                         width: 220.w,
                         height: 65.h,
                       ),
                     ),
-                      
+
                     Positioned(
                       left: -110.h,
                       child: Lottie.asset("assets/lotties/loading.json",
-                        height: 130.h,
-                        width: 130.h
-                      ),
+                          height: 130.h, width: 130.h),
                     ),
-                      
-                    
-                      
-                    
-                      
+
                     // SvgPicture.asset("assets/images/farmFlow.svg",
                     //   width: 220.w,
                     //   height: 65.h,

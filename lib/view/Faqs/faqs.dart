@@ -25,7 +25,7 @@ class _FaqState extends State<Faq> {
           Container(
             height: 177.h,
             width: 390.w,
-            color: Color(0xFF80B918),
+            color: const Color(0xFF80B918),
             child: Column(
               children: [
                 Stack(
@@ -67,14 +67,14 @@ class _FaqState extends State<Faq> {
                                   },
                                   child: CircleAvatar(
                                     radius: 20.h,
-                                    backgroundColor: Color(0xFFF1F1F1),
+                                    backgroundColor: const Color(0xFFF1F1F1),
                                     child: Center(
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 8.w),
                                         child: Icon(
                                           Icons.arrow_back_ios,
                                           size: 25.h,
-                                          color: Color(0xFF141414),
+                                          color: const Color(0xFF141414),
                                         ),
                                       ),
                                     ),
@@ -84,7 +84,7 @@ class _FaqState extends State<Faq> {
                                 Text(
                                   "FAQ's",
                                   style: TextStyle(
-                                    color: Color(0xFF141414),
+                                    color: const Color(0xFF141414),
                                     fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -95,7 +95,7 @@ class _FaqState extends State<Faq> {
                             Text(
                               "We're Happy To Help",
                               style: TextStyle(
-                                color: Color(0xFF141414),
+                                color: const Color(0xFF141414),
                                 fontSize: 22.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -111,10 +111,10 @@ class _FaqState extends State<Faq> {
             ),
           ),
           Container(
-            color: Color(0xFF80B918),
+            color: const Color(0xFF80B918),
             child: Container(
               width: 390.w,
-              height: 625.h,
+              height: Get.height / 1.41,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -132,7 +132,7 @@ class _FaqState extends State<Faq> {
                       "Frequently Asked Quetions:",
                       style: TextStyle(
                           fontSize: 18.sp,
-                          color: Color(0xFF141414),
+                          color: const Color(0xFF141414),
                           fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -159,13 +159,13 @@ class _FaqState extends State<Faq> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16.sp,
-                                  color: Color(0xFF000000),
+                                  color: const Color(0xFF000000),
                                 ),
                               )
                             ],
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
                           padding: EdgeInsets.only(bottom: 30.h),
                           child: GestureDetector(
@@ -183,14 +183,14 @@ class _FaqState extends State<Faq> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 16.sp,
-                                    color: Color(0xFF000000),
+                                    color: const Color(0xFF000000),
                                   ),
                                 )
                               ],
                             ),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         GestureDetector(
                           onTap: () {},
                           child: Column(
@@ -206,7 +206,7 @@ class _FaqState extends State<Faq> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16.sp,
-                                  color: Color(0xFF000000),
+                                  color: const Color(0xFF000000),
                                 ),
                               )
                             ],
@@ -236,13 +236,13 @@ class _FaqState extends State<Faq> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16.sp,
-                                  color: Color(0xFF000000),
+                                  color: const Color(0xFF000000),
                                 ),
                               )
                             ],
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
                           padding: EdgeInsets.only(bottom: 30.h),
                           child: GestureDetector(
@@ -260,14 +260,14 @@ class _FaqState extends State<Faq> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 16.sp,
-                                    color: Color(0xFF000000),
+                                    color: const Color(0xFF000000),
                                   ),
                                 )
                               ],
                             ),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         GestureDetector(
                           onTap: () {},
                           child: Column(
@@ -283,7 +283,7 @@ class _FaqState extends State<Faq> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16.sp,
-                                  color: Color(0xFF000000),
+                                  color: const Color(0xFF000000),
                                 ),
                               )
                             ],

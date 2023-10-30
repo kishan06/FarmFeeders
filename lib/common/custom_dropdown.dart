@@ -1,8 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../Utils/colors.dart';
 
 class DropdownBtn extends StatefulWidget {
   DropdownBtn({
@@ -48,13 +45,13 @@ class _DropdownBtnState extends State<DropdownBtn> {
         isExpanded: true,
         hint: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 4,
             ),
             Expanded(
               child: Text(
                 widget.hint,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF4D4D4D),
@@ -92,7 +89,7 @@ class _DropdownBtnState extends State<DropdownBtn> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: widget.bgColor ?? Color(0xFFF1F1F1),
+              color: widget.bgColor ?? const Color(0xFFF1F1F1),
             ),
             color: widget.bgColor ?? const Color(0xFFF1F1F1),
           ),
@@ -112,7 +109,7 @@ class _DropdownBtnState extends State<DropdownBtn> {
           padding: null,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Color(0xFFF1F1F1),
+            color: const Color(0xFFF1F1F1),
           ),
           elevation: 8,
           // offset: const Offset(-20, 0),
