@@ -27,12 +27,15 @@ class _VideosDetailsState extends State<VideosDetails> {
   late VideoPlayerController videoController;
   final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
   String? videourl;
+  String? Time;
 
   @override
   void initState() {
     super.initState();
     // TODO: implement initState
+
     videourl = Get.arguments["videourl"];
+    Time = Get.arguments["publisheddate"];
     VideosDetails();
     NotesData;
     videoController = VideoPlayerController.network(
@@ -239,8 +242,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                   ),
                   Row(
                     children: [
-                      // textGrey4D4D4D_14(Utils.formattedTimeAgo(
-                      //     videoData.publishedDatetime ?? "")),
+                      textGrey4D4D4D_14(Utils.formattedTimeAgo(Time ?? "")),
                     ],
                   ),
                   sizedBoxHeight(14.h),

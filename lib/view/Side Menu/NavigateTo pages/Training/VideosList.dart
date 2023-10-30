@@ -17,6 +17,7 @@ class VideosList extends StatefulWidget {
 }
 
 class _VideosListState extends State<VideosList> {
+  String? Time;
   String categoryindex = Get.arguments["categoryindex"];
   // Future<ResponseData<dynamic>> fetchVideoList() async {
   //   return VideoListAPI(categoryindex).videolistApi();
@@ -37,7 +38,6 @@ class _VideosListState extends State<VideosList> {
           onTap: () {
             Get.toNamed("/editVideos", arguments: {
               "categoryindex": categoryindex,
-              //  "publisheddate": videoData.publishedDatetime
             });
           },
           child: const CircleAvatar(
@@ -71,8 +71,10 @@ class _VideosListState extends State<VideosList> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Get.toNamed("/videosdetails",
-                                arguments: {"videourl": videoData.videoUrl});
+                            Get.toNamed("/videosdetails", arguments: {
+                              "videourl": videoData.videoUrl,
+                              "publisheddate": videoData.publishedDatetime
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(
