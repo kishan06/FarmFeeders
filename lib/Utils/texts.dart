@@ -36,6 +36,18 @@ Widget textBlack18W600Mon(String text) {
   );
 }
 
+Widget textBlue15NormalMon(String text) {
+  return Text(
+    text,
+    // softWrap: false,
+    style: TextStyle(
+        fontSize: 15.sp,
+        color: AppColors.blueL_006796,
+        fontWeight: FontWeight.normal,
+        fontFamily: "Montserrat"),
+  );
+}
+
 Widget textBlack20W7000(String text) {
   return Text(
     text,
@@ -329,14 +341,13 @@ Widget textBlack131313_28MediumCenter(String text) {
         color: const Color(0xff131313)),
   );
 }
+
 Widget textBlack2C2C2C_20Center(String text) {
   return Text(
     text,
     textAlign: TextAlign.center,
     style: TextStyle(
-        fontFamily: 'Poppins',
-        fontSize: 20.sp,
-        color: const Color(0xff2C2C2C)),
+        fontFamily: 'Poppins', fontSize: 20.sp, color: const Color(0xff2C2C2C)),
   );
 }
 

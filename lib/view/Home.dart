@@ -1376,35 +1376,48 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                 sizedBoxHeight(20.h),
-                                InkWell(
-                                  onTap: () {
-                                    Get.toNamed("/newsandarticlemain");
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: AppColors.grey4D4D4D,
-                                          width: 0.5.h),
-                                      borderRadius: BorderRadius.circular(27.h),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.04),
-                                          blurRadius: 10,
-                                          spreadRadius: 2,
-                                        )
-                                      ],
-                                      color: AppColors.white,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 13.w, vertical: 15.h),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          textBlack18W600Mon("News & Articles"),
-                                          sizedBoxHeight(15.h),
-                                          Row(
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: AppColors.grey4D4D4D,
+                                        width: 0.5.h),
+                                    borderRadius: BorderRadius.circular(27.h),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.04),
+                                        blurRadius: 10,
+                                        spreadRadius: 2,
+                                      )
+                                    ],
+                                    color: AppColors.white,
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 13.w, vertical: 15.h),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        textBlack18W600Mon("News & Articles"),
+                                        sizedBoxHeight(15.h),
+                                        InkWell(
+                                          onTap: () async {
+                                            if (await canLaunch(
+                                                dashboardController
+                                                    .dashboardModel
+                                                    .data!
+                                                    .article!
+                                                    .smallDescription!)) {
+                                              await launch(dashboardController
+                                                  .dashboardModel
+                                                  .data!
+                                                  .article!
+                                                  .smallDescription!);
+                                            } else {
+                                              throw 'Could not launch ${dashboardController.dashboardModel.data!.article!.smallDescription!}';
+                                            }
+                                          },
+                                          child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1439,58 +1452,49 @@ class _HomeState extends State<Home> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    textGrey4D4D4D_16(
-                                                        dashboardController
-                                                            .dashboardModel
-                                                            .data!
-                                                            .article!
-                                                            .title!),
-                                                    InkWell(
-                                                      onTap: () async {
-                                                        if (await canLaunch(
-                                                            dashboardController
-                                                                .dashboardModel
-                                                                .data!
-                                                                .article!
-                                                                .smallDescription!)) {
-                                                          await launch(
+                                                    Text(
+                                                      dashboardController
+                                                          .dashboardModel
+                                                          .data!
+                                                          .article!
+                                                          .artCategory!,
+                                                      style: TextStyle(
+                                                          fontSize: 14.sp,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: const Color(
+                                                              0xFF4D4D4D)),
+                                                    ),SizedBox(
+                    height: 5.h,
+                  ),
+                                                    Text(
+                                                      dashboardController
+                                                          .dashboardModel
+                                                          .data!
+                                                          .article!
+                                                          .title!,
+                                                      style: TextStyle(
+                                                          fontSize: 16.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Color(
+                                                              0xFF141414)),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          // "7 Feb 2023",
+                                                          Utils.formattedDate(
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
                                                                   .article!
-                                                                  .smallDescription!);
-                                                        } else {
-                                                          throw 'Could not launch ${dashboardController.dashboardModel.data!.article!.smallDescription!}';
-                                                        }
-                                                      },
-                                                      child: RichText(
-                                                        text: TextSpan(
-                                                          text:
-                                                              'Link to article',
+                                                                  .publishedDatetime!),
                                                           style: TextStyle(
-                                                            fontSize: 18.sp,
-                                                            color: Colors.blue,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontFamily:
-                                                                "Montserrat",
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline,
-                                                          ),
+                                                              fontSize: 14,
+                                                              color: Color(
+                                                                  0xFF4D4D4D)),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    sizedBoxHeight(8.h),
-                                                    Row(
-                                                      children: [
-                                                        textGrey4D4D4D_14(
-                                                            Utils.formattedDate(
-                                                                dashboardController
-                                                                    .dashboardModel
-                                                                    .data!
-                                                                    .article!
-                                                                    .publishedDatetime!)),
                                                         const Spacer(),
                                                         SizedBox(
                                                           width: 20.w,
@@ -1524,8 +1528,21 @@ class _HomeState extends State<Home> {
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            InkWell(
+                                                onTap: () {
+                                                  Get.toNamed(
+                                                      "/newsandarticlemain");
+                                                },
+                                                child: textBlue15NormalMon(
+                                                    "View More")),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
