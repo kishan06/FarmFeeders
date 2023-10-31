@@ -1443,6 +1443,25 @@ class _HomeState extends State<Home> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
+
+                                                    textGrey4D4D4D_16(
+                                                        dashboardController
+                                                            .dashboardModel
+                                                            .data!
+                                                            .article!
+                                                            .title!),
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        
+                                                        if (await canLaunch(
+                                                            dashboardController
+                                                                .dashboardModel
+                                                                .data!
+                                                                .article!
+                                                                .smallDescription!
+                                                                )) {
+                                                          await launch(
+
                                                     Text(
                                                       dashboardController
                                                           .dashboardModel
@@ -1477,6 +1496,7 @@ class _HomeState extends State<Home> {
                                                         Text(
                                                           // "7 Feb 2023",
                                                           Utils.formattedDate(
+
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
