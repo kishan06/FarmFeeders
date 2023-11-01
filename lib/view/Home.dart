@@ -11,6 +11,7 @@ import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
 import 'package:farmfeeders/models/ProfileModel/profile_info_model.dart';
 import 'package:farmfeeders/models/connection_code_model.dart';
+import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:farmfeeders/view_models/ConnectionCodeApi.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
@@ -90,6 +91,11 @@ class _HomeState extends State<Home> {
       DashboardApi().getDashboardData().then((value) async {
         dashboardController.dashboardModel =
             DashboardModel.fromJson(value.data);
+        if (dashboardController
+                .dashboardModel.data!.profileCompletionPercentage! <
+            100) {
+          Get.off(const LetsSetUpYourFarm());
+        }
         for (var i in dashboardController.dashboardModel.data!.currentFeed!) {
           if (i.feedLow!) {
             if (feedPerValue > i.feedLowPer!) {
@@ -113,8 +119,10 @@ class _HomeState extends State<Home> {
           locationName.add(await getAddressFromLatLng(
               double.parse(i.farmLatitude!), double.parse(i.farmLongitude!)));
         }
-        setState(() {});
-        saved = dashboardController.dashboardModel.data!.article!.bookmarked!;
+        //  setState(() {});
+        if (dashboardController.dashboardModel.data!.article != null) {
+          saved = dashboardController.dashboardModel.data!.article!.bookmarked!;
+        }
         NotificationAPI().getNotificationCount().then((value) {
           NotificationCountModel notificationCountModel =
               NotificationCountModel.fromJson(value.data);
@@ -234,8 +242,15 @@ class _HomeState extends State<Home> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             textBlack20W7000Mon("Welcome Back"),
-                            textBlack25W600Mon(dashboardController
-                                .dashboardModel.data!.userName!)
+                            Text(
+                              dashboardController
+                                  .dashboardModel.data!.userName!,
+                              style: TextStyle(
+                                  fontSize: 20.sp,
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Montserrat"),
+                            ),
                           ],
                         ),
                         const Spacer(),

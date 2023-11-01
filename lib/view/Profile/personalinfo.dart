@@ -66,7 +66,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   void uploadData() async {
     Utils.loader();
-    var imageFile;
+    MultipartFile imageFile;
 
     if (editProfileImage.profilePicPath.value.isNotEmpty) {
       imageFile = await MultipartFile.fromFile(
