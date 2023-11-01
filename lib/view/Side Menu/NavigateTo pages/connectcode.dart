@@ -1,5 +1,6 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +15,7 @@ class Connectcode extends StatefulWidget {
 }
 
 class _ConnectcodeState extends State<Connectcode> {
-  String quote = "KEVIN63395";
+  DashboardController dashboardController = Get.find();
 
   buildconnectdialog2(context) {
     return showDialog(
@@ -257,7 +258,7 @@ class _ConnectcodeState extends State<Connectcode> {
                   children: [
                     sizedBoxWidth(122.w),
                     Text(
-                      quote,
+                      dashboardController.connectionCodeValue,
                       style: TextStyle(
                         fontSize: 19.sp,
                         fontFamily: "Poppins",
