@@ -10,6 +10,8 @@ import 'package:farmfeeders/controller/notification_controller.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
 import 'package:farmfeeders/models/ProfileModel/profile_info_model.dart';
+import 'package:farmfeeders/models/connection_code_model.dart';
+import 'package:farmfeeders/view_models/ConnectionCodeApi.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
 import 'package:farmfeeders/view_models/ProfileAPI.dart';
@@ -78,6 +80,12 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getCurrentAddress();
       getPrefData();
+
+      ConnectionCodeApi().getConnectionCode().then((value) {
+        ConnectionCodeModel codeModel =
+            ConnectionCodeModel.fromJson(value.data);
+        dashboardController.connectionCodeValue = codeModel.data!.connectCode!;
+      });
 
       DashboardApi().getDashboardData().then((value) async {
         dashboardController.dashboardModel =
@@ -1120,10 +1128,13 @@ class _HomeState extends State<Home> {
                                           ),
                                         ],
                                       ),
-                                sizedBoxHeight(  dashboardController.dashboardModel.data!
+                                sizedBoxHeight(dashboardController
+                                            .dashboardModel
+                                            .data!
                                             .profileCompletionPercentage! >=
                                         100
-                                    ? 0.h:20.h),
+                                    ? 0.h
+                                    : 20.h),
                                 dashboardController.dashboardModel.data!
                                             .profileCompletionPercentage! >=
                                         100
