@@ -71,7 +71,7 @@ class Data {
                 videoUrl: "")
         : null;
     article =
-        json['article'] != null ? Article.fromJson(json['article']) : null;
+        json['article'].isEmpty ? null : Article.fromJson(json['article']);
   }
 
   Map<String, dynamic> toJson() {

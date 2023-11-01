@@ -404,7 +404,7 @@ class _ProfileState extends State<Profile> {
                                       .profileInfoModel.value.data!.userName!,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 22.sp,
+                                    fontSize: 20.sp,
                                     fontFamily: 'Poppins',
                                     color: Color(0XFF141414),
                                     fontWeight: FontWeight.w600,
