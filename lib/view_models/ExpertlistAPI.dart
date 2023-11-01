@@ -6,7 +6,7 @@ class ExpertListAPI {
   ExpertListAPI();
   var data;
   Future<ResponseData<dynamic>> expertlistApi() async {
-    final response = await NetworkApiServices().getApi(
+    final response = await NetworkApiServices().getApi1(
       "https://farmflow.betadelivery.com/api/experts-list",
     );
 

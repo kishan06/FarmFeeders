@@ -899,11 +899,10 @@ class _HomeState extends State<Home> {
                                                             .currentFeed!
                                                             .length,
                                                         (index) => Container(
-                                                              margin:
-                                                                  const EdgeInsets
+                                                              margin: const EdgeInsets
                                                                       .symmetric(
-                                                                      horizontal:
-                                                                          15),
+                                                                  horizontal:
+                                                                      15),
                                                               child: currentFeedSelection(
                                                                   imagePath: dashboardController
                                                                       .dashboardModel
@@ -1510,7 +1509,8 @@ class _HomeState extends State<Home> {
                                                                   width: 25.h,
                                                                   child: SvgPicture
                                                                       .asset(
-                                                                          "assets/images/save.svg")),
+                                                                          "assets/images/save.svg"),
+                                                                ),
                                                         ),
                                                       ],
                                                     ),
