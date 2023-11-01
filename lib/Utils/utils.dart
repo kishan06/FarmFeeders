@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart' as getx;
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -20,6 +21,19 @@ class Utils {
     );
 
     return multipartFile;
+  }
+
+  static Future<MultipartFile> assetImageToMultipartFile(
+      String assetImagePath, String fileName) async {
+    ByteData assetByteData = await rootBundle.load(assetImagePath);
+    List<int> assetBytes = assetByteData.buffer.asUint8List();
+
+    MultipartFile file = MultipartFile.fromBytes(
+      assetBytes,
+      filename: fileName,
+    );
+
+    return file;
   }
 
   static loader() {
