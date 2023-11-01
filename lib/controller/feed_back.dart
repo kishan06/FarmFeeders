@@ -2,17 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
-import 'package:farmfeeders/Utils/global.dart';
-import 'package:farmfeeders/common/flush_bar.dart';
-import 'package:farmfeeders/models/feed_Info_dropdown.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:http/http.dart' as http;
 
-import '../models/live_stock_model.dart';
-
 class FeedBackController extends GetxController {
- 
   Future<bool?> setApiFarmFeed({required Map<String, dynamic> map}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -58,5 +52,4 @@ class FeedBackController extends GetxController {
       return false;
     }
   }
-
 }

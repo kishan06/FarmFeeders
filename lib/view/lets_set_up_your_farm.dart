@@ -1,23 +1,17 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
-import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/flush_bar.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
-import 'package:farmfeeders/resources/routes/routes.dart';
-import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../Utils/custom_button.dart';
 import '../controller/set_farm.dart';
+import '../models/SetupFarmInfoModel/farm_info_model.dart';
+import '../view_models/SetupFarmInfoAPI.dart';
 import 'basic_subscription_plan.dart';
 
 bool isSetFarmInfo = false;
@@ -66,7 +60,16 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 onTap: () {
                   //  if (!isSetFarmInfo) {
                   setFarm.isFarmInfoUpdate.value = false;
-                  Get.toNamed("/farmsInfo");
+                  SetupFarmInfoApi().getFarmInfoApi().then((value) async {
+                    setFarm.isFarmInfoUpdate.value = true;
+                    setFarm.farmInfoModel = FarmInfoModel.fromJson(value.data);
+
+                    var res = await Get.toNamed(RouteName.farmsInfo);
+                    if (res == true) {
+                      setState(() {});
+                    }
+                  });
+
                   //  }
                 },
                 set: isSetFarmInfo,

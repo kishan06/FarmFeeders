@@ -5,7 +5,6 @@ import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
-import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 import 'package:farmfeeders/view_models/VerifyIdentityAPI.dart';
 import 'package:flutter/material.dart';

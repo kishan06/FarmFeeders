@@ -148,6 +148,7 @@ class CurrentFeed {
   int? maxBinCapacity;
   String? reorderingDate;
   bool? feedLow;
+  double? feedLowPer;
   String? livestockName;
   String? livestockUri;
   String? container;
@@ -164,6 +165,7 @@ class CurrentFeed {
     this.maxBinCapacity,
     this.reorderingDate,
     this.feedLow,
+    this.feedLowPer,
     this.livestockName,
     this.livestockUri,
     this.container,
@@ -181,6 +183,8 @@ class CurrentFeed {
     maxBinCapacity = json['max_bin_capacity'];
     reorderingDate = json['reordering_date'];
     feedLow = json['feed_low'];
+    feedLowPer =
+        json['feed_low_per'] == null ? 102 : json['feed_low_per'].toDouble();
     livestockName = json['livestock_name'];
     livestockUri = json['livestock_uri'];
     container = json["container"];
@@ -199,6 +203,7 @@ class CurrentFeed {
     data['max_bin_capacity'] = maxBinCapacity;
     data['reordering_date'] = reorderingDate;
     data['feed_low'] = feedLow;
+    data['feed_low_per'] = feedLowPer;
     data['livestock_name'] = livestockName;
     data['livestock_uri'] = livestockUri;
     data['container'] = container;

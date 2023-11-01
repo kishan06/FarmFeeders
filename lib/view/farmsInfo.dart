@@ -110,7 +110,7 @@ class _FarmsInfoState extends State<FarmsInfo> {
                   Get.back();
                   isSetFarmInfo = true;
                   if (setFarm.isFarmInfoUpdate.value) {
-                    Get.back();
+                    Get.back(result: true);
                   } else {
                     Get.toNamed("/letsSetUpYourFarm");
                   }

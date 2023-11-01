@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await prefs.setString('accessToken', resp.data["data"]["access_token"]);
 
         token = resp.data["data"]["access_token"];
-        Get.toNamed('/sideMenu');
+        Get.offAndToNamed('/sideMenu');
       } else if (resp.status == ResponseStatus.PRIVATE) {
         String? message = resp.data['data'];
         utils.showToast("$message");
