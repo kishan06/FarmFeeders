@@ -899,10 +899,11 @@ class _HomeState extends State<Home> {
                                                             .currentFeed!
                                                             .length,
                                                         (index) => Container(
-                                                              margin: const EdgeInsets
+                                                              margin:
+                                                                  const EdgeInsets
                                                                       .symmetric(
-                                                                  horizontal:
-                                                                      15),
+                                                                      horizontal:
+                                                                          15),
                                                               child: currentFeedSelection(
                                                                   imagePath: dashboardController
                                                                       .dashboardModel
@@ -1119,7 +1120,10 @@ class _HomeState extends State<Home> {
                                           ),
                                         ],
                                       ),
-                                sizedBoxHeight(20.h),
+                                sizedBoxHeight(  dashboardController.dashboardModel.data!
+                                            .profileCompletionPercentage! >=
+                                        100
+                                    ? 0.h:20.h),
                                 dashboardController.dashboardModel.data!
                                             .profileCompletionPercentage! >=
                                         100
@@ -1592,9 +1596,7 @@ class _HomeState extends State<Home> {
                                                   ),
                                                 ),
                                               ),
-
                                               sizedBoxWidth(20.w),
-
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -1602,15 +1604,10 @@ class _HomeState extends State<Home> {
                                                   textBlack18W7000(
                                                       "Feed Low! Refill Now"),
                                                   textGrey4D4D4D_14(
-                                                      "Feed Quantity At 10%")
+                                                      "Feed Quantity At ${feedPerValue.value}%")
                                                 ],
                                               ),
-
                                               const Spacer(),
-
-                                              // circle
-                                              // ListWheelScrollView(itemExtent: itemExtent, children: children)
-
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
