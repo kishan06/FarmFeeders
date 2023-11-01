@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
+import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsAndArticleMain extends StatefulWidget {
   const NewsAndArticleMain({super.key});
@@ -102,13 +104,24 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                         String formattedDate =
                                             DateFormat('d MMM y')
                                                 .format(parsedDate);
-                                        return CarouselCard(
-                                            type: cardData.artCategory,
-                                            title: cardData.title,
-                                            // description: description,
-                                            date: formattedDate,
-                                            imageUrl: cardData.smallImageUrl,
-                                            bookmarked: cardData.bookmarked);
+                                        return InkWell(
+                                          onTap: () async {
+                                            // log(cardData.smallDescription);
+
+                                            await launchUrl(Uri.parse(
+                                                cardData.smallDescription));
+                                          },
+                                          child: CarouselCard(
+                                              type: cardData.artCategory,
+                                              title: cardData.title,
+                                              // description: description,
+                                              date: formattedDate,
+                                              imageUrl: cardData.smallImageUrl,
+                                              bookmarked: cardData.bookmarked,
+                                              index: index,
+                                              id: cardData.id,
+                                              ),
+                                        );
                                       },
                                       options: CarouselOptions(
                                           enlargeCenterPage: true,
@@ -144,7 +157,6 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                               Expanded(
                                   child: GestureDetector(
                                       onTap: () {
-                                      
                                         // Get.toNamed("/articledetails");
                                       },
                                       child: newsCard()))
@@ -164,6 +176,8 @@ class CarouselCard extends StatelessWidget {
   String date;
   String imageUrl;
   bool bookmarked;
+  int index;
+  int id;
 
   CarouselCard({
     super.key,
@@ -173,7 +187,14 @@ class CarouselCard extends StatelessWidget {
     required this.date,
     required this.imageUrl,
     required this.bookmarked,
+    required this.index,
+    required this.id,
+
+
   });
+  // final CarouselController carouselController = CarouselController();
+  final controllerNewsArticle = Get.put(NewsArticleController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -217,13 +238,26 @@ class CarouselCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                bookmarked
-                    ? SizedBox(
-                        height: 40,
-                        child: SvgPicture.asset("assets/images/save.svg"))
-                    : SizedBox(
-                        height: 40,
-                        child: SvgPicture.asset("assets/images/saveblank.svg"))
+                CircleAvatar(
+                  radius: 20.h,
+                  backgroundColor: AppColors.greyF2F4F5,
+                  child: InkWell(
+                    onTap: (){
+                      // print("pressed");
+                      controllerNewsArticle.changeBookmark(index);
+                      controllerNewsArticle.bookmarkApi(index: index,id: id.toString());
+                    
+                    },
+                    child: bookmarked
+                        ? SizedBox(
+                            height: 40.h,
+                            child: SvgPicture.asset("assets/images/save.svg"))
+                        : SizedBox(
+                            height: 40.h,
+                            child:
+                                SvgPicture.asset("assets/images/saveblank.svg")),
+                  ),
+                )
               ],
             ),
             const Spacer(),

@@ -67,7 +67,6 @@ class _newsState extends State<newsCard> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        print("preeesd");
                         log(cardData.smallDescription);
 
                           await launchUrl(Uri.parse(  cardData.smallDescription)
@@ -79,7 +78,10 @@ class _newsState extends State<newsCard> {
                           type: cardData.artCategory,
                           title: cardData.title,
                           date: formattedDate,
-                          bookmarked: cardData.bookmarked),
+                          bookmarked: cardData.bookmarked,
+                          id: cardData.id,
+                          index: index
+                          ),
                     )
                     // newslistCard(
                     //   newsData[index]["recipeimage"],
@@ -102,6 +104,8 @@ class _newsState extends State<newsCard> {
     required String title,
     required String date,
     required bool bookmarked,
+    required int index,
+    required int id,
 
     // dynamic title,
     // dynamic type,
@@ -182,14 +186,20 @@ class _newsState extends State<newsCard> {
                           //       isFollowedByMe == 0 ? 1 : 0;
                           // });
                         },
-                        child: bookmarked
-                            ? Container(
-                                height: 40,
-                                child: SvgPicture.asset("assets/images/save.svg"))
-                            : Container(
-                                height: 40,
-                                child: SvgPicture.asset(
-                                    "assets/images/saveblank.svg")),
+                        child: InkWell(
+                          onTap: (){
+                            controllerNewsArticle.changeBookmark(index);
+                            controllerNewsArticle.bookmarkApi(index: index,id: id.toString());
+                          },
+                          child: bookmarked
+                              ? Container(
+                                  height: 40,
+                                  child: SvgPicture.asset("assets/images/save.svg"))
+                              : Container(
+                                  height: 40,
+                                  child: SvgPicture.asset(
+                                      "assets/images/saveblank.svg")),
+                        ),
                   
                         // SvgPicture.asset("assets/images/save.svg")),
                       ),

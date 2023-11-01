@@ -45,7 +45,7 @@ class Data {
   late final String smallImageUrl;
   late final String publishedDatetime;
   late final String artCategory;
-  late final bool bookmarked;
+  late bool bookmarked;
   
   Data.fromJson(Map<String, dynamic> json){
     id = json['id'];

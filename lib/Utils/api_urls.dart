@@ -18,6 +18,7 @@ class ApiUrls {
   static const livestockTypeApi = "${base}livestock/types";
   static const feedLivestockApi = "${base}feed/livestocks";
   static const faqApi = "${base}faqs/";
+  static const boomarkNewsAndArticles = "${base}bookmark-article";
 
   static const weatherApi = "http://api.weatherapi.com/v1/current.json";
 }
