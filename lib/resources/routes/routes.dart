@@ -92,7 +92,12 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.letsSetUpYourFarm,
-          page: () => const LetsSetUpYourFarm(),
+          page: () => LetsSetUpYourFarm(
+            isInside: false,
+            farm: false,
+            feed: false,
+            livestock: false,
+          ),
         ),
         GetPage(
           name: RouteName.farmsInfo,

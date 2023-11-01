@@ -3,6 +3,7 @@ import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/flush_bar.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +25,14 @@ bool isSetFeedInfo = false;
 // bool get isSetFeedInfo => _isSetFeedInfo;
 
 class LetsSetUpYourFarm extends StatefulWidget {
-  const LetsSetUpYourFarm({super.key});
+  bool isInside, farm, feed, livestock;
+  LetsSetUpYourFarm({
+    super.key,
+    required this.isInside,
+    required this.farm,
+    required this.feed,
+    required this.livestock,
+  });
 
   @override
   State<LetsSetUpYourFarm> createState() => _LetsSetUpYourFarmState();
@@ -35,6 +43,19 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
   // TextEditingController pincode = TextEditingController();
 
   SetFarm setFarm = Get.put(SetFarm());
+  DashboardController dashboardController = Get.put(DashboardController());
+
+  @override
+  void initState() {
+    if (widget.isInside) {
+      isSetFarmInfo = widget.farm;
+      isSetLiveStockInfo = widget.livestock;
+      isSetFeedInfo = widget.feed;
+      setState(() {});
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
