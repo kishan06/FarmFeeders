@@ -39,14 +39,14 @@ class _SettingsState extends State<Settings> {
                       },
                       child: CircleAvatar(
                           radius: 20.h,
-                          backgroundColor: Color(0XFFF1F1F1),
+                          backgroundColor: const Color(0XFFF1F1F1),
                           child: Center(
                             child: Padding(
                               padding: EdgeInsets.only(left: 8.w),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 size: 25.h,
-                                color: Color(0xFF141414),
+                                color: const Color(0xFF141414),
                               ),
                             ),
                           )),
@@ -57,7 +57,7 @@ class _SettingsState extends State<Settings> {
                     Text(
                       "Settings",
                       style: TextStyle(
-                          color: Color(0xFF141414),
+                          color: const Color(0xFF141414),
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w600),
                     ),
@@ -128,7 +128,7 @@ class _SettingsState extends State<Settings> {
                     "Delete Account",
                     style: TextStyle(
                         fontSize: 20.sp,
-                        color: Color(0XFF0E5F02),
+                        color: const Color(0XFF0E5F02),
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w600),
                   ),
@@ -145,7 +145,7 @@ class _SettingsState extends State<Settings> {
                     "Logout",
                     style: TextStyle(
                         fontSize: 20.sp,
-                        color: Color(0XFF0E5F02),
+                        color: const Color(0XFF0E5F02),
                         fontFamily: "Poppins",
                         fontWeight: FontWeight.w600),
                   ),
@@ -166,13 +166,15 @@ class _SettingsState extends State<Settings> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AlertDialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
             //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               side: BorderSide(
-                  color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
             ),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -236,7 +238,7 @@ class _SettingsState extends State<Settings> {
                         height: 48.h,
                         width: 140.w,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Color(0XFF0E5F02)),
+                            border: Border.all(color: const Color(0XFF0E5F02)),
                             borderRadius: BorderRadius.circular(10.h),
                             color: AppColors.white),
                         child: Center(
@@ -262,21 +264,23 @@ class _SettingsState extends State<Settings> {
     return showDialog(
         context: context,
         builder: (context) {
-          Future.delayed(Duration(seconds: 3), () {
+          Future.delayed(const Duration(seconds: 3), () {
             Navigator.of(context).pop(true);
           });
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AlertDialog(
-                insetPadding: EdgeInsets.symmetric(horizontal: 16),
+                insetPadding: const EdgeInsets.symmetric(horizontal: 16),
                 backgroundColor:
-                    Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+                    Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
                 contentPadding: EdgeInsets.fromLTRB(57.w, 46.h, 57.w, 21.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                   side: BorderSide(
-                      color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                      color: Get.isDarkMode
+                          ? Colors.grey
+                          : const Color(0XFFFFFFFF)),
                 ),
                 content: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -320,13 +324,15 @@ class _SettingsState extends State<Settings> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AlertDialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
             //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               side: BorderSide(
-                  color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
             ),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -394,7 +400,7 @@ class _SettingsState extends State<Settings> {
                         height: 48.h,
                         width: 140.w,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Color(0XFF0E5F02)),
+                            border: Border.all(color: const Color(0XFF0E5F02)),
                             borderRadius: BorderRadius.circular(10.h),
                             color: AppColors.white),
                         child: Center(
@@ -439,7 +445,7 @@ class CustomListTile extends StatefulWidget {
 class _CustomListTileState extends State<CustomListTile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 60.h,
       child: Padding(
         padding:
@@ -454,7 +460,7 @@ class _CustomListTileState extends State<CustomListTile> {
                 // color: Color(0XFF4D4D4D),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             FlutterSwitch(
               switchBorder: Border.all(
                 strokeAlign: BorderSide.strokeAlignCenter,
@@ -464,10 +470,10 @@ class _CustomListTileState extends State<CustomListTile> {
               ),
               width: 50.0,
               height: 25.0,
-              toggleColor: Color(0xFF0E5F02),
+              toggleColor: const Color(0xFF0E5F02),
               activeColor: AppColors.white,
               inactiveColor: Colors.white,
-              inactiveToggleColor: Color(0xff686868),
+              inactiveToggleColor: const Color(0xff686868),
               value: widget.statecontroller,
               onToggle: (val) {
                 setState(() {

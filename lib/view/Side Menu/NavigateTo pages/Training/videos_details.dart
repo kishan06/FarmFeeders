@@ -270,213 +270,207 @@ class _VideosDetailsState extends State<VideosDetails> {
                       return Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (!snapshot.hasData ||
-                        snapshot.data!.data == null) {
-                      return Center(child: Text('No data available'));
-                    } else {
-                      final NotesData = snapshot.data!.data!;
-                      return ListView.builder(
-                        itemCount: NotesData.length,
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(8.w),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xFFF1F1F1),
-                                    borderRadius: BorderRadius.circular(10.r)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 5.r,
-                                          backgroundColor:
-                                              const Color(0xff0E5F02),
-                                        ),
-                                        sizedBoxWidth(11.w),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            RichText(
-                                              text: TextSpan(
-                                                // 'Lorem Ipsum Is Simple Dummy',
-                                                text: NotesData.elementAt(index)
-                                                    .title,
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                            sizedBoxHeight(5.h),
-                                            RichText(
-                                              text: TextSpan(
-                                                //'Text of the printing and typesetting Industry',
-                                                text: NotesData.elementAt(index)
-                                                    .description!,
-                                                style: TextStyle(
-                                                  fontSize: 13.sp,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            sizedBoxHeight(5.h),
-                                            RichText(
-                                              text: TextSpan(
-                                                text:
-                                                    // '5:30 pm',
-                                                    " Edited on : ${Utils.formattedTimeAgo(NotesData.elementAt(index).publishedDatetime ?? "")}",
-                                                style: TextStyle(
-                                                    fontSize: 13.sp,
-                                                    fontWeight: FontWeight.w300,
-                                                    color: Colors.black),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        InkWell(
-                                          onTap: () async {
-                                            final result = await showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    icon: Icon(
-                                                      Icons.info,
-                                                      color: Color(0xFF0E5F02),
-                                                    ),
-                                                    title: Text(
-                                                      "Are you sure you want to delete?",
-                                                      style: TextStyle(
-                                                          color: Colors.black),
-                                                    ),
-                                                    content: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        ElevatedButton(
-                                                          onPressed: () {
-                                                            DeleteNoteAPI(NotesData
-                                                                        .elementAt(
-                                                                            index)
-                                                                    .id)
-                                                                .deleteNoteApi();
-                                                            Get.back();
-                                                            setState(() {
-                                                              NotesListAPI(
-                                                                      videoId)
-                                                                  .noteslistApi();
-                                                            });
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                            ),
-                                                            backgroundColor:
-                                                                Color(
-                                                                    0xFF0E5F02),
-                                                          ),
-                                                          child: SizedBox(
-                                                            width: 60.w,
-                                                            child: Text(
-                                                              "Yes",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        ElevatedButton(
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context, false);
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFF0E5F02),
-                                                                  ),
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                  ),
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .white),
-                                                          child: SizedBox(
-                                                            width: 60.w,
-                                                            child: Text(
-                                                              "No",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                    0xFF0E5F02),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                });
-                                            if (result != null && result) {
-                                              deleteNote(index);
-                                            }
-                                          },
-                                          child: Icon(
-                                            Icons.delete_rounded,
-                                            size: 20.sp,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              sizedBoxHeight(12.h),
-                            ],
-                          );
-                        },
-                        // separatorBuilder: (context, index) {
-                        //   return addNotes();
-                        // },
-                      );
+                    } else if (snapshot.data?.data == null ||
+                        snapshot.data!.data!.isEmpty) {
+                      return Center(child: Text('No Notes available'));
                     }
+
+                    final NotesData = snapshot.data!.data!;
+                    return ListView.builder(
+                      itemCount: NotesData.length,
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(8.w),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFF1F1F1),
+                                  borderRadius: BorderRadius.circular(10.r)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 5.r,
+                                        backgroundColor:
+                                            const Color(0xff0E5F02),
+                                      ),
+                                      sizedBoxWidth(11.w),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          RichText(
+                                            text: TextSpan(
+                                              // 'Lorem Ipsum Is Simple Dummy',
+                                              text: NotesData.elementAt(index)
+                                                  .title,
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          sizedBoxHeight(5.h),
+                                          RichText(
+                                            text: TextSpan(
+                                              //'Text of the printing and typesetting Industry',
+                                              text: NotesData.elementAt(index)
+                                                  .description!,
+                                              style: TextStyle(
+                                                fontSize: 13.sp,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          sizedBoxHeight(5.h),
+                                          RichText(
+                                            text: TextSpan(
+                                              text:
+                                                  // '5:30 pm',
+                                                  " Edited on : ${Utils.formattedTimeAgo(NotesData.elementAt(index).publishedDatetime ?? "")}",
+                                              style: TextStyle(
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                          final result = await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  icon: Icon(
+                                                    Icons.info,
+                                                    color: Color(0xFF0E5F02),
+                                                  ),
+                                                  title: Text(
+                                                    "Are you sure you want to delete?",
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                  ),
+                                                  content: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          DeleteNoteAPI(NotesData
+                                                                      .elementAt(
+                                                                          index)
+                                                                  .id)
+                                                              .deleteNoteApi();
+                                                          Get.back();
+                                                          setState(() {
+                                                            NotesListAPI(
+                                                                    videoId)
+                                                                .noteslistApi();
+                                                          });
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          backgroundColor:
+                                                              Color(0xFF0E5F02),
+                                                        ),
+                                                        child: SizedBox(
+                                                          width: 60.w,
+                                                          child: Text(
+                                                            "Yes",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context, false);
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                                side:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFF0E5F02),
+                                                                ),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                ),
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white),
+                                                        child: SizedBox(
+                                                          width: 60.w,
+                                                          child: Text(
+                                                            "No",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              color: Color(
+                                                                  0xFF0E5F02),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                          if (result != null && result) {
+                                            deleteNote(index);
+                                          }
+                                        },
+                                        child: Icon(
+                                          Icons.delete_rounded,
+                                          size: 20.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            sizedBoxHeight(12.h),
+                          ],
+                        );
+                      },
+                      // separatorBuilder: (context, index) {
+                      //   return addNotes();
+                      // },
+                    );
                   },
                 ),
               ),

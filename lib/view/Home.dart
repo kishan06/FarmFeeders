@@ -10,6 +10,8 @@ import 'package:farmfeeders/controller/notification_controller.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
 import 'package:farmfeeders/models/ProfileModel/profile_info_model.dart';
+import 'package:farmfeeders/models/connection_code_model.dart';
+import 'package:farmfeeders/view_models/ConnectionCodeApi.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
 import 'package:farmfeeders/view_models/ProfileAPI.dart';
@@ -54,17 +56,6 @@ class _HomeState extends State<Home> {
   ProfileController profileController = Get.put(ProfileController());
   NotificationController notificationController =
       Get.put(NotificationController());
-  List currentFeedData = [
-    {
-      "imagePath": "assets/images/buffalo.png",
-      "feedFor": "Buffalo",
-      "qty": "100"
-    },
-    {"imagePath": "assets/images/cow.png", "feedFor": "Cow", "qty": "600"},
-    {"imagePath": "assets/images/sheep.png", "feedFor": "Sheep", "qty": "100"},
-    {"imagePath": "assets/images/pig.png", "feedFor": "Pig", "qty": "600"},
-    {"imagePath": "assets/images/hen.png", "feedFor": "Hen", "qty": "100"},
-  ];
 
   int selectedCurrentFeed = 0;
   Stream<DateTime>? _clockStream;
@@ -73,6 +64,7 @@ class _HomeState extends State<Home> {
       humidity = "0",
       wind = "00.0",
       weatherCondition = "";
+  RxDouble feedPerValue = 101.0.obs;
 
   bool isDaytimeNow(
       DateTime currentTime, DateTime sunriseTime, DateTime sunsetTime) {
@@ -89,9 +81,23 @@ class _HomeState extends State<Home> {
       await getCurrentAddress();
       getPrefData();
 
+      ConnectionCodeApi().getConnectionCode().then((value) {
+        ConnectionCodeModel codeModel =
+            ConnectionCodeModel.fromJson(value.data);
+        dashboardController.connectionCodeValue = codeModel.data!.connectCode!;
+      });
+
       DashboardApi().getDashboardData().then((value) async {
         dashboardController.dashboardModel =
             DashboardModel.fromJson(value.data);
+        for (var i in dashboardController.dashboardModel.data!.currentFeed!) {
+          if (i.feedLow!) {
+            if (feedPerValue > i.feedLowPer!) {
+              feedPerValue.value = i.feedLowPer!;
+            }
+          }
+        }
+
         final permissionGranted = await location.hasPermission();
         if (permissionGranted == ls.PermissionStatus.granted) {
           currentLocationName =
@@ -115,6 +121,7 @@ class _HomeState extends State<Home> {
           notificationController.notificationCount.value =
               notificationCountModel.data.toString();
           //     getCurrentAddress();
+
           dashboardController.isDashboardApiLoading.value = false;
         });
       });
@@ -505,7 +512,7 @@ class _HomeState extends State<Home> {
 
                                                                 // textBlack20W7000("Ireland"),
                                                                 SizedBox(
-                                                                  width: 160.w,
+                                                                  width: 180.w,
                                                                   child:
                                                                       DropdownBtn(
                                                                     bgColor:
@@ -1121,7 +1128,13 @@ class _HomeState extends State<Home> {
                                           ),
                                         ],
                                       ),
-                                sizedBoxHeight(20.h),
+                                sizedBoxHeight(dashboardController
+                                            .dashboardModel
+                                            .data!
+                                            .profileCompletionPercentage! >=
+                                        100
+                                    ? 0.h
+                                    : 20.h),
                                 dashboardController.dashboardModel.data!
                                             .profileCompletionPercentage! >=
                                         100
@@ -1402,25 +1415,16 @@ class _HomeState extends State<Home> {
                                         sizedBoxHeight(15.h),
                                         InkWell(
                                           onTap: () async {
-                                            if (await canLaunch(
+                                            await launchUrl(Uri.parse(
                                                 dashboardController
                                                     .dashboardModel
                                                     .data!
                                                     .article!
-                                                    .smallDescription!)) {
-                                              await launch(dashboardController
-                                                  .dashboardModel
-                                                  .data!
-                                                  .article!
-                                                  .smallDescription!);
-                                            } else {
-                                              throw 'Could not launch ${dashboardController.dashboardModel.data!.article!.smallDescription!}';
-                                            }
+                                                    .smallDescription!));
                                           },
                                           child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               dashboardController
                                                       .dashboardModel
@@ -1464,9 +1468,10 @@ class _HomeState extends State<Home> {
                                                               FontWeight.w400,
                                                           color: const Color(
                                                               0xFF4D4D4D)),
-                                                    ),SizedBox(
-                    height: 5.h,
-                  ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5.h,
+                                                    ),
                                                     Text(
                                                       dashboardController
                                                           .dashboardModel
@@ -1519,7 +1524,8 @@ class _HomeState extends State<Home> {
                                                                   width: 25.h,
                                                                   child: SvgPicture
                                                                       .asset(
-                                                                          "assets/images/save.svg")),
+                                                                          "assets/images/save.svg"),
+                                                                ),
                                                         ),
                                                       ],
                                                     ),
@@ -1550,91 +1556,94 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Visibility(
-                          visible: lowFeed,
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.w, vertical: 5.h),
-                              child: Container(
-                                // clipBehavior: Clip.none,
-                                height: 82.h,
-                                // width: double.negativeInfinity,
-                                // width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.h),
-                                  color: AppColors.redFCDADA,
-                                  border: Border.all(
-                                      color: AppColors.redFA5658, width: 1.h),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.04),
-                                      blurRadius: 10,
-                                      spreadRadius: 2,
-                                    )
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15.w, vertical: 10.h),
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 25.h,
-                                        backgroundColor: AppColors.redFA5658,
-                                        child: CircleAvatar(
-                                          radius: 18.h,
-                                          backgroundColor: AppColors.white,
-                                          child: Icon(
-                                            Icons.warning_amber_rounded,
-                                            size: 25.h,
-                                            color: AppColors.redFA5658,
+                        Obx(
+                          () => feedPerValue.value == 101
+                              ? SizedBox()
+                              : Visibility(
+                                  visible: lowFeed,
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.w, vertical: 5.h),
+                                      child: Container(
+                                        // clipBehavior: Clip.none,
+                                        height: 82.h,
+                                        // width: double.negativeInfinity,
+                                        // width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.h),
+                                          color: AppColors.redFCDADA,
+                                          border: Border.all(
+                                              color: AppColors.redFA5658,
+                                              width: 1.h),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.04),
+                                              blurRadius: 10,
+                                              spreadRadius: 2,
+                                            )
+                                          ],
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15.w, vertical: 10.h),
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 25.h,
+                                                backgroundColor:
+                                                    AppColors.redFA5658,
+                                                child: CircleAvatar(
+                                                  radius: 18.h,
+                                                  backgroundColor:
+                                                      AppColors.white,
+                                                  child: Icon(
+                                                    Icons.warning_amber_rounded,
+                                                    size: 25.h,
+                                                    color: AppColors.redFA5658,
+                                                  ),
+                                                ),
+                                              ),
+                                              sizedBoxWidth(20.w),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  textBlack18W7000(
+                                                      "Feed Low! Refill Now"),
+                                                  textGrey4D4D4D_14(
+                                                      "Feed Quantity At ${feedPerValue.value}%")
+                                                ],
+                                              ),
+                                              const Spacer(),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    lowFeed = false;
+                                                  });
+                                                  // lowFeed = false;
+                                                },
+                                                child: CircleAvatar(
+                                                  radius: 17.h,
+                                                  backgroundColor:
+                                                      AppColors.white,
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    size: 25.h,
+                                                    color: AppColors.grey4D4D4D,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
-
-                                      sizedBoxWidth(20.w),
-
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          textBlack18W7000(
-                                              "Feed Low! Refill Now"),
-                                          textGrey4D4D4D_14(
-                                              "Feed Quantity At 10%")
-                                        ],
-                                      ),
-
-                                      const Spacer(),
-
-                                      // circle
-                                      // ListWheelScrollView(itemExtent: itemExtent, children: children)
-
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            lowFeed = false;
-                                          });
-                                          // lowFeed = false;
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 17.h,
-                                          backgroundColor: AppColors.white,
-                                          child: Icon(
-                                            Icons.close,
-                                            size: 25.h,
-                                            color: AppColors.grey4D4D4D,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
                         ),
                       ],
                     ),
@@ -1669,7 +1678,8 @@ class _HomeState extends State<Home> {
     log(placemarks[0].toString());
 
     final locality = placemarks.isNotEmpty ? placemarks[0].locality : '';
-    return locality!;
+    final postalCode = placemarks.isNotEmpty ? placemarks[0].postalCode : '';
+    return "${locality!}, ${postalCode!}";
   }
 
   getCurrentWeatherData(

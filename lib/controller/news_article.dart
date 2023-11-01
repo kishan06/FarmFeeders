@@ -5,13 +5,14 @@ import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/common/flush_bar.dart';
 import 'package:farmfeeders/models/news_articles_model.dart';
+
 import 'package:farmfeeders/models/notification_data_model.dart';
 import 'package:get/get.dart' hide FormData;
 
-class NewsArticleController extends GetxController {
 
+class NewsArticleController extends GetxController {
   bool _isLoading = true;
-  bool get isLoading => _isLoading;  
+  bool get isLoading => _isLoading;
 
   NewsArticlesModel? _newsArticlesData;
   NewsArticlesModel? get newsArticlesData => _newsArticlesData;
@@ -40,7 +41,6 @@ class NewsArticleController extends GetxController {
         ),
       );
 
-
       print(response.statusCode);
 
       if (response.statusCode == 200) {
@@ -61,6 +61,7 @@ class NewsArticleController extends GetxController {
       update();
     }
   }
+
 
   bookmarkApi({required int index, required String id}) async {
     try {
@@ -107,6 +108,7 @@ class NewsArticleController extends GetxController {
 
     }
   }
+
 
 
 }

@@ -39,7 +39,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
   void dispose() {
     // TODO: implement dispose
     // controllerNewsArticle.dispose();
-    _scrollviewcontroller!.dispose();
+    //  _scrollviewcontroller!.dispose();
     super.dispose();
   }
 
