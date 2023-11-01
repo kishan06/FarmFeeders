@@ -33,6 +33,7 @@ class Data {
   int? profileCompletionPercentage;
   TrainingVideos? trainingVideos;
   Article? article;
+  DataFilled? dataFilled;
 
   Data(
       {this.order,
@@ -41,7 +42,8 @@ class Data {
       this.currentFeed,
       this.profileCompletionPercentage,
       this.trainingVideos,
-      this.article});
+      this.article,
+      this.dataFilled});
 
   Data.fromJson(Map<String, dynamic> json) {
     userName = json['user_name'];
@@ -72,6 +74,9 @@ class Data {
         : null;
     article =
         json['article'].isEmpty ? null : Article.fromJson(json['article']);
+    dataFilled = json['data_filled'] != null
+        ? DataFilled.fromJson(json['data_filled'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -94,6 +99,31 @@ class Data {
     if (article != null) {
       data['article'] = article!.toJson();
     }
+    if (dataFilled != null) {
+      data['data_filled'] = dataFilled!.toJson();
+    }
+    return data;
+  }
+}
+
+class DataFilled {
+  bool? livestock;
+  bool? feed;
+  bool? farm;
+
+  DataFilled({this.livestock, this.feed, this.farm});
+
+  DataFilled.fromJson(Map<String, dynamic> json) {
+    livestock = json['livestock'];
+    feed = json['feed'];
+    farm = json['farm'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['livestock'] = livestock;
+    data['feed'] = feed;
+    data['farm'] = farm;
     return data;
   }
 }

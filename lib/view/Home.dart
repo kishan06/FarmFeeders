@@ -94,7 +94,13 @@ class _HomeState extends State<Home> {
         if (dashboardController
                 .dashboardModel.data!.profileCompletionPercentage! <
             100) {
-          Get.off(const LetsSetUpYourFarm());
+          Get.off(LetsSetUpYourFarm(
+            isInside: true,
+            farm: dashboardController.dashboardModel.data!.dataFilled!.farm!,
+            feed: dashboardController.dashboardModel.data!.dataFilled!.feed!,
+            livestock:
+                dashboardController.dashboardModel.data!.dataFilled!.livestock!,
+          ));
         }
         for (var i in dashboardController.dashboardModel.data!.currentFeed!) {
           if (i.feedLow!) {
