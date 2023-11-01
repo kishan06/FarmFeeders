@@ -900,11 +900,10 @@ class _HomeState extends State<Home> {
                                                             .currentFeed!
                                                             .length,
                                                         (index) => Container(
-                                                              margin:
-                                                                  const EdgeInsets
+                                                              margin: const EdgeInsets
                                                                       .symmetric(
-                                                                      horizontal:
-                                                                          15),
+                                                                  horizontal:
+                                                                      15),
                                                               child: currentFeedSelection(
                                                                   imagePath: dashboardController
                                                                       .dashboardModel
@@ -1402,25 +1401,16 @@ class _HomeState extends State<Home> {
                                         sizedBoxHeight(15.h),
                                         InkWell(
                                           onTap: () async {
-                                            if (await canLaunch(
+                                            await launchUrl(Uri.parse(
                                                 dashboardController
                                                     .dashboardModel
                                                     .data!
                                                     .article!
-                                                    .smallDescription!)) {
-                                              await launch(dashboardController
-                                                  .dashboardModel
-                                                  .data!
-                                                  .article!
-                                                  .smallDescription!);
-                                            } else {
-                                              throw 'Could not launch ${dashboardController.dashboardModel.data!.article!.smallDescription!}';
-                                            }
+                                                    .smallDescription!));
                                           },
                                           child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               dashboardController
                                                       .dashboardModel
@@ -1452,25 +1442,6 @@ class _HomeState extends State<Home> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-
-                                                    textGrey4D4D4D_16(
-                                                        dashboardController
-                                                            .dashboardModel
-                                                            .data!
-                                                            .article!
-                                                            .title!),
-                                                    InkWell(
-                                                      onTap: () async {
-                                                        
-                                                        if (await canLaunch(
-                                                            dashboardController
-                                                                .dashboardModel
-                                                                .data!
-                                                                .article!
-                                                                .smallDescription!
-                                                                )) {
-                                                          await launch(
-
                                                     Text(
                                                       dashboardController
                                                           .dashboardModel
@@ -1483,9 +1454,10 @@ class _HomeState extends State<Home> {
                                                               FontWeight.w400,
                                                           color: const Color(
                                                               0xFF4D4D4D)),
-                                                    ),SizedBox(
-                    height: 5.h,
-                  ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5.h,
+                                                    ),
                                                     Text(
                                                       dashboardController
                                                           .dashboardModel
@@ -1504,7 +1476,6 @@ class _HomeState extends State<Home> {
                                                         Text(
                                                           // "7 Feb 2023",
                                                           Utils.formattedDate(
-
                                                               dashboardController
                                                                   .dashboardModel
                                                                   .data!
@@ -1539,7 +1510,8 @@ class _HomeState extends State<Home> {
                                                                   width: 25.h,
                                                                   child: SvgPicture
                                                                       .asset(
-                                                                          "assets/images/save.svg")),
+                                                                          "assets/images/save.svg"),
+                                                                ),
                                                         ),
                                                       ],
                                                     ),
