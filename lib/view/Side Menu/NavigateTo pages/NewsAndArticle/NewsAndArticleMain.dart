@@ -37,7 +37,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
   void dispose() {
     // TODO: implement dispose
     // controllerNewsArticle.dispose();
-    _scrollviewcontroller!.dispose();
+    //  _scrollviewcontroller!.dispose();
     super.dispose();
   }
 
@@ -144,7 +144,6 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                               Expanded(
                                   child: GestureDetector(
                                       onTap: () {
-                                      
                                         // Get.toNamed("/articledetails");
                                       },
                                       child: newsCard()))

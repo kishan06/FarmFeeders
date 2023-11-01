@@ -2,15 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
-import 'package:farmfeeders/Utils/global.dart';
-import 'package:farmfeeders/common/flush_bar.dart';
 import 'package:farmfeeders/models/feed_Info_dropdown.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:http/http.dart' as http;
-
-import '../models/live_stock_model.dart';
 
 class FeedInfoContro extends GetxController {
   bool _isLoading = true;

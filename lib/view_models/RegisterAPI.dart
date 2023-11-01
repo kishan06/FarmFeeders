@@ -1,7 +1,5 @@
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
-import 'package:farmfeeders/models/loginModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterAPI {
   RegisterAPI(this.data);
