@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
         if (dashboardController
                 .dashboardModel.data!.profileCompletionPercentage! <
             100) {
-          Get.off(LetsSetUpYourFarm(
+Get.off(LetsSetUpYourFarm(
             isInside: true,
             farm: dashboardController.dashboardModel.data!.dataFilled!.farm!,
             feed: dashboardController.dashboardModel.data!.dataFilled!.feed!,
@@ -894,7 +894,7 @@ class _HomeState extends State<Home> {
                                 sizedBoxHeight(10.h),
                                 dashboardController.dashboardModel.data!
                                         .currentFeed!.isEmpty
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : Stack(
                                         // fit: StackFit.loose,
                                         children: [
@@ -1409,8 +1409,8 @@ class _HomeState extends State<Home> {
                                           ),
                                         ),
                                       ),
-                                sizedBoxHeight(20.h),
-                                Container(
+                                dashboardController.dashboardModel.data!.article == null   ? const SizedBox():  sizedBoxHeight(20.h),
+                        dashboardController.dashboardModel.data!.article == null   ? const SizedBox():       Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                         color: AppColors.grey4D4D4D,
@@ -1503,7 +1503,7 @@ class _HomeState extends State<Home> {
                                                           fontSize: 16.sp,
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          color: Color(
+                                                          color: const Color(
                                                               0xFF141414)),
                                                     ),
                                                     Row(
@@ -1516,7 +1516,7 @@ class _HomeState extends State<Home> {
                                                                   .data!
                                                                   .article!
                                                                   .publishedDatetime!),
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 14,
                                                               color: Color(
                                                                   0xFF4D4D4D)),
@@ -1579,7 +1579,7 @@ class _HomeState extends State<Home> {
                         ),
                         Obx(
                           () => feedPerValue.value == 101
-                              ? SizedBox()
+                              ? const SizedBox()
                               : Visibility(
                                   visible: lowFeed,
                                   child: Align(

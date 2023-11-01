@@ -143,7 +143,9 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
                                             i++) {
                                           await feedInfoController
                                               .getApiFeedDropdownData(
-                                                  (i + 1).toString())
+                                                  (feedLivestockModel
+                                                          .data![i].id!)
+                                                      .toString())
                                               .then((value) {
                                             if (feedInfoController
                                                     .feedDropdownData!
