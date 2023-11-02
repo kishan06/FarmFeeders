@@ -23,6 +23,8 @@ class ApiUrls {
 
 
   static const connectionCodeApi = "${base}connection-code";
+  static const getBookmarkedNewsList = "${base}bookmarked/news-and-articles";
+  static const resendOtpApi = "${base}resend-otp";
 
   static const weatherApi = "http://api.weatherapi.com/v1/current.json";
 }

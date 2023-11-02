@@ -1,8 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
+import 'package:farmfeeders/common/error_msg.dart';
+import 'package:farmfeeders/common/loading.dart';
+import 'package:farmfeeders/controller/news_article_controller.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsCard.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsData.dart';
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/news_card_bookmarked.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,12 +23,16 @@ class _SavedArticleState extends State<SavedArticleMain> {
   ScrollController? _scrollviewcontroller;
   var sliderPage = 0.obs;
   final CarouselController carouselController = CarouselController();
+  final controllerNewsArticle = Get.put(NewsArticleController());
+  
+
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
 
     super.initState();
+    controllerNewsArticle.GetBookmarkedList();
   }
 
   @override
@@ -64,12 +72,23 @@ class _SavedArticleState extends State<SavedArticleMain> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Row(
-                  children: [
-                    textBlack18W600Mon("Latest News"),
-                  ],
-                ),
-                // Expanded(child: newsCard())
+                // Row(
+                //   children: [
+                //     textBlack18W600Mon("Latest News"),
+                //   ],
+                // ),
+                Expanded(
+                  child: GetBuilder<NewsArticleController>(builder: (builder){
+                    return controllerNewsArticle.isLoadingBookmarkList 
+                    ? Loading()
+                    : controllerNewsArticle.bookmarkedNewsArticle == null 
+                      ? ErrorMsg()
+                      : controllerNewsArticle.bookmarkedNewsArticle!.data.isEmpty 
+                      ? ErrorMsg(msg: "No bookmarked news and articles",)
+                      : NewsCardBookmarked();
+                  })
+                  // newsCard(bookmarkedList: true,)
+                )
               ],
             ),
           ),

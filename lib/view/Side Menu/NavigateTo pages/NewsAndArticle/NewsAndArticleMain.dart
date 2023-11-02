@@ -6,7 +6,7 @@ import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/error_msg.dart';
 import 'package:farmfeeders/common/loading.dart';
-import 'package:farmfeeders/controller/news_article.dart';
+import 'package:farmfeeders/controller/news_article_controller.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,7 +71,7 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
             return controllerNewsArticle.isLoading
                 ? const Loading()
                 : controllerNewsArticle.newsArticlesData == null
-                    ? const ErrorMsg()
+                    ? ErrorMsg()
                     : NestedScrollView(
                         controller: _scrollviewcontroller,
                         headerSliverBuilder:
