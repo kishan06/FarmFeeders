@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class newsCard extends StatefulWidget {
+class NewsCardBookmarked extends StatefulWidget {
   // String type;
   // String title;
   // // String description;
@@ -19,7 +19,7 @@ class newsCard extends StatefulWidget {
   // bool bookmarked;
   // int listLength;
   // bool isBookmarkedList;
-  newsCard({
+  NewsCardBookmarked({
     super.key,
     // required this.isBookmarkedList,
     // required this.type,
@@ -32,10 +32,10 @@ class newsCard extends StatefulWidget {
   });
 
   @override
-  State<newsCard> createState() => _newsState();
+  State<NewsCardBookmarked> createState() => _newsState();
 }
 
-class _newsState extends State<newsCard> {
+class _newsState extends State<NewsCardBookmarked> {
   int currentIndex = 0;
 
   final controllerNewsArticle = Get.put(NewsArticleController());
@@ -56,9 +56,9 @@ class _newsState extends State<newsCard> {
           ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: controllerNewsArticle.newsArticlesData!.data.length,
+              itemCount: controllerNewsArticle.bookmarkedNewsArticle!.data.length,
               itemBuilder: (context, index) {
-                final cardData = controllerNewsArticle.newsArticlesData!.data[index];
+                final cardData = controllerNewsArticle.bookmarkedNewsArticle!.data[index];
                       // final data = controllerNotification.notificationData!.data[index];
                 String originalDate = cardData.publishedDatetime;
                 DateTime parsedDate =
@@ -190,8 +190,8 @@ class _newsState extends State<newsCard> {
                         },
                         child: InkWell(
                           onTap: (){
-                            controllerNewsArticle.changeBookmark(index);
-                            controllerNewsArticle.bookmarkApi(index: index,id: id.toString());
+                            controllerNewsArticle.changeBookmark(index,isBookmarkedList: true);
+                            controllerNewsArticle.bookmarkApi(index: index,id: id.toString(),isBookmarkList: true);
                           },
                           child: bookmarked
                               ? Container(

@@ -5,6 +5,7 @@ import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
+import 'package:farmfeeders/controller/verify_otp_controller.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 import 'package:farmfeeders/view_models/VerifyIdentityAPI.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
   int? id;
   String? phonenumber;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final controllerVerifyOtp = Get.put(VerifyOtpController());
 
   @override
   void initState() {
@@ -168,13 +170,18 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
 
                 sizedBoxHeight(30.h),
 
-                Text(
-                  "Resend Code",
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontSize: 18.sp,
-                      color: AppColors.buttoncolour,
-                      fontWeight: FontWeight.w500),
+                InkWell(
+                  onTap: (){
+                    controllerVerifyOtp.resendOtpApi(id.toString());
+                  },
+                  child: Text(
+                    "Resend Code",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 18.sp,
+                        color: AppColors.buttoncolour,
+                        fontWeight: FontWeight.w500),
+                  ),
                 ),
 
                 sizedBoxHeight(150.h),

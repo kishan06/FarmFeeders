@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ErrorMsg extends StatelessWidget {
-  const ErrorMsg({super.key});
+  String? msg;
+  ErrorMsg({super.key,this.msg});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
         // _data[index]['title'] ?? "",
-        "Something went wrong",
+        msg??"Something went wrong",
         style: TextStyle(
           fontSize: 18.sp,
           fontWeight: FontWeight.w500,
