@@ -20,7 +20,7 @@ class PaymentSuccessfull extends StatelessWidget {
             textBlack131313_28MediumCenter('Your payment is successful'),
             sizedBoxHeight(20.h),
             textBlack2C2C2C_20Center(
-                'Sync your patient data to start with the caregiving process')
+                'This screen will be auto redirected to your Farm Dashboard.')
           ],
         ),
       ),

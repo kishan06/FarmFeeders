@@ -852,7 +852,7 @@ class _YourorderState extends State<Yourorder> {
     );
   }
 
-  List filterList = ['buffalo', 'cow', 'sheep', 'pig', 'hen'];
+  List filterList = ['beef', 'cow', 'sheep', 'pigs', 'hen'];
   Widget filter() {
     return PopupMenuButton(
       icon: SvgPicture.asset(

@@ -58,6 +58,15 @@ class _HomeState extends State<Home> {
   NotificationController notificationController =
       Get.put(NotificationController());
 
+  List currentFeedData = [
+    {"imagePath": "assets/images/buffalo.png", "feedFor": "Beef", "qty": "100"},
+    {"imagePath": "assets/images/cow.png", "feedFor": "Cow", "qty": "600"},
+    {"imagePath": "assets/images/sheep.png", "feedFor": "Sheep", "qty": "100"},
+    {"imagePath": "assets/images/pig.png", "feedFor": "Pigs", "qty": "600"},
+    {"imagePath": "assets/images/hen.png", "feedFor": "Hen", "qty": "100"},
+  ];
+
+
   int selectedCurrentFeed = 0;
   Stream<DateTime>? _clockStream;
   String? place = "Unknown",
