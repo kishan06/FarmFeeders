@@ -2,7 +2,6 @@ import 'package:farmfeeders/Settings.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/view/Faqs/Accountandappfaq.dart';
 import 'package:farmfeeders/view/Faqs/faqs.dart';
-import 'package:farmfeeders/view/Farmfeedtracker.dart';
 import 'package:farmfeeders/view/Home.dart';
 import 'package:farmfeeders/view/LiveStockInfoMain.dart';
 import 'package:farmfeeders/view/LoginScreen.dart';
@@ -43,6 +42,7 @@ import 'package:farmfeeders/view/verify_number.dart';
 import 'package:farmfeeders/view/verify_your_identity.dart';
 import 'package:get/get.dart';
 import '../../view/Side Menu/NavigateTo pages/subscription_plan.dart';
+import '../../view/farmfeedtracker.dart';
 
 class AppRoutes {
   static appRoutes() => [
@@ -113,7 +113,7 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.feedtracker,
-          page: () => Farmfeedtracker(),
+          page: () => Farmfeedtracker(isInside: false, index: 0),
         ),
         GetPage(
           name: RouteName.home,
