@@ -102,7 +102,7 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
                 sizedBoxHeight(10.h),
 
                 textBlack16(
-                    "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry."),
+                    "Verify your identity to start using all Farmer's App features."),
 
                 sizedBoxHeight(50.h),
 

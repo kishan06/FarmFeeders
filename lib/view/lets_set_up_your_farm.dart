@@ -148,9 +148,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
 
               (isSetFarmInfo && isSetLiveStockInfo && isSetFeedInfo)
                   ? CustomButton(
-                      text: "Procced To Subscription",
+                      text: "Proceed To Subscription",
                       onTap: () {
-                        Get.to(const BasicSubscriptionPlan());
+                        Get.offAll(const BasicSubscriptionPlan());
                       })
                   : SizedBox()
 

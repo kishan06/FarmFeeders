@@ -102,12 +102,12 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                   padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
                       SvgPicture.asset("assets/images/Mask Group 26.svg"),
                       SizedBox(
-                        height: 30.h,
+                        height: 15.h,
                       ),
                       isLoading.value
                           ? const Center(
@@ -116,9 +116,11 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                           : SizedBox(
                               height: Get.height / 2,
                               child: GridView.builder(
+                                  
                                   itemCount: liveStockTypeModel.data!.length,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 1/1.2,
                                     crossAxisCount:
                                         2, // number of items in each row
                                     mainAxisSpacing:
@@ -209,7 +211,8 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
-                                        height: 210.h,
+                                        // height: 250.h,
+                                        // height: 250.h,
                                         width: 170.w,
                                         child: Column(
                                           // mainAxisSize: MainAxisSize.max,

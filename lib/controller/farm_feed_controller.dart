@@ -19,6 +19,7 @@ class FeedInfoContro extends GetxController {
   changeUpdated(int index) {
     print("preesed");
     // _feedType[index]["Updated"] = true;
+    // _feedDropdownData.data
     // _feedDropdownData!.data.livestockType[index].updated = true;
     update();
   }

@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Get.offAndToNamed('/sideMenu');
       } else if (resp.status == ResponseStatus.PRIVATE) {
         if (resp.data["status"] == 202) {
-          Get.toNamed('/verifyYourIdentity',
+          Get.offAndToNamed('/verifyYourIdentity',
             arguments: {'id': resp.data['data']['id'], 'phonenumber': resp.data['data']['phone_number']});
         } else {
           String? message = resp.data['data'];
@@ -68,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
