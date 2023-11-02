@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Get.offAndToNamed('/sideMenu');
       } else if (resp.status == ResponseStatus.PRIVATE) {
         if (resp.data["status"] == 202) {
-          Get.toNamed('/verifyYourIdentity',
+          Get.offAndToNamed('/verifyYourIdentity',
             arguments: {'id': resp.data['data']['id'], 'phonenumber': resp.data['data']['phone_number']});
         } else {
           String? message = resp.data['data'];
