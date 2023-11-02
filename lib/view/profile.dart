@@ -10,6 +10,7 @@ import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/controller/set_farm.dart';
 import 'package:farmfeeders/models/SetupFarmInfoModel/farm_info_model.dart';
@@ -56,6 +57,7 @@ class _ProfileState extends State<Profile> {
       Get.put(ProfileImageController());
   SetFarm setFarm = Get.put(SetFarm());
   ProfileController profileController = Get.put(ProfileController());
+  DashboardController dashboardController = Get.find();
 
   buildprofiledelete2dialog(context) {
     return showDialog(
@@ -402,7 +404,7 @@ class _ProfileState extends State<Profile> {
                                       .profileInfoModel.value.data!.userName!,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 22.sp,
+                                    fontSize: 20.sp,
                                     fontFamily: 'Poppins',
                                     color: Color(0XFF141414),
                                     fontWeight: FontWeight.w600,
@@ -503,7 +505,6 @@ class _ProfileState extends State<Profile> {
                           ),
                           sizedBoxWidth(24.w),
                           Text(
-                            // "Farm Feed Tracker",
                             "Feed Information",
                             style: TextStyle(
                                 fontSize: 20.sp,
@@ -598,7 +599,7 @@ class _ProfileState extends State<Profile> {
                               ),
                               sizedBoxHeight(1.h),
                               Text(
-                                "DFE32FDDF4",
+                                dashboardController.connectionCodeValue,
                                 style: TextStyle(
                                     fontSize: 15.sp,
                                     color: Color(0XFF141414),

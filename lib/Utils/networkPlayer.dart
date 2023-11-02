@@ -1,7 +1,6 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:video_player/video_player.dart';
 // import 'package:woka/view/videoplayerwidget.dart';
 
 class NetworkPlayerWidget extends StatefulWidget {
@@ -18,7 +17,6 @@ class _NetworkPlayerWidgetState extends State<NetworkPlayerWidget> {
   late CustomVideoPlayerController _customVideoPlayerController;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     // widget.videoController = VideoPlayerController.network(asset)
@@ -33,7 +31,6 @@ class _NetworkPlayerWidgetState extends State<NetworkPlayerWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     widget.videoController.dispose();
     _customVideoPlayerController.dispose();
@@ -45,7 +42,7 @@ class _NetworkPlayerWidgetState extends State<NetworkPlayerWidget> {
       ? Container(
           child: buildVideo(),
         )
-      : Container(
+      : const SizedBox(
           height: 200,
           child: Center(
             child: CircularProgressIndicator(),

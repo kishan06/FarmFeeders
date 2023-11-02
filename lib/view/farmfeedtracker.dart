@@ -4,17 +4,16 @@ import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
-import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/custom_dropdown.dart';
 import 'package:farmfeeders/common/flush_bar.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/farm_feed_controller.dart';
 import 'package:farmfeeders/models/SetupFarmInfoModel/feed_livestock_model.dart';
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/ConnectExpert.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../view_models/SetupFarmInfoAPI.dart';
@@ -134,10 +133,37 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
                                         ),
                                   CustomButton(
                                       text: "Update",
-                                      onTap: () {
-                                        isSetFeedInfo = true;
-                                        // Get.back();
-                                        Get.back(result: true);
+                                      onTap: () async {
+                                        List<bool> values = List.filled(
+                                            feedLivestockModel.data!.length,
+                                            true);
+
+                                        for (int i = 0;
+                                            i < feedLivestockModel.data!.length;
+                                            i++) {
+                                          await feedInfoController
+                                              .getApiFeedDropdownData(
+                                                  (feedLivestockModel
+                                                          .data![i].id!)
+                                                      .toString())
+                                              .then((value) {
+                                            if (feedInfoController
+                                                    .feedDropdownData!
+                                                    .data
+                                                    .feed ==
+                                                null) {
+                                              values[i] = false;
+                                              utils.showToast(
+                                                  "Please Update All Feeds");
+                                              // return;
+                                            }
+                                          });
+                                        }
+                                        if (values.every((value) => value)) {
+                                          isSetFeedInfo = true;
+
+                                          Get.back(result: true);
+                                        }
 
                                         // isSetLiveStockInfo = true;
                                         // Get.back(result: true);
@@ -844,7 +870,7 @@ class _FeedtextformfieldState extends State<Feedtextformfield> {
                     borderSide: const BorderSide(color: Colors.red, width: 1),
                   ),
                   hintStyle: TextStyle(
-                      color: const Color(0xFF54595F63),
+                      color: const Color(0xff54595f63),
                       fontSize: 15.sp,
                       fontFamily: "Poppins"),
                   hintText: widget.hintText,

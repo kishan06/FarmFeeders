@@ -61,12 +61,13 @@ class _PersonalInfoState extends State<PersonalInfo> {
     emailController.text =
         profileController.profileInfoModel.value.data!.emailAddress!;
     dateController.text = formattedDate1;
+    //dgff
     super.initState();
   }
 
   void uploadData() async {
     Utils.loader();
-    var imageFile;
+    MultipartFile imageFile;
 
     if (editProfileImage.profilePicPath.value.isNotEmpty) {
       imageFile = await MultipartFile.fromFile(
@@ -74,9 +75,16 @@ class _PersonalInfoState extends State<PersonalInfo> {
         filename: path.basename(editProfileImage.profilePicPath.value),
       );
     } else {
-      imageFile = await Utils.networkImageToMultipartFile(
-        "",
-      );
+      if (profileController
+          .profileInfoModel.value.data!.profilePhoto!.isEmpty) {
+        //
+        imageFile = await Utils.assetImageToMultipartFile(
+            "assets/images/profile.png", "profile");
+      } else {
+        imageFile = await Utils.networkImageToMultipartFile(
+          "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}",
+        );
+      }
     }
     List<String> formattedDate = dateController.text.split("/");
     String formattedDate1 =

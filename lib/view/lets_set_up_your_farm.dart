@@ -1,23 +1,18 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
-import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/flush_bar.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
-import 'package:farmfeeders/resources/routes/routes.dart';
-import 'package:farmfeeders/view/Side%20Menu/SideMenu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../Utils/custom_button.dart';
 import '../controller/set_farm.dart';
+import '../models/SetupFarmInfoModel/farm_info_model.dart';
+import '../view_models/SetupFarmInfoAPI.dart';
 import 'basic_subscription_plan.dart';
 
 bool isSetFarmInfo = false;
@@ -30,7 +25,14 @@ bool isSetFeedInfo = false;
 // bool get isSetFeedInfo => _isSetFeedInfo;
 
 class LetsSetUpYourFarm extends StatefulWidget {
-  const LetsSetUpYourFarm({super.key});
+  bool isInside, farm, feed, livestock;
+  LetsSetUpYourFarm({
+    super.key,
+    required this.isInside,
+    required this.farm,
+    required this.feed,
+    required this.livestock,
+  });
 
   @override
   State<LetsSetUpYourFarm> createState() => _LetsSetUpYourFarmState();
@@ -41,6 +43,19 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
   // TextEditingController pincode = TextEditingController();
 
   SetFarm setFarm = Get.put(SetFarm());
+  DashboardController dashboardController = Get.put(DashboardController());
+
+  @override
+  void initState() {
+    if (widget.isInside) {
+      isSetFarmInfo = widget.farm;
+      isSetLiveStockInfo = widget.livestock;
+      isSetFeedInfo = widget.feed;
+      setState(() {});
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +81,16 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 onTap: () {
                   //  if (!isSetFarmInfo) {
                   setFarm.isFarmInfoUpdate.value = false;
-                  Get.toNamed("/farmsInfo");
+                  SetupFarmInfoApi().getFarmInfoApi().then((value) async {
+                    setFarm.isFarmInfoUpdate.value = true;
+                    setFarm.farmInfoModel = FarmInfoModel.fromJson(value.data);
+
+                    var res = await Get.toNamed(RouteName.farmsInfo);
+                    if (res == true) {
+                      setState(() {});
+                    }
+                  });
+
                   //  }
                 },
                 set: isSetFarmInfo,

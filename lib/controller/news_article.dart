@@ -1,17 +1,26 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/global.dart';
+import 'package:farmfeeders/common/flush_bar.dart';
 import 'package:farmfeeders/models/news_articles_model.dart';
+
 import 'package:farmfeeders/models/notification_data_model.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FormData;
+
 
 class NewsArticleController extends GetxController {
-
   bool _isLoading = true;
-  bool get isLoading => _isLoading;  
+  bool get isLoading => _isLoading;
 
   NewsArticlesModel? _newsArticlesData;
   NewsArticlesModel? get newsArticlesData => _newsArticlesData;
+
+  changeBookmark(int index){
+    _newsArticlesData!.data[index].bookmarked = !_newsArticlesData!.data[index].bookmarked;
+    update();
+  }
 
   getNewsArticleData() async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -31,7 +40,6 @@ class NewsArticleController extends GetxController {
           headers: headers,
         ),
       );
-
 
       print(response.statusCode);
 
@@ -53,6 +61,54 @@ class NewsArticleController extends GetxController {
       update();
     }
   }
+
+
+  bookmarkApi({required int index, required String id}) async {
+    try {
+      print("$bearerToken");
+      var headers = {
+        'Authorization': bearerToken
+        // 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiNzJmNDRhMTRlNjMzZjNjNzU0OTMzNzljOGU3MTE3ODczZmY0YTVhN2JjZTkwYjUzZmY1MDNhNDc0ZTU5NzliYTZhMDUwNGI0NjBjZmYyZDQiLCJpYXQiOjE2OTgwNTAxMDguNzEwMjMwMTEyMDc1ODA1NjY0MDYyNSwibmJmIjoxNjk4MDUwMTA4LjcxMDIzMjAxOTQyNDQzODQ3NjU2MjUsImV4cCI6MTcyOTY3MjUwOC43MDY5NzE4ODM3NzM4MDM3MTA5Mzc1LCJzdWIiOiIxMzQiLCJzY29wZXMiOlsiKiJdfQ.W6-McldjlZ-X2jadiLreJQ6ljfk8w5sZ_tgQt4ZfOo-5vF0D6qiQl4OvUfftIcr4H02XjgpRoFAQ4k0_IzrL8UUa2YY5nPXe-vkaSX92OZidVKGYnskuYPBW-qkJ8iOWsDJB6rrdE8EeOBiMcj0Z_nuvt2wI_i1VGxMPR8prrk6Hl6JzY4jcgtG7rHBJERiWmOu3XIZLy4tZbLaBoW7q3hvpcXLQ1vzcJWigRV7AtRnEkiHpsgMoAhF3WtOXvAX6hH1Caqq6khVKh8d9-PMWvUODeLbLdRJTsQYZ0L82U35A0MeF6p8-wnwCCErjGAJVZzMLeSH-DKL_6bS7agyWxClsKcQyq0R0BWV82CMOL8Vas0XCJOcOzZR026nEsSlAR2xUf3SXHg4iifVkmkQSbjMxQSksEDkxaJVkQPz0vEx-sK0JuIsYDIrkk-YppBTjipE1A8N5ynv3pCS_1U6scfwcZMxz2xzDUzgiIoZFCoyB561FXE3VZuPlkcRF4JvtECCgqVUAJxC7PrGu_KWdxOOfFHcqukVPeXCsWOpGC4rWL5-5FFF3uioJTMhCTCfzn-I94C7k3W8TKuD0QEb0BZjgoNs7YChFh2B4oo3znCBRQdqwVPX4LxikOS8j3M62H68RRYDRx-GEmAWsPfuAjoC9lvYsAqoO-CUYfEx4AWs'
+      };
+      var data = FormData.fromMap({
+        'article_id': id
+      });
+
+      var dio = Dio();
+      var response = await dio.request(
+        // 'https://farmflow.betadelivery.com/api/bookmark-article',
+        ApiUrls.boomarkNewsAndArticles,
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        print(json.encode(response.data));
+        // commonFlushBar(context, msg: msg)
+        // Get.snackbar("Error", "Oops something went wrong");
+      }
+      else {
+        print(response.statusMessage);
+        Get.snackbar("Error", "Oops something went wrong");
+
+        changeBookmark(index);
+        // Get.snackbar("Error", "Oops something went wrong");
+
+        // Get.snackbar("Error", "Oops something went wrong");
+
+      }
+    } catch (e) {
+      print(e);
+      Get.snackbar("Error", "Oops something went wrong");
+
+      changeBookmark(index);
+
+    }
+  }
+
 
 
 }
