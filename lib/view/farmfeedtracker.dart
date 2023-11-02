@@ -19,7 +19,13 @@ import 'package:get/get.dart';
 import '../view_models/SetupFarmInfoAPI.dart';
 
 class Farmfeedtracker extends StatefulWidget {
-  const Farmfeedtracker({super.key});
+  Farmfeedtracker({
+    required this.isInside,
+    required this.index,
+    super.key,
+  });
+  bool isInside;
+  int index;
 
   @override
   State<Farmfeedtracker> createState() => _FarmfeedtrackerState();
@@ -125,6 +131,8 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
                                                   updated: false,
                                                   feedId: feedLivestockModel
                                                       .data![index].id!,
+                                                  isInside: widget.isInside,
+                                                  selectedFeedId: widget.index,
                                                 ),
                                                 sizedBoxHeight(15.h),
                                               ],
@@ -185,14 +193,19 @@ class FeedContainer extends StatefulWidget {
   int index;
   bool updated;
   int feedId;
+  int selectedFeedId;
+  bool isInside;
 
-  FeedContainer(
-      {super.key,
-      required this.titleText,
-      required this.imagePath,
-      required this.index,
-      required this.updated,
-      required this.feedId});
+  FeedContainer({
+    super.key,
+    required this.titleText,
+    required this.imagePath,
+    required this.index,
+    required this.updated,
+    required this.feedId,
+    required this.selectedFeedId,
+    required this.isInside,
+  });
 
   @override
   State<FeedContainer> createState() => _FeedContainerState();
@@ -200,6 +213,7 @@ class FeedContainer extends StatefulWidget {
 
 class _FeedContainerState extends State<FeedContainer> {
   bool isExpanded = false;
+
   final GlobalKey<FormState> _formFeedContainer = GlobalKey<FormState>();
 
   FeedInfoContro feedInfoController = Get.put(FeedInfoContro());
@@ -219,6 +233,67 @@ class _FeedContainerState extends State<FeedContainer> {
   int? selectedFrequencyIndex;
 
   @override
+  void initState() {
+    if (widget.isInside) {
+      if (widget.selectedFeedId == widget.index) {
+        isExpanded = true;
+        Future.delayed(Duration(milliseconds: 1), () async {
+          isLoading.value = true;
+          await feedInfoController
+              .getApiFeedDropdownData(widget.feedId.toString())
+              .then((value) {
+            if (feedInfoController.feedDropdownData!.data.feed != null) {
+              for (var i
+                  in feedInfoController.feedDropdownData!.data.feedType) {
+                if (i.id ==
+                    feedInfoController
+                        .feedDropdownData!.data.feed!.feedTypeXid) {
+                  selectedFeedType = i.name;
+                  selectedFeedTypeIndex = i.id;
+                }
+              }
+
+              for (var i
+                  in feedInfoController.feedDropdownData!.data.feedFrequency) {
+                if (i.id ==
+                    feedInfoController
+                        .feedDropdownData!.data.feed!.feedFrequencyXid) {
+                  selectedFrequency = i.name;
+                  selectedFrequencyIndex = i.id;
+                }
+              }
+
+              tecCurrentFeed.text = feedInfoController
+                  .feedDropdownData!.data.feed!.currentFeedAvailable!
+                  .toString();
+              tecQuantity.text = feedInfoController
+                  .feedDropdownData!.data.feed!.qtyPerSeed!
+                  .toString();
+              tecMin.text = feedInfoController
+                  .feedDropdownData!.data.feed!.minBinCapacity!
+                  .toString();
+              tecMax.text = feedInfoController
+                  .feedDropdownData!.data.feed!.maxBinCapacity!
+                  .toString();
+            } else {
+              selectedFrequencyIndex = null;
+              selectedFeedTypeIndex = null;
+              selectedFeedType = null;
+              selectedFrequency = null;
+              tecCurrentFeed.clear();
+              tecMax.clear();
+              tecMin.clear();
+              tecQuantity.clear();
+            }
+            isLoading.value = false;
+          });
+        });
+      }
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -230,7 +305,7 @@ class _FeedContainerState extends State<FeedContainer> {
           color: isExpanded ? AppColors.white : AppColors.greyF1F1F1,
           borderRadius: BorderRadius.circular(10.r)),
       child: ExpansionTile(
-          maintainState: false,
+          maintainState: true,
           childrenPadding:
               EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.w),
           initiallyExpanded: isExpanded,

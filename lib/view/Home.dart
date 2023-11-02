@@ -37,6 +37,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../common/custom_dropdown.dart';
 import '../common/status.dart';
 import '../models/dashboardModel.dart';
+import 'farmfeedtracker.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -50,7 +51,7 @@ class _HomeState extends State<Home> {
   bool saved = false;
   final location = ls.Location();
   String? selectedLocation, currentLocationName;
-  double? currentLat, currentLng;
+  double? currentLat = 0, currentLng;
   List<String> locationName = [];
   List<LatLng> locationLatLng = [];
   DashboardController dashboardController = Get.put(DashboardController());
@@ -94,7 +95,7 @@ class _HomeState extends State<Home> {
         if (dashboardController
                 .dashboardModel.data!.profileCompletionPercentage! <
             100) {
-Get.off(LetsSetUpYourFarm(
+          Get.off(LetsSetUpYourFarm(
             isInside: true,
             farm: dashboardController.dashboardModel.data!.dataFilled!.farm!,
             feed: dashboardController.dashboardModel.data!.dataFilled!.feed!,
@@ -539,9 +540,8 @@ Get.off(LetsSetUpYourFarm(
                                                                     bgColor:
                                                                         AppColors
                                                                             .pistaE3FFE9,
-                                                                    hint: currentLat
-                                                                            .toString()
-                                                                            .isNotEmpty
+                                                                    hint: currentLat !=
+                                                                            0
                                                                         ? currentLocationName!
                                                                         : locationName[
                                                                             0],
@@ -1135,10 +1135,20 @@ Get.off(LetsSetUpYourFarm(
                                                             SizedBox(
                                                               height: 45.h,
                                                               width: 120.w,
-                                                              child: customButtonCurve(
-                                                                  text:
-                                                                      "Refill Now",
-                                                                  onTap: () {}),
+                                                              child:
+                                                                  customButtonCurve(
+                                                                      text:
+                                                                          "Refill Now",
+                                                                      onTap:
+                                                                          () {
+                                                                        Get.to(
+                                                                            Farmfeedtracker(
+                                                                          isInside:
+                                                                              true,
+                                                                          index:
+                                                                              selectedCurrentFeed,
+                                                                        ));
+                                                                      }),
                                                             )
                                                           ],
                                                         )
@@ -1409,170 +1419,189 @@ Get.off(LetsSetUpYourFarm(
                                           ),
                                         ),
                                       ),
-                                dashboardController.dashboardModel.data!.article == null   ? const SizedBox():  sizedBoxHeight(20.h),
-                        dashboardController.dashboardModel.data!.article == null   ? const SizedBox():       Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.grey4D4D4D,
-                                        width: 0.5.h),
-                                    borderRadius: BorderRadius.circular(27.h),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.04),
-                                        blurRadius: 10,
-                                        spreadRadius: 2,
-                                      )
-                                    ],
-                                    color: AppColors.white,
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 13.w, vertical: 15.h),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        textBlack18W600Mon("News & Articles"),
-                                        sizedBoxHeight(15.h),
-                                        InkWell(
-                                          onTap: () async {
-                                            await launchUrl(Uri.parse(
-                                                dashboardController
-                                                    .dashboardModel
-                                                    .data!
-                                                    .article!
-                                                    .smallDescription!));
-                                          },
-                                          child: Row(
+                                dashboardController
+                                            .dashboardModel.data!.article ==
+                                        null
+                                    ? const SizedBox()
+                                    : sizedBoxHeight(20.h),
+                                dashboardController
+                                            .dashboardModel.data!.article ==
+                                        null
+                                    ? const SizedBox()
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: AppColors.grey4D4D4D,
+                                              width: 0.5.h),
+                                          borderRadius:
+                                              BorderRadius.circular(27.h),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.04),
+                                              blurRadius: 10,
+                                              spreadRadius: 2,
+                                            )
+                                          ],
+                                          color: AppColors.white,
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 13.w, vertical: 15.h),
+                                          child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              dashboardController
-                                                      .dashboardModel
-                                                      .data!
-                                                      .article!
-                                                      .smallImageUrl!
-                                                      .isEmpty
-                                                  ? Image.asset(
-                                                      "assets/images/news&arti.png",
-                                                      width: 104.w,
-                                                      height: 90.h,
-                                                    )
-                                                  : Image.network(
-                                                      "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
-                                                      width: 104.w,
-                                                      height: 90.h,
-                                                    ),
-                                              sizedBoxWidth(14.w),
-                                              // SvgPicture.asset("assets/images/current_feed.svg",
-                                              //   height: 170.h,
-                                              //   width: 100.w,
-                                              // ),
-
-                                              // sizedBoxWidth(20.w),
-                                              // Spacer(),
-
-                                              Expanded(
-                                                child: Column(
+                                              textBlack18W600Mon(
+                                                  "News & Articles"),
+                                              sizedBoxHeight(15.h),
+                                              InkWell(
+                                                onTap: () async {
+                                                  await launchUrl(Uri.parse(
+                                                      dashboardController
+                                                          .dashboardModel
+                                                          .data!
+                                                          .article!
+                                                          .smallDescription!));
+                                                },
+                                                child: Row(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      dashboardController
-                                                          .dashboardModel
-                                                          .data!
-                                                          .article!
-                                                          .artCategory!,
-                                                      style: TextStyle(
-                                                          fontSize: 14.sp,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: const Color(
-                                                              0xFF4D4D4D)),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5.h,
-                                                    ),
-                                                    Text(
-                                                      dashboardController
-                                                          .dashboardModel
-                                                          .data!
-                                                          .article!
-                                                          .title!,
-                                                      style: TextStyle(
-                                                          fontSize: 16.sp,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: const Color(
-                                                              0xFF141414)),
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          // "7 Feb 2023",
-                                                          Utils.formattedDate(
-                                                              dashboardController
-                                                                  .dashboardModel
-                                                                  .data!
-                                                                  .article!
-                                                                  .publishedDatetime!),
-                                                          style: const TextStyle(
-                                                              fontSize: 14,
-                                                              color: Color(
-                                                                  0xFF4D4D4D)),
-                                                        ),
-                                                        const Spacer(),
-                                                        SizedBox(
-                                                          width: 20.w,
-                                                        ),
-                                                        InkWell(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              saved = !saved;
-                                                            });
-                                                          },
-                                                          child: !saved
-                                                              ? Container(
-                                                                  height: 25.h,
-                                                                  width: 25.h,
-                                                                  child:
-                                                                      SvgPicture
-                                                                          .asset(
-                                                                    "assets/images/saveblank.svg",
-                                                                  ))
-                                                              : Container(
-                                                                  height: 25.h,
-                                                                  width: 25.h,
-                                                                  child: SvgPicture
-                                                                      .asset(
-                                                                          "assets/images/save.svg"),
-                                                                ),
-                                                        ),
-                                                      ],
+                                                    dashboardController
+                                                            .dashboardModel
+                                                            .data!
+                                                            .article!
+                                                            .smallImageUrl!
+                                                            .isEmpty
+                                                        ? Image.asset(
+                                                            "assets/images/news&arti.png",
+                                                            width: 104.w,
+                                                            height: 90.h,
+                                                          )
+                                                        : Image.network(
+                                                            "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
+                                                            width: 104.w,
+                                                            height: 90.h,
+                                                          ),
+                                                    sizedBoxWidth(14.w),
+                                                    // SvgPicture.asset("assets/images/current_feed.svg",
+                                                    //   height: 170.h,
+                                                    //   width: 100.w,
+                                                    // ),
+
+                                                    // sizedBoxWidth(20.w),
+                                                    // Spacer(),
+
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            dashboardController
+                                                                .dashboardModel
+                                                                .data!
+                                                                .article!
+                                                                .artCategory!,
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: const Color(
+                                                                    0xFF4D4D4D)),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5.h,
+                                                          ),
+                                                          Text(
+                                                            dashboardController
+                                                                .dashboardModel
+                                                                .data!
+                                                                .article!
+                                                                .title!,
+                                                            style: TextStyle(
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: const Color(
+                                                                    0xFF141414)),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                // "7 Feb 2023",
+                                                                Utils.formattedDate(
+                                                                    dashboardController
+                                                                        .dashboardModel
+                                                                        .data!
+                                                                        .article!
+                                                                        .publishedDatetime!),
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Color(
+                                                                        0xFF4D4D4D)),
+                                                              ),
+                                                              const Spacer(),
+                                                              SizedBox(
+                                                                width: 20.w,
+                                                              ),
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    saved =
+                                                                        !saved;
+                                                                  });
+                                                                },
+                                                                child: !saved
+                                                                    ? Container(
+                                                                        height: 25
+                                                                            .h,
+                                                                        width: 25
+                                                                            .h,
+                                                                        child: SvgPicture
+                                                                            .asset(
+                                                                          "assets/images/saveblank.svg",
+                                                                        ))
+                                                                    : Container(
+                                                                        height:
+                                                                            25.h,
+                                                                        width:
+                                                                            25.h,
+                                                                        child: SvgPicture.asset(
+                                                                            "assets/images/save.svg"),
+                                                                      ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  InkWell(
+                                                      onTap: () {
+                                                        Get.toNamed(
+                                                            "/newsandarticlemain");
+                                                      },
+                                                      child:
+                                                          textBlue15NormalMon(
+                                                              "View More")),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                                onTap: () {
-                                                  Get.toNamed(
-                                                      "/newsandarticlemain");
-                                                },
-                                                child: textBlue15NormalMon(
-                                                    "View More")),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      ),
                               ],
                             ),
                           ),
@@ -1692,11 +1721,13 @@ Get.off(LetsSetUpYourFarm(
   }
 
   Future<String> getAddressFromLatLng(double lat, lng) async {
-    final placemarks = await placemarkFromCoordinates(
-      lat,
-      lng,
-    );
-    log(placemarks[0].toString());
+    late final List<Placemark> placemarks;
+    await Future.delayed(Duration(seconds: 1), () async {
+      placemarks = await placemarkFromCoordinates(
+        lat,
+        lng,
+      );
+    });
 
     final locality = placemarks.isNotEmpty ? placemarks[0].locality : '';
     final postalCode = placemarks.isNotEmpty ? placemarks[0].postalCode : '';

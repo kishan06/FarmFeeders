@@ -14,6 +14,8 @@ class FeedInfoContro extends GetxController {
   FeedDropDownInfo? _feedDropdownData;
   FeedDropDownInfo? get feedDropdownData => _feedDropdownData;
 
+  RxInt selectedIndex = 0.obs;
+
   changeUpdated(int index) {
     print("preesed");
     // _feedType[index]["Updated"] = true;
