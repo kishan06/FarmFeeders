@@ -69,7 +69,7 @@ class BasicSubscriptionPlan extends StatelessWidget {
                         customButtonCurve(
                           text: 'Get a 3 Months Trail',
                           onTap: () {
-                            Get.to(() => const PaymentSuccessfull());
+                            Get.offAll(() => const PaymentSuccessfull());
 
                             Future.delayed(Duration(seconds: 3), () {
                               showDialog(
@@ -157,7 +157,7 @@ class BasicSubscriptionPlan extends StatelessWidget {
                         text: "Go To Dashboard",
                         onTap: () {
                           // Get.to(() => SideMenu());
-                          Get.toNamed("/sideMenu");
+                          Get.offAllNamed("/sideMenu");
                         }),
                   ),
                   sizedBoxHeight(40.h),

@@ -68,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

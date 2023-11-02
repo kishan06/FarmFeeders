@@ -699,8 +699,11 @@ class _FeedContainerState extends State<FeedContainer> {
                                         commonFlushBar(context,
                                             msg: "Feed updated successfully",
                                             title: "Success");
-                                        feedInfoController
-                                            .changeUpdated(widget.index);
+                                        // feedInfoController
+                                        //     .changeUpdated(widget.index);
+                                        // f
+                                        // /
+                                        // feedLivestockModel.
                                         setState(() {
                                           buttonPressed = false;
                                         });
