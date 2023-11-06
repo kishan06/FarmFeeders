@@ -67,7 +67,6 @@ class _HomeState extends State<Home> {
     {"imagePath": "assets/images/hen.png", "feedFor": "Hen", "qty": "100"},
   ];
 
-
   int selectedCurrentFeed = 0;
   Stream<DateTime>? _clockStream;
   String? place = "Unknown",
@@ -1150,12 +1149,17 @@ class _HomeState extends State<Home> {
                                                                           "Refill Now",
                                                                       onTap:
                                                                           () {
+                                                                        print(
+                                                                            "FEED ID ==> ${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid!}");
                                                                         Get.to(
                                                                             Farmfeedtracker(
                                                                           isInside:
                                                                               true,
-                                                                          index:
-                                                                              selectedCurrentFeed,
+                                                                          index: dashboardController
+                                                                              .dashboardModel
+                                                                              .data!
+                                                                              .currentFeed![selectedCurrentFeed]
+                                                                              .livestockTypeXid!,
                                                                         ));
                                                                       }),
                                                             )
