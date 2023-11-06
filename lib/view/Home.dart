@@ -9,18 +9,17 @@ import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/notification_controller.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
-import 'package:farmfeeders/models/ProfileModel/profile_info_model.dart';
 import 'package:farmfeeders/models/connection_code_model.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:farmfeeders/view_models/ConnectionCodeApi.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
-import 'package:farmfeeders/view_models/ProfileAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as ls;
+import 'package:geolocator/geolocator.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
@@ -1804,11 +1803,13 @@ class _HomeState extends State<Home> {
     }
 
     dashboardController.isLocationFetching.value = true;
-    final locationData = await location.getLocation();
-    currentLat = locationData.latitude!;
-    currentLng = locationData.longitude!;
-    await getCurrentWeatherData(
-        locationData.latitude!, locationData.longitude!);
+    final locationData = await Geolocator.getCurrentPosition(
+      forceAndroidLocationManager: false,
+    );
+
+    currentLat = locationData.latitude;
+    currentLng = locationData.longitude;
+    await getCurrentWeatherData(locationData.latitude, locationData.longitude);
 
     dashboardController.isLocationFetching.value = false;
   }
