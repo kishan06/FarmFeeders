@@ -235,7 +235,7 @@ class _FeedContainerState extends State<FeedContainer> {
   @override
   void initState() {
     if (widget.isInside) {
-      if (widget.selectedFeedId == widget.index) {
+      if (widget.selectedFeedId == widget.feedId) {
         isExpanded = true;
         Future.delayed(Duration(milliseconds: 1), () async {
           isLoading.value = true;
