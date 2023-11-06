@@ -71,7 +71,7 @@ class Utils {
     try {
       DateTime isoDate = DateTime.parse(isoDateString);
 
-      String formattedDate = DateFormat('MM/dd/yyyy').format(isoDate);
+      String formattedDate = DateFormat('dd/MM/yyyy').format(isoDate);
 
       return formattedDate;
     } catch (e) {

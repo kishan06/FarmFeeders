@@ -150,7 +150,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                   ? CustomButton(
                       text: "Proceed To Subscription",
                       onTap: () {
-                        Get.offAll(const BasicSubscriptionPlan());
+                        Get.offAll( BasicSubscriptionPlan());
                       })
                   : SizedBox()
 
