@@ -61,4 +61,7 @@ class RouteName {
   static const String feedbackform = '/feedbackform';
   static const String EntryPoint = '/EntryPoint';
   static const String settings = '/settings';
+  static const String paymentSuccessfull = '/paymentSuccessfull';
+
+  // PaymentSuccessfull
 }

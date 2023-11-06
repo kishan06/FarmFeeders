@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../Utils/colors.dart';
@@ -8,9 +11,18 @@ import '../Utils/sized_box.dart';
 import '../Utils/texts.dart';
 import '../common/custom_button_curve.dart';
 import 'payment_successfull.dart';
+import 'package:http/http.dart' as http;
 
-class BasicSubscriptionPlan extends StatelessWidget {
-  const BasicSubscriptionPlan({super.key});
+
+class BasicSubscriptionPlan extends StatefulWidget {
+  BasicSubscriptionPlan({super.key});
+
+  @override
+  State<BasicSubscriptionPlan> createState() => _BasicSubscriptionPlanState();
+}
+
+class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
+  Map<String, dynamic>? paymentIntent;
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +81,16 @@ class BasicSubscriptionPlan extends StatelessWidget {
                         customButtonCurve(
                           text: 'Get a 3 Months Trail',
                           onTap: () {
-                            Get.offAll(() => const PaymentSuccessfull());
+                            makePayment();
 
-                            Future.delayed(Duration(seconds: 3), () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => addCommunityDailog());
-                            });
+                            // /
+                            // Get.offAll(() => const PaymentSuccessfull());
+
+                            // Future.delayed(Duration(seconds: 3), () {
+                            //   showDialog(
+                            //       context: context,
+                            //       builder: (context) => addCommunityDailog());
+                            // });
                           },
                         )
                       ],
@@ -93,96 +108,114 @@ class BasicSubscriptionPlan extends StatelessWidget {
     );
   }
 
-  Widget addCommunityDailog() {
-    return Dialog(
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(16.w),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.h),
-              color: AppColors.white,
-            ),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 25.h),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Icon(
-                          Icons.close,
-                          size: 30.h,
-                          color: AppColors.grey4D4D4D,
-                        ),
-                      ),
-                    ],
-                  ),
-                  sizedBoxHeight(35.h),
-                  textBlack25W600Mon("Thank You!"),
-                  sizedBoxHeight(15.h),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: 'Thank you for creating an account with ',
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        color: AppColors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Farm Flow.',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: AppColors.buttoncolour,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  sizedBoxHeight(40.h),
-                  SizedBox(
-                    width: 270.w,
-                    child: CustomButton(
-                        text: "Go To Dashboard",
-                        onTap: () {
-                          // Get.to(() => SideMenu());
-                          Get.offAllNamed("/sideMenu");
-                        }),
-                  ),
-                  sizedBoxHeight(40.h),
-                ],
-              ),
-            ),
-          ),
-          Positioned.fill(
-            top: -60.h,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: CircleAvatar(
-                backgroundColor: AppColors.buttoncolour,
-                radius: 60.h,
-                child: SvgPicture.asset(
-                  "assets/images/wareHouse.svg",
-                  height: 60.h,
-                  width: 60.h,
+  Future<void> makePayment() async {
+    try {
+      paymentIntent = await createPaymentIntent('100', 'INR');
+
+      //STEP 2: Initialize Payment Sheet
+      await Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: SetupPaymentSheetParameters(
+                
+                  billingDetails: BillingDetails(
+                      address: Address(
+                          city: null,
+                          country: "IN",
+                          line1: null,
+                          line2: null,
+                          postalCode: null,
+                          state: null)),
+                  paymentIntentClientSecret: paymentIntent![
+                      'client_secret'], //Gotten from payment intent
+                  style: ThemeMode.dark,
+                  merchantDisplayName: 'Ikay'))
+          .then((value) {});
+
+      //STEP 3: Display Payment sheet
+      displayPaymentSheet();
+    } catch (err) {
+      throw Exception(err);
+    }
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      //Request body
+      Map<String, dynamic> body = {
+        'amount': calculateAmount(amount),
+        'currency': currency,
+      };
+
+      //Make post request to Stripe
+      var response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51NmWnhSHA3cTuLkgrm15XlPQ83iAUYDhEuMaOu7fGWeUkbNbGzheEZjfj19p7IDyo0NjByofaw1jmkOhNl5Y8IoV00MMWD3RtF',
+              // sk_test_51O823ZSJWKyRsIDCe7rxStdPEtjF6JtCGaqRZsFAC6CQ2mFmqNoizvJIEFUKQArlaNOG4Qof1Q19QSWQDE2mVxdA00elGPFOIm',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body,
+      );
+      print("resp" + response.body);
+      return json.decode(response.body);
+    } catch (err) {
+      throw Exception(err.toString());
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet().then((value) {
+        Get.offAll(() => const PaymentSuccessfull());
+
+        // showDialog(
+        //     context: context,
+        //     builder: (_) => AlertDialog(
+        //           content: Column(
+        //             mainAxisSize: MainAxisSize.min,
+        //             children: [
+        //               Icon(
+        //                 Icons.check_circle,
+        //                 color: Colors.green,
+        //                 size: 100.0,
+        //               ),
+        //               SizedBox(height: 10.0),
+        //               Text("Payment Successful!"),
+        //             ],
+        //           ),
+        //         ));
+
+        paymentIntent = null;
+      }).onError((error, stackTrace) {
+        throw Exception(error);
+      });
+    } on StripeException catch (e) {
+      print('Error is:---> $e');
+      AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: const [
+                Icon(
+                  Icons.cancel,
+                  color: Colors.red,
                 ),
-              ),
+                Text("Payment Failed"),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  calculateAmount(String amount) {
+    final calculatedAmout = (int.parse(amount)) * 100;
+    return calculatedAmout.toString();
   }
 
   Widget rowWidget(String txt) {

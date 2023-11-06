@@ -1,13 +1,19 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
+import 'package:farmfeeders/view/basic_subscription_plan.dart';
+import 'package:farmfeeders/view/stripe_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  Stripe.publishableKey = "pk_test_51NmWnhSHA3cTuLkgr4SJbN7PN2Uz3sPLj1TzDbCoMpjBvNlXROsnnJoQjsqlcJEht8VzYLCfmqrpqsfk9iJ2Rsgg00bVMCbQRj";
+  // "pk_test_51O823ZSJWKyRsIDCjUOkeh0eTO7DUHzzu4EZOkXH23EyECywQWddxqsKDRJQqdPEEVGiKe6EUYNALmgsTyW3BW99003MdmqiCk";
   SharedPreferences prefs = await SharedPreferences.getInstance();
   // GlobalVariables globalVariables = GlobalVariables();
   token = prefs.getString('accessToken');
@@ -35,7 +41,10 @@ class MyApp extends StatelessWidget {
             ),
 
             initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
-            //  initialRoute: '/letsSetUpYourFarm',
+            //  initialRoute: '/paymentSuccessfull',
+            // home: BasicSubscriptionPlan(),
+            //  initialRoute: StripePayment(context),
+
 
             getPages: AppRoutes.appRoutes(),
           );

@@ -35,6 +35,7 @@ import 'package:farmfeeders/view/farmsInfo.dart';
 import 'package:farmfeeders/view/feedback.dart';
 import 'package:farmfeeders/view/forgot_password.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
+import 'package:farmfeeders/view/payment_successfull.dart';
 import 'package:farmfeeders/view/profile.dart';
 import 'package:farmfeeders/view/register.dart';
 import 'package:farmfeeders/view/reset_password.dart';
@@ -226,6 +227,10 @@ class AppRoutes {
         GetPage(
           name: RouteName.subscriptionPlan,
           page: () => const SubscriptionPlan(),
+        ),
+        GetPage(
+          name: RouteName.paymentSuccessfull,
+          page: () => const PaymentSuccessfull(),
         ),
       ];
 }
