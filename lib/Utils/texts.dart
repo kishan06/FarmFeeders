@@ -309,6 +309,18 @@ Widget textBlack60w600(String text) {
   );
 }
 
+Widget textBlack50w600(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.left,
+    style: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 50.sp,
+        color: AppColors.black,
+        fontWeight: FontWeight.w600),
+  );
+}
+
 Widget textBlack20(String text) {
   return Text(
     text,

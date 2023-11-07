@@ -67,7 +67,9 @@ class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
                                 sizedBoxHeight(40.h)
                               ],
                             ),
-                            textBlack60w600('99.9 '),
+                            // textBlack60w600('99.9 '),
+                            textBlack50w600('99.9 '),
+
                             textBlack20Bold('/mo')
                           ],
                         ),
@@ -110,17 +112,18 @@ class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
 
   Future<void> makePayment() async {
     try {
-      paymentIntent = await createPaymentIntent('100', 'INR');
+      paymentIntent = await createPaymentIntent('99.9', 'EUR');
 
       //STEP 2: Initialize Payment Sheet
       await Stripe.instance
           .initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
-                
+                  
                   billingDetails: BillingDetails(
+                      
                       address: Address(
                           city: null,
-                          country: "IN",
+                          country: "IE",
                           line1: null,
                           line2: null,
                           postalCode: null,
@@ -144,6 +147,14 @@ class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
         'currency': currency,
+        'description' : {
+          "userId": "1",
+          "planId": "12"
+        }.toString()
+        // 'metadata': {
+        //   'order_id': "1",
+        //   'customer_id': "12"
+        // }
       };
 
       //Make post request to Stripe
@@ -151,8 +162,7 @@ class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         headers: {
           'Authorization':
-              'Bearer sk_test_51NmWnhSHA3cTuLkgrm15XlPQ83iAUYDhEuMaOu7fGWeUkbNbGzheEZjfj19p7IDyo0NjByofaw1jmkOhNl5Y8IoV00MMWD3RtF',
-              // sk_test_51O823ZSJWKyRsIDCe7rxStdPEtjF6JtCGaqRZsFAC6CQ2mFmqNoizvJIEFUKQArlaNOG4Qof1Q19QSWQDE2mVxdA00elGPFOIm',
+              'Bearer sk_test_51NleA3BYVJTtq48mcNufuLvW5uC5hyOZHm0IDzuRf2F9Ahtn1nW4AXqJYpPQKqoFNeT8zW3CUF11x1Kmf2MDEAZI00lfdGhUMP',
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: body,
@@ -214,7 +224,7 @@ class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
   }
 
   calculateAmount(String amount) {
-    final calculatedAmout = (int.parse(amount)) * 100;
+    final calculatedAmout = ((double.parse(amount)) * 100).toInt();
     return calculatedAmout.toString();
   }
 
@@ -234,7 +244,7 @@ class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
             Flexible(child: textBlack18W7000(txt))
           ],
         ),
-        sizedBoxHeight(20.h)
+        sizedBoxHeight(10.h)
       ],
     );
   }

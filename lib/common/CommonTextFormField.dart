@@ -62,6 +62,7 @@ class _CustomtextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        
         maxLines: widget.maxLines ?? 1,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(

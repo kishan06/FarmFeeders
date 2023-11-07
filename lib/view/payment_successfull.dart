@@ -21,9 +21,11 @@ class _PaymentSuccessfullState extends State<PaymentSuccessfull> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 5), () {
-      showDialog(
-          context: context,
-          builder: (context) => addCommunityDailog());
+      Get.offAllNamed("/sideMenu");
+
+      // showDialog(
+      //     context: context,
+      //     builder: (context) => addCommunityDailog());
     });
   }
 
