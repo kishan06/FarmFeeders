@@ -87,8 +87,8 @@ class _HomeState extends State<Home> {
       return DateTime.now();
     });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getCurrentAddress();
-      getPrefData();
+    await getCurrentAddress();
+      // getPrefData();
 
       ConnectionCodeApi().getConnectionCode().then((value) {
         ConnectionCodeModel codeModel =

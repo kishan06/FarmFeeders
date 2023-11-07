@@ -252,16 +252,30 @@ class _RegisterState extends State<Register> {
                                 textEditingController: phoneController,
                                 texttype: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  LengthLimitingTextInputFormatter(10),
+                                  LengthLimitingTextInputFormatter(9),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
                                 leadingIcon:
-                                    SvgPicture.asset("assets/images/phone.svg"),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SvgPicture.asset("assets/images/phone.svg"),
+
+                                        sizedBoxWidth(5.w),
+
+                                        Text("+353",
+                                           style: TextStyle(
+                                            fontSize: 16.sp,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                 hintText: "",
+                                
                                 validator: (value) {
                                   if (value == value.isEmpty) {
                                     return 'Mobile number is required';
-                                  } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)')
+                                  } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{9}$)')
                                       .hasMatch(value)) {
                                     return 'Enter valid mobile number';
                                   }
@@ -270,6 +284,7 @@ class _RegisterState extends State<Register> {
                                 },
                                 validatorText: "",
                                 isInputPassword: false,
+                                
                               ),
                             ],
                           ),
