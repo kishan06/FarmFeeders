@@ -67,7 +67,6 @@ class _HomeState extends State<Home> {
     {"imagePath": "assets/images/hen.png", "feedFor": "Hen", "qty": "100"},
   ];
 
-
   int selectedCurrentFeed = 0;
   Stream<DateTime>? _clockStream;
   String? place = "Unknown",
@@ -937,11 +936,10 @@ class _HomeState extends State<Home> {
                                                             .currentFeed!
                                                             .length,
                                                         (index) => Container(
-                                                              margin:
-                                                                  const EdgeInsets
+                                                              margin: const EdgeInsets
                                                                       .symmetric(
-                                                                      horizontal:
-                                                                          15),
+                                                                  horizontal:
+                                                                      15),
                                                               child: currentFeedSelection(
                                                                   imagePath: dashboardController
                                                                       .dashboardModel

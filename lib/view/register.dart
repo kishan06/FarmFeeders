@@ -252,7 +252,7 @@ class _RegisterState extends State<Register> {
                                 textEditingController: phoneController,
                                 texttype: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  LengthLimitingTextInputFormatter(10),
+                                  LengthLimitingTextInputFormatter(9),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
                                 leadingIcon:
@@ -309,7 +309,6 @@ class _RegisterState extends State<Register> {
                           SizedBox(
                             height: 20.h,
                           ),
-                        
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
