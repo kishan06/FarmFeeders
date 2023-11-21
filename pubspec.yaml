@@ -73,8 +73,7 @@ dependencies:
   dio: ^5.1.2
   flutter_stripe: ^9.5.0+1
   geolocator: ^10.1.0
-
-  #flutter_google_places: ^0.3.
+  share_plus: ^7.2.1
 
 dev_dependencies:
   flutter_test:

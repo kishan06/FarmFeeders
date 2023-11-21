@@ -8,6 +8,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'models/NotificationModel/notification_status_model.dart';
+import 'view_models/NotificationAPI.dart';
+
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 
@@ -18,6 +21,20 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   bool state = false;
   bool fingerstate = false;
+  @override
+  void initState() {
+    NotificationAPI().getNotificationStatus().then((value) {
+      NotificationStatusModel notificationStatusModel =
+          NotificationStatusModel.fromJson(value.data);
+      if (notificationStatusModel.data!.isNotEmpty) {
+        state = false;
+      } else {
+        state = true;
+      }
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -478,6 +495,7 @@ class _CustomListTileState extends State<CustomListTile> {
               onToggle: (val) {
                 setState(() {
                   widget.statecontroller = val;
+                  NotificationAPI().notificationSettingsApi(3).then((value) {});
                 });
               },
             ),

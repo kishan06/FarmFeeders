@@ -26,6 +26,7 @@ import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Utils/base_manager.dart';
@@ -609,10 +610,16 @@ class _ProfileState extends State<Profile> {
                             ],
                           ),
                           Spacer(),
-                          SvgPicture.asset(
-                            'assets/images/Communication - Share_Android.svg',
-                            width: 23.w,
-                            height: 23.h,
+                          InkWell(
+                            onTap: () {
+                              Share.share(
+                                  "Farmer Connect Code:\n${dashboardController.connectionCodeValue}");
+                            },
+                            child: SvgPicture.asset(
+                              'assets/images/Communication - Share_Android.svg',
+                              width: 23.w,
+                              height: 23.h,
+                            ),
                           ),
                         ],
                       ),

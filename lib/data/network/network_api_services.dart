@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/base_api_services.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart' hide Response, FormData;
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
@@ -93,7 +95,14 @@ class NetworkApiServices extends BaseApiServices {
 
             // "device-id": deviceId
           }));
-    } on Exception catch (_) {
+    } on Exception catch (e) {
+      if (e is DioException) {
+        if (e.response!.statusCode == 403) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', "");
+          Get.offAndToNamed("/loginScreen");
+        }
+      }
       return ResponseData<dynamic>(
           'Oops something Went Wrong', ResponseStatus.FAILED);
     }
@@ -138,7 +147,14 @@ class NetworkApiServices extends BaseApiServices {
                   "Authorization": "Bearer $token",
                   //'access-token': token,
                 }));
-    } on Exception catch (_) {
+    } on Exception catch (e) {
+      if (e is DioException) {
+        if (e.response!.statusCode == 403) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', "");
+          Get.offAndToNamed("/loginScreen");
+        }
+      }
       return ResponseData<dynamic>(
           'Oops something Went Wrong', ResponseStatus.FAILED);
     }
@@ -146,11 +162,11 @@ class NetworkApiServices extends BaseApiServices {
     if (response.statusCode == 200) {
       return ResponseData<dynamic>("success", ResponseStatus.SUCCESS,
           data: response.data);
-    } else if (response.statusCode == 203 ) {
+    } else if (response.statusCode == 203) {
       print(response.data);
       return ResponseData<dynamic>("success", ResponseStatus.PRIVATE,
           data: response.data);
-    } else if (response.statusCode == 202 ) {
+    } else if (response.statusCode == 202) {
       print(response.data);
       return ResponseData<dynamic>("success", ResponseStatus.PRIVATE,
           data: response.data);
