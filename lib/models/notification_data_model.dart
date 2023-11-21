@@ -9,8 +9,8 @@ class NotificationData {
   late final bool success;
   late final Data data;
   late final String message;
-  
-  NotificationData.fromJson(Map<String, dynamic> json){
+
+  NotificationData.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     success = json['success'];
     data = Data.fromJson(json['data']);
@@ -36,18 +36,19 @@ class Data {
   late final List<Today> today;
   late final List<Yesterday> yesterday;
   late final List<Other> other;
-  
-  Data.fromJson(Map<String, dynamic> json){
-    today = List.from(json['today']).map((e)=>Today.fromJson(e)).toList();
-    yesterday = List.from(json['yesterday']).map((e)=>Yesterday.fromJson(e)).toList();
-    other = List.from(json['other']).map((e)=>Other.fromJson(e)).toList();
+
+  Data.fromJson(Map<String, dynamic> json) {
+    today = List.from(json['today']).map((e) => Today.fromJson(e)).toList();
+    yesterday =
+        List.from(json['yesterday']).map((e) => Yesterday.fromJson(e)).toList();
+    other = List.from(json['other']).map((e) => Other.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['today'] = today.map((e)=>e.toJson()).toList();
-    _data['yesterday'] = yesterday.map((e)=>e.toJson()).toList();
-    _data['other'] = other.map((e)=>e.toJson()).toList();
+    _data['today'] = today.map((e) => e.toJson()).toList();
+    _data['yesterday'] = yesterday.map((e) => e.toJson()).toList();
+    _data['other'] = other.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -58,7 +59,7 @@ class Today {
     required this.iamPrincipalXid,
     required this.notificationCategoryXid,
     required this.message,
-     this.data,
+    required this.data,
     required this.readAt,
     required this.title,
     required this.image,
@@ -67,17 +68,17 @@ class Today {
   late final int iamPrincipalXid;
   late final int notificationCategoryXid;
   late final String message;
-  late final Null data;
+  late final dynamic data;
   late final String readAt;
   late final String title;
   late final String image;
-  
-  Today.fromJson(Map<String, dynamic> json){
+
+  Today.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     iamPrincipalXid = json['iam_principal_xid'];
     notificationCategoryXid = json['notification_category_xid'];
     message = json['message'];
-    data = null;
+    data = json["data"];
     readAt = json['read_at'];
     title = json['title'];
     image = json['image'];
@@ -103,7 +104,7 @@ class Yesterday {
     required this.iamPrincipalXid,
     required this.notificationCategoryXid,
     required this.message,
-     this.data,
+    required this.data,
     required this.readAt,
     required this.title,
     required this.image,
@@ -112,17 +113,17 @@ class Yesterday {
   late final int iamPrincipalXid;
   late final int notificationCategoryXid;
   late final String message;
-  late final Null data;
+  late final dynamic data;
   late final String readAt;
   late final String title;
   late final String image;
-  
-  Yesterday.fromJson(Map<String, dynamic> json){
+
+  Yesterday.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     iamPrincipalXid = json['iam_principal_xid'];
     notificationCategoryXid = json['notification_category_xid'];
     message = json['message'];
-    data = null;
+    data = json["data"];
     readAt = json['read_at'];
     title = json['title'];
     image = json['image'];
@@ -148,7 +149,7 @@ class Other {
     required this.iamPrincipalXid,
     required this.notificationCategoryXid,
     required this.message,
-     this.data,
+    required this.data,
     required this.readAt,
     required this.title,
     required this.image,
@@ -157,17 +158,17 @@ class Other {
   late final int iamPrincipalXid;
   late final int notificationCategoryXid;
   late final String message;
-  late final Null data;
+  late final dynamic data;
   late final String readAt;
   late final String title;
   late final String image;
-  
-  Other.fromJson(Map<String, dynamic> json){
+
+  Other.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     iamPrincipalXid = json['iam_principal_xid'];
     notificationCategoryXid = json['notification_category_xid'];
     message = json['message'];
-    data = null;
+    data = json['data'];
     readAt = json['read_at'];
     title = json['title'];
     image = json['image'];

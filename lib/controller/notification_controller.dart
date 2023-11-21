@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/global.dart';
@@ -8,7 +10,7 @@ class NotificationController extends GetxController {
   RxString notificationCount = "0".obs;
 
   bool _isLoading = true;
-  bool get isLoading => _isLoading;  
+  bool get isLoading => _isLoading;
 
   NotificationData? _notificationData;
   NotificationData? get notificationData => _notificationData;
@@ -33,12 +35,13 @@ class NotificationController extends GetxController {
       );
 
       print(response.statusCode);
-
+      print(response.data);
       if (response.statusCode == 200) {
         print("if");
         // print(json.encode(response.data));
         // var resp = json.encode(response.data);
         // var jsonResp = jsonDecode(resp);
+
         _notificationData = NotificationData.fromJson(response.data);
         // _feedDropdownData = FeedDropDownInfo.fromJson(response.data);
         // _liveStockData = LiveStockModel.fromJson(response.data);
@@ -57,6 +60,4 @@ class NotificationController extends GetxController {
       update();
     }
   }
-
-
 }

@@ -21,10 +21,12 @@ class ApiUrls {
 
   static const boomarkNewsAndArticles = "${base}bookmark-article";
 
-
   static const connectionCodeApi = "${base}connection-code";
   static const getBookmarkedNewsList = "${base}bookmarked/news-and-articles";
   static const resendOtpApi = "${base}resend-otp";
 
+  static const connectionApproveApi = "${base}accept/connection-request";
+  static const notificationSettingApi = "${base}farmer/notification-settings";
+  static const notificationStatusApi = "${base}farmer/notifications-status";
   static const weatherApi = "http://api.weatherapi.com/v1/current.json";
 }
