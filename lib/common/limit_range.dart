@@ -36,7 +36,10 @@ class LimitRange extends TextInputFormatter {
 class utils {
   static showToast(String? msg) {
     if (msg != null && msg != "null" && msg.isNotEmpty) {
-      Fluttertoast.showToast(msg: msg);
+      Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+      );
     }
   }
 }

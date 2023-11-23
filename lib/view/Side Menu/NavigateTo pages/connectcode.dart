@@ -21,21 +21,23 @@ class _ConnectcodeState extends State<Connectcode> {
     return showDialog(
         context: context,
         builder: (context) {
-          Future.delayed(Duration(seconds: 3), () {
+          Future.delayed(const Duration(seconds: 3), () {
             Navigator.of(context).pop(true);
           });
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AlertDialog(
-                insetPadding: EdgeInsets.symmetric(horizontal: 16),
+                insetPadding: const EdgeInsets.symmetric(horizontal: 16),
                 backgroundColor:
-                    Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+                    Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
                 contentPadding: EdgeInsets.fromLTRB(57.w, 46.h, 57.w, 21.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                   side: BorderSide(
-                      color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                      color: Get.isDarkMode
+                          ? Colors.grey
+                          : const Color(0XFFFFFFFF)),
                 ),
                 content: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -80,13 +82,15 @@ class _ConnectcodeState extends State<Connectcode> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AlertDialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
             //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               side: BorderSide(
-                  color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
             ),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -150,7 +154,7 @@ class _ConnectcodeState extends State<Connectcode> {
                         height: 48.h,
                         width: 140.w,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Color(0XFF0E5F02)),
+                            border: Border.all(color: const Color(0XFF0E5F02)),
                             borderRadius: BorderRadius.circular(10.h),
                             color: AppColors.white),
                         child: Center(
@@ -196,14 +200,14 @@ class _ConnectcodeState extends State<Connectcode> {
                     },
                     child: CircleAvatar(
                       radius: 20.h,
-                      backgroundColor: Color(0XFFF1F1F1),
+                      backgroundColor: const Color(0XFFF1F1F1),
                       child: Center(
                         child: Padding(
                           padding: EdgeInsets.only(left: 8.w),
                           child: Icon(
                             Icons.arrow_back_ios,
                             size: 25.h,
-                            color: Color(0XFF141414),
+                            color: const Color(0XFF141414),
                           ),
                         ),
                       ),
@@ -213,7 +217,7 @@ class _ConnectcodeState extends State<Connectcode> {
                   Text(
                     "Connection Code",
                     style: TextStyle(
-                      color: Color(0XFF141414),
+                      color: const Color(0XFF141414),
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -227,7 +231,7 @@ class _ConnectcodeState extends State<Connectcode> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 20.sp,
-                  color: Color(0xff141414),
+                  color: const Color(0xff141414),
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600),
             ),
@@ -239,7 +243,7 @@ class _ConnectcodeState extends State<Connectcode> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.sp,
-                  color: Color(0xff141414),
+                  color: const Color(0xff141414),
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                 ),
@@ -251,7 +255,7 @@ class _ConnectcodeState extends State<Connectcode> {
                 width: 358.w,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.h),
-                    color: Color(0xffF1F1F1)),
+                    color: const Color(0xffF1F1F1)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -262,19 +266,23 @@ class _ConnectcodeState extends State<Connectcode> {
                       style: TextStyle(
                         fontSize: 19.sp,
                         fontFamily: "Poppins",
-                        color: Color(0xff000000),
+                        color: const Color(0xff000000),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: EdgeInsets.only(right: 8.w),
                       child: GestureDetector(
                         onTap: () {
-                          buildconnectiondialog(context);
-                          // Clipboard.setData(ClipboardData(text: quote)).then((value){
-                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Content copied to clipboard")));
-                          // });
-                          // print("content copied");
+                          //  buildconnectiondialog(context);
+                          Clipboard.setData(ClipboardData(
+                            text: dashboardController.connectionCodeValue,
+                          )).then((value) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text("Content copied to clipboard")));
+                          });
                         },
                         child: SvgPicture.asset(
                           "assets/images/copy.svg",

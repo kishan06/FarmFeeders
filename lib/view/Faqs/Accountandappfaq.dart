@@ -1,12 +1,10 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
-import 'package:farmfeeders/view_models/FAQApi.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
-import '../../models/faq_model.dart';
 
 class Accountapp extends StatefulWidget {
   const Accountapp({super.key});
@@ -16,24 +14,7 @@ class Accountapp extends StatefulWidget {
 }
 
 class _AccountappState extends State<Accountapp> {
-  List<Data>? faqData = [];
-  RxBool isLoading = false.obs;
-  @override
-  void initState() {
-    isLoading.value = true;
-    for (int i = 1; i < 4; i++) {
-      FAQApi().getFAQData(i.toString()).then((value) {
-        FAQModel faqModel = FAQModel.fromJson(value.data);
-        for (int i = 0; i < faqModel.data!.length; i++) {
-          faqData!.add(faqModel.data![i]);
-        }
-      });
-    }
-    Future.delayed(const Duration(seconds: 2), () {
-      isLoading.value = false;
-    });
-    super.initState();
-  }
+  DashboardController dashboardController = Get.put(DashboardController());
 
   @override
   Widget build(BuildContext context) {
@@ -132,76 +113,80 @@ class _AccountappState extends State<Accountapp> {
                 ],
               ),
             ),
-            Obx(
-              () => isLoading.value
-                  ? SizedBox(
-                      width: 390.w,
-                      height: Get.height / 1.41,
-                      child: const Center(
-                          child: CircularProgressIndicator(
-                        color: Color(0xFF80B918),
-                      )),
-                    )
-                  : Container(
-                      color: const Color(0xFF80B918),
-                      child: Container(
-                        width: 390.w,
-                        //  height: Get.height / 1.41,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
+            Container(
+              color: const Color(0xFF80B918),
+              child: Container(
+                width: 390.w,
+                //  height: Get.height / 1.41,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 16.w, top: 23.h),
+                      child: Text(
+                        "Frequently Asked Quetions:",
+                        style: TextStyle(
+                            fontSize: 18.sp,
+                            color: const Color(0xFF141414),
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    sizedBoxHeight(17.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 16.w,
+                      ),
+                      child: Text(
+                        dashboardController.faqText,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: const Color(0xFF141414),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 16.w, top: 23.h),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                        bottom: 50,
+                        top: 15,
+                      ),
+                      height: Get.height / 1.5,
+                      child: dashboardController.faqModel.data!.isEmpty
+                          ? Center(
                               child: Text(
-                                "Frequently Asked Quetions:",
+                                "No Data Available",
                                 style: TextStyle(
                                     fontSize: 18.sp,
                                     color: const Color(0xFF141414),
                                     fontWeight: FontWeight.w600),
                               ),
-                            ),
-                            sizedBoxHeight(17.h),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: 16.w,
-                              ),
-                              child: Text(
-                                "Account & App",
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: const Color(0xFF141414),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                bottom: 50,
-                                top: 15,
-                              ),
-                              height: Get.height / 1.5,
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: faqData!.length,
-                                  itemBuilder: (ctx, index) {
-                                    return Container(
-                                        margin: EdgeInsets.only(bottom: 11.h),
-                                        child: faq1(faqData![index].question!,
-                                            faqData![index].answer!, index));
-                                  }),
-                            ),
-                          ],
-                        ),
-                      ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                                  dashboardController.faqModel.data!.length,
+                              itemBuilder: (ctx, index) {
+                                return Container(
+                                    margin: EdgeInsets.only(bottom: 11.h),
+                                    child: faq1(
+                                        dashboardController
+                                            .faqModel.data![index].question!,
+                                        dashboardController
+                                            .faqModel.data![index].answer!,
+                                        index));
+                              }),
                     ),
-            )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       )),

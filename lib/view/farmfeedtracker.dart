@@ -770,7 +770,7 @@ class _FeedContainerState extends State<FeedContainer> {
                                         'min_capacity': tecMin.text,
                                         'max_capacity': tecMax.text
                                       });
-                                      if (resp!) {
+                                      if (resp! == "success") {
                                         commonFlushBar(context,
                                             msg: "Feed updated successfully",
                                             title: "Success");
@@ -782,9 +782,9 @@ class _FeedContainerState extends State<FeedContainer> {
                                         setState(() {
                                           buttonPressed = false;
                                         });
-                                      } else {
+                                      } else if (resp == "Access Denied") {
                                         commonFlushBar(context,
-                                            msg: "Something went wrong");
+                                            msg: "Access Denied");
                                         setState(() {
                                           buttonPressed = false;
                                         });

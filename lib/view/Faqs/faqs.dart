@@ -1,10 +1,14 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
+import '../../models/faq_model.dart';
+import '../../view_models/FAQApi.dart';
 
 class Faq extends StatefulWidget {
   const Faq({super.key});
@@ -14,6 +18,7 @@ class Faq extends StatefulWidget {
 }
 
 class _FaqState extends State<Faq> {
+  DashboardController dashboardController = Get.put(DashboardController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,155 +143,190 @@ class _FaqState extends State<Faq> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.only(left: 28.w, right: 28.w, top: 32.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed('/accountfaq');
-                          },
-                          child: Column(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/faqimage.svg",
-                                width: 67.w,
-                                height: 67.h,
-                              ),
-                              sizedBoxHeight(7.h),
-                              Text(
-                                "Account \n& App",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: const Color(0xFF000000),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 30.h),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/faqservices.svg",
-                                  width: 67.w,
-                                  height: 67.h,
-                                ),
-                                sizedBoxHeight(7.h),
-                                Text(
-                                  "Services",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: const Color(0xFF000000),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/faqimage.svg",
-                                width: 67.w,
-                                height: 67.h,
-                              ),
-                              sizedBoxHeight(7.h),
-                              Text(
-                                "Account \n& App",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: const Color(0xFF000000),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
                         EdgeInsets.only(left: 28.w, right: 28.w, top: 38.h),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         GestureDetector(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/faqimage.svg",
-                                width: 67.w,
-                                height: 67.h,
+                          onTap: () {
+                            FAQApi().getFAQData("7").then((value) {
+                              dashboardController.faqModel =
+                                  FAQModel.fromJson(value.data);
+                              dashboardController.faqText = "Account & App";
+                              Get.toNamed('/accountfaq');
+                            });
+                          },
+                          child: SizedBox(
+                            width: Get.width / 2.5,
+                            height: 150.h,
+                            child: Card(
+                              color: const Color(0xffF1F1F1),
+                              // shadowColor: Color(0XFF00000029),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                //set border radius more than 50% of height and width to make circle
                               ),
-                              sizedBoxHeight(7.h),
-                              Text(
-                                "Account \n& App",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: const Color(0xFF000000),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 30.h),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/faqservices.svg",
-                                  width: 67.w,
-                                  height: 67.h,
-                                ),
-                                sizedBoxHeight(7.h),
-                                Text(
-                                  "Services",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: const Color(0xFF000000),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/images/faqimage.svg",
+                                    width: 67.w,
+                                    height: 67.h,
                                   ),
-                                )
-                              ],
+                                  sizedBoxHeight(6.h),
+                                  Text(
+                                    "Account \n& App",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
                         const Spacer(),
                         GestureDetector(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/faqimage.svg",
-                                width: 67.w,
-                                height: 67.h,
+                          onTap: () {
+                            FAQApi().getFAQData("8").then((value) {
+                              dashboardController.faqModel =
+                                  FAQModel.fromJson(value.data);
+                              dashboardController.faqText = "Services";
+                              Get.toNamed('/accountfaq');
+                            });
+                          },
+                          child: SizedBox(
+                            width: Get.width / 2.5,
+                            height: 150.h,
+                            child: Card(
+                              color: const Color(0xffF1F1F1),
+                              // shadowColor: Color(0XFF00000029),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                //set border radius more than 50% of height and width to make circle
                               ),
-                              sizedBoxHeight(7.h),
-                              Text(
-                                "Account \n& App",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: const Color(0xFF000000),
-                                ),
-                              )
-                            ],
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/images/faqservices.svg",
+                                    width: 67.w,
+                                    height: 67.h,
+                                  ),
+                                  sizedBoxHeight(6.h),
+                                  Text(
+                                    "Services",
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 28.w, right: 28.w, top: 10.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            FAQApi().getFAQData("9").then((value) {
+                              dashboardController.faqModel =
+                                  FAQModel.fromJson(value.data);
+                              dashboardController.faqText = "Subscription";
+                              Get.toNamed('/accountfaq');
+                            });
+                          },
+                          child: SizedBox(
+                            width: Get.width / 2.5,
+                            height: 150.h,
+                            child: Card(
+                              color: const Color(0xffF1F1F1),
+                              // shadowColor: Color(0XFF00000029),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                //set border radius more than 50% of height and width to make circle
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/images/faqimage.svg",
+                                    width: 67.w,
+                                    height: 67.h,
+                                  ),
+                                  sizedBoxHeight(6.h),
+                                  Text(
+                                    "Subscription",
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            FAQApi().getFAQData("10").then((value) {
+                              dashboardController.faqModel =
+                                  FAQModel.fromJson(value.data);
+                              dashboardController.faqText =
+                                  "Connect with Experts";
+                              Get.toNamed('/accountfaq');
+                            });
+                          },
+                          child: SizedBox(
+                            width: Get.width / 2.5,
+                            height: 150.h,
+                            child: Card(
+                              color: const Color(0xffF1F1F1),
+                              // shadowColor: Color(0XFF00000029),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                //set border radius more than 50% of height and width to make circle
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/images/faqservices.svg",
+                                    width: 67.w,
+                                    height: 67.h,
+                                  ),
+                                  sizedBoxHeight(6.h),
+                                  Text(
+                                    "Connect with\nExperts",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],

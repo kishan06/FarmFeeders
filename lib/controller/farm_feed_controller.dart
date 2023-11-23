@@ -67,7 +67,7 @@ class FeedInfoContro extends GetxController {
     }
   }
 
-  Future<bool?> setApiFarmFeed({required Map<String, dynamic> map}) async {
+  Future<String?> setApiFarmFeed({required Map<String, dynamic> map}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     try {
@@ -100,16 +100,21 @@ class FeedInfoContro extends GetxController {
       );
 
       if (response.statusCode == 200) {
+        Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+        if (responseData["status"] == 403) {
+          return responseData["message"];
+        }
         print(json.encode(response.data));
-        return true;
+        return "success";
       } else {
         print(response.statusMessage);
         // commonFlushBar(context, msg: msg)
-        return false;
+        return "failed";
       }
     } catch (e) {
       print(e);
-      return false;
+      return "failed";
     }
   }
 }

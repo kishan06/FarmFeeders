@@ -116,11 +116,10 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                           : SizedBox(
                               height: Get.height / 2,
                               child: GridView.builder(
-                                  
                                   itemCount: liveStockTypeModel.data!.length,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: 1/1.2,
+                                    childAspectRatio: 1 / 1.2,
                                     crossAxisCount:
                                         2, // number of items in each row
                                     mainAxisSpacing:

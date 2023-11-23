@@ -22,6 +22,11 @@ class Utils {
     return multipartFile;
   }
 
+  static String convertDate(String inputDate) {
+    DateTime dateTime = DateTime.parse(inputDate).toLocal();
+    return DateFormat("MMMM d, y hh:mm a").format(dateTime);
+  }
+
   static Future<MultipartFile> assetImageToMultipartFile(
       String assetImagePath, String fileName) async {
     ByteData assetByteData = await rootBundle.load(assetImagePath);

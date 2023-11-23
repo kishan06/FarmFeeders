@@ -107,11 +107,21 @@ class NetworkApiServices extends BaseApiServices {
           'Oops something Went Wrong', ResponseStatus.FAILED);
     }
     if (response.statusCode == 200) {
-      return ResponseData<dynamic>(
-        "success",
-        data: response.data,
-        ResponseStatus.SUCCESS,
-      );
+      Map<String, dynamic> responseData =
+          Map<String, dynamic>.from(response.data);
+      if (responseData["message"] == "Access Denied") {
+        return ResponseData<dynamic>(
+          "access denied",
+          data: response.data,
+          ResponseStatus.SUCCESS,
+        );
+      } else {
+        return ResponseData<dynamic>(
+          "success",
+          data: response.data,
+          ResponseStatus.SUCCESS,
+        );
+      }
     } else {
       try {
         return ResponseData<dynamic>(
@@ -164,7 +174,7 @@ class NetworkApiServices extends BaseApiServices {
           data: response.data);
     } else if (response.statusCode == 203) {
       print(response.data);
-      return ResponseData<dynamic>("success", ResponseStatus.PRIVATE,
+      return ResponseData<dynamic>("validation", ResponseStatus.PRIVATE,
           data: response.data);
     } else if (response.statusCode == 202) {
       print(response.data);

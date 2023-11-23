@@ -23,6 +23,7 @@ class CustomTextFormField extends StatefulWidget {
     this.fillColor,
     this.borderColor,
     this.maxLines,
+    this.isAddress = false,
   }) : super(key: key);
 
   final dynamic validator;
@@ -43,6 +44,7 @@ class CustomTextFormField extends StatefulWidget {
   final Color? fillColor;
   final Color? borderColor;
   final int? maxLines;
+  final bool isAddress;
 
   @override
   State<CustomTextFormField> createState() => _CustomtextFormFieldState();
@@ -62,7 +64,6 @@ class _CustomtextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        
         maxLines: widget.maxLines ?? 1,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
@@ -137,7 +138,9 @@ class _CustomtextFormFieldState extends State<CustomTextFormField> {
                     padding: EdgeInsets.only(left: 8.w),
                     child: eyesuffix(),
                   )
-                : const SizedBox()),
+                : widget.isAddress
+                    ? widget.suffixIcon ?? const SizedBox()
+                    : const SizedBox()),
         keyboardType: widget.texttype,
         validator: widget.validator,
         inputFormatters: widget.inputFormatters);
