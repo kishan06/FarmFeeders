@@ -1,14 +1,23 @@
 //import 'package:farmfeeders/Utils/SizedBox.dart';
+import 'dart:developer';
+
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button.dart';
+import 'package:farmfeeders/common/limit_range.dart';
+import 'package:farmfeeders/controller/sub_user_controller.dart';
+import 'package:farmfeeders/view_models/SubUserApi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-import 'ContactUs.dart';
+import '../../../models/AddressModel/search_responce_model.dart';
+import '../../placeServices/place_services.dart';
+import '../../search_address_details.dart';
 
 class addSubUser extends StatefulWidget {
   const addSubUser({super.key});
@@ -23,27 +32,78 @@ class _addSubUserState extends State<addSubUser> {
   final phone = TextEditingController();
   final email = TextEditingController();
   final address = TextEditingController();
+  final password = TextEditingController();
+  final dob = TextEditingController();
   bool isChecked = false;
   bool isChecked1 = false;
   bool isChecked2 = false;
   String? subuserdatecontroller;
   DateTime? _selectedDate;
+  List<Prediction> searchResults = [];
+  bool searchClear = true;
+  final placesService = PlacesService();
+  List<int> permissionList = [];
+  SubUserController subUserController = Get.put(SubUserController());
 
   void _addSubUser() {
-    final FormState? form = _form.currentState;
-    if (form != null && form.validate()) {
-      form.save();
+    var data = {
+      "name": name.text,
+      "dob": subuserdatecontroller,
+      "phone_number": phone.text,
+      "email": email.text,
+      "password": password.text,
+      "permissions": permissionList,
+      "address": address.text,
+    };
 
-      // Do something with the user credentials, such as login to the backend
-      // server and navigate to the home screen.
-      Get.toNamed("manageuser", arguments: {
-        "name": name.text,
-        "dob": subuserdatecontroller,
-        "phone": phone.text,
-        "email": email.text,
-        "address": address.text,
-      });
+    SubuserApi().addSubUserApi(data);
+  }
+
+  void _updateSubUser() {
+    var data = {
+      "id": subUserController.subUserData.id,
+      "name": name.text,
+      "dob": subuserdatecontroller,
+      "phone_number": phone.text,
+      "email": email.text,
+      "password": password.text,
+      "permissions": permissionList,
+      "address": address.text,
+    };
+    if (password.text.isEmpty) {
+      data.remove("password");
     }
+
+    SubuserApi().updateSubUserApi(data);
+  }
+
+  var args = Get.arguments;
+  bool isEdit = false;
+
+  @override
+  void initState() {
+    isEdit = args["isEdit"];
+    if (isEdit) {
+      name.text = subUserController.subUserData.name!;
+      subuserdatecontroller = subUserController.subUserData.dob!;
+      _selectedDate = DateTime.parse(subUserController.subUserData.dob!);
+      dob.text = subUserController.subUserData.dob!;
+      phone.text = subUserController.subUserData.phoneNumber!;
+      email.text = subUserController.subUserData.email!;
+      address.text = subUserController.subUserData.address!;
+      if (subUserController.subUserData.permissions!.contains(11)) {
+        isChecked = true;
+      }
+      if (subUserController.subUserData.permissions!.contains(13)) {
+        isChecked1 = true;
+      }
+      if (subUserController.subUserData.permissions!.contains(14)) {
+        isChecked2 = true;
+      }
+
+      setState(() {});
+    }
+    super.initState();
   }
 
   @override
@@ -51,7 +111,8 @@ class _addSubUserState extends State<addSubUser> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: customAppBar(text: "Add Sub User"),
+          title:
+              customAppBar(text: isEdit ? "Update Sub User" : "Add Sub User"),
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           elevation: 0,
@@ -118,46 +179,23 @@ class _addSubUserState extends State<addSubUser> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _subUserDatePicker();
-                    },
-                    child: Container(
-                      height: 60.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1F1F1),
-                        border: Border.all(
-                          color: const Color(0xffF1F1F1),
-                        ),
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                        child: Row(
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset("assets/images/calender.svg"),
-                                sizedBoxWidth(10.w)
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                sizedBoxWidth(20.w),
-                                Text(
-                                  _selectedDate == null
-                                      ? ''
-                                      : '$subuserdatecontroller',
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  CustomTextFormField(
+                      textEditingController: dob,
+                      readonly: true,
+                      onTap: () {
+                        _subUserDatePicker();
+                      },
+                      leadingIcon:
+                          SvgPicture.asset("assets/images/calender.svg"),
+                      hintText: "Date Of Birth",
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Date Of Birth is required';
+                        }
+
+                        return null;
+                      },
+                      validatorText: "Date Of Birth is required"),
                   const SizedBox(
                     height: 20,
                   ),
@@ -177,13 +215,18 @@ class _addSubUserState extends State<addSubUser> {
                     height: 10.h,
                   ),
                   CustomTextFormField(
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(9),
+                      ],
                       textEditingController: phone,
+                      texttype: TextInputType.phone,
                       leadingIcon: SvgPicture.asset("assets/images/phone.svg"),
                       hintText: "Phone",
                       validator: (value) {
                         if (value == value.isEmpty) {
                           return 'Mobile number is required';
-                        } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)')
+                        } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{9}$)')
                             .hasMatch(value)) {
                           return 'Enter valid mobile number';
                         }
@@ -228,6 +271,49 @@ class _addSubUserState extends State<addSubUser> {
                   SizedBox(
                     height: 20.h,
                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Password",
+                        style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      CustomTextFormField(
+                        textEditingController: password,
+                        leadingIcon:
+                            SvgPicture.asset("assets/images/password.svg"),
+                        hintText: "",
+                        validator: (value) {
+                          if (!isEdit) {
+                            if (value == value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            if (value.length < 8) {
+                              return 'Password must be at least 8 characters';
+                            }
+                          }
+                          if (isEdit && password.text.isNotEmpty) {
+                            if (value.length < 8) {
+                              return 'Password must be at least 8 characters';
+                            }
+                          }
+
+                          return null;
+                        },
+                        validatorText: "",
+                        isInputPassword: true,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -244,6 +330,38 @@ class _addSubUserState extends State<addSubUser> {
                     height: 10.h,
                   ),
                   CustomTextFormField(
+                      isAddress: true,
+                      suffixIcon: address.text.isEmpty
+                          ? const SizedBox()
+                          : GestureDetector(
+                              onTap: () {
+                                print('clear search done');
+                                address.clear();
+
+                                //FocusScope.of(context).unfocus();
+                                setState(() {});
+                                //  _form.currentState?.reset();
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(top: 0),
+                                child: Icon(
+                                  Icons.cancel_sharp,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                      onChanged: (value) async {
+                        searchClear = value.isEmpty;
+                        await placesService
+                            .getAutocomplete(value)
+                            .then((value) {
+                          final searchResponse =
+                              searchAddressListFromJson(value);
+
+                          searchResults = searchResponse.predictions!;
+                        });
+                        setState(() {});
+                      },
                       textEditingController: address,
                       leadingIcon:
                           SvgPicture.asset("assets/images/location.svg"),
@@ -255,6 +373,62 @@ class _addSubUserState extends State<addSubUser> {
                         return null;
                       },
                       validatorText: "please Enter Address"),
+                  SizedBox(
+                    height: (!searchClear && address.text.isNotEmpty) ? 12 : 0,
+                  ),
+                  Visibility(
+                    visible: !searchClear && address.text.isNotEmpty,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      width: MediaQuery.of(context).size.width * 0.91,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: ListView.builder(
+                        itemCount: searchResults.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              ListTile(
+                                dense: true,
+                                visualDensity: const VisualDensity(
+                                    horizontal: 0, vertical: -4),
+                                contentPadding:
+                                    const EdgeInsets.only(left: 12, right: 12),
+                                title: Text(
+                                  // change
+                                  searchResults[index].description.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 18),
+                                ),
+                                onTap: () async {
+                                  setState(() {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    searchClear = true;
+                                    String id =
+                                        searchResults[index].placeId.toString();
+                                    placesService
+                                        .getPlace(id)
+                                        .then((value) async {
+                                      final searchResponse =
+                                          searchAddressDetailsFromJson(value);
+
+                                      address.text = searchResponse
+                                          .result!.formattedAddress!;
+                                    });
+                                  });
+                                },
+                              ),
+                              const Divider(
+                                color: Colors.black,
+                              )
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -373,9 +547,30 @@ class _addSubUserState extends State<addSubUser> {
                     height: 15,
                   ),
                   customButton(
-                    text: "Submit",
+                    text: isEdit ? "Update" : "Submit",
                     onTap: () {
-                      _addSubUser();
+                      final FormState? form = _form.currentState;
+                      if (form != null && form.validate()) {
+                        permissionList.clear();
+                        if (isChecked) {
+                          permissionList.add(11);
+                        }
+                        if (isChecked1) {
+                          permissionList.add(13);
+                        }
+                        if (isChecked2) {
+                          permissionList.add(14);
+                        }
+                        if (permissionList.isNotEmpty) {
+                          if (isEdit) {
+                            _updateSubUser();
+                          } else {
+                            _addSubUser();
+                          }
+                        } else {
+                          utils.showToast("Select atleast one permission");
+                        }
+                      }
                     },
                   ),
                   sizedBoxHeight(58.h)
@@ -400,10 +595,13 @@ class _addSubUserState extends State<addSubUser> {
       if (pickedDate == null) {
         return setState(() {
           subuserdatecontroller = '';
+          dob.text = "";
         });
       }
       setState(() {
         _selectedDate = pickedDate;
+        dob.text =
+            "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
         subuserdatecontroller =
             "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
       });

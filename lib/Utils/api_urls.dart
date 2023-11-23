@@ -29,4 +29,11 @@ class ApiUrls {
   static const notificationSettingApi = "${base}farmer/notification-settings";
   static const notificationStatusApi = "${base}farmer/notifications-status";
   static const weatherApi = "http://api.weatherapi.com/v1/current.json";
+
+  static const subUserApi = "${base}users";
+  static const updateSubUserApi = "${base}users/update";
+  static const deleteSubUserApi = "${base}users/";
+
+  static const orderApi = "${base}orders";
+  static const orderDetailsApi = "${base}order-details/";
 }

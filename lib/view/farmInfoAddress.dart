@@ -36,7 +36,11 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
   bool searchClear = true;
   final placesService = PlacesService();
   final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
-
+  static const LatLng dublin = LatLng(53.349805, -6.26031);
+  static LatLngBounds irelandBounds = LatLngBounds(
+      southwest: LatLng(51.451275, -6.808388),
+      northeast: LatLng(55.1316222195, -6.03298539878));
+// {'Ireland': [-9.97708574059, 51.6693012559, -6.03298539878, 55.1316222195]}},
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -262,9 +266,13 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
                   SizedBox(
                     width: double.infinity, height: 300.h,
                     child: GoogleMap(
-                      initialCameraPosition: const CameraPosition(
-                        target: LatLng(37.7749, -122.4194),
-                        zoom: 12.0,
+                      zoomControlsEnabled: false,
+                      // myLocationEnabled: true,
+                      // myLocationButtonEnabled: true,
+                      cameraTargetBounds: CameraTargetBounds(irelandBounds),
+                      initialCameraPosition: CameraPosition(
+                        target: dublin,
+                        zoom: 7,
                       ),
                       scrollGesturesEnabled: true,
                       gestureRecognizers: Set()

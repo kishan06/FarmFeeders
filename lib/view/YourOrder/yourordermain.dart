@@ -1,7 +1,10 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
+import 'package:farmfeeders/models/OrderModel/orders_model.dart';
+import 'package:farmfeeders/view_models/orderApi/order_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +21,17 @@ class Yourorder extends StatefulWidget {
 
 class _YourorderState extends State<Yourorder> {
   TextEditingController textcontroller = TextEditingController();
+  RxBool isLoading = true.obs;
+  OrdersModel ordersModel = OrdersModel();
+
+  @override
+  void initState() {
+    OrderApi().getOrdersListApi().then((value) {
+      ordersModel = OrdersModel.fromJson(value.data);
+      isLoading.value = false;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,217 +170,254 @@ class _YourorderState extends State<Yourorder> {
                     ],
                   ),
                   sizedBoxHeight(15.h),
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed("/ongoingorder");
-                    },
-                    child: Container(
-                      width: 358.w,
-                      height: 230.h,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: AppColors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color(0x48B9B9BE),
-                                blurRadius: 8.0,
-                                spreadRadius: 0)
-                          ]),
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 18.w, top: 12.h, bottom: 28.h),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 30.h,
-                                  width: 123.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25.h),
-                                    color: Color(0XFFFFB7B7),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Arriving Soon",
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: Color(0XFFAC2A33),
-                                        fontFamily: "Poppins",
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                sizedBoxHeight(18.h),
-                                Image.asset(
-                                  "assets/images/yourorder2.png",
-                                  width: 105.w,
-                                  height: 98.h,
-                                ),
-                                sizedBoxHeight(7.h),
-                                Text(
-                                  "Pre calve gain gold",
-                                  style: TextStyle(
-                                      fontSize: 13.sp,
-                                      color: Color(0XFF141414)),
-                                )
-                              ],
-                            ),
-                          ),
-                          sizedBoxWidth(29.w),
-                          // Padding(
-                          //   padding: EdgeInsets.only(top: 19.h),
-                          //   child: SvgPicture.asset(
-                          //     "assets/images/orderlocate.svg",
-                          //     width: 30.w,
-                          //     height: 189.h,
-                          //   ),
-                          // ),
-
-                          Padding(
-                            padding: EdgeInsets.only(top: 19.h),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                status(),
-                                DottedLine(
-                                  direction: Axis.vertical,
-                                  lineLength: 30,
-                                  lineThickness: 2.0,
-                                  dashLength: 4.0,
-                                  dashColor: Color(0XFF0E5F02),
-                                ),
-                                status(),
-                                DottedLine(
-                                  direction: Axis.vertical,
-                                  lineLength: 30,
-                                  lineThickness: 2.0,
-                                  dashLength: 4.0,
-                                  dashColor: Color(0XFF0E5F02),
-                                ),
-                                CircleAvatar(
-                                  backgroundColor: AppColors.buttoncolour,
-                                  radius: 11.w,
-                                  child: CircleAvatar(
-                                    radius: 9.w,
-                                    backgroundColor: AppColors.pistaE3FFE9,
-                                    child: SvgPicture.asset(
-                                        "assets/images/delivery.svg"),
-                                  ),
-                                ),
-                                DottedLine(
-                                  direction: Axis.vertical,
-                                  lineLength: 30,
-                                  lineThickness: 2.0,
-                                  dashLength: 4.0,
-                                  dashColor: Color(0XFF0E5F02),
-                                ),
-                                Container(
-                                  width: 15,
-                                  height: 15,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: AppColors.white,
-                                      border: Border.all(
-                                          color: AppColors.buttoncolour)),
-                                )
-                              ],
-                            ),
-                          ),
-                          sizedBoxWidth(9.w),
-                          Padding(
-                            padding: EdgeInsets.only(top: 15.h),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Ordered",
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: Color(0XFF0E5F02),
-                                      fontFamily: "Poppins"),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/images/clock-svgrepo-com (1).svg",
-                                      width: 6.w,
-                                      height: 6.w,
-                                    ),
-                                    sizedBoxWidth(6.w),
-                                    Text(
-                                      "9.30 Pm, 10 May2023",
-                                      style: TextStyle(
-                                          color: Color(0xff4D4D4D),
-                                          fontSize: 8.sp,
-                                          fontFamily: "Poppins"),
-                                    ),
-                                  ],
-                                ),
-                                sizedBoxHeight(14.h),
-                                Text(
-                                  "Packed and ready",
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: Color(0XFF0E5F02),
-                                      fontFamily: "Poppins"),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/images/clock-svgrepo-com (1).svg",
-                                      width: 6.w,
-                                      height: 6.w,
-                                    ),
-                                    sizedBoxWidth(6.w),
-                                    Text(
-                                      "9.30 Pm, 10 May2023",
-                                      style: TextStyle(
-                                          color: Color(0xff4D4D4D),
-                                          fontSize: 8.sp,
-                                          fontFamily: "Poppins"),
-                                    ),
-                                  ],
-                                ),
-                                sizedBoxHeight(19.h),
-                                Container(
-                                  height: 30.h,
-                                  width: 123.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25.h),
-                                    color: Color(0XFFF1F1F1),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Out for delivery",
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: Color(0XFF0E5F02),
-                                        fontFamily: "Poppins",
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                sizedBoxHeight(29.h),
-                                Text(
-                                  "Delivered",
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: Color(0XFF4D4D4D),
-                                      fontFamily: "Poppins"),
-                                ),
-                              ],
-                            ),
+                  Obx(
+                    () => isLoading.value
+                        ? const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(child: CircularProgressIndicator()),
                           )
-                        ],
-                      ),
-                    ),
+                        : ordersModel.data!.ongoingOrder == null
+                            ? Padding(
+                                padding: const EdgeInsets.all(25.0),
+                                child: Center(
+                                    child: Text(
+                                  "No Ongoing Orders Right Now",
+                                  style: TextStyle(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0XFF141414)),
+                                )),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  Get.toNamed("/ongoingorder", arguments: {
+                                    "id": ordersModel.data!.orderHeaderId!,
+                                  });
+                                },
+                                child: Container(
+                                  width: 358.w,
+                                  height: 230.h,
+                                  decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      color: AppColors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Color(0x48B9B9BE),
+                                            blurRadius: 8.0,
+                                            spreadRadius: 0)
+                                      ]),
+                                  child: Row(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 18.w,
+                                            top: 12.h,
+                                            bottom: 28.h),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 30.h,
+                                              width: 123.w,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.h),
+                                                color: Color(0XFFFFB7B7),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "Arriving Soon",
+                                                  style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    color: Color(0XFFAC2A33),
+                                                    fontFamily: "Poppins",
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            sizedBoxHeight(18.h),
+                                            Image.network(
+                                              "${ApiUrls.baseImageUrl}/${ordersModel.data!.ongoingOrder!.smallImageUrl}",
+                                              width: 105.w,
+                                              height: 98.h,
+                                            ),
+                                            sizedBoxHeight(7.h),
+                                            Text(
+                                              ordersModel
+                                                  .data!.ongoingOrder!.title!,
+                                              style: TextStyle(
+                                                  fontSize: 13.sp,
+                                                  color: Color(0XFF141414)),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      sizedBoxWidth(29.w),
+                                      // Padding(
+                                      //   padding: EdgeInsets.only(top: 19.h),
+                                      //   child: SvgPicture.asset(
+                                      //     "assets/images/orderlocate.svg",
+                                      //     width: 30.w,
+                                      //     height: 189.h,
+                                      //   ),
+                                      // ),
+
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 19.h),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            status(),
+                                            DottedLine(
+                                              direction: Axis.vertical,
+                                              lineLength: 30,
+                                              lineThickness: 2.0,
+                                              dashLength: 4.0,
+                                              dashColor: Color(0XFF0E5F02),
+                                            ),
+                                            status(),
+                                            DottedLine(
+                                              direction: Axis.vertical,
+                                              lineLength: 30,
+                                              lineThickness: 2.0,
+                                              dashLength: 4.0,
+                                              dashColor: Color(0XFF0E5F02),
+                                            ),
+                                            CircleAvatar(
+                                              backgroundColor:
+                                                  AppColors.buttoncolour,
+                                              radius: 11.w,
+                                              child: CircleAvatar(
+                                                radius: 9.w,
+                                                backgroundColor:
+                                                    AppColors.pistaE3FFE9,
+                                                child: SvgPicture.asset(
+                                                    "assets/images/delivery.svg"),
+                                              ),
+                                            ),
+                                            DottedLine(
+                                              direction: Axis.vertical,
+                                              lineLength: 30,
+                                              lineThickness: 2.0,
+                                              dashLength: 4.0,
+                                              dashColor: Color(0XFF0E5F02),
+                                            ),
+                                            Container(
+                                              width: 15,
+                                              height: 15,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: AppColors.white,
+                                                  border: Border.all(
+                                                      color: AppColors
+                                                          .buttoncolour)),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      sizedBoxWidth(9.w),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 15.h),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Ordered",
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  color: Color(0XFF0E5F02),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                SvgPicture.asset(
+                                                  "assets/images/clock-svgrepo-com (1).svg",
+                                                  width: 6.w,
+                                                  height: 6.w,
+                                                ),
+                                                sizedBoxWidth(6.w),
+                                                Text(
+                                                  "9.30 Pm, 10 May2023",
+                                                  style: TextStyle(
+                                                      color: Color(0xff4D4D4D),
+                                                      fontSize: 8.sp,
+                                                      fontFamily: "Poppins"),
+                                                ),
+                                              ],
+                                            ),
+                                            sizedBoxHeight(14.h),
+                                            Text(
+                                              "Packed and ready",
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  color: Color(0XFF0E5F02),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                SvgPicture.asset(
+                                                  "assets/images/clock-svgrepo-com (1).svg",
+                                                  width: 6.w,
+                                                  height: 6.w,
+                                                ),
+                                                sizedBoxWidth(6.w),
+                                                Text(
+                                                  "9.30 Pm, 10 May2023",
+                                                  style: TextStyle(
+                                                      color: Color(0xff4D4D4D),
+                                                      fontSize: 8.sp,
+                                                      fontFamily: "Poppins"),
+                                                ),
+                                              ],
+                                            ),
+                                            sizedBoxHeight(19.h),
+                                            Container(
+                                              height: 30.h,
+                                              width: 123.w,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.h),
+                                                color: Color(0XFFF1F1F1),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "Out for delivery",
+                                                  style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    color: Color(0XFF0E5F02),
+                                                    fontFamily: "Poppins",
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            sizedBoxHeight(29.h),
+                                            Text(
+                                              "Delivered",
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  color: Color(0XFF4D4D4D),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                   ),
                   sizedBoxHeight(19.h),
                   Row(

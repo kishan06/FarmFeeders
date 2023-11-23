@@ -24,6 +24,17 @@ Widget textBlack20W7000Mon(String text) {
   );
 }
 
+Widget text18w5004D4D4D(String txt) {
+  return Text(
+    txt,
+    style: TextStyle(
+        fontSize: 18.sp,
+        fontFamily: "Montserrat",
+        fontWeight: FontWeight.w500,
+        color: const Color(0xff4D4D4D)),
+  );
+}
+
 Widget textBlack18W600Mon(String text) {
   return Text(
     text,

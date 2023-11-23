@@ -214,6 +214,80 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  accessDeniedDialog(context, text) {
+    return showDialog(
+      context: context,
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
+            //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              side: BorderSide(
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
+            ),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //sizedBoxHeight(32.h),
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    "assets/images/delete.png",
+                    width: 80.w,
+                    height: 80.h,
+                  ),
+                ),
+                SizedBox(
+                  height: 22.h,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22.sp,
+                      //fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+                sizedBoxHeight(21.h),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 48.h,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0XFF0E5F02)),
+                        borderRadius: BorderRadius.circular(10.h),
+                        color: AppColors.buttoncolour),
+                    child: Center(
+                      child: Text(
+                        "OK",
+                        style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   buildprofilelogoutdialog(context) {
     return showDialog(
       context: context,
@@ -478,7 +552,15 @@ class _ProfileState extends State<Profile> {
                           Spacer(),
                           InkWell(
                             onTap: () {
-                              Get.toNamed(RouteName.liveStockInfoMain);
+                              SetupFarmInfoApi()
+                                  .getLivestockTypeApi()
+                                  .then((value) {
+                                if (value.message == "Access Denied") {
+                                  accessDeniedDialog(context, value.message);
+                                } else {
+                                  Get.toNamed(RouteName.liveStockInfoMain);
+                                }
+                              });
                             },
                             child: SvgPicture.asset(
                               'assets/images/profileEdit.svg',
@@ -516,7 +598,15 @@ class _ProfileState extends State<Profile> {
                           Spacer(),
                           InkWell(
                             onTap: () {
-                              Get.toNamed("/farmfeedtracker");
+                              SetupFarmInfoApi()
+                                  .getFeedLivestockApi()
+                                  .then((value) {
+                                if (value.message == "Access Denied") {
+                                  accessDeniedDialog(context, value.message);
+                                } else {
+                                  Get.toNamed("/farmfeedtracker");
+                                }
+                              });
                             },
                             child: SvgPicture.asset(
                               'assets/images/profileEdit.svg',

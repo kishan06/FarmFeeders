@@ -39,16 +39,18 @@ class _ContactUsState extends State<ContactUs> {
     final isValid = _form.currentState?.validate();
     if (isValid!) {
       Map<String, String> updata = {
-        "name": nameController.text,
-        "email": emailController.text,
-        "contact_number": contactController.text,
+        // "name": nameController.text,
+        // "email": emailController.text,
+        // "contact_number": contactController.text,
         "subject": subjectController.text,
         "message": messageController.text
       };
       final resp = await ContactusAPI(updata).contactusApi();
       if (resp.status == ResponseStatus.SUCCESS) {
         utils.showToast("Sent");
-        Get.toNamed("/sidemenu");
+        subjectController.clear();
+        messageController.clear();
+        _form.currentState?.reset();
       } else if (resp.status == ResponseStatus.PRIVATE) {
         String? message = resp.data['data'];
         utils.showToast("$message");
@@ -116,96 +118,6 @@ class _ContactUsState extends State<ContactUs> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       sizedBoxHeight(30.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Name",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      ContactTextformfield(
-                          textEditingController: nameController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please Enter Your Name";
-                            }
-                            return null;
-                          },
-                          hintText: "Enter Name",
-                          validatorText: "Please Enter Name"),
-                      SizedBox(
-                        height: 25.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Email",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      ContactTextformfield(
-                          textEditingController: emailController,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "Please Enter Your Email";
-                            }
-                            if (!RegExp(
-                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                .hasMatch(value)) {
-                              return 'Enter a Valid Email address';
-                            }
-                            return null;
-                          },
-                          hintText: "Enter Email Address",
-                          validatorText: "Please Enter Email Address"),
-                      SizedBox(height: 25.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Mobile",
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      ContactTextformfield(
-                          textEditingController: contactController,
-                          texttype: TextInputType.phone,
-                          validator: (value) {
-                            if (value == value.isEmpty) {
-                              return 'Mobile number is required';
-                            } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)')
-                                .hasMatch(value)) {
-                              return 'Enter valid mobile number';
-                            }
-                            // v3 = true;
-                            return null;
-                          },
-                          hintText: "Enter Mobile Number",
-                          validatorText: "Please Enter Mobile Number"),
-                      SizedBox(height: 25.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

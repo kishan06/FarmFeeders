@@ -1,3 +1,4 @@
+import 'package:farmfeeders/models/faq_model.dart';
 import 'package:get/get.dart';
 
 import '../models/dashboardModel.dart';
@@ -12,4 +13,6 @@ class DashboardController extends GetxController {
   RxBool isDashboardApiLoading = false.obs;
   String connectionCodeValue = "";
   DashboardModel dashboardModel = DashboardModel();
+  FAQModel faqModel = FAQModel();
+  String faqText = "";
 }

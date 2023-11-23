@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
       return DateTime.now();
     });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-    await getCurrentAddress();
+      await getCurrentAddress();
       // getPrefData();
 
       ConnectionCodeApi().getConnectionCode().then((value) {
@@ -935,11 +935,9 @@ class _HomeState extends State<Home> {
                                                             .currentFeed!
                                                             .length,
                                                         (index) => Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          15),
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 15),
                                                               child: currentFeedSelection(
                                                                   imagePath: dashboardController
                                                                       .dashboardModel

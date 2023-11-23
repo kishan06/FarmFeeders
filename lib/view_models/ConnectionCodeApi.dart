@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/base_manager.dart';
-import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 
 class ConnectionCodeApi {
