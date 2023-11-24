@@ -8,6 +8,7 @@ class ApiUrls {
   static const getFeedInfoDropdownData = "${base}feed/data/";
   static const setFeedInfo = "${base}feed-info";
   static const addTrainingNotesApi = "${base}training_video/add_note";
+  static const updateTrainingNotesApi = "${base}training_video/note";
   static const notificationCountApi = "${base}farmer/notifications-count";
   static const getNotificationData = "${base}farmer/notifications";
   static const getNewsArticle = "${base}news-and-articles";
@@ -36,4 +37,8 @@ class ApiUrls {
 
   static const orderApi = "${base}orders";
   static const orderDetailsApi = "${base}order-details/";
+  static const trainingVideoBookmarkApi = "${base}training_video/bookmark";
+  static const trainingVideoDetailApi = "${base}training_video/";
+  static const updatetrainingVideoApi = "${base}training_video/update";
+  static const deletetrainingVideoApi = "${base}training_video/";
 }

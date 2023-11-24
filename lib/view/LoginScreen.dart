@@ -49,8 +49,10 @@ class _LoginScreenState extends State<LoginScreen> {
         Get.offAndToNamed('/sideMenu');
       } else if (resp.status == ResponseStatus.PRIVATE) {
         if (resp.data["status"] == 202) {
-          Get.offAndToNamed('/verifyYourIdentity',
-            arguments: {'id': resp.data['data']['id'], 'phonenumber': resp.data['data']['phone_number']});
+          Get.offAndToNamed('/verifyYourIdentity', arguments: {
+            'id': resp.data['data']['id'],
+            'phonenumber': resp.data['data']['phone_number']
+          });
         } else {
           String? message = resp.data['data'];
           utils.showToast("$message");
@@ -231,31 +233,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: "Login",
                             onTap: () {
                               _logincheck();
-                              // final isValid = _form.currentState?.validate();
-                              // if (isValid!) {
-                              // Get.toNamed("/homepage");
-                              // Get.to(MainScreen());
-
-                              //bottomsheetpin(context);
-
-                              //bottomsheetfingerprint(context);
-
-                              // final SharedPreferences prefs =
-                              //     await SharedPreferences.getInstance();
-
-                              // await prefs.setBool('LogedIn', true);
-                              // Get.toNamed("/sideMenu");
-
-                              // Get.toNamed("/EntryPoint", arguments: 0);
-                              //     }
-                              // else {
-                              //   Get.snackbar(
-                              //       "Error", "Please Enter Login Credentials",
-                              //       margin: EdgeInsets.all(8),
-                              //       snackStyle: SnackStyle.FLOATING,
-                              //       snackPosition: SnackPosition.BOTTOM);
-                              // }
-                              // Get.toNamed("/letsSetUpYourFarm");
                             }),
                         SizedBox(
                           height: 15.h,

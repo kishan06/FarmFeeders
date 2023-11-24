@@ -25,4 +25,25 @@ class TrainingNotesApi {
     }
     return response;
   }
+
+  Future<ResponseData<dynamic>> updateNotesApi(
+      {required Map<String, dynamic> map}) async {
+    var data = FormData.fromMap(map);
+    final response = await NetworkApiServices().postApi(
+      data,
+      ApiUrls.updateTrainingNotesApi,
+    );
+
+    if (response.status == ResponseStatus.SUCCESS) {
+      Map<String, dynamic> responseData =
+          Map<String, dynamic>.from(response.data);
+      if (responseData['success']) {
+        utils.showToast("${responseData['message']}");
+      } else {
+        return ResponseData<dynamic>(
+            responseData['message'], ResponseStatus.FAILED);
+      }
+    }
+    return response;
+  }
 }

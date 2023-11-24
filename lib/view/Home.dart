@@ -36,6 +36,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../common/custom_dropdown.dart';
 import '../common/status.dart';
 import '../models/dashboardModel.dart';
+import '../view_models/SetupFarmInfoAPI.dart';
 import 'farmfeedtracker.dart';
 
 class Home extends StatefulWidget {
@@ -78,6 +79,80 @@ class _HomeState extends State<Home> {
   bool isDaytimeNow(
       DateTime currentTime, DateTime sunriseTime, DateTime sunsetTime) {
     return currentTime.isAfter(sunriseTime) && currentTime.isBefore(sunsetTime);
+  }
+
+  accessDeniedDialog(context, text) {
+    return showDialog(
+      context: context,
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
+            //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              side: BorderSide(
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
+            ),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //sizedBoxHeight(32.h),
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    "assets/images/delete.png",
+                    width: 80.w,
+                    height: 80.h,
+                  ),
+                ),
+                SizedBox(
+                  height: 22.h,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22.sp,
+                      //fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+                sizedBoxHeight(21.h),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 48.h,
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0XFF0E5F02)),
+                        borderRadius: BorderRadius.circular(10.h),
+                        color: AppColors.buttoncolour),
+                    child: Center(
+                      child: Text(
+                        "OK",
+                        style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -1146,18 +1221,20 @@ class _HomeState extends State<Home> {
                                                                           "Refill Now",
                                                                       onTap:
                                                                           () {
-                                                                        print(
-                                                                            "FEED ID ==> ${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid!}");
-                                                                        Get.to(
-                                                                            Farmfeedtracker(
-                                                                          isInside:
-                                                                              true,
-                                                                          index: dashboardController
-                                                                              .dashboardModel
-                                                                              .data!
-                                                                              .currentFeed![selectedCurrentFeed]
-                                                                              .livestockTypeXid!,
-                                                                        ));
+                                                                        SetupFarmInfoApi()
+                                                                            .getFeedLivestockApi()
+                                                                            .then((value) {
+                                                                          if (value.message ==
+                                                                              "Access Denied") {
+                                                                            accessDeniedDialog(context,
+                                                                                value.message);
+                                                                          } else {
+                                                                            Get.to(Farmfeedtracker(
+                                                                              isInside: true,
+                                                                              index: dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid!,
+                                                                            ));
+                                                                          }
+                                                                        });
                                                                       }),
                                                             )
                                                           ],
@@ -1216,7 +1293,7 @@ class _HomeState extends State<Home> {
                                                     height: 55.w,
                                                     width: 55.w,
                                                     child:
-                                                        CircularProgressIndicator(
+                                                        CircularProgressIndicator(color: AppColors.buttoncolour,
                                                       value: dashboardController
                                                               .dashboardModel
                                                               .data!
@@ -1336,7 +1413,30 @@ class _HomeState extends State<Home> {
                                     ? const SizedBox()
                                     : InkWell(
                                         onTap: () {
-                                          Get.toNamed("/trainingmain");
+                                          Get.toNamed("/videosdetails",
+                                              arguments: {
+                                                "videourl": dashboardController
+                                                    .dashboardModel
+                                                    .data!
+                                                    .trainingVideos!
+                                                    .videoUrl!,
+                                                "title": dashboardController
+                                                    .dashboardModel
+                                                    .data!
+                                                    .trainingVideos!
+                                                    .title!,
+                                                "publisheddate":
+                                                    dashboardController
+                                                        .dashboardModel
+                                                        .data!
+                                                        .trainingVideos!
+                                                        .publishedDatetime,
+                                                "videoId": dashboardController
+                                                    .dashboardModel
+                                                    .data!
+                                                    .trainingVideos!
+                                                    .id!,
+                                              });
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(

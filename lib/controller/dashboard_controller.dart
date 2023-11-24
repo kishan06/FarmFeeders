@@ -2,6 +2,7 @@ import 'package:farmfeeders/models/faq_model.dart';
 import 'package:get/get.dart';
 
 import '../models/dashboardModel.dart';
+import '../models/video_detail_model.dart';
 
 class DashboardController extends GetxController {
   RxString tempValue = "00.0".obs;
@@ -15,4 +16,5 @@ class DashboardController extends GetxController {
   DashboardModel dashboardModel = DashboardModel();
   FAQModel faqModel = FAQModel();
   String faqText = "";
+  VideoData videoData = VideoData();
 }

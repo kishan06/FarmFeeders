@@ -221,10 +221,12 @@ class _manageUserState extends State<manageUser> {
               ),
               Obx(
                 () => isLoading.value
-                    ? const CircularProgressIndicator()
+                    ? const CircularProgressIndicator(
+                        color: AppColors.buttoncolour,
+                      )
                     : dataList.isNotEmpty
                         ? SizedBox(
-                            height: Get.height / 1.4,
+                            height: Get.height / 1.42,
                             child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: dataList.length,
@@ -343,7 +345,7 @@ class _manageUserState extends State<manageUser> {
                                                               0xFF4D4D4D)),
                                                     ),
                                                     Container(
-                                                      width: Get.width / 2,
+                                                      width: Get.width / 2.1,
                                                       child: Text(
                                                         dataList[index]
                                                             .address!,

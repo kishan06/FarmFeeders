@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button.dart';
@@ -46,6 +47,7 @@ class _addSubUserState extends State<addSubUser> {
   SubUserController subUserController = Get.put(SubUserController());
 
   void _addSubUser() {
+    Utils.loader();
     var data = {
       "name": name.text,
       "dob": subuserdatecontroller,
@@ -60,6 +62,7 @@ class _addSubUserState extends State<addSubUser> {
   }
 
   void _updateSubUser() {
+    Utils.loader();
     var data = {
       "id": subUserController.subUserData.id,
       "name": name.text,

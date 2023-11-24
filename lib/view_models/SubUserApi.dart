@@ -56,12 +56,15 @@ class SubuserApi {
           Map<String, dynamic>.from(response.data);
       if (responseData['success']) {
         utils.showToast(responseData["message"]);
+        Get.back();
         Get.back(result: true);
       } else {
+        Get.back();
         return ResponseData<dynamic>(
             responseData['message'], ResponseStatus.FAILED);
       }
     } else if (response.status == ResponseStatus.PRIVATE) {
+      Get.back();
       Map<String, dynamic> responseData =
           Map<String, dynamic>.from(response.data);
       log(response.message);
@@ -83,12 +86,15 @@ class SubuserApi {
           Map<String, dynamic>.from(response.data);
       if (responseData['success']) {
         utils.showToast(responseData["message"]);
+        Get.back();
         Get.back(result: true);
       } else {
+        Get.back();
         return ResponseData<dynamic>(
             responseData['message'], ResponseStatus.FAILED);
       }
     } else if (response.status == ResponseStatus.PRIVATE) {
+      Get.back();
       Map<String, dynamic> responseData =
           Map<String, dynamic>.from(response.data);
       log(response.message);

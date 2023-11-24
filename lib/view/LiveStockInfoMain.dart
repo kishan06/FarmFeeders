@@ -111,7 +111,9 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                       ),
                       isLoading.value
                           ? const Center(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                color: AppColors.buttoncolour,
+                              ),
                             )
                           : SizedBox(
                               height: Get.height / 2,
@@ -136,63 +138,70 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                                 selectedNum:
                                                     (index + 1).toString())
                                             .then((value) {
-                                          if (liveStockInfoController
-                                                  .liveStockData!
-                                                  .data
-                                                  .livestock !=
-                                              null) {
-                                            for (var i
-                                                in liveStockInfoController
-                                                    .liveStockData!
-                                                    .data
-                                                    .ageList) {
-                                              if (i.id ==
-                                                  liveStockInfoController
-                                                      .liveStockData!
-                                                      .data
-                                                      .livestock!
-                                                      .livestockAgeXid) {
-                                                liveStockInfoController
-                                                    .updateSelectedAge(i.name);
-                                                selectedAgeIndex = i.id;
-                                              }
-                                            }
-
-                                            for (var i
-                                                in liveStockInfoController
-                                                    .liveStockData!
-                                                    .data
-                                                    .breedList) {
-                                              if (i.id ==
-                                                  liveStockInfoController
-                                                      .liveStockData!
-                                                      .data
-                                                      .livestock!
-                                                      .livestockBreedXid) {
-                                                liveStockInfoController
-                                                    .updateSelectedBreed(
-                                                        i.name);
-                                                selectedBreedIndex = i.id;
-                                              }
-                                            }
-
-                                            tecNumber.text =
-                                                liveStockInfoController
-                                                    .liveStockData!
-                                                    .data
-                                                    .livestock!
-                                                    .number
-                                                    .toString();
+                                          if (value == "Access Denied") {
+                                            // Get.back();
+                                            commonFlushBar(context,
+                                                msg: "Access Denied");
                                           } else {
-                                            selectedBreedIndex = null;
-                                            selectedAgeIndex = null;
-                                            tecNumber.clear();
-                                          }
+                                            if (liveStockInfoController
+                                                    .liveStockData!
+                                                    .data
+                                                    .livestock !=
+                                                null) {
+                                              for (var i
+                                                  in liveStockInfoController
+                                                      .liveStockData!
+                                                      .data
+                                                      .ageList) {
+                                                if (i.id ==
+                                                    liveStockInfoController
+                                                        .liveStockData!
+                                                        .data
+                                                        .livestock!
+                                                        .livestockAgeXid) {
+                                                  liveStockInfoController
+                                                      .updateSelectedAge(
+                                                          i.name);
+                                                  selectedAgeIndex = i.id;
+                                                }
+                                              }
 
-                                          buildAddDataDailog(
-                                              index: index + 1,
-                                              titleText: liveStockTypeModel
-                                                  .data![index].name!);
+                                              for (var i
+                                                  in liveStockInfoController
+                                                      .liveStockData!
+                                                      .data
+                                                      .breedList) {
+                                                if (i.id ==
+                                                    liveStockInfoController
+                                                        .liveStockData!
+                                                        .data
+                                                        .livestock!
+                                                        .livestockBreedXid) {
+                                                  liveStockInfoController
+                                                      .updateSelectedBreed(
+                                                          i.name);
+                                                  selectedBreedIndex = i.id;
+                                                }
+                                              }
+
+                                              tecNumber.text =
+                                                  liveStockInfoController
+                                                      .liveStockData!
+                                                      .data
+                                                      .livestock!
+                                                      .number
+                                                      .toString();
+                                            } else {
+                                              selectedBreedIndex = null;
+                                              selectedAgeIndex = null;
+                                              tecNumber.clear();
+                                            }
+
+                                            buildAddDataDailog(
+                                                index: index + 1,
+                                                titleText: liveStockTypeModel
+                                                    .data![index].name!);
+                                          }
                                         });
                                         // addDataDialog(1);
                                         // buildAddDataDailog();
@@ -348,7 +357,10 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                   ),
                   content: GetBuilder<LiveStockInfoContro>(builder: (builder) {
                     return liveStockInfoController.isLoading
-                        ? const Center(child: CircularProgressIndicator())
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                            color: AppColors.buttoncolour,
+                          ))
                         : Form(
                             key: _formKey,
                             child: Column(
@@ -542,18 +554,24 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                                         .toString(),
                                                 count: tecNumber.text)
                                             .then((value) {
-                                          SetupFarmInfoApi()
-                                              .getLivestockTypeApi()
-                                              .then((value) {
-                                            isLoading.value = true;
-                                            liveStockTypeModel =
-                                                LiveStockTypeModel.fromJson(
-                                                    value.data);
-                                            isLoading.value = false;
+                                          if (value == "success") {
+                                            SetupFarmInfoApi()
+                                                .getLivestockTypeApi()
+                                                .then((value) {
+                                              isLoading.value = true;
+                                              liveStockTypeModel =
+                                                  LiveStockTypeModel.fromJson(
+                                                      value.data);
+                                              isLoading.value = false;
+                                              Get.back();
+                                              Get.back();
+                                              setLiveStockFor(index);
+                                            });
+                                          } else if (value == "Access Denied") {
                                             Get.back();
-                                            Get.back();
-                                            setLiveStockFor(index);
-                                          });
+                                            commonFlushBar(context,
+                                                msg: "Access Denied");
+                                          }
                                         });
                                       }
                                     } else {
@@ -575,196 +593,6 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
       ),
     );
   }
-
-  // Future<T?> addDataDialog<T>(int index) {
-
-  //   int? selectedAgeIndex;
-  //   int? selectedBreedIndex;
-  //   final tecNumber = TextEditingController();
-
-  //   return Get.defaultDialog(
-  //       contentPadding: EdgeInsets.only(
-  //         left: 22,
-  //         right: 22,
-  //         top: 25,
-  //         bottom: 70,
-  //       ),
-  //       title: "",
-  //       content: GetBuilder<LiveStockInfoContro>(builder: (builder){
-  //         return liveStockInfoController.isLoading
-  //         ? Center(child: CircularProgressIndicator())
-  //         : SingleChildScrollView(
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   textBlack25W600Mon("Dairy"),
-  //                   GestureDetector(
-  //                     onTap: () {
-  //                       Get.back();
-  //                     },
-  //                     child: CircleAvatar(
-  //                       backgroundColor: AppColors.greyF1F1F1,
-  //                       radius: 20,
-  //                       child: Center(
-  //                         child: Text(
-  //                           "x",
-  //                           style: TextStyle(
-  //                               fontWeight: FontWeight.bold,
-  //                               fontSize: 26,
-  //                               color: Color(0XFF0E5F02)),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //               SizedBox(
-  //                 height: 20,
-  //               ),
-  //               Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   Text("Age"),
-  //                   SizedBox(
-  //                     height: 5.h,
-  //                   ),
-  //                   SizedBox(
-  //                     width: 315,
-  //                     child: DropdownBtn(
-  //                       hint: "Please Select Age",
-  //                       // items: ,
-  //                       items: liveStockInfoController.liveStockData!.data.ageList.map((e) => DropdownMenuItem(
-  //                         child: Text(
-  //                           e.name,
-  //                           style: TextStyle(
-  //                             fontSize: 14,
-  //                             fontWeight: FontWeight.bold,
-  //                             color: Color(0xFF4D4D4D),
-  //                           ),
-  //                           overflow: TextOverflow.ellipsis,
-  //                         ),
-  //                         value: e.name,
-  //                         onTap: (){
-  //                           liveStockInfoController.updateSelectedAge(e.name);
-  //                           selectedAgeIndex = e.id;
-
-  //                         },
-  //                       )).toList(),
-  //                       value: liveStockInfoController.selectedAge,
-  //                       // liveStockInfoController.liveStockData!.data.ageList
-  //                       // [
-  //                       //   "<2 Yrs",
-  //                       //   "> & <5 yrs",
-  //                       //   ">5 Yrs",
-  //                       // ],
-  //                     ),
-  //                   )
-  //                 ],
-  //               ),
-  //               SizedBox(
-  //                 height: 20,
-  //               ),
-  //               Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   Text("Breed"),
-  //                   SizedBox(
-  //                     height: 5.h,
-  //                   ),
-  //                   SizedBox(
-  //                     width: 315,
-  //                     child: DropdownBtn(
-  //                       hint: "Please Select Breed",
-  //                        items: liveStockInfoController.liveStockData!.data.breedList.map((e) =>
-  //                        DropdownMenuItem(
-  //                         child: Text(
-  //                           e.name,
-  //                           style: TextStyle(
-  //                             fontSize: 14,
-  //                             fontWeight: FontWeight.bold,
-  //                             color: Color(0xFF4D4D4D),
-  //                           ),
-  //                           overflow: TextOverflow.ellipsis,
-  //                         ),
-  //                         value: e.name,
-  //                         onTap: (){
-  //                           // selectedBreed = e.name;
-  //                           liveStockInfoController.updateSelectedBreed(e.name);
-  //                           selectedBreedIndex = e.id;
-
-  //                         },
-  //                       )).toList(),
-  //                       value: liveStockInfoController.selectedBreed,
-
-  //                       // items: [
-  //                       //   "Irish Angus",
-  //                       //   "Irish Dexter",
-  //                       //   "irish Holstein-Friesian",
-  //                       //   "irish Holstein-Friesian1",
-  //                       //   "irish Holstein-Friesian2",
-  //                       // ],
-  //                     ),
-  //                   )
-  //                 ],
-  //               ),
-  //               SizedBox(
-  //                 height: 20,
-  //               ),
-  //               Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   Text("Number"),
-  //                   SizedBox(
-  //                     height: 5.h,
-  //                   ),
-  //                   SizedBox(
-  //                     width: 315,
-  //                     child: CustomTextFormField(
-  //                       textEditingController: tecNumber,
-  //                       texttype: TextInputType.number,
-  //                       hintText: "Enter number",
-  //                       validatorText: "validatorText",
-  //                       inputFormatters: <TextInputFormatter>[
-  //                         // for below version 2 use this
-  //                       // FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-  //                       // for version 2 and greater youcan also use this
-  //                         FilteringTextInputFormatter.digitsOnly
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //               SizedBox(
-  //                 height: 20,
-  //               ),
-  //               CustomButton(
-  //                 text: "Save",
-  //                 onTap: () {
-  //                   liveStockInfoController.setApiLiveStockData(
-  //                     liveStockType: index.toString(),
-  //                     liveStockAge: selectedAgeIndex.toString(),
-  //                     liveStockBreed: selectedBreedIndex.toString(),
-  //                     count: tecNumber.text
-  //                   );
-  //                   Get.back();
-  //                   setLiveStockFor(index);
-  //                 },
-  //               )
-  //             ],
-
-  //           ),
-  //         );
-
-  //       }),
-
-  //       backgroundColor: Colors.white,
-  //       titleStyle: TextStyle(color: Colors.white, fontSize: 0),
-  //       middleTextStyle: TextStyle(color: Colors.white),
-  //       radius: 20);
-  // }
 
   setLiveStockFor(int index) {
     print(index);
@@ -812,6 +640,5 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
       default:
         {}
     }
-    // Switch(value: value, onChanged: onChanged)
   }
 }

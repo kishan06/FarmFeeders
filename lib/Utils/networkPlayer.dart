@@ -1,4 +1,5 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
+import 'package:farmfeeders/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:woka/view/videoplayerwidget.dart';
@@ -45,7 +46,9 @@ class _NetworkPlayerWidgetState extends State<NetworkPlayerWidget> {
       : const SizedBox(
           height: 200,
           child: Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.buttoncolour,
+            ),
           ),
         );
 

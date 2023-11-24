@@ -308,7 +308,10 @@ class _NotificationState extends State<Notification> {
                     children: [
                       GetBuilder<NotificationController>(builder: (builder) {
                         return controllerNotification.isLoading
-                            ? const Center(child: CircularProgressIndicator())
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                color: AppColors.buttoncolour,
+                              ))
                             : controllerNotification.notificationData == null
                                 ? Center(
                                     child: Text(

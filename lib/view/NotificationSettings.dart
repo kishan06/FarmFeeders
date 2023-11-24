@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:farmfeeders/Utils/colors.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
+import 'package:farmfeeders/models/video_detail_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+
+import '../controller/sub_user_controller.dart';
 
 class NotificationSettings extends StatefulWidget {
   const NotificationSettings({Key? key}) : super(key: key);
@@ -191,6 +197,8 @@ class CustomListTile extends StatefulWidget {
     required this.title,
     required this.statecontroller,
     this.addVideoPage = false,
+    this.id = 0,
+    this.isUpdate = false,
 
     //required this.sizefactor
   }) : super(key: key);
@@ -198,6 +206,8 @@ class CustomListTile extends StatefulWidget {
   final String? title;
   bool statecontroller;
   bool addVideoPage;
+  int id;
+  bool isUpdate;
   //double sizefactor;
 
   @override
@@ -205,8 +215,20 @@ class CustomListTile extends StatefulWidget {
 }
 
 class _CustomListTileState extends State<CustomListTile> {
+  SubUserController subUserController = Get.put(SubUserController());
+  DashboardController dashboardController = Get.put(DashboardController());
+
   @override
   Widget build(BuildContext context) {
+    if (widget.isUpdate) {
+      if (dashboardController.videoData.videoAccess!
+          .any((access) => access.iamPrincipalXid == widget.id)) {
+        setState(() {
+          widget.statecontroller = true;
+        });
+        subUserController.selectedIds.add(widget.id);
+      }
+    }
     return Container(
       height: 60.h,
       child: Padding(
@@ -239,6 +261,19 @@ class _CustomListTileState extends State<CustomListTile> {
               value: widget.statecontroller,
               onToggle: (val) {
                 setState(() {
+                  if (subUserController.selectedIds.contains(widget.id)) {
+                    subUserController.selectedIds.remove(widget.id);
+                    if (widget.isUpdate) {
+                      dashboardController.videoData.videoAccess!.removeWhere(
+                          (element) => element.iamPrincipalXid == widget.id);
+                    }
+                  } else {
+                    subUserController.selectedIds.add(widget.id);
+                    if (widget.isUpdate) {
+                      dashboardController.videoData.videoAccess!
+                          .add(VideoAccess(iamPrincipalXid: widget.id));
+                    }
+                  }
                   widget.statecontroller = val;
                 });
               },

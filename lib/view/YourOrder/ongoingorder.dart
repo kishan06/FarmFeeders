@@ -191,7 +191,9 @@ class _OngoingorderState extends State<Ongoingorder> {
         body: Obx(
           () => isLoading.value
               ? const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: AppColors.buttoncolour,
+                  ),
                 )
               : Column(
                   mainAxisAlignment: MainAxisAlignment.start,

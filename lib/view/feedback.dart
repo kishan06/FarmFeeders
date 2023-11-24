@@ -156,7 +156,9 @@ class _FeedBackState extends State<FeedBack> {
   Widget _buildItemList(BuildContext context, int index) {
     if (index == data.length)
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: AppColors.buttoncolour,
+        ),
       );
     return Container(
       width: 150,
