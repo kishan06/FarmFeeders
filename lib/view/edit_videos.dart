@@ -1,15 +1,19 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:async';
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:dio/dio.dart';
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
+import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/Videouploadbottomsheet.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/view/NotificationSettings.dart';
 import 'package:farmfeeders/view_models/UploadvideoAPI.dart';
 // import 'package:farmfeeders/view/Settings.dart';
@@ -17,12 +21,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart' as Getx hide MultipartFile, FormData;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:farmfeeders/common/limit_range.dart';
+import 'package:video_compress/video_compress.dart';
 import '../Utils/networkPlayer.dart';
 import 'package:path/path.dart' as path;
+
+import '../common/flush_bar.dart';
+import '../controller/sub_user_controller.dart';
+import '../models/video_detail_model.dart';
+import 'Side Menu/NavigateTo pages/Training/VideosList.dart';
 
 String longVideo =
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
@@ -45,6 +56,7 @@ class _EditVideosState extends State<EditVideos> {
   TextEditingController titlecontroller = TextEditingController();
   TextEditingController subtitlecontroller = TextEditingController();
   String? categoryindex;
+  bool isUpdate = false;
 
   // late CustomVideoPlayerWebController _customVideoPlayerWebController;
   // late CustomVideoPlayerController _customVideoPlayerController;
@@ -84,22 +96,31 @@ class _EditVideosState extends State<EditVideos> {
     });
   }
 
+  DashboardController dashboardController = Get.put(DashboardController());
   @override
   void initState() {
     // TODO: implement initState
     categoryindex = Get.arguments["categoryindex"];
+    isUpdate = Get.arguments['isUpdate'];
+    subUserController.selectedIds.clear();
+    if (isUpdate) {
+      titlecontroller.text = dashboardController.videoData.title!;
+      subtitlecontroller.text = dashboardController.videoData.smallDescription!;
+      log("${ApiUrls.baseImageUrl}/${dashboardController.videoData.videoUrl}");
+      videoController = VideoPlayerController.network(
+          "${ApiUrls.baseImageUrl}/${dashboardController.videoData.videoUrl}")
+        ..addListener(() => setState(() {}))
+        ..setLooping(true)
+        ..initialize().then((_) => videoController.pause());
+      videoControllerSet = true;
+    } else {
+      videoController = VideoPlayerController.network(
+          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
+        ..addListener(() => setState(() {}))
+        ..setLooping(true)
+        ..initialize().then((_) => videoController.pause());
+    }
     super.initState();
-
-    // videoController = VideoPlayerController.file(File(file!.path))
-    //   ..addListener(() => setState(() {}))
-    //   ..setLooping(true)
-    //   ..initialize().then((_) => videoController.pause());
-
-    videoController = VideoPlayerController.network(
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
-      ..addListener(() => setState(() {}))
-      ..setLooping(true)
-      ..initialize().then((_) => videoController.pause());
 
     print("videoController $videoController");
 
@@ -144,54 +165,75 @@ class _EditVideosState extends State<EditVideos> {
           );
         }
       }
+      Set<int> uniqueNumbers = subUserController.selectedIds.toSet();
+      List<int> uniqueList = uniqueNumbers.toList();
 
-      var formData = FormData.fromMap({
-        "title": titlecontroller.text,
-        "sub_title": subtitlecontroller.text,
-        "video": multipartFiles.isNotEmpty ? multipartFiles : null,
-        // file!.path,
-        "category_id": categoryindex.toString(),
-        "access_ids[0]": "80"
-      });
+      if (isUpdate) {
+        Utils.loader();
+        var formData = FormData.fromMap({});
+        if (file == null) {
+          formData = FormData.fromMap({
+            "id": dashboardController.videoData.id,
+            "title": titlecontroller.text,
+            "sub_title": subtitlecontroller.text,
+            "category_id": categoryindex.toString(),
+            "access_ids[]": uniqueList,
+          });
+        } else {
+          formData = FormData.fromMap({
+            "id": dashboardController.videoData.id,
+            "title": titlecontroller.text,
+            "sub_title": subtitlecontroller.text,
+            "video": multipartFiles.isNotEmpty ? multipartFiles : null,
+            "category_id": categoryindex.toString(),
+            "access_ids[]": uniqueList,
+          });
+        }
 
-      final data = await UploadvideoAPI(formData).uploadvideoApi();
+        final data = await UploadvideoAPI(formData).updatevideoApi(formData);
 
-      if (data.status == ResponseStatus.SUCCESS) {
-        Get.toNamed("/sideMenu");
-        utils.showToast(data.message);
+        if (data.status == ResponseStatus.SUCCESS) {
+          utils.showToast(data.message);
+          videoController.dispose();
+          Get.back();
+          Get.back(result: true);
+        } else {
+          utils.showToast(data.message);
+          Get.back();
+        }
       } else {
-        utils.showToast(data.message);
+        Utils.loader();
+        var formData = FormData.fromMap({
+          "title": titlecontroller.text,
+          "sub_title": subtitlecontroller.text,
+          "video": multipartFiles.isNotEmpty ? multipartFiles : null,
+          "category_id": categoryindex.toString(),
+          "access_ids[]": uniqueList,
+        });
+
+        final data = await UploadvideoAPI(formData).uploadvideoApi();
+
+        if (data.status == ResponseStatus.SUCCESS) {
+          utils.showToast(data.message);
+          videoController.dispose();
+          Get.back();
+          Get.back(result: true);
+        } else {
+          utils.showToast(data.message);
+          Get.back();
+        }
       }
     } catch (e) {}
-
-    // final isValid = _form.currentState?.validate();
-    // if (isValid!) {
-    //   Map<dynamic, dynamic> updata = {
-    //     "title": titlecontroller.text,
-    //     "sub_title": subtitlecontroller.text,
-    //     "video": _image!.path,
-    //     "category_id": categoryindex.toString(),
-    //     "access_ids[0]": "80"
-    //   };
-    //   final resp = await UploadvideoAPI(updata).uploadvideoApi();
-    //   if (resp.status == ResponseStatus.SUCCESS) {
-    //     utils.showToast("Video Uploaded Successfully");
-    //     Get.toNamed("/sidemenu");
-    //   } else if (resp.status == ResponseStatus.PRIVATE) {
-    //     String? message = resp.data['data'];
-    //     utils.showToast("$message");
-    //   } else {
-    //     utils.showToast(resp.message);
-    //   }
-    // }
   }
+
+  SubUserController subUserController = Get.put(SubUserController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.white,
-        title: customAppBar(text: "Add Videos"),
+        title: customAppBar(text: isUpdate ? "Update Video" : "Add Video"),
 
         // backgroundColor: Color(0xFFF5F8FA),
         elevation: 0,
@@ -209,97 +251,15 @@ class _EditVideosState extends State<EditVideos> {
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Lottie.asset(
-                    //   "assets/lotties/EditVideos.json",
-                    //   width: 200.w,
-                    //   height: 200.w,
-                    // ),
-
-                    // Container(
-                    //   height: 230.h,
-                    //   color: AppColors.greyMed,
-                    // ),
-
-                    // SizedBox(
-                    //   width: 270.w,
-                    //   child: textBlack16W5000(
-                    //     "Please enter your phone number to receive a verification code.",
-                    //   ),
-                    // ),
-
-                    // sizedBoxHeight(35.h),
-                    file == null
-                        ? InkWell(
-                            onTap: () {
-                              builduploadprofile(true);
-
-//                               VideoUploadBottomSheet().showModal(
-//   context,
-//   (result) {
-//     // This function will be called when a video is picked.
-//     // You can assign the selected video to the 'attachimage' variable.
-//     attachimage = result.toString();
-//     // Optionally, you can extract the file name from 'result' and update the message.
-//     // var filenameresult = extractFileName(result);
-//     // messageController.text = filenameresult;
-//   },
-// );
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              height: 185.h,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors.buttoncolour, width: 2.h),
-                                borderRadius: BorderRadius.circular(27.h),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.04),
-                                    blurRadius: 10,
-                                    spreadRadius: 2,
-                                  )
-                                ],
-                                color: AppColors.white,
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/images/upload.svg",
-                                    height: 48.h,
-                                    width: 48.h,
-                                  ),
-                                  sizedBoxHeight(18.h),
-                                  SizedBox(
-                                      width: 255.w,
-                                      child: textBlack18W700Center(
-                                          "Browse to choose a video"))
-                                ],
-                              ),
-                            ),
-                          )
-                        :
-                        // InkWell(
-                        //   onTap: (){
-                        //     Get.to(()=> NewVideoplayer(file: file,) );
-                        //   },
-                        //   child: Text("preview")
-                        // ),
-                        Builder(builder: (context) {
-                            // setVideoPlayerController();
+                    isUpdate
+                        ? Builder(builder: (context) {
                             if (videoControllerSet == false) {
                               setVideoPlayerController();
                             }
-                            // videoController = VideoPlayerController.file(File(file!.path))
-                            // ..addListener(() => setState(() {}))
-                            // ..setLooping(true)
-                            // ..initialize().then((_) => videoController.pause());
 
                             return Container(
                                 height: 300.h,
-                                // width: 200.w,
                                 child: videoControllerSet
                                     ? NetworkPlayerWidget(
                                         videoController: videoController,
@@ -307,42 +267,116 @@ class _EditVideosState extends State<EditVideos> {
                                     : Text("Loading")
                                 // CircularProgressIndicator()
                                 );
-                          }),
+                          })
+                        : file == null
+                            ? InkWell(
+                                onTap: () {
+                                  builduploadprofile(true);
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 185.h,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: AppColors.buttoncolour,
+                                        width: 2.h),
+                                    borderRadius: BorderRadius.circular(27.h),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.04),
+                                        blurRadius: 10,
+                                        spreadRadius: 2,
+                                      )
+                                    ],
+                                    color: AppColors.white,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "assets/images/upload.svg",
+                                        height: 48.h,
+                                        width: 48.h,
+                                      ),
+                                      sizedBoxHeight(18.h),
+                                      SizedBox(
+                                          width: 255.w,
+                                          child: textBlack18W700Center(
+                                              "Browse to choose a video"))
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Builder(builder: (context) {
+                                if (videoControllerSet == false) {
+                                  setVideoPlayerController();
+                                }
+                                // videoController = VideoPlayerController.file(File(file!.path))
+                                // ..addListener(() => setState(() {}))
+                                // ..setLooping(true)
+                                // ..initialize().then((_) => videoController.pause());
 
-                    // Container(
-                    //   height: 300.h,
-                    //   // width: 200.w,
-                    //   child: NetworkPlayerWidget(videoController: videoController,)
-                    // ),
-
+                                return Container(
+                                    height: 300.h,
+                                    // width: 200.w,
+                                    child: videoControllerSet
+                                        ? NetworkPlayerWidget(
+                                            videoController: videoController,
+                                          )
+                                        : Text("Loading")
+                                    // CircularProgressIndicator()
+                                    );
+                              }),
                     sizedBoxHeight(20.h),
-
+                    isUpdate
+                        ? CustomButton(
+                            text: "Re-upload Video",
+                            onTap: () {
+                              videoControllerSet = false;
+                              setState(() {});
+                              builduploadprofile(true);
+                            },
+                          )
+                        : file == null
+                            ? SizedBox()
+                            : CustomButton(
+                                text: "Re-upload Video",
+                                onTap: () {
+                                  builduploadprofile(true);
+                                },
+                              ),
+                    sizedBoxHeight(20.h),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: textBlack16W5000("Title"),
                     ),
-
                     sizedBoxHeight(8.h),
-
                     CustomTextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Title Required";
+                          }
+                          return null;
+                        },
                         textEditingController: titlecontroller,
                         hintText: "Animal Husbandry And Management",
-                        validatorText: "Enter your Phone Number"),
-
+                        validatorText: "Title Required"),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: textBlack16W5000("Subtitle"),
                     ),
-
                     sizedBoxHeight(8.h),
-
                     CustomTextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Subtitle Required";
+                          }
+                          return null;
+                        },
                         textEditingController: subtitlecontroller,
                         hintText: "Animal Husbandry And Management",
                         validatorText: "Enter Subtitle"),
-
                     sizedBoxHeight(25.h),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -354,47 +388,23 @@ class _EditVideosState extends State<EditVideos> {
                         )
                       ],
                     ),
-
                     Divider(
                       color: AppColors.grey4D4D4D,
                       thickness: 0.5.h,
                     ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: subUserController.dataList.length,
+                        itemBuilder: (ctx, index) {
+                          return AccessCustomListTile(
+                            title: subUserController.dataList[index]["name"],
 
-                    CustomListTile(
-                      title: "Harry Holind",
-                      statecontroller: state,
-                      addVideoPage: true,
-                      //sizefactor: MediaQuery.of(context).size.width * 0.4,
-                    ),
-
-                    CustomListTile(
-                      title: "Mary Amelia",
-                      statecontroller: state,
-                      addVideoPage: true,
-                      //sizefactor: MediaQuery.of(context).size.width * 0.4,
-                    ),
-
-                    CustomListTile(
-                      title: "Ann Poppy",
-                      statecontroller: state,
-                      addVideoPage: true,
-                      //sizefactor: MediaQuery.of(context).size.width * 0.4,
-                    ),
-
-                    // sizedBoxHeight(130.h),
-
-                    // customButtonCurve(
-                    //     text: "Next",
-                    //     onTap: () {
-                    //       Get.toNamed("/verifyNumber");
-                    //     }),
-                    CustomButton(
-                      text: "Upload",
-                      onTap: () {
-                        _uploadcheck();
-                        // UploadvideoAPI(updata).uploadvideoApi();
-                      },
-                    )
+                            addVideoPage: true,
+                            id: subUserController.dataList[index]["id"],
+                            isUpdate: isUpdate,
+                            //sizefactor: MediaQuery.of(context).size.width * 0.4,
+                          );
+                        }),
                   ],
                 ),
               ],
@@ -402,6 +412,34 @@ class _EditVideosState extends State<EditVideos> {
           ),
         ),
       )),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: CustomButton(
+          text: isUpdate ? "Update" : "Upload",
+          onTap: () {
+            final isValid = _form.currentState?.validate();
+
+            if (isValid!) {
+              if (subUserController.selectedIds.isEmpty) {
+                commonFlushBar(context,
+                    msg: "Provide access to alteast one user");
+              } else {
+                if (isUpdate) {
+                  _uploadcheck();
+                } else {
+                  if (file == null) {
+                    commonFlushBar(context, msg: "Video is Required");
+                  } else {
+                    _uploadcheck();
+                  }
+                }
+              }
+            }
+
+            // UploadvideoAPI(updata).uploadvideoApi();
+          },
+        ),
+      ),
     );
   }
 
@@ -504,9 +542,22 @@ class _EditVideosState extends State<EditVideos> {
     // }
     // if (isVideo) {
     file = await _picker.pickVideo(
-        source: source, maxDuration: const Duration(seconds: 10));
+      source: source,
+      maxDuration: const Duration(seconds: 10),
+    );
     attachimage = file!.path;
-    setState(() {});
+
+    MediaInfo? mediaInfo = await VideoCompress.compressVideo(
+      attachimage!,
+      quality: VideoQuality.LowQuality,
+      deleteOrigin: false,
+    );
+
+    attachimage = mediaInfo!.path;
+
+    setState(() {
+      videoControllerSet = false;
+    });
     // await _playVideo(file);
     // Get.to(()=> FilePlayerWidget(file: file));
     // FilePlayerWidget(file: file);
@@ -526,5 +577,102 @@ class _EditVideosState extends State<EditVideos> {
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
+  }
+}
+
+class AccessCustomListTile extends StatefulWidget {
+  AccessCustomListTile({
+    Key? key,
+    required this.title,
+    this.addVideoPage = false,
+    this.id = 0,
+    this.isUpdate = false,
+
+    //required this.sizefactor
+  }) : super(key: key);
+
+  final String? title;
+
+  bool addVideoPage;
+  int id;
+  bool isUpdate;
+  //double sizefactor;
+
+  @override
+  State<AccessCustomListTile> createState() => _CustomListTileState();
+}
+
+class _CustomListTileState extends State<AccessCustomListTile> {
+  SubUserController subUserController = Get.put(SubUserController());
+  DashboardController dashboardController = Get.put(DashboardController());
+  bool statecontroller = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.isUpdate) {
+      if (dashboardController.videoData.videoAccess!
+          .any((access) => access.iamPrincipalXid == widget.id)) {
+        setState(() {
+          statecontroller = true;
+        });
+        if (!subUserController.selectedIds.contains(widget.id)) {
+          subUserController.selectedIds.add(widget.id);
+        }
+      }
+    }
+    return Container(
+      height: 60.h,
+      child: Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: widget.addVideoPage ? 0 : 16.w),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.title!,
+              style: TextStyle(
+                fontSize: 20.sp,
+                // color: Color(0XFF4D4D4D),
+              ),
+            ),
+            const Spacer(),
+            FlutterSwitch(
+              switchBorder: Border.all(
+                strokeAlign: BorderSide.strokeAlignCenter,
+                style: BorderStyle.solid,
+                width: 1,
+                color: const Color(0xffCCCCCC),
+              ),
+              width: 50.0,
+              height: 25.0,
+              toggleColor: const Color(0xFF0E5F02),
+              activeColor: AppColors.white,
+              inactiveColor: Colors.white,
+              inactiveToggleColor: const Color(0xff686868),
+              value: statecontroller,
+              onToggle: (val) {
+                setState(() {
+                  if (subUserController.selectedIds.contains(widget.id)) {
+                    subUserController.selectedIds.remove(widget.id);
+                    if (widget.isUpdate) {
+                      dashboardController.videoData.videoAccess!.removeWhere(
+                          (element) => element.iamPrincipalXid == widget.id);
+                    }
+                  } else {
+                    subUserController.selectedIds.add(widget.id);
+                    if (widget.isUpdate) {
+                      dashboardController.videoData.videoAccess!
+                          .add(VideoAccess(iamPrincipalXid: widget.id));
+                    }
+                  }
+                  log(subUserController.selectedIds.toString());
+                  statecontroller = val;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

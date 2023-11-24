@@ -174,7 +174,10 @@ class _YourorderState extends State<Yourorder> {
                     () => isLoading.value
                         ? const Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Center(child: CircularProgressIndicator()),
+                            child: Center(
+                                child: CircularProgressIndicator(
+                              color: AppColors.buttoncolour,
+                            )),
                           )
                         : ordersModel.data!.ongoingOrder == null
                             ? Padding(

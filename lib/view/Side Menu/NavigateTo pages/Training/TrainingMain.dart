@@ -1,7 +1,12 @@
 import 'package:farmfeeders/common/custom_appbar.dart';
+import 'package:farmfeeders/controller/sub_user_controller.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/TrainingCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../../../../models/subUserModel.dart';
+import '../../../../view_models/SubUserApi.dart';
 
 class TrainingMain extends StatefulWidget {
   const TrainingMain({super.key});
@@ -11,6 +16,22 @@ class TrainingMain extends StatefulWidget {
 }
 
 class _TrainingMainState extends State<TrainingMain> {
+  SubUserController subUserController = Get.put(SubUserController());
+  @override
+  void initState() {
+    subUserController.dataList.clear();
+    SubuserApi().getsubUserList().then((value) {
+      SubUserModel subUserModel = SubUserModel.fromJson(value.data);
+      for (var a in subUserModel.data!) {
+        subUserController.dataList.add({
+          "id": a.id,
+          "name": a.name,
+        });
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

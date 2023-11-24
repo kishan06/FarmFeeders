@@ -31,7 +31,7 @@ class LiveStockInfoContro extends GetxController {
     update();
   }
 
-  Future<void> getApiForLiveStockData({required String selectedNum}) async {
+  Future<String?> getApiForLiveStockData({required String selectedNum}) async {
     try {
       print(bearerToken);
       _isLoading = true;
@@ -57,13 +57,19 @@ class LiveStockInfoContro extends GetxController {
       print(response.statusCode);
 
       if (response.statusCode == 200) {
+        Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
         print("if");
+        if (responseData["status"] == 403) {
+          return responseData["message"];
+        }
         print(json.encode(response.data));
         // var resp = json.encode(response.data);
         // var jsonResp = jsonDecode(resp);
         _liveStockData = LiveStockModel.fromJson(response.data);
         _isLoading = false;
         update();
+        return "success";
       } else {
         print("else");
         print(response.statusMessage);
@@ -78,7 +84,7 @@ class LiveStockInfoContro extends GetxController {
     }
   }
 
-  Future<bool?> setApiLiveStockData(
+  Future<String?> setApiLiveStockData(
       {required String liveStockType,
       required String liveStockAge,
       required String liveStockBreed,
@@ -109,8 +115,13 @@ class LiveStockInfoContro extends GetxController {
       );
 
       if (response.statusCode == 200) {
+        Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
         print(json.encode(response.data));
-        return true;
+        if (responseData["status"] == 403) {
+          return responseData["message"];
+        }
+        return "success";
       } else {
         print(response.statusMessage);
         Get.snackbar("Error", "Something went wrong");

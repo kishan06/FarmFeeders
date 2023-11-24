@@ -98,7 +98,10 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
                     child: GetBuilder<FeedInfoContro>(builder: (builder) {
                       return feedInfoController.isLoading
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: AppColors.buttoncolour,
+                            ))
                           :
                           // feedInfoController.feedDropdownData == null
                           // ?
@@ -110,7 +113,9 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
                                 children: [
                                   isLoading.value
                                       ? const Center(
-                                          child: CircularProgressIndicator())
+                                          child: CircularProgressIndicator(
+                                          color: AppColors.buttoncolour,
+                                        ))
                                       : ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -402,7 +407,9 @@ class _FeedContainerState extends State<FeedContainer> {
                     ? Container(
                         margin: EdgeInsets.only(top: 20),
                         child: const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: AppColors.buttoncolour,
+                          ),
                         ),
                       )
                     : Column(
@@ -744,89 +751,67 @@ class _FeedContainerState extends State<FeedContainer> {
                             ),
                           ),
                           sizedBoxHeight(24.h),
-                          buttonPressed
-                              ? const Center(child: CircularProgressIndicator())
-                              : InkWell(
-                                  onTap: () async {
-                                    // feedInfoController.changeUpdated(widget.index);
-
-                                    final isValid = _formFeedContainer
-                                        .currentState
-                                        ?.validate();
-                                    if (isValid!) {
-                                      setState(() {
-                                        buttonPressed = true;
-                                      });
-                                      final resp = await feedInfoController
-                                          .setApiFarmFeed(map: {
-                                        'livestock_type':
-                                            widget.feedId.toString(),
-                                        'current_feed': tecCurrentFeed.text,
-                                        'feed_type':
-                                            selectedFeedTypeIndex.toString(),
-                                        'feed_frequency':
-                                            selectedFrequencyIndex.toString(),
-                                        'qty_per_seed': tecQuantity.text,
-                                        'min_capacity': tecMin.text,
-                                        'max_capacity': tecMax.text
-                                      });
-                                      if (resp! == "success") {
-                                        commonFlushBar(context,
-                                            msg: "Feed updated successfully",
-                                            title: "Success");
-                                        // feedInfoController
-                                        //     .changeUpdated(widget.index);
-                                        // f
-                                        // /
-                                        // feedLivestockModel.
-                                        setState(() {
-                                          buttonPressed = false;
-                                        });
-                                      } else if (resp == "Access Denied") {
-                                        commonFlushBar(context,
-                                            msg: "Access Denied");
-                                        setState(() {
-                                          buttonPressed = false;
-                                        });
-                                      }
-                                      // feedInfoController.changeUpdated(widget.index);
-                                      // Get.back();
-                                      // isSetFeedInfo = true;
-                                      // Get.to(LetsSetUpYourFarm())
-                                      // Get.toNamed("/letsSetUpYourFarm");
-                                    } else if ((selectedFeedTypeIndex ==
-                                            null) ||
-                                        (selectedFrequencyIndex == null) ||
-                                        (tecMin.text.isEmpty) ||
-                                        (tecMax.text.isEmpty)) {
-                                      Flushbar(
-                                        message: "Please fill all fields",
-                                        duration: const Duration(seconds: 3),
-                                      ).show(context);
-                                    } else {
-                                      Flushbar(
-                                        message: "Please fill all fields",
-                                        duration: const Duration(seconds: 3),
-                                      ).show(context);
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 54.h,
-                                    width: 330.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.h),
-                                        color: AppColors.buttoncolour),
-                                    child: Center(
-                                      child: Text(
-                                        "Update",
-                                        style: TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: 20.sp),
-                                      ),
-                                    ),
-                                  ),
+                          InkWell(
+                            onTap: () async {
+                              final isValid =
+                                  _formFeedContainer.currentState?.validate();
+                              if (isValid!) {
+                                Utils.loader();
+                                final resp = await feedInfoController
+                                    .setApiFarmFeed(map: {
+                                  'livestock_type': widget.feedId.toString(),
+                                  'current_feed': tecCurrentFeed.text,
+                                  'feed_type': selectedFeedTypeIndex.toString(),
+                                  'feed_frequency':
+                                      selectedFrequencyIndex.toString(),
+                                  'qty_per_seed': tecQuantity.text,
+                                  'min_capacity': tecMin.text,
+                                  'max_capacity': tecMax.text
+                                });
+                                if (resp! == "success") {
+                                  Get.back();
+                                  commonFlushBar(context,
+                                      msg: "Feed updated successfully",
+                                      title: "Success");
+                                } else if (resp == "Access Denied") {
+                                  Get.back();
+                                  commonFlushBar(context, msg: "Access Denied");
+                                }
+                                // feedInfoController.changeUpdated(widget.index);
+                                // Get.back();
+                                // isSetFeedInfo = true;
+                                // Get.to(LetsSetUpYourFarm())
+                                // Get.toNamed("/letsSetUpYourFarm");
+                              } else if ((selectedFeedTypeIndex == null) ||
+                                  (selectedFrequencyIndex == null) ||
+                                  (tecMin.text.isEmpty) ||
+                                  (tecMax.text.isEmpty)) {
+                                Flushbar(
+                                  message: "Please fill all fields",
+                                  duration: const Duration(seconds: 3),
+                                ).show(context);
+                              } else {
+                                Flushbar(
+                                  message: "Please fill all fields",
+                                  duration: const Duration(seconds: 3),
+                                ).show(context);
+                              }
+                            },
+                            child: Container(
+                              height: 54.h,
+                              width: 330.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.h),
+                                  color: AppColors.buttoncolour),
+                              child: Center(
+                                child: Text(
+                                  "Update",
+                                  style: TextStyle(
+                                      color: AppColors.white, fontSize: 20.sp),
                                 ),
+                              ),
+                            ),
+                          ),
                           sizedBoxHeight(20.h),
                         ],
                       ),

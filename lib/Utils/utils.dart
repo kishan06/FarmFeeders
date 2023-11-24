@@ -50,7 +50,7 @@ class Utils {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircularProgressIndicator(
-                  color: AppColors.blueL_006796,
+                  color: AppColors.buttoncolour,
                 ),
               ],
             ),
