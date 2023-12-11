@@ -72,6 +72,12 @@ class Utils {
     return DateFormat('d MMM y').format(inputDate);
   }
 
+  static String convertUtcToCustomFormat(String inputDateString) {
+    DateTime dateTime = DateTime.parse(inputDateString).toLocal();
+    String formattedDate = DateFormat('EEEE MMM dd, hh:mm a').format(dateTime);
+    return formattedDate;
+  }
+
   static String convertISOToFormattedDate(String isoDateString) {
     try {
       DateTime isoDate = DateTime.parse(isoDateString);

@@ -26,6 +26,36 @@ class OrderDetailModel {
 }
 
 class Data {
+  OrderDetails? orderDetails;
+  List<DeliveryStatus>? deliveryStatus;
+
+  Data({this.orderDetails, this.deliveryStatus});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    orderDetails = json['order_details'] != null
+        ? OrderDetails.fromJson(json['order_details'])
+        : null;
+    if (json['delivery_status'] != null) {
+      deliveryStatus = <DeliveryStatus>[];
+      json['delivery_status'].forEach((v) {
+        deliveryStatus!.add(DeliveryStatus.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (orderDetails != null) {
+      data['order_details'] = orderDetails!.toJson();
+    }
+    if (deliveryStatus != null) {
+      data['delivery_status'] = deliveryStatus!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class OrderDetails {
   int? orderId;
   int? farmerXid;
   String? orderTitle;
@@ -48,9 +78,11 @@ class Data {
   OrderFrequency? orderFrequency;
   OrderFrequency? orderStatus;
   String? salesman;
-  List<OrderDetails>? orderDetails;
+  DeliveryAgent? deliveryAgent;
+  Farmer? farmer;
+  List<NewOrderDetails>? orderDetails;
 
-  Data(
+  OrderDetails(
       {this.orderId,
       this.farmerXid,
       this.orderTitle,
@@ -73,9 +105,11 @@ class Data {
       this.orderFrequency,
       this.orderStatus,
       this.salesman,
+      this.deliveryAgent,
+      this.farmer,
       this.orderDetails});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  OrderDetails.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
     farmerXid = json['farmer_xid'];
     orderTitle = json['order_title'];
@@ -85,7 +119,7 @@ class Data {
     shippingLongitude = json['shipping_longitude'];
     orderFrequencyXid = json['order_frequency_xid'];
     orderSalesRepXid = json['order_sales_rep_xid'];
-    orderDeliveryAgentXid = json['order_delivery_agent_xid'] ?? 0;
+    orderDeliveryAgentXid = json['order_delivery_agent_xid'];
     orderStatusXid = json['order_status_xid'];
     recurringStartDate = json['recurring_start_date'] ?? "";
     recurringEndDate = json['recurring_end_date'] ?? "";
@@ -102,10 +136,14 @@ class Data {
         ? OrderFrequency.fromJson(json['order_status'])
         : null;
     salesman = json['salesman'];
+    deliveryAgent = json['delivery_agent'] != null
+        ? DeliveryAgent.fromJson(json['delivery_agent'])
+        : null;
+    farmer = json['farmer'] != null ? Farmer.fromJson(json['farmer']) : null;
     if (json['order_details'] != null) {
-      orderDetails = <OrderDetails>[];
+      orderDetails = <NewOrderDetails>[];
       json['order_details'].forEach((v) {
-        orderDetails!.add(OrderDetails.fromJson(v));
+        orderDetails!.add(NewOrderDetails.fromJson(v));
       });
     }
   }
@@ -138,6 +176,12 @@ class Data {
       data['order_status'] = orderStatus!.toJson();
     }
     data['salesman'] = salesman;
+    if (deliveryAgent != null) {
+      data['delivery_agent'] = deliveryAgent!.toJson();
+    }
+    if (farmer != null) {
+      data['farmer'] = farmer!.toJson();
+    }
     if (orderDetails != null) {
       data['order_details'] = orderDetails!.map((v) => v.toJson()).toList();
     }
@@ -164,7 +208,209 @@ class OrderFrequency {
   }
 }
 
-class OrderDetails {
+class DeliveryAgent {
+  int? id;
+  int? principalTypeXid;
+  int? principalSourceXid;
+  String? userName;
+  String? dateOfBirth;
+  String? phoneNumber;
+  String? emailAddress;
+  String? addressLine1;
+  String? profilePhoto;
+  bool? pin;
+  // List<Null>? feedDetails;
+
+  DeliveryAgent({
+    this.id,
+    this.principalTypeXid,
+    this.principalSourceXid,
+    this.userName,
+    this.dateOfBirth,
+    this.phoneNumber,
+    this.emailAddress,
+    this.addressLine1,
+    this.profilePhoto,
+    this.pin,
+    // this.feedDetails
+  });
+
+  DeliveryAgent.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    principalTypeXid = json['principal_type_xid'];
+    principalSourceXid = json['principal_source_xid'];
+    userName = json['user_name'];
+    dateOfBirth = json['date_of_birth'];
+    phoneNumber = json['phone_number'];
+    emailAddress = json['email_address'];
+    addressLine1 = json['address_line1'] ?? "";
+    profilePhoto = json['profile_photo'];
+    pin = json['pin'];
+    // if (json['feed_details'] != null) {
+    //   feedDetails = <Null>[];
+    //   json['feed_details'].forEach((v) {
+    //     feedDetails!.add(Null.fromJson(v));
+    //   });
+    // }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['principal_type_xid'] = principalTypeXid;
+    data['principal_source_xid'] = principalSourceXid;
+    data['user_name'] = userName;
+    data['date_of_birth'] = dateOfBirth;
+    data['phone_number'] = phoneNumber;
+    data['email_address'] = emailAddress;
+    data['address_line1'] = addressLine1;
+    data['profile_photo'] = profilePhoto;
+    data['pin'] = pin;
+    // if (feedDetails != null) {
+    //   data['feed_details'] = feedDetails!.map((v) => v.toJson()).toList();
+    // }
+    return data;
+  }
+}
+
+class Farmer {
+  int? id;
+  int? principalTypeXid;
+  int? principalSourceXid;
+  String? userName;
+  String? dateOfBirth;
+  String? phoneNumber;
+  String? emailAddress;
+  String? addressLine1;
+  String? profilePhoto;
+  bool? pin;
+  List<FeedDetails>? feedDetails;
+
+  Farmer(
+      {this.id,
+      this.principalTypeXid,
+      this.principalSourceXid,
+      this.userName,
+      this.dateOfBirth,
+      this.phoneNumber,
+      this.emailAddress,
+      this.addressLine1,
+      this.profilePhoto,
+      this.pin,
+      this.feedDetails});
+
+  Farmer.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    principalTypeXid = json['principal_type_xid'];
+    principalSourceXid = json['principal_source_xid'];
+    userName = json['user_name'];
+    dateOfBirth = json['date_of_birth'];
+    phoneNumber = json['phone_number'];
+    emailAddress = json['email_address'];
+    addressLine1 = json['address_line1'] ?? "";
+    profilePhoto = json['profile_photo'];
+    pin = json['pin'];
+    if (json['feed_details'] != null) {
+      feedDetails = <FeedDetails>[];
+      json['feed_details'].forEach((v) {
+        feedDetails!.add(FeedDetails.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['principal_type_xid'] = principalTypeXid;
+    data['principal_source_xid'] = principalSourceXid;
+    data['user_name'] = userName;
+    data['date_of_birth'] = dateOfBirth;
+    data['phone_number'] = phoneNumber;
+    data['email_address'] = emailAddress;
+    data['address_line1'] = addressLine1;
+    data['profile_photo'] = profilePhoto;
+    data['pin'] = pin;
+    if (feedDetails != null) {
+      data['feed_details'] = feedDetails!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class FeedDetails {
+  int? id;
+  int? farmerXid;
+  int? livestockTypeXid;
+  int? currentFeedAvailable;
+  int? feedTypeXid;
+  int? feedFrequencyXid;
+  int? qtyPerSeed;
+  int? minBinCapacity;
+  int? maxBinCapacity;
+  String? reorderingDate;
+  bool? feedLow;
+  int? feedLowPer;
+  String? livestockName;
+  String? livestockUri;
+  String? container;
+
+  FeedDetails(
+      {this.id,
+      this.farmerXid,
+      this.livestockTypeXid,
+      this.currentFeedAvailable,
+      this.feedTypeXid,
+      this.feedFrequencyXid,
+      this.qtyPerSeed,
+      this.minBinCapacity,
+      this.maxBinCapacity,
+      this.reorderingDate,
+      this.feedLow,
+      this.feedLowPer,
+      this.livestockName,
+      this.livestockUri,
+      this.container});
+
+  FeedDetails.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    farmerXid = json['farmer_xid'];
+    livestockTypeXid = json['livestock_type_xid'];
+    currentFeedAvailable = json['current_feed_available'];
+    feedTypeXid = json['feed_type_xid'];
+    feedFrequencyXid = json['feed_frequency_xid'];
+    qtyPerSeed = json['qty_per_seed'];
+    minBinCapacity = json['min_bin_capacity'];
+    maxBinCapacity = json['max_bin_capacity'];
+    reorderingDate = json['reordering_date'];
+    feedLow = json['feed_low'];
+    feedLowPer = json['feed_low_per'];
+    livestockName = json['livestock_name'];
+    livestockUri = json['livestock_uri'];
+    container = json['container'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['farmer_xid'] = farmerXid;
+    data['livestock_type_xid'] = livestockTypeXid;
+    data['current_feed_available'] = currentFeedAvailable;
+    data['feed_type_xid'] = feedTypeXid;
+    data['feed_frequency_xid'] = feedFrequencyXid;
+    data['qty_per_seed'] = qtyPerSeed;
+    data['min_bin_capacity'] = minBinCapacity;
+    data['max_bin_capacity'] = maxBinCapacity;
+    data['reordering_date'] = reorderingDate;
+    data['feed_low'] = feedLow;
+    data['feed_low_per'] = feedLowPer;
+    data['livestock_name'] = livestockName;
+    data['livestock_uri'] = livestockUri;
+    data['container'] = container;
+    return data;
+  }
+}
+
+class NewOrderDetails {
   int? orderHeaderXid;
   int? inventoryXid;
   int? quantity;
@@ -173,7 +419,7 @@ class OrderDetails {
   String? inventoryTitle;
   String? inventoryImage;
 
-  OrderDetails(
+  NewOrderDetails(
       {this.orderHeaderXid,
       this.inventoryXid,
       this.quantity,
@@ -182,7 +428,7 @@ class OrderDetails {
       this.inventoryTitle,
       this.inventoryImage});
 
-  OrderDetails.fromJson(Map<String, dynamic> json) {
+  NewOrderDetails.fromJson(Map<String, dynamic> json) {
     orderHeaderXid = json['order_header_xid'];
     inventoryXid = json['inventory_xid'];
     quantity = json['quantity'];
@@ -201,6 +447,25 @@ class OrderDetails {
     data['total_unit_value'] = totalUnitValue;
     data['inventory_title'] = inventoryTitle;
     data['inventory_image'] = inventoryImage;
+    return data;
+  }
+}
+
+class DeliveryStatus {
+  int? deliveryStatusXid;
+  String? createdAt;
+
+  DeliveryStatus({this.deliveryStatusXid, this.createdAt});
+
+  DeliveryStatus.fromJson(Map<String, dynamic> json) {
+    deliveryStatusXid = json['delivery_status_xid'];
+    createdAt = json['created_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['delivery_status_xid'] = deliveryStatusXid;
+    data['created_at'] = createdAt;
     return data;
   }
 }

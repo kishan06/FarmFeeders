@@ -717,259 +717,591 @@ class _HomeState extends State<Home> {
                                           ),
                                         ],
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 5.w, vertical: 10.h),
-                                        child: Container(
-                                          // width: 358.w,
-                                          // height: 221.h,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(19.h)),
-                                              color: AppColors.white,
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x48B9B9BE),
-                                                  blurRadius: 10,
-                                                  spreadRadius: 2,
-                                                )
-                                              ]),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 24.w,
-                                                vertical: 15.h),
-                                            child: Row(
-                                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height: 30.h,
-                                                      width: 123.w,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(25.h),
-                                                        color: const Color(
-                                                            0XFFFFB7B7),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "Arriving Soon",
-                                                          style: TextStyle(
-                                                            fontSize: 15.sp,
-                                                            color: const Color(
-                                                                0XFFAC2A33),
-                                                            fontFamily:
-                                                                "Poppins",
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    sizedBoxHeight(18.h),
-
-                                                    textBlack20W7000(
-                                                        "Dairy Feed"),
-                                                    textGrey4D4D4D_14(
-                                                        "100 Tonnes"),
-
-                                                    Lottie.asset(
-                                                        "assets/lotties/delivery_track.json",
-                                                        height: 120.h,
-                                                        width: 137.w)
-
-                                                    // Lottie
-                                                    // Image.asset(
-                                                    //   "assets/images/yourorder2.png",
-                                                    //   width: 105.w,
-                                                    //   height: 98.h,
-                                                    // ),
-                                                    // sizedBoxHeight(7.h),
-                                                  ],
-                                                ),
-                                                // sizedBoxWidth(25.w),
-                                                // Padding(
-                                                //   padding: EdgeInsets.only(top: 19.h),
-                                                //   child: SvgPicture.asset(
-                                                //     "assets/images/orderlocate.svg",
-                                                //     width: 30.w,
-                                                //     height: 189.h,
-                                                //   ),
-                                                // ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    status(),
-                                                    const DottedLine(
-                                                      direction: Axis.vertical,
-                                                      lineLength: 30,
-                                                      lineThickness: 2.0,
-                                                      dashLength: 4.0,
-                                                      dashColor:
-                                                          Color(0XFF0E5F02),
-                                                    ),
-                                                    status(),
-                                                    const DottedLine(
-                                                      direction: Axis.vertical,
-                                                      lineLength: 30,
-                                                      lineThickness: 2.0,
-                                                      dashLength: 4.0,
-                                                      dashColor:
-                                                          Color(0XFF0E5F02),
-                                                    ),
-                                                    // status(),
-                                                    CircleAvatar(
-                                                      backgroundColor: AppColors
-                                                          .buttoncolour,
-                                                      radius: 11.w,
-                                                      child: CircleAvatar(
-                                                        radius: 9.w,
-                                                        backgroundColor:
-                                                            AppColors
-                                                                .pistaE3FFE9,
-                                                        child: SvgPicture.asset(
-                                                            "assets/images/delivery-truck-svgrepo-com.svg"),
-                                                      ),
-                                                    ),
-
-                                                    const DottedLine(
-                                                      direction: Axis.vertical,
-                                                      lineLength: 30,
-                                                      lineThickness: 2.0,
-                                                      dashLength: 4.0,
-                                                      dashColor:
-                                                          Color(0XFF0E5F02),
-                                                    ),
-                                                    Container(
-                                                      width: 15,
-                                                      height: 15,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
+                                      (dashboardController.dashboardModel.data!
+                                                      .order !=
+                                                  null &&
+                                              dashboardController.dashboardModel
+                                                      .data!.order!.product !=
+                                                  null)
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                Get.toNamed("/ongoingorder",
+                                                    arguments: {
+                                                      "id": dashboardController
+                                                          .dashboardModel
+                                                          .data!
+                                                          .order!
+                                                          .orderHeaderXid!,
+                                                    });
+                                              },
+                                              child: Container(
+                                                height: 230.h,
+                                                decoration: const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20)),
+                                                    color: AppColors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
                                                           color:
-                                                              AppColors.white,
-                                                          border: Border.all(
-                                                              color: AppColors
-                                                                  .buttoncolour)),
-                                                    )
+                                                              Color(0x48B9B9BE),
+                                                          blurRadius: 8.0,
+                                                          spreadRadius: 0)
+                                                    ]),
+                                                child: Row(
+                                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 18.w,
+                                                                top: 12.h,
+                                                                bottom: 28.h),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Container(
+                                                              height: 30.h,
+                                                              width: 123.w,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            25.h),
+                                                                color: const Color(
+                                                                    0XFFFFB7B7),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "Arriving Soon",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                    color: const Color(
+                                                                        0XFFAC2A33),
+                                                                    fontFamily:
+                                                                        "Poppins",
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            sizedBoxHeight(
+                                                                15.h),
+                                                            Image.network(
+                                                              "${ApiUrls.baseImageUrl}/${dashboardController.dashboardModel.data!.order!.product!.smallImageUrl}",
+                                                              width: 105.w,
+                                                              height: 98.h,
+                                                            ),
+                                                            //  sizedBoxHeight(7.h),
+                                                            Text(
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .order!
+                                                                  .product!
+                                                                  .title!,
+                                                              maxLines: 2,
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      13.sp,
+                                                                  color: const Color(
+                                                                      0XFF141414)),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 19.h),
+                                                        child: Row(
+                                                          children: [
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                status(),
+                                                                const DottedLine(
+                                                                  direction: Axis
+                                                                      .vertical,
+                                                                  lineLength:
+                                                                      30,
+                                                                  lineThickness:
+                                                                      2.0,
+                                                                  dashLength:
+                                                                      4.0,
+                                                                  dashColor: Color(
+                                                                      0XFF0E5F02),
+                                                                ),
+                                                                dashboardController
+                                                                        .dashboardModel
+                                                                        .data!
+                                                                        .order!
+                                                                        .orderStatus!
+                                                                        .any((item) =>
+                                                                            item.deliveryStatusXid ==
+                                                                            4)
+                                                                    ? status()
+                                                                    : (dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                3) ||
+                                                                            dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                1))
+                                                                        ? CircleAvatar(
+                                                                            backgroundColor:
+                                                                                AppColors.buttoncolour,
+                                                                            radius:
+                                                                                11.w,
+                                                                            child:
+                                                                                CircleAvatar(
+                                                                              radius: 9.w,
+                                                                              backgroundColor: AppColors.pistaE3FFE9,
+                                                                              child: SvgPicture.asset("assets/images/delivery.svg"),
+                                                                            ),
+                                                                          )
+                                                                        : Container(
+                                                                            width:
+                                                                                15,
+                                                                            height:
+                                                                                15,
+                                                                            decoration: BoxDecoration(
+                                                                                shape: BoxShape.circle,
+                                                                                color: AppColors.white,
+                                                                                border: Border.all(color: AppColors.buttoncolour)),
+                                                                          ),
+                                                                const DottedLine(
+                                                                  direction: Axis
+                                                                      .vertical,
+                                                                  lineLength:
+                                                                      30,
+                                                                  lineThickness:
+                                                                      2.0,
+                                                                  dashLength:
+                                                                      4.0,
+                                                                  dashColor: Color(
+                                                                      0XFF0E5F02),
+                                                                ),
+                                                                dashboardController
+                                                                        .dashboardModel
+                                                                        .data!
+                                                                        .order!
+                                                                        .orderStatus!
+                                                                        .any((item) =>
+                                                                            item.deliveryStatusXid ==
+                                                                            5)
+                                                                    ? status()
+                                                                    : dashboardController
+                                                                            .dashboardModel
+                                                                            .data!
+                                                                            .order!
+                                                                            .orderStatus!
+                                                                            .any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                4)
+                                                                        ? CircleAvatar(
+                                                                            backgroundColor:
+                                                                                AppColors.buttoncolour,
+                                                                            radius:
+                                                                                11.w,
+                                                                            child:
+                                                                                CircleAvatar(
+                                                                              radius: 9.w,
+                                                                              backgroundColor: AppColors.pistaE3FFE9,
+                                                                              child: SvgPicture.asset("assets/images/delivery.svg"),
+                                                                            ),
+                                                                          )
+                                                                        : Container(
+                                                                            width:
+                                                                                15,
+                                                                            height:
+                                                                                15,
+                                                                            decoration: BoxDecoration(
+                                                                                shape: BoxShape.circle,
+                                                                                color: AppColors.white,
+                                                                                border: Border.all(color: AppColors.buttoncolour)),
+                                                                          ),
+                                                                const DottedLine(
+                                                                  direction: Axis
+                                                                      .vertical,
+                                                                  lineLength:
+                                                                      30,
+                                                                  lineThickness:
+                                                                      2.0,
+                                                                  dashLength:
+                                                                      4.0,
+                                                                  dashColor: Color(
+                                                                      0XFF0E5F02),
+                                                                ),
+                                                                dashboardController
+                                                                        .dashboardModel
+                                                                        .data!
+                                                                        .order!
+                                                                        .orderStatus!
+                                                                        .any((item) =>
+                                                                            item.deliveryStatusXid ==
+                                                                            7)
+                                                                    ? status()
+                                                                    : (dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                5) ||
+                                                                            dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                6))
+                                                                        ? CircleAvatar(
+                                                                            backgroundColor:
+                                                                                AppColors.buttoncolour,
+                                                                            radius:
+                                                                                11.w,
+                                                                            child:
+                                                                                CircleAvatar(
+                                                                              radius: 9.w,
+                                                                              backgroundColor: AppColors.pistaE3FFE9,
+                                                                              child: SvgPicture.asset("assets/images/delivery.svg"),
+                                                                            ),
+                                                                          )
+                                                                        : Container(
+                                                                            width:
+                                                                                15,
+                                                                            height:
+                                                                                15,
+                                                                            decoration: BoxDecoration(
+                                                                                shape: BoxShape.circle,
+                                                                                color: AppColors.white,
+                                                                                border: Border.all(color: AppColors.buttoncolour)),
+                                                                          ),
+                                                              ],
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  "Ordered",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14.sp,
+                                                                      color: const Color(
+                                                                          0XFF0E5F02),
+                                                                      fontFamily:
+                                                                          "Poppins"),
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                      "assets/images/clock-svgrepo-com (1).svg",
+                                                                      width:
+                                                                          6.w,
+                                                                      height:
+                                                                          6.w,
+                                                                    ),
+                                                                    sizedBoxWidth(
+                                                                        6.w),
+                                                                    Text(
+                                                                      Utils.convertUtcToCustomFormat(dashboardController
+                                                                          .dashboardModel
+                                                                          .data!
+                                                                          .order!
+                                                                          .orderDate!),
+                                                                      style: TextStyle(
+                                                                          color: const Color(
+                                                                              0xff4D4D4D),
+                                                                          fontSize: 8
+                                                                              .sp,
+                                                                          fontFamily:
+                                                                              "Poppins"),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                sizedBoxHeight(
+                                                                    14.h),
+                                                                Container(
+                                                                  height: 30.h,
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          5),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            25.h),
+                                                                    color: (dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                3) &&
+                                                                            dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid !=
+                                                                                4))
+                                                                        ? Colors
+                                                                            .transparent
+                                                                        : const Color(
+                                                                            0XFFF1F1F1),
+                                                                  ),
+                                                                  child: Text(
+                                                                    "Packed and ready",
+                                                                    style: TextStyle(
+                                                                        fontSize: 14
+                                                                            .sp,
+                                                                        color: dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                4)
+                                                                            ? const Color(
+                                                                                0XFF0E5F02)
+                                                                            : const Color(
+                                                                                0XFF4D4D4D),
+                                                                        fontFamily:
+                                                                            "Poppins"),
+                                                                  ),
+                                                                ),
+                                                                dashboardController
+                                                                        .dashboardModel
+                                                                        .data!
+                                                                        .order!
+                                                                        .orderStatus!
+                                                                        .any((item) =>
+                                                                            item.deliveryStatusXid ==
+                                                                            4)
+                                                                    ? Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.start,
+                                                                        children: [
+                                                                          SvgPicture
+                                                                              .asset(
+                                                                            "assets/images/clock-svgrepo-com (1).svg",
+                                                                            width:
+                                                                                6.w,
+                                                                            height:
+                                                                                6.w,
+                                                                          ),
+                                                                          sizedBoxWidth(
+                                                                              6.w),
+                                                                          Text(
+                                                                            Utils.convertUtcToCustomFormat(dashboardController.dashboardModel.data!.order!.orderStatus![3].createdAt!),
+                                                                            style: TextStyle(
+                                                                                color: const Color(0xff4D4D4D),
+                                                                                fontSize: 8.sp,
+                                                                                fontFamily: "Poppins"),
+                                                                          )
+                                                                        ],
+                                                                      )
+                                                                    : const SizedBox(),
+                                                                sizedBoxHeight(
+                                                                    19.h),
+                                                                Container(
+                                                                  height: 30.h,
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            25.h),
+                                                                    color: !(dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                4) &&
+                                                                            dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid !=
+                                                                                5))
+                                                                        ? Colors
+                                                                            .transparent
+                                                                        : const Color(
+                                                                            0XFFF1F1F1),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Out for delivery",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            14.sp,
+                                                                        color: dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid ==
+                                                                                5)
+                                                                            ? const Color(0XFF0E5F02)
+                                                                            : const Color(0XFF4D4D4D),
+                                                                        fontFamily:
+                                                                            "Poppins",
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                dashboardController
+                                                                        .dashboardModel
+                                                                        .data!
+                                                                        .order!
+                                                                        .orderStatus!
+                                                                        .any((item) =>
+                                                                            item.deliveryStatusXid ==
+                                                                            5)
+                                                                    ? Row(
+                                                                        children: [
+                                                                          SvgPicture
+                                                                              .asset(
+                                                                            "assets/images/clock-svgrepo-com (1).svg",
+                                                                            width:
+                                                                                6.w,
+                                                                            height:
+                                                                                6.w,
+                                                                          ),
+                                                                          sizedBoxWidth(
+                                                                              6.w),
+                                                                          Text(
+                                                                            Utils.convertUtcToCustomFormat(dashboardController.dashboardModel.data!.order!.orderStatus![3].createdAt!),
+                                                                            style: TextStyle(
+                                                                                color: const Color(0xff4D4D4D),
+                                                                                fontSize: 8.sp,
+                                                                                fontFamily: "Poppins"),
+                                                                          ),
+                                                                        ],
+                                                                      )
+                                                                    : const SizedBox(),
+                                                                sizedBoxHeight(
+                                                                    15.h),
+                                                                Container(
+                                                                  height: 30.h,
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            25.h),
+                                                                    color: !((dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) => item.deliveryStatusXid == 5) || dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) => item.deliveryStatusXid == 6)) &&
+                                                                            dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) =>
+                                                                                item.deliveryStatusXid !=
+                                                                                7))
+                                                                        ? Colors
+                                                                            .transparent
+                                                                        : const Color(
+                                                                            0XFFF1F1F1),
+                                                                  ),
+                                                                  child: Text(
+                                                                    "Delivered",
+                                                                    style: TextStyle(
+                                                                        fontSize: 14
+                                                                            .sp,
+                                                                        color: const Color(
+                                                                            0XFF4D4D4D),
+                                                                        fontFamily:
+                                                                            "Poppins"),
+                                                                  ),
+                                                                ),
+                                                                dashboardController
+                                                                        .dashboardModel
+                                                                        .data!
+                                                                        .order!
+                                                                        .orderStatus!
+                                                                        .any((item) =>
+                                                                            item.deliveryStatusXid ==
+                                                                            7)
+                                                                    ? Row(
+                                                                        children: [
+                                                                          SvgPicture
+                                                                              .asset(
+                                                                            "assets/images/clock-svgrepo-com (1).svg",
+                                                                            width:
+                                                                                6.w,
+                                                                            height:
+                                                                                6.w,
+                                                                          ),
+                                                                          sizedBoxWidth(
+                                                                              6.w),
+                                                                          Text(
+                                                                            Utils.convertUtcToCustomFormat(dashboardController.dashboardModel.data!.order!.orderStatus![5].createdAt!),
+                                                                            style: TextStyle(
+                                                                                color: dashboardController.dashboardModel.data!.order!.orderStatus!.any((item) => item.deliveryStatusXid == 7) ? const Color(0XFF0E5F02) : const Color(0XFF4D4D4D),
+                                                                                fontSize: 8.sp,
+                                                                                fontFamily: "Poppins"),
+                                                                          ),
+                                                                        ],
+                                                                      )
+                                                                    : const SizedBox()
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
-                                                sizedBoxWidth(9.w),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Ordered",
-                                                      style: TextStyle(
-                                                          fontSize: 14.sp,
-                                                          color: const Color(
-                                                              0XFF0E5F02),
-                                                          fontFamily:
-                                                              "Poppins"),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          "assets/images/clock-svgrepo-com (1).svg",
-                                                          width: 6.w,
-                                                          height: 6.w,
-                                                        ),
-                                                        sizedBoxWidth(6.w),
-                                                        Text(
-                                                          "9.30 Pm, 10 May2023",
-                                                          style: TextStyle(
-                                                              color: const Color(
-                                                                  0xff4D4D4D),
-                                                              fontSize: 8.sp,
-                                                              fontFamily:
-                                                                  "Poppins"),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    sizedBoxHeight(14.h),
-                                                    Text(
-                                                      "Loaded",
-                                                      style: TextStyle(
-                                                          fontSize: 14.sp,
-                                                          color: const Color(
-                                                              0XFF0E5F02),
-                                                          fontFamily:
-                                                              "Poppins"),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          "assets/images/clock-svgrepo-com (1).svg",
-                                                          width: 6.w,
-                                                          height: 6.w,
-                                                        ),
-                                                        sizedBoxWidth(6.w),
-                                                        Text(
-                                                          "9.30 Pm, 10 May2023",
-                                                          style: TextStyle(
-                                                              color: const Color(
-                                                                  0xff4D4D4D),
-                                                              fontSize: 8.sp,
-                                                              fontFamily:
-                                                                  "Poppins"),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    sizedBoxHeight(13.h),
-                                                    Container(
-                                                      height: 30.h,
-                                                      width: 123.w,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(25.h),
-                                                        color: const Color(
-                                                            0XFFF1F1F1),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "Out for delivery",
-                                                          style: TextStyle(
-                                                            fontSize: 14.sp,
-                                                            color: const Color(
-                                                                0XFF0E5F02),
-                                                            fontFamily:
-                                                                "Poppins",
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 5.w,
+                                                  vertical: 10.h),
+                                              child: Container(
+                                                height: 200.h,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                19.h)),
+                                                    color: AppColors.white,
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x48B9B9BE),
+                                                        blurRadius: 10,
+                                                        spreadRadius: 2,
+                                                      )
+                                                    ]),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 24.w,
+                                                      vertical: 15.h),
+                                                  child: Row(
+                                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          const SizedBox(
+                                                            height: 15,
                                                           ),
-                                                        ),
+                                                          textBlack20W7000(
+                                                              "No ongoing order's right now"),
+                                                          Lottie.asset(
+                                                              "assets/lotties/delivery_track.json",
+                                                              height: 50.h,
+                                                              width: 130.w,
+                                                              fit: BoxFit.cover)
+                                                        ],
                                                       ),
-                                                    ),
-                                                    sizedBoxHeight(29.h),
-                                                    Text(
-                                                      "Delivered",
-                                                      style: TextStyle(
-                                                          fontSize: 14.sp,
-                                                          color: const Color(
-                                                              0XFF4D4D4D),
-                                                          fontFamily:
-                                                              "Poppins"),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            )
                                     ],
                                   ),
                                 ),
@@ -1293,7 +1625,9 @@ class _HomeState extends State<Home> {
                                                     height: 55.w,
                                                     width: 55.w,
                                                     child:
-                                                        CircularProgressIndicator(color: AppColors.buttoncolour,
+                                                        CircularProgressIndicator(
+                                                      color: AppColors
+                                                          .buttoncolour,
                                                       value: dashboardController
                                                               .dashboardModel
                                                               .data!
