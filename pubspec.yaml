@@ -77,7 +77,13 @@ dependencies:
   permission_handler: ^11.0.1
   connectivity_plus: ^5.0.2
   video_compress: ^3.1.2
+  flutter_launcher_icons: ^0.13.1
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
+  min_sdk_android: 21
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -124,6 +130,7 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+
   fonts:
     - family: Poppins
       fonts:

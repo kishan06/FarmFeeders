@@ -50,13 +50,15 @@ class _OngoingorderState extends State<Ongoingorder> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AlertDialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
             //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               side: BorderSide(
-                  color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
             ),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -120,7 +122,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                         height: 48.h,
                         width: 140.w,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Color(0XFF0E5F02)),
+                            border: Border.all(color: const Color(0XFF0E5F02)),
                             borderRadius: BorderRadius.circular(10.h),
                             color: AppColors.white),
                         child: Center(
@@ -203,10 +205,10 @@ class _OngoingorderState extends State<Ongoingorder> {
                     Padding(
                       padding: EdgeInsets.only(left: 16.w),
                       child: Text(
-                        "Order Id :${orderDetailsModel.data!.orderId!}",
+                        "Order Id :${orderDetailsModel.data!.orderDetails!.orderId!}",
                         style: TextStyle(
                           fontSize: 18.sp,
-                          color: Color(0XFF141414),
+                          color: const Color(0XFF141414),
                           fontFamily: "Poppins",
                         ),
                       ),
@@ -240,19 +242,19 @@ class _OngoingorderState extends State<Ongoingorder> {
                                           "Delivering To",
                                           style: TextStyle(
                                               fontSize: 16.sp,
-                                              color: Color(0XFF4D4D4D),
+                                              color: const Color(0XFF4D4D4D),
                                               fontFamily: "Poppins"),
                                         ),
                                         sizedBoxHeight(1.h),
                                         Container(
                                           width: Get.width / 1.25,
                                           child: Text(
-                                            orderDetailsModel
-                                                .data!.shippingAddress!,
+                                            orderDetailsModel.data!
+                                                .orderDetails!.shippingAddress!,
                                             maxLines: 3,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
-                                                color: Color(0XFF141414),
+                                                color: const Color(0XFF141414),
                                                 fontFamily: "Poppins",
                                                 fontWeight: FontWeight.w600),
                                           ),
@@ -268,7 +270,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: orderDetailsModel
-                                    .data!.orderDetails!.length,
+                                    .data!.orderDetails!.orderDetails!.length,
                                 itemBuilder: (ctx, index) {
                                   return Padding(
                                     padding: EdgeInsets.only(
@@ -290,7 +292,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                               ),
                                               color: AppColors.white),
                                           child: Image.network(
-                                            "${ApiUrls.baseImageUrl}/${orderDetailsModel.data!.orderDetails![index].inventoryImage}",
+                                            "${ApiUrls.baseImageUrl}/${orderDetailsModel.data!.orderDetails!.orderDetails![index].inventoryImage}",
                                             width: 76.w,
                                             height: 71.h,
                                           ),
@@ -305,6 +307,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                             Text(
                                               orderDetailsModel
                                                   .data!
+                                                  .orderDetails!
                                                   .orderDetails![index]
                                                   .inventoryTitle!,
                                               style: TextStyle(
@@ -316,7 +319,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                             ),
                                             sizedBoxHeight(2.h),
                                             Text(
-                                              "Quantity : ${orderDetailsModel.data!.orderDetails![index].quantity}",
+                                              "Quantity : ${orderDetailsModel.data!.orderDetails!.orderDetails![index].quantity}",
                                               style: TextStyle(
                                                   fontSize: 16.sp,
                                                   fontWeight: FontWeight.w300,
@@ -326,7 +329,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                             ),
                                             sizedBoxHeight(2.h),
                                             Text(
-                                              "€ ${double.parse(orderDetailsModel.data!.orderDetails![index].itemUnitValue!) * orderDetailsModel.data!.orderDetails![index].quantity!}",
+                                              "€ ${double.parse(orderDetailsModel.data!.orderDetails!.orderDetails![index].itemUnitValue!) * orderDetailsModel.data!.orderDetails!.orderDetails![index].quantity!}",
                                               style: TextStyle(
                                                   fontSize: 16.sp,
                                                   fontWeight: FontWeight.w500,
@@ -340,33 +343,6 @@ class _OngoingorderState extends State<Ongoingorder> {
                                     ),
                                   );
                                 }),
-                            // sizedBoxHeight(26.h),
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            //   child: Row(
-                            //     mainAxisAlignment:
-                            //         MainAxisAlignment.spaceBetween,
-                            //     crossAxisAlignment: CrossAxisAlignment.start,
-                            //     children: [
-                            //       Text(
-                            //         "Order",
-                            //         style: TextStyle(
-                            //             fontSize: 16.sp,
-                            //             color: Color(0XFF4D4D4D),
-                            //             fontFamily: "Poppins",
-                            //             fontWeight: FontWeight.w500),
-                            //       ),
-                            //       Text(
-                            //         "Cow Feed",
-                            //         style: TextStyle(
-                            //             fontSize: 16.sp,
-                            //             color: Color(0XFF141414),
-                            //             fontFamily: "Poppins",
-                            //             fontWeight: FontWeight.w600),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
                             sizedBoxHeight(14.h),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -381,7 +357,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                       children: [
                                         text18w5004D4D4D('Total Amount'),
                                         text18w5004D4D4D(
-                                            '€ ${orderDetailsModel.data!.totalValue!}'),
+                                            '€ ${orderDetailsModel.data!.orderDetails!.totalValue!}'),
                                       ]),
                                   sizedBoxHeight(15.h),
                                   Row(
@@ -390,10 +366,12 @@ class _OngoingorderState extends State<Ongoingorder> {
                                       children: [
                                         text18w5004D4D4D("Discount on MRP"),
                                         text18w5004D4D4D(orderDetailsModel
-                                                    .data!.discountType ==
+                                                    .data!
+                                                    .orderDetails!
+                                                    .discountType ==
                                                 "0"
-                                            ? "- ${orderDetailsModel.data!.discountValue} %"
-                                            : '- € ${orderDetailsModel.data!.discountValue}')
+                                            ? "- ${orderDetailsModel.data!.orderDetails!.discountValue} %"
+                                            : '- € ${orderDetailsModel.data!.orderDetails!.discountValue}')
                                       ]),
                                   sizedBoxHeight(3.h),
                                   const Divider(
@@ -408,12 +386,12 @@ class _OngoingorderState extends State<Ongoingorder> {
                                       Row(
                                         children: [
                                           text18w5004D4D4D(
-                                              "€ ${orderDetailsModel.data!.netValue}"),
+                                              "€ ${orderDetailsModel.data!.orderDetails!.netValue}"),
                                           sizedBoxWidth(11.h),
                                           Padding(
                                             padding: EdgeInsets.only(top: 2.h),
                                             child: Text(
-                                              "(${orderDetailsModel.data!.orderDetails!.length} Items)",
+                                              "(${orderDetailsModel.data!.orderDetails!.orderDetails!.length} Items)",
                                               style: TextStyle(
                                                 fontSize: 14.sp,
                                                 color: const Color(0XFF4D4D4D),
@@ -447,19 +425,10 @@ class _OngoingorderState extends State<Ongoingorder> {
                                 } else {
                                   OrderApi()
                                       .downloadFile(
-                                          "${ApiUrls.base}invoice/download/${orderDetailsModel.data!.orderId!}",
-                                          "invoice_${orderDetailsModel.data!.orderId!}.pdf")
+                                          "${ApiUrls.base}invoice/download/${orderDetailsModel.data!.orderDetails!.orderId!}",
+                                          "invoice_${orderDetailsModel.data!.orderDetails!.orderId!}.pdf")
                                       .then((value) {});
                                 }
-                                // permissionStatus =
-                                //     await Permission.storage.status;
-                                // if (permissionStatus.isGranted) {
-                                //   OrderApi()
-                                //       .downloadFile(
-                                //           "${ApiUrls.base}invoice/download/${orderDetailsModel.data!.orderId!}",
-                                //           "invoice_${orderDetailsModel.data!.orderId!}.pdf")
-                                //       .then((value) {});
-                                // }
                               },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -468,7 +437,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                   height: 35.h,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Color(0XFF918E8E),
+                                      color: const Color(0XFF918E8E),
                                     ),
                                     color: AppColors.white,
                                   ),
@@ -489,7 +458,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                         style: TextStyle(
                                             fontSize: 14.sp,
                                             fontFamily: "Poppins",
-                                            color: Color(0XFF0E5F02),
+                                            color: const Color(0XFF0E5F02),
                                             fontWeight: FontWeight.w600),
                                       )
                                     ],
@@ -498,7 +467,9 @@ class _OngoingorderState extends State<Ongoingorder> {
                               ),
                             ),
                             sizedBoxHeight(22.h),
-                            orderDetailsModel.data!.orderStatus!.id == 1
+                            orderDetailsModel
+                                        .data!.orderDetails!.deliveryAgent ==
+                                    null
                                 ? Center(
                                     child: Column(
                                       children: [
@@ -535,27 +506,68 @@ class _OngoingorderState extends State<Ongoingorder> {
                                           children: [
                                             sizedBoxHeight(8.h),
                                             status(),
-                                            DottedLine(
-                                              direction: Axis.vertical,
-                                              lineLength: 47,
-                                              lineThickness: 2.0,
-                                              dashLength: 4.0,
-                                              dashColor: Color(0XFF0E5F02),
-                                            ),
+                                            !orderDetailsModel
+                                                    .data!.deliveryStatus!
+                                                    .any((item) =>
+                                                        item.deliveryStatusXid ==
+                                                        7)
+                                                ? const DottedLine(
+                                                    direction: Axis.vertical,
+                                                    lineLength: 50,
+                                                    lineThickness: 2.0,
+                                                    dashLength: 4.0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02),
+                                                  )
+                                                : const Dash(
+                                                    direction: Axis.vertical,
+                                                    length: 25,
+                                                    dashLength: 49,
+                                                    dashGap: 0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02)),
                                             status(),
-                                            Dash(
-                                                direction: Axis.vertical,
-                                                length: 25,
-                                                dashLength: 49,
-                                                dashGap: 0,
-                                                dashColor: Color(0XFF0E5F02)),
+                                            !orderDetailsModel
+                                                    .data!.deliveryStatus!
+                                                    .any((item) =>
+                                                        item.deliveryStatusXid ==
+                                                        5)
+                                                ? const DottedLine(
+                                                    direction: Axis.vertical,
+                                                    lineLength: 50,
+                                                    lineThickness: 2.0,
+                                                    dashLength: 4.0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02),
+                                                  )
+                                                : const Dash(
+                                                    direction: Axis.vertical,
+                                                    length: 25,
+                                                    dashLength: 49,
+                                                    dashGap: 0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02)),
                                             status(),
-                                            Dash(
-                                                direction: Axis.vertical,
-                                                length: 25,
-                                                dashLength: 39,
-                                                dashGap: 0,
-                                                dashColor: Color(0XFF0E5F02)),
+                                            !orderDetailsModel
+                                                    .data!.deliveryStatus!
+                                                    .any((item) =>
+                                                        item.deliveryStatusXid ==
+                                                        4)
+                                                ? const DottedLine(
+                                                    direction: Axis.vertical,
+                                                    lineLength: 50,
+                                                    lineThickness: 2.0,
+                                                    dashLength: 4.0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02),
+                                                  )
+                                                : const Dash(
+                                                    direction: Axis.vertical,
+                                                    length: 25,
+                                                    dashLength: 49,
+                                                    dashGap: 0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02)),
                                             status(),
                                           ],
                                         ),
@@ -566,55 +578,96 @@ class _OngoingorderState extends State<Ongoingorder> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            sizedBoxHeight(3.h),
                                             Text(
                                               "Delivered",
                                               style: TextStyle(
                                                   fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0XFF141414),
-                                                  fontFamily: "Poppins"),
-                                            ),
-                                            Text(
-                                              "Pending",
-                                              style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  color: Color(0XFF4D4D4D),
-                                                  fontFamily: "Poppins"),
-                                            ),
-                                            sizedBoxHeight(11.h),
-                                            Text(
-                                              "Out For Delivery",
-                                              style: TextStyle(
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0XFF141414),
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xff141414),
                                                   fontFamily: "Poppins"),
                                             ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  "Tuesday",
-                                                  style: TextStyle(
-                                                      color: Color(0xff4D4D4D),
-                                                      fontSize: 14.sp,
-                                                      fontFamily: "Poppins"),
-                                                ),
-                                                sizedBoxWidth(3.w),
-                                                SvgPicture.asset(
-                                                  "assets/images/dotimage.svg",
-                                                  width: 4.w,
-                                                  height: 4.h,
-                                                ),
-                                                sizedBoxWidth(5.w),
-                                                Text(
-                                                  "Jan 30, 10.12 PM",
-                                                  style: TextStyle(
-                                                      color: Color(0xff4D4D4D),
-                                                      fontSize: 14.sp,
-                                                      fontFamily: "Poppins"),
-                                                ),
+                                                !orderDetailsModel
+                                                        .data!.deliveryStatus!
+                                                        .any((item) =>
+                                                            item.deliveryStatusXid ==
+                                                            7)
+                                                    ? Text("Pending",
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"))
+                                                    : Text(
+                                                        Utils.convertUtcToCustomFormat(
+                                                            orderDetailsModel
+                                                                .data!
+                                                                .deliveryStatus![
+                                                                    4]
+                                                                .createdAt!),
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"),
+                                                      ),
+                                              ],
+                                            ),
+                                            sizedBoxHeight(15.h),
+                                            Text(
+                                              "Out For Delivery",
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xff141414),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                !orderDetailsModel
+                                                        .data!.deliveryStatus!
+                                                        .any((item) =>
+                                                            item.deliveryStatusXid ==
+                                                            5)
+                                                    ? Text("Pending",
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"))
+                                                    : Text(
+                                                        Utils.convertUtcToCustomFormat(
+                                                            orderDetailsModel
+                                                                .data!
+                                                                .deliveryStatus![
+                                                                    3]
+                                                                .createdAt!),
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"),
+                                                      ),
                                               ],
                                             ),
                                             sizedBoxHeight(15.h),
@@ -622,44 +675,55 @@ class _OngoingorderState extends State<Ongoingorder> {
                                               "Packed & Ready",
                                               style: TextStyle(
                                                   fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0XFF141414),
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xff141414),
                                                   fontFamily: "Poppins"),
                                             ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  "Wednesday",
-                                                  style: TextStyle(
-                                                      color: Color(0xff4D4D4D),
-                                                      fontSize: 14.sp,
-                                                      fontFamily: "Poppins"),
-                                                ),
-                                                sizedBoxWidth(3.w),
-                                                SvgPicture.asset(
-                                                  "assets/images/dotimage.svg",
-                                                  width: 4.w,
-                                                  height: 4.h,
-                                                ),
-                                                sizedBoxWidth(5.w),
-                                                Text(
-                                                  "Jan 30, 10.12 PM",
-                                                  style: TextStyle(
-                                                      color: Color(0xff4D4D4D),
-                                                      fontSize: 14.sp,
-                                                      fontFamily: "Poppins"),
-                                                ),
+                                                !orderDetailsModel
+                                                        .data!.deliveryStatus!
+                                                        .any((item) =>
+                                                            item.deliveryStatusXid ==
+                                                            4)
+                                                    ? Text("Pending",
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"))
+                                                    : Text(
+                                                        Utils.convertUtcToCustomFormat(
+                                                            orderDetailsModel
+                                                                .data!
+                                                                .deliveryStatus![
+                                                                    2]
+                                                                .createdAt!),
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"),
+                                                      ),
                                               ],
                                             ),
-                                            sizedBoxHeight(2.h),
+                                            sizedBoxHeight(15.h),
                                             Text(
                                               "Ordered",
                                               style: TextStyle(
                                                   fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0XFF141414),
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xff141414),
                                                   fontFamily: "Poppins"),
                                             ),
                                             Row(
@@ -667,23 +731,17 @@ class _OngoingorderState extends State<Ongoingorder> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "Friday",
+                                                  Utils
+                                                      .convertUtcToCustomFormat(
+                                                          orderDetailsModel
+                                                              .data!
+                                                              .orderDetails!
+                                                              .orderDate!),
                                                   style: TextStyle(
-                                                      color: Color(0xff4D4D4D),
-                                                      fontSize: 14.sp,
-                                                      fontFamily: "Poppins"),
-                                                ),
-                                                sizedBoxWidth(3.w),
-                                                SvgPicture.asset(
-                                                  "assets/images/dotimage.svg",
-                                                  width: 4.w,
-                                                  height: 4.h,
-                                                ),
-                                                sizedBoxWidth(5.w),
-                                                Text(
-                                                  "Jan 30, 10.12 PM",
-                                                  style: TextStyle(
-                                                      color: Color(0xff4D4D4D),
+                                                      color: const Color(
+                                                          0xff4D4D4D),
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       fontSize: 14.sp,
                                                       fontFamily: "Poppins"),
                                                 ),
@@ -701,7 +759,8 @@ class _OngoingorderState extends State<Ongoingorder> {
                                 onTap: () {
                                   buildordercalldialog(
                                     context,
-                                    orderDetailsModel.data!.salesman!,
+                                    orderDetailsModel
+                                        .data!.orderDetails!.salesman!,
                                   );
                                 },
                                 child: Container(
@@ -728,13 +787,13 @@ class _OngoingorderState extends State<Ongoingorder> {
                                 width: 358.w,
                                 // height: 108.h,
                                 decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20)),
                                     color: AppColors.white,
                                     border: Border.all(
-                                      color: Color(0XFFC5C5C5),
+                                      color: const Color(0XFFC5C5C5),
                                     ),
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                           color: Color(0xFF00000029),
                                           blurRadius: 6.0,
@@ -756,23 +815,9 @@ class _OngoingorderState extends State<Ongoingorder> {
                                           height: 53.h,
                                         ),
                                       ),
-                                      // CircleAvatar(
-                                      //   backgroundColor: Color(0XFFD9EFD5),
-                                      //   radius: 20.w,
-                                      //   child: CircleAvatar(
-                                      //     radius: 12.w,
-                                      //     backgroundColor: AppColors.buttoncolour,
-                                      //     child: SvgPicture.asset(
-                                      //       "assets/images/qyestion.svg",
-                                      //       width: 6.w,
-                                      //       height: 13.h,
-                                      //     ),
-                                      //   ),
-                                      // ),
+
                                       sizedBoxWidth(10.w),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(top: 13),
-                                      //   child:
+
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -782,188 +827,48 @@ class _OngoingorderState extends State<Ongoingorder> {
                                           Padding(
                                             padding: EdgeInsets.only(top: 9.h),
                                             child: Text(
-                                              "Querry With This Order?",
+                                              "Query With This Order?",
                                               style: TextStyle(
                                                   fontSize: 20.sp,
-                                                  color: Color(0XFF141414),
+                                                  color:
+                                                      const Color(0XFF141414),
                                                   fontWeight: FontWeight.w600,
                                                   fontFamily: "Poppins"),
                                             ),
                                           ),
                                           sizedBoxHeight(3.h),
-                                          Container(
-                                            height: 36.h,
-                                            width: 213.w,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.h),
-                                                color: Color(0XFFF1F1F1)),
-                                            child: Center(
-                                              child: Text(
-                                                "Contact Customer Service",
-                                                style: TextStyle(
-                                                    color:
-                                                        AppColors.buttoncolour,
-                                                    fontSize: 14.sp,
-                                                    fontWeight:
-                                                        FontWeight.w600),
+                                          InkWell(
+                                            onTap: () {
+                                              buildordercalldialog(
+                                                context,
+                                                orderDetailsModel.data!
+                                                    .orderDetails!.salesman!,
+                                              );
+                                            },
+                                            child: Container(
+                                              height: 36.h,
+                                              width: 213.w,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.h),
+                                                  color:
+                                                      const Color(0XFFF1F1F1)),
+                                              child: Center(
+                                                child: Text(
+                                                  "Contact Customer Service",
+                                                  style: TextStyle(
+                                                      color: AppColors
+                                                          .buttoncolour,
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
                                               ),
                                             ),
                                           ),
                                           sizedBoxHeight(18.h)
                                         ],
-                                      ),
-                                      //)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            sizedBoxHeight(14.h),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              child: Container(
-                                width: 358.w,
-                                // height: 210.h,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                    color: Color(0XFFF1F1F1),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Color(0xFF00000029),
-                                          blurRadius: 6.0,
-                                          spreadRadius: 0)
-                                    ]),
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 10.w, top: 5.h),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 5.h),
-                                        child: SvgPicture.asset(
-                                          "assets/images/orderphone.svg",
-                                          width: 53.w,
-                                          height: 53.h,
-                                        ),
-                                      ),
-                                      sizedBoxWidth(10.w),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 14.h),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Your Mobile Number",
-                                              style: TextStyle(
-                                                  fontSize: 20.sp,
-                                                  color: Color(0XFF141414),
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Poppins"),
-                                            ),
-                                            sizedBoxHeight(8.h),
-                                            Text(
-                                              "we use your number to notify you \nabout order status and may call you \nto coordinate your delivery or pickup.",
-                                              style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  color: Color(0XFF141414),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "Poppins"),
-                                            ),
-                                            sizedBoxHeight(12.h),
-                                            SizedBox(
-                                              width: 213.w,
-                                              // height: 33.h,
-                                              child: TextFormField(
-                                                textAlignVertical:
-                                                    TextAlignVertical.center,
-                                                style: TextStyle(
-                                                    color:
-                                                        const Color(0xFF0E5F02),
-                                                    fontSize: 14.sp,
-                                                    fontFamily: "Poppins",
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                                readOnly: false,
-                                                cursorColor:
-                                                    const Color(0xFF3B3F43),
-                                                autovalidateMode:
-                                                    AutovalidateMode
-                                                        .onUserInteraction,
-                                                decoration: InputDecoration(
-                                                  errorStyle: TextStyle(
-                                                      fontSize: 14.sp),
-                                                  isCollapsed: true,
-                                                  suffixIconConstraints:
-                                                      const BoxConstraints(),
-                                                  contentPadding:
-                                                      EdgeInsets.all(8.h),
-                                                  filled: true,
-                                                  fillColor: AppColors.white,
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6.r),
-                                                    borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFF0E5F02),
-                                                        width: 1),
-                                                  ),
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6.r),
-                                                    borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFF0E5F02),
-                                                        width: 1),
-                                                  ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6.r),
-                                                    borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFF0E5F02),
-                                                        width: 1),
-                                                  ),
-                                                  hintStyle: TextStyle(
-                                                      color: const Color(
-                                                          0xFF0E5F02),
-                                                      fontSize: 14.sp,
-                                                      fontFamily: "Poppins",
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                  hintText: "02658416399",
-                                                  suffixIcon: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 12.w),
-                                                    child: SvgPicture.asset(
-                                                        "assets/images/Complete.svg"),
-                                                  ),
-                                                ),
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                inputFormatters: [
-                                                  LengthLimitingTextInputFormatter(
-                                                      10),
-                                                  FilteringTextInputFormatter
-                                                      .allow(RegExp('[0-9]')),
-                                                ],
-                                              ),
-                                            ),
-                                            sizedBoxHeight(14.h),
-                                          ],
-                                        ),
                                       ),
                                       //)
                                     ],
@@ -977,7 +882,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                               child: Container(
                                 width: 358.w,
                                 // height: 115.h,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
                                     color: Color(0XFFF1F1F1),
@@ -1016,24 +921,27 @@ class _OngoingorderState extends State<Ongoingorder> {
                                               "Order Summary",
                                               style: TextStyle(
                                                   fontSize: 20.sp,
-                                                  color: Color(0XFF141414),
+                                                  color:
+                                                      const Color(0XFF141414),
                                                   fontWeight: FontWeight.w600,
                                                   fontFamily: "Poppins"),
                                             ),
                                             sizedBoxHeight(8.h),
+                                            // Text(
+                                            //   "Order g: 408-0073624-7437935",
+                                            //   style: TextStyle(
+                                            //       fontSize: 14.sp,
+                                            //       color:
+                                            //           const Color(0XFF141414),
+                                            //       fontFamily: "Poppins"),
+                                            // ),
+                                            // sizedBoxHeight(7.h),
                                             Text(
-                                              "Order g: 408-0073624-7437935",
+                                              "Ordered: ${Utils.convertDate(orderDetailsModel.data!.orderDetails!.orderDate!)}",
                                               style: TextStyle(
                                                   fontSize: 14.sp,
-                                                  color: Color(0XFF141414),
-                                                  fontFamily: "Poppins"),
-                                            ),
-                                            sizedBoxHeight(7.h),
-                                            Text(
-                                              "Ordered: ${Utils.convertDate(orderDetailsModel.data!.orderDate!)}",
-                                              style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  color: Color(0XFF141414),
+                                                  color:
+                                                      const Color(0XFF141414),
                                                   fontFamily: "Poppins"),
                                             ),
                                             sizedBoxHeight(18.h),

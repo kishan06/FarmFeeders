@@ -129,20 +129,82 @@ class DataFilled {
 }
 
 class Order {
+  Product? product;
+  String? orderDate;
+  int? orderHeaderXid;
   int? totalQuantities;
-  int? orderStatus;
+  List<OrderStatus>? orderStatus;
 
-  Order({this.totalQuantities, this.orderStatus});
+  Order(
+      {this.product,
+      this.totalQuantities,
+      this.orderDate,
+      this.orderHeaderXid,
+      this.orderStatus});
 
   Order.fromJson(Map<String, dynamic> json) {
+    product =
+        json['product'] != null ? Product.fromJson(json['product']) : null;
     totalQuantities = json['totalQuantities'];
-    orderStatus = json['orderStatus'];
+    orderHeaderXid = json['order_header_xid'];
+    orderDate = json['order_date'];
+    if (json['orderStatus'] != null) {
+      orderStatus = <OrderStatus>[];
+      json['orderStatus'].forEach((v) {
+        orderStatus!.add(OrderStatus.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    if (product != null) {
+      data['product'] = product!.toJson();
+    }
+    data['order_header_xid'] = orderHeaderXid;
     data['totalQuantities'] = totalQuantities;
-    data['orderStatus'] = orderStatus;
+    data['order_date'] = orderDate;
+    if (orderStatus != null) {
+      data['orderStatus'] = orderStatus!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Product {
+  String? title;
+  String? smallImageUrl;
+
+  Product({this.title, this.smallImageUrl});
+
+  Product.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    smallImageUrl = json['small_image_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['small_image_url'] = smallImageUrl;
+    return data;
+  }
+}
+
+class OrderStatus {
+  int? deliveryStatusXid;
+  String? createdAt;
+
+  OrderStatus({this.deliveryStatusXid, this.createdAt});
+
+  OrderStatus.fromJson(Map<String, dynamic> json) {
+    deliveryStatusXid = json['delivery_status_xid'];
+    createdAt = json['created_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['delivery_status_xid'] = deliveryStatusXid;
+    data['created_at'] = createdAt;
     return data;
   }
 }

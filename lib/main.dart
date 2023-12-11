@@ -5,6 +5,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,9 @@ Future<void> main() async {
   token = prefs.getString('accessToken');
   // log(token!);
 
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((value) => runApp(const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
