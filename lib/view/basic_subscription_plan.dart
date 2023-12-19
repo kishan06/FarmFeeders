@@ -5,14 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../Utils/colors.dart';
-import '../Utils/custom_button.dart';
 import '../Utils/sized_box.dart';
 import '../Utils/texts.dart';
 import '../common/custom_button_curve.dart';
 import 'payment_successfull.dart';
 import 'package:http/http.dart' as http;
-
 
 class BasicSubscriptionPlan extends StatefulWidget {
   BasicSubscriptionPlan({super.key});
@@ -118,9 +115,7 @@ class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
       await Stripe.instance
           .initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
-                  
                   billingDetails: BillingDetails(
-                      
                       address: Address(
                           city: null,
                           country: "IE",
@@ -147,10 +142,7 @@ class _BasicSubscriptionPlanState extends State<BasicSubscriptionPlan> {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
         'currency': currency,
-        'description' : {
-          "userId": "1",
-          "planId": "12"
-        }.toString()
+        'description': {"userId": "1", "planId": "12"}.toString()
         // 'metadata': {
         //   'order_id': "1",
         //   'customer_id': "12"

@@ -28,6 +28,28 @@ class OrderApi {
     return response;
   }
 
+  Future<ResponseData<dynamic>> getMoreOrdersListApi(
+      String apiUrl, int filterId) async {
+    final response = await NetworkApiServices().getApi1(
+      (apiUrl == ApiUrls.ongoingOrdersApi ||
+              apiUrl == ApiUrls.recurringOrdersApi)
+          ? apiUrl
+          : "$apiUrl$filterId",
+    );
+    log(response.data.toString());
+    if (response.status == ResponseStatus.SUCCESS) {
+      Map<String, dynamic> responseData =
+          Map<String, dynamic>.from(response.data);
+      if (responseData['success']) {
+        return response;
+      } else {
+        return ResponseData<dynamic>(
+            responseData['message'], ResponseStatus.FAILED);
+      }
+    }
+    return response;
+  }
+
   Future<ResponseData<dynamic>> getOrderDetails(
     String id,
   ) async {

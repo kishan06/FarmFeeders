@@ -2,7 +2,6 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
-import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/models/OrderModel/orders_model.dart';
 import 'package:farmfeeders/view/YourOrder/orderListScreen.dart';
 import 'package:farmfeeders/view_models/orderApi/order_api.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Utils/utils.dart';
 
@@ -24,13 +24,22 @@ class _YourorderState extends State<Yourorder> {
   RxBool isLoading = true.obs;
   OrdersModel ordersModel = OrdersModel();
 
+  String loginStatus = "";
   @override
   void initState() {
+    getData();
     OrderApi().getOrdersListApi().then((value) {
       ordersModel = OrdersModel.fromJson(value.data);
       isLoading.value = false;
     });
     super.initState();
+  }
+
+  Future<void> getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginStatus = prefs.getString("loginStatus")!;
+
+    setState(() {});
   }
 
   void passToOrders(
@@ -649,515 +658,569 @@ class _YourorderState extends State<Yourorder> {
                                     ),
                                   ),
                                 ),
-                          ordersModel.data!.recurringOrders == null
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
                               ? const SizedBox()
-                              : sizedBoxHeight(19.h),
-                          ordersModel.data!.recurringOrders == null
+                              : ordersModel.data!.recurringOrders == null
+                                  ? const SizedBox()
+                                  : sizedBoxHeight(19.h),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
                               ? const SizedBox()
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Recurring Orders",
-                                      style: TextStyle(
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0XFF141414)),
+                              : ordersModel.data!.recurringOrders!.isEmpty
+                                  ? const SizedBox()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Recurring Orders",
+                                          style: TextStyle(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: const Color(0XFF141414)),
+                                        ),
+                                        const Spacer(),
+                                        InkWell(
+                                          onTap: () {
+                                            passToOrders("recurring");
+                                          },
+                                          child: Text(
+                                            "See more",
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color(0XFF0E5F02)),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const Spacer(),
-                                    InkWell(
-                                      onTap: () {
-                                        passToOrders("recurring");
-                                      },
-                                      child: Text(
-                                        "See more",
-                                        style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: const Color(0XFF0E5F02)),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
+                              ? const SizedBox()
+                              : ordersModel.data!.recurringOrders == null
+                                  ? const SizedBox()
+                                  : sizedBoxHeight(6.h),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
+                              ? const SizedBox()
+                              : ordersModel.data!.recurringOrders!.isEmpty
+                                  ? const SizedBox()
+                                  : Container(
+                                      width: 358.w,
+                                      // height: 123.h,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          color: Color(0XFF0000001F),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x48B9B9BE),
+                                              //  / blurRadius: 1.0,
+                                              offset: Offset(0.0, 0.75),
+                                              // spreadRadius: 0
+                                            )
+                                          ]),
+                                      child: Row(
+                                        children: [
+                                          ordersModel.data!.recurringOrders!
+                                                  .isEmpty
+                                              ? const SizedBox()
+                                              : SizedBox(
+                                                  width: Get.width / 3.5,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: 15.w,
+                                                      top: 14.h,
+                                                      bottom: 24.h,
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Image.network(
+                                                          "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders![0].smallImageUrl}",
+                                                          width: 80.w,
+                                                          height: 69.h,
+                                                        ),
+                                                        sizedBoxHeight(5.h),
+                                                        Text(
+                                                          ordersModel
+                                                              .data!
+                                                              .recurringOrders![
+                                                                  0]
+                                                              .title!,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 10.sp,
+                                                              color: const Color(
+                                                                  0XFF141414),
+                                                              fontFamily:
+                                                                  "Poppins"),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                          const Spacer(),
+                                          ordersModel.data!.recurringOrders!
+                                                      .length <
+                                                  2
+                                              ? const SizedBox()
+                                              : SizedBox(
+                                                  width: Get.width / 3.5,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: 15.w,
+                                                      top: 14.h,
+                                                      bottom: 24.h,
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Center(
+                                                          child: Image.network(
+                                                            "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders![1].smallImageUrl!}",
+                                                            width: 80.w,
+                                                            height: 69.h,
+                                                          ),
+                                                        ),
+                                                        sizedBoxHeight(5.h),
+                                                        Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            ordersModel
+                                                                .data!
+                                                                .recurringOrders![
+                                                                    1]
+                                                                .title!,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize: 10.sp,
+                                                                color: const Color(
+                                                                    0XFF141414),
+                                                                fontFamily:
+                                                                    "Poppins"),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                          const Spacer(),
+                                          ordersModel.data!.recurringOrders!
+                                                      .length <
+                                                  3
+                                              ? const SizedBox()
+                                              : SizedBox(
+                                                  width: Get.width / 3.5,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: 15.w,
+                                                      top: 14.h,
+                                                      bottom: 24.h,
+                                                      right: 15.w,
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Image.network(
+                                                          "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders![2].smallImageUrl!}",
+                                                          width: 80.w,
+                                                          height: 69.h,
+                                                        ),
+                                                        sizedBoxHeight(5.h),
+                                                        Text(
+                                                          ordersModel
+                                                              .data!
+                                                              .recurringOrders![
+                                                                  2]
+                                                              .title!,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 10.sp,
+                                                              color: const Color(
+                                                                  0XFF141414),
+                                                              fontFamily:
+                                                                  "Poppins"),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                          ordersModel.data!.recurringOrders == null
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
                               ? const SizedBox()
-                              : sizedBoxHeight(6.h),
-                          ordersModel.data!.recurringOrders == null
+                              : ordersModel.data!.cancelledOrders!.isEmpty
+                                  ? const SizedBox()
+                                  : sizedBoxHeight(16.h),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
                               ? const SizedBox()
-                              : Container(
-                                  width: 358.w,
-                                  // height: 123.h,
-                                  decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      color: Color(0XFF0000001F),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0x48B9B9BE),
-                                          //  / blurRadius: 1.0,
-                                          offset: Offset(0.0, 0.75),
-                                          // spreadRadius: 0
-                                        )
-                                      ]),
-                                  child: Row(
-                                    children: [
-                                      ordersModel.data!.recurringOrders!.isEmpty
-                                          ? const SizedBox()
-                                          : SizedBox(
-                                              width: Get.width / 3.5,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 15.w,
-                                                  top: 14.h,
-                                                  bottom: 24.h,
-                                                ),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Image.network(
-                                                      "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders![0].smallImageUrl}",
-                                                      width: 80.w,
-                                                      height: 69.h,
-                                                    ),
-                                                    sizedBoxHeight(5.h),
-                                                    Text(
-                                                      ordersModel
-                                                          .data!
-                                                          .recurringOrders![0]
-                                                          .title!,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 10.sp,
-                                                          color: const Color(
-                                                              0XFF141414),
-                                                          fontFamily:
-                                                              "Poppins"),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                      const Spacer(),
-                                      ordersModel.data!.recurringOrders!
-                                                  .length <
-                                              2
-                                          ? const SizedBox()
-                                          : SizedBox(
-                                              width: Get.width / 3.5,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 15.w,
-                                                  top: 14.h,
-                                                  bottom: 24.h,
-                                                ),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Center(
-                                                      child: Image.network(
-                                                        "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders![1].smallImageUrl!}",
-                                                        width: 80.w,
-                                                        height: 69.h,
-                                                      ),
-                                                    ),
-                                                    sizedBoxHeight(5.h),
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Text(
-                                                        ordersModel
-                                                            .data!
-                                                            .recurringOrders![1]
-                                                            .title!,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                            fontSize: 10.sp,
-                                                            color: const Color(
-                                                                0XFF141414),
-                                                            fontFamily:
-                                                                "Poppins"),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                      const Spacer(),
-                                      SizedBox(
-                                        width: Get.width / 3.5,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 15.w,
-                                            top: 14.h,
-                                            bottom: 24.h,
-                                            right: 15.w,
+                              : ordersModel.data!.cancelledOrders!.isEmpty
+                                  ? const SizedBox()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Cancelled Orders",
+                                          style: TextStyle(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: const Color(0XFF141414)),
+                                        ),
+                                        const Spacer(),
+                                        InkWell(
+                                          onTap: () {
+                                            passToOrders("cancelled");
+                                          },
+                                          child: Text(
+                                            "See more",
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color(0XFF0E5F02)),
                                           ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                        ),
+                                      ],
+                                    ),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
+                              ? const SizedBox()
+                              : ordersModel.data!.cancelledOrders!.isEmpty
+                                  ? const SizedBox()
+                                  : sizedBoxHeight(6.h),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
+                              ? const SizedBox()
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      ordersModel.data!.cancelledOrders!.length,
+                                  itemBuilder: (ctx, index) {
+                                    return index > 3
+                                        ? SizedBox()
+                                        : Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Image.network(
-                                                "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders![2].smallImageUrl!}",
-                                                width: 80.w,
-                                                height: 69.h,
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Get.toNamed("/cancelorder",
+                                                      arguments: {
+                                                        "id": ordersModel
+                                                            .data!
+                                                            .cancelledOrders![
+                                                                index]
+                                                            .orderId!,
+                                                      });
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 15),
+                                                  width: 358.w,
+                                                  // height: 125.h,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          20)),
+                                                          color: Color(
+                                                              0XFF0000001F),
+                                                          boxShadow: [
+                                                        BoxShadow(
+                                                          color:
+                                                              Color(0x48B9B9BE),
+                                                          //  / blurRadius: 1.0,
+                                                          offset:
+                                                              Offset(0.0, 0.75),
+                                                          // spreadRadius: 0
+                                                        )
+                                                      ]),
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                        child: Image.network(
+                                                          "${ApiUrls.baseImageUrl}/${ordersModel.data!.cancelledOrders![index].inventory!.smallImageUrl!}",
+                                                          width: 90.w,
+                                                          height: 100.h,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 15,
+                                                      ),
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            width:
+                                                                Get.width / 1.7,
+                                                            child: Text(
+                                                              ordersModel
+                                                                  .data!
+                                                                  .cancelledOrders![
+                                                                      index]
+                                                                  .inventory!
+                                                                  .title!,
+                                                              maxLines: 2,
+                                                              style: TextStyle(
+                                                                fontSize: 17.sp,
+                                                                color: const Color(
+                                                                    0XFF141414),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontFamily:
+                                                                    "Poppins",
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          SizedBox(
+                                                            width:
+                                                                Get.width / 1.7,
+                                                            child: Text(
+                                                              "Order cancelled on ${Utils.convertUtcToCustomFormat(ordersModel.data!.cancelledOrders![index].createdAt!)}",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      12.sp,
+                                                                  color: const Color(
+                                                                      0XFF6D6D6D)),
+                                                            ),
+                                                          ),
+                                                          // Text(
+                                                          //   "Cow feed",
+                                                          //   style: TextStyle(
+                                                          //     fontSize: 16.sp,
+                                                          //     color: const Color(
+                                                          //         0XFF141414),
+                                                          //     fontWeight:
+                                                          //         FontWeight.w600,
+                                                          //     fontFamily: "Poppins",
+                                                          //   ),
+                                                          // ),
+                                                          sizedBoxHeight(8.h),
+                                                          // Container(
+                                                          //   height: 25.h,
+                                                          //   width: 91.w,
+                                                          //   decoration: BoxDecoration(
+                                                          //     borderRadius:
+                                                          //         BorderRadius.circular(
+                                                          //             25.h),
+                                                          //     color:
+                                                          //         AppColors.buttoncolour,
+                                                          //   ),
+                                                          //   child: Center(
+                                                          //     child: Text(
+                                                          //       "Reorder",
+                                                          //       style: TextStyle(
+                                                          //         fontSize: 14.sp,
+                                                          //         color: const Color(
+                                                          //             0XFFFFFFFF),
+                                                          //         fontFamily: "Poppins",
+                                                          //       ),
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                      // sizedBoxWidth(10.w),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                              sizedBoxHeight(5.h),
-                                              Text(
-                                                ordersModel.data!
-                                                    .recurringOrders![2].title!,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 10.sp,
-                                                    color:
-                                                        const Color(0XFF141414),
-                                                    fontFamily: "Poppins"),
-                                              )
                                             ],
+                                          );
+                                  }),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
+                              ? const SizedBox()
+                              : ordersModel.data!.pastOrders!.isEmpty
+                                  ? const SizedBox()
+                                  : sizedBoxHeight(16.h),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
+                              ? const SizedBox()
+                              : ordersModel.data!.pastOrders!.isEmpty
+                                  ? const SizedBox()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Past Orders",
+                                          style: TextStyle(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: const Color(0XFF141414)),
+                                        ),
+                                        const Spacer(),
+                                        InkWell(
+                                          onTap: () {
+                                            passToOrders("past");
+                                          },
+                                          child: Text(
+                                            "See more",
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color(0XFF0E5F02)),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                          ordersModel.data!.cancelledOrders!.isEmpty
-                              ? const SizedBox()
-                              : sizedBoxHeight(16.h),
-                          ordersModel.data!.cancelledOrders!.isEmpty
-                              ? const SizedBox()
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Cancelled Orders",
-                                      style: TextStyle(
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0XFF141414)),
+                                      ],
                                     ),
-                                    const Spacer(),
-                                    InkWell(
-                                      onTap: () {
-                                        passToOrders("cancelled");
-                                      },
-                                      child: Text(
-                                        "See more",
-                                        style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: const Color(0XFF0E5F02)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                          ordersModel.data!.cancelledOrders!.isEmpty
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
                               ? const SizedBox()
-                              : sizedBoxHeight(6.h),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  ordersModel.data!.cancelledOrders!.length,
-                              itemBuilder: (ctx, index) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.toNamed("/cancelorder", arguments: {
-                                          "id": ordersModel.data!
-                                              .cancelledOrders![index].orderId!,
-                                        });
-                                      },
-                                      child: Container(
-                                        width: 358.w,
-                                        // height: 125.h,
-                                        decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20)),
-                                            color: Color(0XFF0000001F),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Color(0x48B9B9BE),
-                                                //  / blurRadius: 1.0,
-                                                offset: Offset(0.0, 0.75),
-                                                // spreadRadius: 0
-                                              )
-                                            ]),
-                                        padding: const EdgeInsets.all(8),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: Image.network(
-                                                "${ApiUrls.baseImageUrl}/${ordersModel.data!.cancelledOrders![index].inventory!.smallImageUrl!}",
-                                                width: 90.w,
-                                                height: 100.h,
-                                              ),
+                              : ordersModel.data!.pastOrders!.isEmpty
+                                  ? const SizedBox()
+                                  : sizedBoxHeight(6.h),
+                          loginStatus ==
+                                  "Subscription Inactive and Orders Pending"
+                              ? const SizedBox()
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      ordersModel.data!.pastOrders!.length,
+                                  itemBuilder: (ctx, index) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.toNamed("/deliveredorder",
+                                                arguments: {
+                                                  "id": ordersModel
+                                                      .data!
+                                                      .pastOrders![index]
+                                                      .orderId!,
+                                                });
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                              bottom: 15,
                                             ),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                            width: 358.w,
+                                            // height: 125.h,
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)),
+                                                color: Color(0XFF0000001F),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Color(0x48B9B9BE),
+                                                    //  / blurRadius: 1.0,
+                                                    offset: Offset(0.0, 0.75),
+                                                    // spreadRadius: 0
+                                                  )
+                                                ]),
+                                            padding: const EdgeInsets.all(8),
+                                            child: Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                SizedBox(
-                                                  width: Get.width / 1.7,
-                                                  child: Text(
-                                                    ordersModel
-                                                        .data!
-                                                        .cancelledOrders![index]
-                                                        .inventory!
-                                                        .title!,
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                      fontSize: 17.sp,
-                                                      color: const Color(
-                                                          0XFF141414),
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: "Poppins",
-                                                    ),
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: Image.network(
+                                                    "${ApiUrls.baseImageUrl}/${ordersModel.data!.pastOrders![index].inventory!.smallImageUrl!}",
+                                                    width: 90.w,
+                                                    height: 100.h,
                                                   ),
                                                 ),
                                                 const SizedBox(
-                                                  height: 15,
+                                                  width: 15,
                                                 ),
-                                                SizedBox(
-                                                  width: Get.width / 1.7,
-                                                  child: Text(
-                                                    "Order cancelled on ${Utils.convertUtcToCustomFormat(ordersModel.data!.cancelledOrders![index].createdAt!)}",
-                                                    style: TextStyle(
-                                                        fontSize: 12.sp,
-                                                        color: const Color(
-                                                            0XFF6D6D6D)),
-                                                  ),
-                                                ),
-                                                // Text(
-                                                //   "Cow feed",
-                                                //   style: TextStyle(
-                                                //     fontSize: 16.sp,
-                                                //     color: const Color(
-                                                //         0XFF141414),
-                                                //     fontWeight:
-                                                //         FontWeight.w600,
-                                                //     fontFamily: "Poppins",
-                                                //   ),
-                                                // ),
-                                                sizedBoxHeight(8.h),
-                                                // Container(
-                                                //   height: 25.h,
-                                                //   width: 91.w,
-                                                //   decoration: BoxDecoration(
-                                                //     borderRadius:
-                                                //         BorderRadius.circular(
-                                                //             25.h),
-                                                //     color:
-                                                //         AppColors.buttoncolour,
-                                                //   ),
-                                                //   child: Center(
-                                                //     child: Text(
-                                                //       "Reorder",
-                                                //       style: TextStyle(
-                                                //         fontSize: 14.sp,
-                                                //         color: const Color(
-                                                //             0XFFFFFFFF),
-                                                //         fontFamily: "Poppins",
-                                                //       ),
-                                                //     ),
-                                                //   ),
-                                                // ),
-                                              ],
-                                            ),
-                                            // sizedBoxWidth(10.w),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }),
-                          ordersModel.data!.pastOrders!.isEmpty
-                              ? const SizedBox()
-                              : sizedBoxHeight(16.h),
-                          ordersModel.data!.pastOrders!.isEmpty
-                              ? const SizedBox()
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Past Orders",
-                                      style: TextStyle(
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0XFF141414)),
-                                    ),
-                                    const Spacer(),
-                                    InkWell(
-                                      onTap: () {
-                                        passToOrders("past");
-                                      },
-                                      child: Text(
-                                        "See more",
-                                        style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: const Color(0XFF0E5F02)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                          ordersModel.data!.pastOrders!.isEmpty
-                              ? const SizedBox()
-                              : sizedBoxHeight(6.h),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: ordersModel.data!.pastOrders!.length,
-                              itemBuilder: (ctx, index) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.toNamed("/deliveredorder",
-                                            arguments: {
-                                              "id": ordersModel.data!
-                                                  .pastOrders![index].orderId!,
-                                            });
-                                      },
-                                      child: Container(
-                                        width: 358.w,
-                                        // height: 125.h,
-                                        decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20)),
-                                            color: Color(0XFF0000001F),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Color(0x48B9B9BE),
-                                                //  / blurRadius: 1.0,
-                                                offset: Offset(0.0, 0.75),
-                                                // spreadRadius: 0
-                                              )
-                                            ]),
-                                        padding: const EdgeInsets.all(8),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: Image.network(
-                                                "${ApiUrls.baseImageUrl}/${ordersModel.data!.pastOrders![index].inventory!.smallImageUrl!}",
-                                                width: 90.w,
-                                                height: 100.h,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: Get.width / 1.7,
-                                                  child: Text(
-                                                    ordersModel
-                                                        .data!
-                                                        .pastOrders![index]
-                                                        .inventory!
-                                                        .title!,
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                      fontSize: 17.sp,
-                                                      color: const Color(
-                                                          0XFF141414),
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: "Poppins",
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: Get.width / 1.7,
+                                                      child: Text(
+                                                        ordersModel
+                                                            .data!
+                                                            .pastOrders![index]
+                                                            .inventory!
+                                                            .title!,
+                                                        maxLines: 2,
+                                                        style: TextStyle(
+                                                          fontSize: 17.sp,
+                                                          color: const Color(
+                                                              0XFF141414),
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: "Poppins",
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    SizedBox(
+                                                      width: Get.width / 1.7,
+                                                      child: Text(
+                                                        "Order delivered on ${Utils.convertUtcToCustomFormat(ordersModel.data!.pastOrders![index].createdAt!)}",
+                                                        style: TextStyle(
+                                                            fontSize: 12.sp,
+                                                            color: const Color(
+                                                                0XFF6D6D6D)),
+                                                      ),
+                                                    ),
+                                                    sizedBoxHeight(8.h),
+                                                  ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 15,
-                                                ),
-                                                SizedBox(
-                                                  width: Get.width / 1.7,
-                                                  child: Text(
-                                                    "Order delivered on ${Utils.convertUtcToCustomFormat(ordersModel.data!.pastOrders![index].createdAt!)}",
-                                                    style: TextStyle(
-                                                        fontSize: 12.sp,
-                                                        color: const Color(
-                                                            0XFF6D6D6D)),
-                                                  ),
-                                                ),
-                                                // Text(
-                                                //   "Cow feed",
-                                                //   style: TextStyle(
-                                                //     fontSize: 16.sp,
-                                                //     color: const Color(
-                                                //         0XFF141414),
-                                                //     fontWeight:
-                                                //         FontWeight.w600,
-                                                //     fontFamily: "Poppins",
-                                                //   ),
-                                                // ),
-                                                sizedBoxHeight(8.h),
-                                                // Container(
-                                                //   height: 25.h,
-                                                //   width: 91.w,
-                                                //   decoration: BoxDecoration(
-                                                //     borderRadius:
-                                                //         BorderRadius.circular(
-                                                //             25.h),
-                                                //     color:
-                                                //         AppColors.buttoncolour,
-                                                //   ),
-                                                //   child: Center(
-                                                //     child: Text(
-                                                //       "Reorder",
-                                                //       style: TextStyle(
-                                                //         fontSize: 14.sp,
-                                                //         color: const Color(
-                                                //             0XFFFFFFFF),
-                                                //         fontFamily: "Poppins",
-                                                //       ),
-                                                //     ),
-                                                //   ),
-                                                // ),
                                               ],
                                             ),
-                                            // sizedBoxWidth(10.w),
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }),
+                                      ],
+                                    );
+                                  }),
                           sizedBoxHeight(29.h),
                         ],
                       ),

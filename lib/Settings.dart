@@ -1,6 +1,7 @@
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/view/deleteAccount/deleteAccountScreen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +138,7 @@ class _SettingsState extends State<Settings> {
               sizedBoxHeight(25.h),
               GestureDetector(
                 onTap: () {
-                  buildprofiledeletedialog(context);
+                  Get.to(const DeleteAccountScreen());
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),

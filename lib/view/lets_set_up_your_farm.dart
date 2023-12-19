@@ -10,10 +10,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../Utils/custom_button.dart';
+import '../controller/profile_controller.dart';
 import '../controller/set_farm.dart';
+import '../models/ProfileModel/profile_info_model.dart';
 import '../models/SetupFarmInfoModel/farm_info_model.dart';
+import '../view_models/ProfileAPI.dart';
 import '../view_models/SetupFarmInfoAPI.dart';
+import 'Side Menu/NavigateTo pages/subscription_plan.dart';
 import 'basic_subscription_plan.dart';
+import 'payment_successfull.dart';
 
 bool isSetFarmInfo = false;
 // bool get isSetFarmInfo => isSetFarmInfo;
@@ -44,6 +49,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
 
   SetFarm setFarm = Get.put(SetFarm());
   DashboardController dashboardController = Get.put(DashboardController());
+  ProfileController profileController = Get.put(ProfileController());
 
   @override
   void initState() {
@@ -148,11 +154,11 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
 
               (isSetFarmInfo && isSetLiveStockInfo && isSetFeedInfo)
                   ? CustomButton(
-                      text: "Proceed To Subscription",
+                      text: "Proceed To Dashboard",
                       onTap: () {
-                        Get.offAll( BasicSubscriptionPlan());
+                        Get.offAll(() => const PaymentSuccessfull());
                       })
-                  : SizedBox()
+                  : const SizedBox()
 
               // GestureDetector(
               //     onTap: () {

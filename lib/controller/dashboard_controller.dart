@@ -12,6 +12,7 @@ class DashboardController extends GetxController {
   RxBool isLocationFetching = false.obs;
   RxString weatherCondition = "".obs;
   RxBool isDashboardApiLoading = false.obs;
+  RxBool isWeatherLoading = false.obs;
   String connectionCodeValue = "";
   DashboardModel dashboardModel = DashboardModel();
   FAQModel faqModel = FAQModel();

@@ -42,10 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
       if (resp.status == ResponseStatus.SUCCESS) {
         print("reslo ${resp.data}");
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        // print("token " + jsonResp["data"]["accessToken"]);
         await prefs.setString('accessToken', resp.data["data"]["access_token"]);
 
         token = resp.data["data"]["access_token"];
+        await prefs.setString('loginStatus', "");
         Get.offAndToNamed('/sideMenu');
       } else if (resp.status == ResponseStatus.PRIVATE) {
         if (resp.data["status"] == 202) {
