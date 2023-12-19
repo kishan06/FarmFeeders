@@ -26,9 +26,8 @@ class SubuserApi {
   }
 
   Future<ResponseData<dynamic>> deleteSubUser(String id) async {
-    final response = await NetworkApiServices().deleteApi(
-      ApiUrls.deleteSubUserApi + id,
-    );
+    final response =
+        await NetworkApiServices().deleteApi(ApiUrls.deleteSubUserApi + id, {});
     log(response.data.toString());
     if (response.status == ResponseStatus.SUCCESS) {
       Map<String, dynamic> responseData =

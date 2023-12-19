@@ -16,6 +16,11 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controller/profile_controller.dart';
+import '../models/ProfileModel/profile_info_model.dart';
+import '../view_models/ProfileAPI.dart';
+import 'Side Menu/NavigateTo pages/subscription_plan.dart';
+
 class VerifyYourIdentity extends StatefulWidget {
   const VerifyYourIdentity({super.key});
 
@@ -29,6 +34,8 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
   int? id;
   String? phonenumber;
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  ProfileController profileController = Get.put(ProfileController());
+
   final controllerVerifyOtp = Get.put(VerifyOtpController());
 
   @override
@@ -57,11 +64,16 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         // print("token " + jsonResp["data"]["accessToken"]);
         await prefs.setString('accessToken', resp.data["data"]["token"]);
+        await prefs.setString('email', resp.data["data"]["email"]);
+        await prefs.setString('name', resp.data["data"]["name"]);
+        await prefs.setString('id', resp.data["data"]["id"].toString());
 
         token = resp.data["data"]["token"];
 
         // int? id = resp.data['data']['id'];
-        Get.offAllNamed('/letsSetUpYourFarm', arguments: {'id': id.toString()});
+        Get.offAll(SubscriptionPlan(
+          fromScreen: "fromSetUpFarm",
+        ));
       } else if (resp.status == ResponseStatus.PRIVATE) {
         String? message = resp.data['data'];
         utils.showToast("$message");
@@ -171,7 +183,7 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
                 sizedBoxHeight(30.h),
 
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     controllerVerifyOtp.resendOtpApi(id.toString());
                   },
                   child: Text(

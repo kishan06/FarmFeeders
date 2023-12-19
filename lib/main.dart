@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               primarySwatch: Colors.blue,
             ),
 
-            initialRoute: (token == null || token == "") ? '/' : '/sideMenu',
+            initialRoute: '/',
             //  initialRoute: '/paymentSuccessfull',
             // home: BasicSubscriptionPlan(),
             //  initialRoute: StripePayment(context),

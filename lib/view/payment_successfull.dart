@@ -15,7 +15,6 @@ class PaymentSuccessfull extends StatefulWidget {
 }
 
 class _PaymentSuccessfullState extends State<PaymentSuccessfull> {
- 
   @override
   void initState() {
     // TODO: implement initState
@@ -39,7 +38,8 @@ class _PaymentSuccessfullState extends State<PaymentSuccessfull> {
             sizedBoxHeight(80.h),
             SvgPicture.asset("assets/images/subscriptiondone.svg"),
             sizedBoxHeight(53.h),
-            textBlack131313_28MediumCenter('Your payment is successful'),
+            textBlack131313_28MediumCenter(
+                'You have successfully set up your farm'),
             sizedBoxHeight(20.h),
             textBlack2C2C2C_20Center(
                 'This screen will be auto redirected to your Farm Dashboard.')
@@ -140,5 +140,4 @@ class _PaymentSuccessfullState extends State<PaymentSuccessfull> {
       ),
     );
   }
-
 }

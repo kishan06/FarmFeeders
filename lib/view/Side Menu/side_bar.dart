@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,7 @@ import '../../Utils/api_urls.dart';
 import '../../models/ProfileModel/profile_info_model.dart';
 import '../../view_models/ProfileAPI.dart';
 import '../Profile/personalinfo.dart';
+import 'NavigateTo pages/subscription_plan.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({
@@ -115,20 +117,12 @@ class _SideBarState extends State<SideBar> {
       "text": "Subscription Plan",
       "route": "/SubscriptionPlan"
     },
-    // {
-    //   "icon": Image.asset(
-    //     "assets/images/logout.png",
-    //     height: 30.h,
-    //     width: 30.h,
-    //   ),
-    //   "text": "Log Out",
-    //   "route": ""
-    // },
   ];
 
   final ProfileImageController editProfileImage =
       Get.put(ProfileImageController());
   RxBool isLoading = false.obs;
+  DashboardController dashboardController = Get.put(DashboardController());
   @override
   void initState() {
     checkSubUserPermission();
@@ -262,7 +256,14 @@ class _SideBarState extends State<SideBar> {
                             //   // buildprofilelogoutdialog(context);
                             // } else
                             // {
-                            Get.toNamed(sideBarData[index]["route"]);
+                            if (index == 8) {
+                              Get.to(SubscriptionPlan(
+                                fromScreen: "froMSideBar",
+                              ));
+                            } else {
+                              Get.toNamed(sideBarData[index]["route"]);
+                            }
+
                             // }
                             // Get.toNamed(sideBarData[index]["route"]);
                           },

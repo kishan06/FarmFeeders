@@ -44,4 +44,23 @@ class ProfileAPI {
     }
     return response;
   }
+
+  Future<ResponseData<dynamic>> deleteProfileApi(String reason) async {
+    final response = await NetworkApiServices().deleteApi(
+      ApiUrls.deleteProfileApi,
+      {"reason": reason},
+    );
+    log(response.data.toString());
+    if (response.status == ResponseStatus.SUCCESS) {
+      Map<String, dynamic> responseData =
+          Map<String, dynamic>.from(response.data);
+      if (responseData['success']) {
+        return response;
+      } else {
+        return ResponseData<dynamic>(
+            responseData['message'], ResponseStatus.FAILED);
+      }
+    }
+    return response;
+  }
 }

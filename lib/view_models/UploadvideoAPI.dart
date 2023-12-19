@@ -50,9 +50,8 @@ class UploadvideoAPI {
   }
 
   Future<ResponseData<dynamic>> deleteTrainingVideo(String id) async {
-    final response = await NetworkApiServices().deleteApi(
-      ApiUrls.deletetrainingVideoApi + id,
-    );
+    final response = await NetworkApiServices()
+        .deleteApi(ApiUrls.deletetrainingVideoApi + id, {});
     log(response.data.toString());
     if (response.status == ResponseStatus.SUCCESS) {
       Map<String, dynamic> responseData =

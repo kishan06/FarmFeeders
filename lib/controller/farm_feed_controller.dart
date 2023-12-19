@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/models/feed_Info_dropdown.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:http/http.dart' as http;
@@ -10,6 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FeedInfoContro extends GetxController {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
+  RxList<bool> isOpened = [false].obs;
+  RxList<ExpansionTileController> expansionController =
+      [ExpansionTileController()].obs;
 
   FeedDropDownInfo? _feedDropdownData;
   FeedDropDownInfo? get feedDropdownData => _feedDropdownData;

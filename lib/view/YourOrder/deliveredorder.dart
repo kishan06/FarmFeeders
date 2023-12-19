@@ -501,7 +501,8 @@ class _DeliveredorderState extends State<Deliveredorder> {
                                                 "Delivered",
                                                 style: TextStyle(
                                                     fontSize: 16.sp,
-                                                    // fontWeight: FontWeight.w600,
+                                                    // fontWe
+                                                    //ight: FontWeight.w600,
                                                     color:
                                                         const Color(0XFFFFFFFF),
                                                     fontFamily: "Poppins"),
@@ -510,7 +511,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
                                                 Utils.convertUtcToCustomFormat(
                                                     orderDetailsModel
                                                             .data!
-                                                            .deliveryStatus![2]
+                                                            .deliveryStatus![5]
                                                             .createdAt! ??
                                                         "2023-12-05T11:36:49.000000Z"),
                                                 style: TextStyle(

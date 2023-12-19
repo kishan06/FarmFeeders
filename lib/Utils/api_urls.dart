@@ -1,3 +1,5 @@
+import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/subscription_plan.dart';
+
 class ApiUrls {
   static const base = "https://farmflow.betadelivery.com/api/";
 
@@ -41,4 +43,13 @@ class ApiUrls {
   static const trainingVideoDetailApi = "${base}training_video/";
   static const updatetrainingVideoApi = "${base}training_video/update";
   static const deletetrainingVideoApi = "${base}training_video/";
+
+  static const ongoingOrdersApi = "${base}ongoing-orders";
+  static const cancelledOrdersApi = "${base}cancelled-orders/";
+  static const pastOrdersApi = "${base}past-orders/";
+  static const recurringOrdersApi = "${base}recurring-orders";
+
+  static const deleteProfileApi = "${base}profile-delete";
+  static const subscriptionsApi = "${base}subscriptions";
+  static const subscriptionPlanApi = "${base}subscriptionPlans";
 }

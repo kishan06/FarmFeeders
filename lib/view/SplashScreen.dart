@@ -4,7 +4,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,69 +16,29 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 5), () {
-      Get.offAndToNamed("/splashslider");
+    Timer(const Duration(seconds: 5), () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      var token = prefs.getString('accessToken');
+      if ((token == null || token == "")) {
+        Get.offAndToNamed("/splashslider");
+      } else {
+        Get.offAndToNamed("/sideMenu");
+      }
     });
-    // Timer(
-    //   Duration(seconds: 5), (timer) {
-    //     Get.toNamed("/splashslider");
-    //   }
-    // );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.buttoncolour,
+      backgroundColor: AppColors.white,
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 80.h),
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed("/splashslider");
-                },
-                child: Stack(
-                  // fit: StackFit.expand,
-                  clipBehavior: Clip.none,
-
-                  alignment: Alignment.center,
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 130.h,
-                      child: Image.asset(
-                        "assets/images/farmFlow.png",
-                        width: 220.w,
-                        height: 65.h,
-                      ),
-                    ),
-
-                    Positioned(
-                      left: -110.h,
-                      child: Lottie.asset("assets/lotties/loading.json",
-                          height: 130.h, width: 130.h),
-                    ),
-
-                    // SvgPicture.asset("assets/images/farmFlow.svg",
-                    //   width: 220.w,
-                    //   height: 65.h,
-                    // )
-                  ],
-                ),
-              ),
-            ),
-          ],
+        child: Image.asset(
+          "assets/images/farmFlow.png",
+          width: Get.width,
+          height: 200.h,
         ),
-        // child: IconButton(
-        //     onPressed: () {
-        //       Get.toNamed("/splashslider");
-        //     },
-        //     icon: Icon(Icons.skip_next)),
       ),
     );
   }

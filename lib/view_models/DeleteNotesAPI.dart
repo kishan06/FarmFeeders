@@ -8,8 +8,7 @@ class DeleteNoteAPI {
   var data;
   Future<NotesModel> deleteNoteApi() async {
     final response = await NetworkApiServices().deleteApi(
-      "https://farmflow.betadelivery.com/api/training_video/note/$data",
-    );
+        "https://farmflow.betadelivery.com/api/training_video/note/$data", {});
 
     if (response.status == ResponseStatus.SUCCESS) {
       Map<String, dynamic> responseData =

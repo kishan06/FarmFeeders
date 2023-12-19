@@ -28,13 +28,19 @@ class OrderDetailModel {
 class Data {
   OrderDetails? orderDetails;
   List<DeliveryStatus>? deliveryStatus;
+  String? deliveryOtp;
 
-  Data({this.orderDetails, this.deliveryStatus});
+  Data({
+    this.orderDetails,
+    this.deliveryStatus,
+    this.deliveryOtp,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     orderDetails = json['order_details'] != null
         ? OrderDetails.fromJson(json['order_details'])
         : null;
+    deliveryOtp = json['delivery_otp'] ?? "";
     if (json['delivery_status'] != null) {
       deliveryStatus = <DeliveryStatus>[];
       json['delivery_status'].forEach((v) {
@@ -48,6 +54,7 @@ class Data {
     if (orderDetails != null) {
       data['order_details'] = orderDetails!.toJson();
     }
+    data['delivery_otp'] = deliveryOtp;
     if (deliveryStatus != null) {
       data['delivery_status'] = deliveryStatus!.map((v) => v.toJson()).toList();
     }

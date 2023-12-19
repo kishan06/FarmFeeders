@@ -181,8 +181,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                           border: Border.all(
                                                               width: 3,
                                                               color: advisor
-                                                                          .bookmarked ==
-                                                                      0
+                                                                      .bookmarked!
                                                                   ? Colors.amber
                                                                   : Colors
                                                                       .white),
@@ -313,9 +312,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                             children: [
                                                               IconButton(
                                                                 icon: advisor
-                                                                            .bookmarked ==
-                                                                        0
-                                                                    // _isChecked
+                                                                        .bookmarked!
                                                                     ? CircleAvatar(
                                                                         radius:
                                                                             25.h,
@@ -336,15 +333,15 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                             0XFF707070),
                                                                       ),
                                                                 onPressed: () {
-                                                                  setState(() {
-                                                                    expertData[index]
-                                                                            [
-                                                                            "isConnect"] =
-                                                                        advisor.bookmarked ==
-                                                                                0
-                                                                            ? 1
-                                                                            : 0;
-                                                                    // _isChecked = !_isChecked;
+                                                                  ExpertListAPI()
+                                                                      .updateMarkExpertApi(
+                                                                          advisor
+                                                                              .id!)
+                                                                      .then(
+                                                                          (value) {
+                                                                    //  expertData[index]["isConnect"] = isConnect == 0 ? 1 : 0;
+                                                                    setState(
+                                                                        () {});
                                                                   });
                                                                 },
                                                               ),
@@ -593,8 +590,8 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                     .spaceAround,
                                                             children: [
                                                               IconButton(
-                                                                icon: vet.bookmarked ==
-                                                                        0
+                                                                icon: vet
+                                                                        .bookmarked!
                                                                     // _isChecked
                                                                     ? CircleAvatar(
                                                                         radius:
@@ -616,15 +613,14 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                             0XFF707070),
                                                                       ),
                                                                 onPressed: () {
-                                                                  setState(() {
-                                                                    expertData[index]
-                                                                            [
-                                                                            "isConnect"] =
-                                                                        vet.bookmarked ==
-                                                                                0
-                                                                            ? 1
-                                                                            : 0;
-                                                                    // _isChecked = !_isChecked;
+                                                                  ExpertListAPI()
+                                                                      .updateMarkExpertApi(vet
+                                                                          .id!)
+                                                                      .then(
+                                                                          (value) {
+                                                                    //  expertData[index]["isConnect"] = isConnect == 0 ? 1 : 0;
+                                                                    setState(
+                                                                        () {});
                                                                   });
                                                                 },
                                                               ),
@@ -867,8 +863,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                             children: [
                                                               IconButton(
                                                                 icon: repairman
-                                                                            .bookmarked ==
-                                                                        0
+                                                                        .bookmarked!
                                                                     // _isChecked
                                                                     ? CircleAvatar(
                                                                         radius:
@@ -891,14 +886,15 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                       ),
                                                                 onPressed: () {
                                                                   setState(() {
-                                                                    expertData[index]
-                                                                            [
-                                                                            "isConnect"] =
-                                                                        repairman.bookmarked ==
-                                                                                0
-                                                                            ? 1
-                                                                            : 0;
-                                                                    // _isChecked = !_isChecked;
+                                                                    ExpertListAPI()
+                                                                        .updateMarkExpertApi(repairman
+                                                                            .id!)
+                                                                        .then(
+                                                                            (value) {
+                                                                      //  expertData[index]["isConnect"] = isConnect == 0 ? 1 : 0;
+                                                                      setState(
+                                                                          () {});
+                                                                    });
                                                                   });
                                                                 },
                                                               ),
@@ -1369,9 +1365,11 @@ class _FirstTabState extends State<FirstTab> {
                           color: Color(0XFF707070),
                         ),
                   onPressed: () {
-                    setState(() {
-                      expertData[index]["isConnect"] = isConnect == 0 ? 1 : 0;
-                      // _isChecked = !_isChecked;
+                    ExpertListAPI()
+                        .updateMarkExpertApi(expertData[index]['id'])
+                        .then((value) {
+                      //  expertData[index]["isConnect"] = isConnect == 0 ? 1 : 0;
+                      setState(() {});
                     });
                   },
                 ),

@@ -1,13 +1,17 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' hide log;
+
 import 'package:farmfeeders/Utils/colors.dart';
 
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/view/Home.dart';
 import 'package:farmfeeders/view/profile.dart';
+import 'package:farmfeeders/view/renew_subscription_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../common/dialog/exit_app_dialog.dart';
@@ -28,6 +32,7 @@ class _SideMenuState extends State<SideMenu>
   late Animation<double> animation;
   late Animation<double> scaleAnimation;
   late bool logedIn;
+  String loginStatus = "";
 
   var screens = [
     const Yourorder(),
@@ -43,6 +48,8 @@ class _SideMenuState extends State<SideMenu>
 
   @override
   void initState() {
+    getData();
+
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(() {
@@ -53,6 +60,21 @@ class _SideMenuState extends State<SideMenu>
     scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(CurvedAnimation(
         parent: _animationController, curve: Curves.fastOutSlowIn));
     super.initState();
+  }
+
+  Future<void> getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginStatus = prefs.getString("loginStatus")!;
+
+    if (loginStatus == "Subscription Inactive and Orders Pending") {
+      screens = [
+        const Yourorder(),
+        const RenewSubscriptionScreen(),
+        const RenewSubscriptionScreen(),
+      ];
+
+      setState(() {});
+    }
   }
 
   @override
@@ -104,60 +126,63 @@ class _SideMenuState extends State<SideMenu>
                       ),
                     ),
                   ),
-                  selectedIndex == 1
-                      ? AnimatedPositioned(
-                          duration: const Duration(milliseconds: 200),
-                          curve: Curves.fastOutSlowIn,
-                          top: 5.h,
-                          left: 4.w,
-                          child: IconButton(
-                            iconSize: 50.h,
-                            onPressed: () {
-                              if (isSideMenuClosed) {
-                                _animationController.forward();
-                              } else {
-                                _animationController.reverse();
-                              }
-                              setState(() {
-                                isSideMenuClosed = !isSideMenuClosed;
-                              });
-                            },
-                            icon: isSideMenuClosed
-                                ? Container(
-                                    height: 42.h,
-                                    width: 42.h,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25.h),
-                                      color: AppColors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.shade400,
-                                          blurRadius: 5.h,
-                                          spreadRadius: 2.h,
-                                        )
-                                      ],
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                          "assets/images/menu.svg",
-                                          height: 18.h,
-                                          width: 18.h,
-                                          color: AppColors.black,
+                  loginStatus == "Subscription Inactive and Orders Pending"
+                      ? SizedBox()
+                      : selectedIndex == 1
+                          ? AnimatedPositioned(
+                              duration: const Duration(milliseconds: 200),
+                              curve: Curves.fastOutSlowIn,
+                              top: 5.h,
+                              left: 4.w,
+                              child: IconButton(
+                                iconSize: 50.h,
+                                onPressed: () {
+                                  if (isSideMenuClosed) {
+                                    _animationController.forward();
+                                  } else {
+                                    _animationController.reverse();
+                                  }
+                                  setState(() {
+                                    isSideMenuClosed = !isSideMenuClosed;
+                                  });
+                                },
+                                icon: isSideMenuClosed
+                                    ? Container(
+                                        height: 42.h,
+                                        width: 42.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25.h),
+                                          color: AppColors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.shade400,
+                                              blurRadius: 5.h,
+                                              spreadRadius: 2.h,
+                                            )
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                : Icon(
-                                    Icons.cancel,
-                                    size: 29.w,
-                                    color: Colors.white,
-                                  ),
-                          ),
-                        )
-                      : const SizedBox(),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              "assets/images/menu.svg",
+                                              height: 18.h,
+                                              width: 18.h,
+                                              color: AppColors.black,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.cancel,
+                                        size: 29.w,
+                                        color: Colors.white,
+                                      ),
+                              ),
+                            )
+                          : const SizedBox(),
                 ],
               ),
               bottomNavigationBar: isSideMenuClosed

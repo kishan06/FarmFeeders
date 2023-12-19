@@ -226,7 +226,9 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.subscriptionPlan,
-          page: () => const SubscriptionPlan(),
+          page: () => SubscriptionPlan(
+            fromScreen: "",
+          ),
         ),
         GetPage(
           name: RouteName.paymentSuccessfull,
