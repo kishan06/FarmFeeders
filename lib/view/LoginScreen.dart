@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Utils/utils.dart';
 import '../data/network/network_api_services.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -34,11 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final isValid = _form.currentState?.validate();
     if (isValid!) {
+      Utils.loader();
       Map<String, String> updata = {
         "email": tecEmail.text,
         "password": tecPassword.text
       };
       final resp = await LoginAPI(updata).loginApi();
+      Get.back();
       if (resp.status == ResponseStatus.SUCCESS) {
         print("reslo ${resp.data}");
         SharedPreferences prefs = await SharedPreferences.getInstance();

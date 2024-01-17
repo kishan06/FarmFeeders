@@ -98,14 +98,14 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
-                        tabs: [
-                          const Tab(
+                        tabs: const [
+                          Tab(
                             text: "Advisor",
                           ),
-                          const Tab(
+                          Tab(
                             text: "Vets",
                           ),
-                          const Tab(
+                          Tab(
                             text: "Repairmen",
                           ),
                         ],
@@ -458,13 +458,11 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                             BoxDecoration(
                                                           border: Border.all(
                                                               width: 3,
-                                                              color:
-                                                                  vet.bookmarked ==
-                                                                          0
-                                                                      ? Colors
-                                                                          .amber
-                                                                      : Colors
-                                                                          .white),
+                                                              color: vet
+                                                                      .bookmarked!
+                                                                  ? Colors.amber
+                                                                  : Colors
+                                                                      .white),
                                                           borderRadius:
                                                               BorderRadius.circular(
                                                                   100), //<-- SEE HERE
@@ -731,8 +729,7 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                           border: Border.all(
                                                               width: 3,
                                                               color: repairman
-                                                                          .bookmarked ==
-                                                                      0
+                                                                      .bookmarked!
                                                                   ? Colors.amber
                                                                   : Colors
                                                                       .white),

@@ -6,7 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,14 +19,14 @@ import '../../Utils/utils.dart';
 import '../../models/OrderModel/order_detail_model.dart';
 import '../../view_models/orderApi/order_api.dart';
 
-class Cancelorder extends StatefulWidget {
-  const Cancelorder({super.key});
+class RecurringOrder extends StatefulWidget {
+  const RecurringOrder({super.key});
 
   @override
-  State<Cancelorder> createState() => _CancelorderState();
+  State<RecurringOrder> createState() => _RecurringorderState();
 }
 
-class _CancelorderState extends State<Cancelorder> {
+class _RecurringorderState extends State<RecurringOrder> {
   String? id;
   RxBool isLoading = true.obs;
   OrderDetailModel orderDetailsModel = OrderDetailModel();
@@ -32,7 +35,7 @@ class _CancelorderState extends State<Cancelorder> {
   void initState() {
     var args = Get.arguments;
     id = args['id'].toString();
-    OrderApi().getOrderDetails(id!).then((value) {
+    OrderApi().getRecurringOrderDetails(id!).then((value) {
       orderDetailsModel = OrderDetailModel.fromJson(value.data);
       isLoading.value = false;
     });
@@ -214,6 +217,7 @@ class _CancelorderState extends State<Cancelorder> {
                     ),
                     Expanded(
                       child: SingleChildScrollView(
+                        physics: const ScrollPhysics(),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +249,7 @@ class _CancelorderState extends State<Cancelorder> {
                                               fontFamily: "Poppins"),
                                         ),
                                         sizedBoxHeight(1.h),
-                                        SizedBox(
+                                        Container(
                                           width: Get.width / 1.25,
                                           child: Text(
                                             orderDetailsModel.data!
@@ -455,6 +459,7 @@ class _CancelorderState extends State<Cancelorder> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
+                                      const SizedBox(width: 15),
                                       SvgPicture.asset(
                                         "assets/images/downloadorder.svg",
                                         // width: 12.w,
@@ -474,26 +479,370 @@ class _CancelorderState extends State<Cancelorder> {
                                 ),
                               ),
                             ),
-                            sizedBoxHeight(10.h),
-                            Container(
-                              height: 50.h,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.redAccent,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Order Cancelled",
-                                  style: TextStyle(
-                                      fontSize: 16.sp,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
+                            sizedBoxHeight(22.h),
+                            orderDetailsModel
+                                        .data!.orderDetails!.deliveryAgent ==
+                                    null
+                                ? Center(
+                                    child: Column(
+                                      children: [
+                                        LottieBuilder.asset(
+                                          "assets/lotties/order_pending.json",
+                                          width: 250,
+                                          height: 150,
+                                        ),
+                                        Center(
+                                          child: Text(
+                                            "Your order is yet to be picked by our delivery agent",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: AppColors.buttoncolour,
+                                                fontSize: 22.sp,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.only(left: 51.w),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            sizedBoxHeight(8.h),
+                                            status(),
+                                            !orderDetailsModel
+                                                    .data!.deliveryStatus!
+                                                    .any((item) =>
+                                                        item.deliveryStatusXid ==
+                                                        7)
+                                                ? const DottedLine(
+                                                    direction: Axis.vertical,
+                                                    lineLength: 50,
+                                                    lineThickness: 2.0,
+                                                    dashLength: 4.0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02),
+                                                  )
+                                                : const Dash(
+                                                    direction: Axis.vertical,
+                                                    length: 25,
+                                                    dashLength: 49,
+                                                    dashGap: 0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02)),
+                                            status(),
+                                            !orderDetailsModel
+                                                    .data!.deliveryStatus!
+                                                    .any((item) =>
+                                                        item.deliveryStatusXid ==
+                                                        5)
+                                                ? const DottedLine(
+                                                    direction: Axis.vertical,
+                                                    lineLength: 50,
+                                                    lineThickness: 2.0,
+                                                    dashLength: 4.0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02),
+                                                  )
+                                                : const Dash(
+                                                    direction: Axis.vertical,
+                                                    length: 25,
+                                                    dashLength: 49,
+                                                    dashGap: 0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02)),
+                                            status(),
+                                            !orderDetailsModel
+                                                    .data!.deliveryStatus!
+                                                    .any((item) =>
+                                                        item.deliveryStatusXid ==
+                                                        4)
+                                                ? const DottedLine(
+                                                    direction: Axis.vertical,
+                                                    lineLength: 50,
+                                                    lineThickness: 2.0,
+                                                    dashLength: 4.0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02),
+                                                  )
+                                                : const Dash(
+                                                    direction: Axis.vertical,
+                                                    length: 25,
+                                                    dashLength: 49,
+                                                    dashGap: 0,
+                                                    dashColor:
+                                                        Color(0XFF0E5F02)),
+                                            status(),
+                                          ],
+                                        ),
+                                        sizedBoxWidth(18.w),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            sizedBoxHeight(3.h),
+                                            Text(
+                                              "Delivered",
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xff141414),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                !orderDetailsModel
+                                                        .data!.deliveryStatus!
+                                                        .any((item) =>
+                                                            item.deliveryStatusXid ==
+                                                            7)
+                                                    ? Text("Pending",
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"))
+                                                    : Text(
+                                                        Utils.convertUtcToCustomFormat(
+                                                            orderDetailsModel
+                                                                .data!
+                                                                .deliveryStatus![
+                                                                    4]
+                                                                .createdAt!),
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"),
+                                                      ),
+                                              ],
+                                            ),
+                                            sizedBoxHeight(15.h),
+                                            Text(
+                                              "Out For Delivery",
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xff141414),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                !orderDetailsModel
+                                                        .data!.deliveryStatus!
+                                                        .any((item) =>
+                                                            item.deliveryStatusXid ==
+                                                            5)
+                                                    ? Text("Pending",
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"))
+                                                    : Text(
+                                                        Utils.convertUtcToCustomFormat(
+                                                            orderDetailsModel
+                                                                .data!
+                                                                .deliveryStatus![
+                                                                    3]
+                                                                .createdAt!),
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"),
+                                                      ),
+                                              ],
+                                            ),
+                                            sizedBoxHeight(15.h),
+                                            Text(
+                                              "Packed & Ready",
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xff141414),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                !orderDetailsModel
+                                                        .data!.deliveryStatus!
+                                                        .any((item) =>
+                                                            item.deliveryStatusXid ==
+                                                            4)
+                                                    ? Text("Pending",
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"))
+                                                    : Text(
+                                                        Utils.convertUtcToCustomFormat(
+                                                            orderDetailsModel
+                                                                .data!
+                                                                .deliveryStatus![
+                                                                    2]
+                                                                .createdAt!),
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff4D4D4D),
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Poppins"),
+                                                      ),
+                                              ],
+                                            ),
+                                            sizedBoxHeight(15.h),
+                                            Text(
+                                              "Ordered",
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      const Color(0xff141414),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  Utils
+                                                      .convertUtcToCustomFormat(
+                                                          orderDetailsModel
+                                                              .data!
+                                                              .orderDetails!
+                                                              .orderDate!),
+                                                  style: TextStyle(
+                                                      color: const Color(
+                                                          0xff4D4D4D),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 14.sp,
+                                                      fontFamily: "Poppins"),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                            orderDetailsModel.data!.deliveryStatus!.isEmpty
+                                ? const SizedBox()
+                                : sizedBoxHeight(20.h),
+                            orderDetailsModel.data!.deliveryStatus!.isEmpty
+                                ? const SizedBox()
+                                : !orderDetailsModel.data!.deliveryStatus!.any(
+                                            (item) =>
+                                                item.deliveryStatusXid == 6) &&
+                                        orderDetailsModel.data!.deliveryStatus!
+                                            .any((item) =>
+                                                item.deliveryStatusXid != 7)
+                                    ? const SizedBox()
+                                    : Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16.w),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(12),
+                                          width: 358.w,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.h),
+                                              color: AppColors.buttoncolour),
+                                          child: Center(
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    'Share this OTP with your delivery agent: ',
+                                                style: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: AppColors.white,
+                                                    fontSize: 18.sp),
+                                                children: <TextSpan>[
+                                                  TextSpan(
+                                                    text: orderDetailsModel
+                                                        .data!.deliveryOtp,
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 20.sp,
+                                                      color: AppColors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                            sizedBoxHeight(20.h),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: InkWell(
+                                onTap: () {
+                                  buildordercalldialog(
+                                    context,
+                                    orderDetailsModel
+                                        .data!.orderDetails!.salesman!,
+                                  );
+                                },
+                                child: Container(
+                                  height: 50.h,
+                                  width: 358.w,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.h),
+                                      color: AppColors.buttoncolour),
+                                  child: Center(
+                                    child: Text(
+                                      "Cancel Order",
+                                      style: TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 18.sp),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                            sizedBoxHeight(10.h),
+                            sizedBoxHeight(26.h),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.w),
                               child: Container(
@@ -529,23 +878,8 @@ class _CancelorderState extends State<Cancelorder> {
                                         ),
                                       ),
 
-                                      // CircleAvatar(
-                                      //   backgroundColor: Color(0XFFD9EFD5),
-                                      //   radius: 20.w,
-                                      //   child: CircleAvatar(
-                                      //     radius: 12.w,
-                                      //     backgroundColor: AppColors.buttoncolour,
-                                      //     child: SvgPicture.asset(
-                                      //       "assets/images/qyestion.svg",
-                                      //       width: 6.w,
-                                      //       height: 13.h,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                       sizedBoxWidth(10.w),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(top: 13),
-                                      //   child:
+
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -555,7 +889,7 @@ class _CancelorderState extends State<Cancelorder> {
                                           Padding(
                                             padding: EdgeInsets.only(top: 9.h),
                                             child: Text(
-                                              "Querry With This Order?",
+                                              "Query With This Order?",
                                               style: TextStyle(
                                                   fontSize: 20.sp,
                                                   color:
@@ -568,9 +902,10 @@ class _CancelorderState extends State<Cancelorder> {
                                           InkWell(
                                             onTap: () {
                                               buildordercalldialog(
-                                                  context,
-                                                  orderDetailsModel.data!
-                                                      .orderDetails!.salesman!);
+                                                context,
+                                                orderDetailsModel.data!
+                                                    .orderDetails!.salesman!,
+                                              );
                                             },
                                             child: Container(
                                               height: 36.h,
@@ -653,13 +988,18 @@ class _CancelorderState extends State<Cancelorder> {
                                                   fontWeight: FontWeight.w600,
                                                   fontFamily: "Poppins"),
                                             ),
-                                            sizedBoxHeight(7.h),
+                                            sizedBoxHeight(8.h),
+                                            // Text(
+                                            //   "Order g: 408-0073624-7437935",
+                                            //   style: TextStyle(
+                                            //       fontSize: 14.sp,
+                                            //       color:
+                                            //           const Color(0XFF141414),
+                                            //       fontFamily: "Poppins"),
+                                            // ),
+                                            // sizedBoxHeight(7.h),
                                             Text(
-                                              Utils.convertUtcToCustomFormat(
-                                                  orderDetailsModel
-                                                      .data!
-                                                      .orderDetails!
-                                                      .orderDate!),
+                                              "Ordered: ${Utils.convertDate(orderDetailsModel.data!.orderDetails!.orderDate!)}",
                                               style: TextStyle(
                                                   fontSize: 14.sp,
                                                   color:
@@ -675,6 +1015,100 @@ class _CancelorderState extends State<Cancelorder> {
                                   ),
                                 ),
                               ),
+                            ),
+                            sizedBoxHeight(20.h),
+                            Container(
+                              margin: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Order History",
+                                style: TextStyle(
+                                    fontSize: 20.sp,
+                                    color: const Color(0XFF141414),
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Poppins"),
+                              ),
+                            ),
+                            sizedBoxHeight(8.h),
+                            Column(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  width: Get.width,
+                                  height: 60.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: const Color(0xFFe2e2e2)),
+                                  child: const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 25),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text("ID"),
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Text("Date"),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text("Price"),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const Gap(8),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: 5,
+                                    itemBuilder: (ctx, index) {
+                                      return AnimatedContainer(
+                                        duration: const Duration(seconds: 1),
+                                        curve: Curves.fastOutSlowIn,
+                                        margin: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 5,
+                                        ),
+                                        width: Get.width,
+                                        height: 60.h,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            color: const Color(0xFFf6f6f6)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 25),
+                                          child: Column(
+                                            children: [
+                                              Gap(15),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Text("${index + 1}"),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 3,
+                                                    child: Text(
+                                                        "${index + 1}/12/2023"),
+                                                  ),
+                                                  const Expanded(
+                                                    flex: 2,
+                                                    child: Text("€ 1220"),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    })
+                              ],
                             ),
                             sizedBoxHeight(20.h),
                           ],

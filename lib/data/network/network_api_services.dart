@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
 import '../../Utils/colors.dart';
+import '../../view/ErrorScreen/error_screen.dart';
 import '../../view/Side Menu/NavigateTo pages/subscription_plan.dart';
 
 class NetworkApiServices extends BaseApiServices {
@@ -139,6 +140,8 @@ class NetworkApiServices extends BaseApiServices {
             prefs.setString('token', "");
             Get.offAndToNamed("/loginScreen");
           }
+        } else if (e.response!.statusCode == 500) {
+          Get.to(const ErrorScreen());
         }
       }
       return ResponseData<dynamic>(
@@ -193,6 +196,8 @@ class NetworkApiServices extends BaseApiServices {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('token', "");
           Get.offAndToNamed("/loginScreen");
+        } else if (e.response!.statusCode == 500) {
+          Get.to(const ErrorScreen());
         }
       }
       return ResponseData<dynamic>(
@@ -284,6 +289,8 @@ class NetworkApiServices extends BaseApiServices {
             prefs.setString('token', "");
             Get.offAndToNamed("/loginScreen");
           }
+        } else if (e.response!.statusCode == 500) {
+          Get.to(const ErrorScreen());
         }
       }
       return ResponseData<dynamic>(

@@ -38,7 +38,7 @@ class _FeedBackState extends State<FeedBack> {
         backgroundColor: AppColors.white,
         title: customAppBar(
             text: "Feedback",
-            actions: true,
+            actions: false,
             icon: Icon(
               Icons.more_vert,
               size: 35.h,

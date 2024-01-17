@@ -35,12 +35,20 @@ class Data {
   String? orderDate;
   Product? product;
   List<OrderStatus>? orderStatus;
+  String? orderType;
 
-  Data({this.orderHeaderId, this.orderDate, this.product, this.orderStatus});
+  Data({
+    this.orderHeaderId,
+    this.orderDate,
+    this.product,
+    this.orderStatus,
+    this.orderType,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     orderHeaderId = json['orderHeaderId'];
     orderDate = json['order_date'];
+    orderType = json['order_type'];
     product =
         json['product'] != null ? Product.fromJson(json['product']) : null;
     if (json['order_status'] != null) {
@@ -54,6 +62,7 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['orderHeaderId'] = orderHeaderId;
+    data['order_type'] = orderType;
     data['order_date'] = orderDate;
     if (product != null) {
       data['product'] = product!.toJson();

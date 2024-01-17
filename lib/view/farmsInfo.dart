@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
@@ -16,15 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../common/custom_button_curve.dart';
 import '../controller/set_farm.dart';
 import '../models/AddressModel/search_responce_model.dart';
 import 'farmInfoAddress.dart';
 import 'placeServices/place_services.dart';
-import 'search_address_details.dart';
 
 class FarmsInfo extends StatefulWidget {
   const FarmsInfo({super.key});

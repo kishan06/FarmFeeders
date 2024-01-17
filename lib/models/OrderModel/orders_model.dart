@@ -30,7 +30,7 @@ class Data {
   String? orderDate;
   OngoingOrder? ongoingOrder;
   List<OrderStatus>? orderStatus;
-  List<RecurringOrders>? recurringOrders;
+  RecurringOrders? recurringOrders;
   List<PastOrders>? pastOrders;
   List<CancelledOrders>? cancelledOrders;
 
@@ -56,12 +56,11 @@ class Data {
         orderStatus!.add(OrderStatus.fromJson(v));
       });
     }
-    if (json['recurring_orders'] != null) {
-      recurringOrders = <RecurringOrders>[];
-      json['recurring_orders'].forEach((v) {
-        recurringOrders!.add(RecurringOrders.fromJson(v));
-      });
-    }
+
+    recurringOrders = json['recurring_orders'] != null
+        ? RecurringOrders.fromJson(json['recurring_orders'])
+        : null;
+
     if (json['past_orders'] != null) {
       pastOrders = <PastOrders>[];
       json['past_orders'].forEach((v) {
@@ -87,9 +86,9 @@ class Data {
       data['order_status'] = orderStatus!.map((v) => v.toJson()).toList();
     }
     if (recurringOrders != null) {
-      data['recurring_orders'] =
-          recurringOrders!.map((v) => v.toJson()).toList();
+      data['recurring_orders'] = recurringOrders!.toJson();
     }
+
     if (pastOrders != null) {
       data['past_orders'] = pastOrders!.map((v) => v.toJson()).toList();
     }
@@ -104,18 +103,29 @@ class Data {
 class RecurringOrders {
   String? title;
   String? smallImageUrl;
+  int? orderId;
+  String? nextPaymentDate;
 
-  RecurringOrders({this.title, this.smallImageUrl});
+  RecurringOrders({
+    this.title,
+    this.smallImageUrl,
+    this.orderId,
+    this.nextPaymentDate,
+  });
 
   RecurringOrders.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     smallImageUrl = json['small_image_url'];
+    orderId = json['orderId'];
+    nextPaymentDate = json['nextPaymentDate'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['title'] = title;
     data['small_image_url'] = smallImageUrl;
+    data['nextPaymentDate'] = nextPaymentDate;
+    data['orderId'] = orderId;
     return data;
   }
 }
@@ -142,10 +152,16 @@ class OrderStatus {
 class OngoingOrder {
   String? title;
   String? smallImageUrl;
+  String? orderType;
 
-  OngoingOrder({this.title, this.smallImageUrl});
+  OngoingOrder({
+    this.title,
+    this.smallImageUrl,
+    this.orderType,
+  });
 
   OngoingOrder.fromJson(Map<String, dynamic> json) {
+    orderType = json['order_type'];
     title = json['title'];
     smallImageUrl = json['small_image_url'];
   }
@@ -153,6 +169,7 @@ class OngoingOrder {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['title'] = title;
+    data['order_type'] = orderType;
     data['small_image_url'] = smallImageUrl;
     return data;
   }

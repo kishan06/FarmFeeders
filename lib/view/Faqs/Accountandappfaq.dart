@@ -1,3 +1,4 @@
+import 'package:expansion_tile_group/expansion_tile_group.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
@@ -15,6 +16,7 @@ class Accountapp extends StatefulWidget {
 
 class _AccountappState extends State<Accountapp> {
   DashboardController dashboardController = Get.put(DashboardController());
+  int selectedTile = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -168,20 +170,85 @@ class _AccountappState extends State<Accountapp> {
                                     fontWeight: FontWeight.w600),
                               ),
                             )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount:
-                                  dashboardController.faqModel.data!.length,
-                              itemBuilder: (ctx, index) {
-                                return Container(
-                                    margin: EdgeInsets.only(bottom: 11.h),
-                                    child: faq1(
-                                        dashboardController
-                                            .faqModel.data![index].question!,
-                                        dashboardController
-                                            .faqModel.data![index].answer!,
-                                        index));
-                              }),
+                          : Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: ExpansionTileGroup(
+                                  spaceBetweenItem: 23,
+                                  toggleType: ToggleType.expandOnlyCurrent,
+                                  children: List.generate(
+                                      dashboardController.faqModel.data!.length,
+                                      (index) => ExpansionTileItem(
+                                            isHasBottomBorder: true,
+                                            isHasLeftBorder: true,
+                                            isHasRightBorder: true,
+                                            isHasTopBorder: true,
+                                            collapsedBackgroundColor:
+                                                AppColors.greyF1F1F1,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            onExpansionChanged:
+                                                (bool expanding) {
+                                              if (expanding) {
+                                                setState(() {
+                                                  selectedTile = index;
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  selectedTile = -1;
+                                                });
+                                              }
+                                            },
+                                            backgroundColor:
+                                                AppColors.greyF1F1F1,
+                                            childrenPadding: EdgeInsets.only(
+                                                left: 0.w,
+                                                right: 0.w,
+                                                bottom: 8.h,
+                                                top: 10.h),
+                                            initiallyExpanded:
+                                                index == selectedTile,
+                                            isHasTrailing: false,
+                                            title: Text(
+                                              dashboardController.faqModel
+                                                  .data![index].question!,
+                                              maxLines: 2,
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  color:
+                                                      const Color(0xFF141414),
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            children: <Widget>[
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                width: Get.width,
+                                                // height: 109.h,
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 12.w,
+                                                      vertical: 10.h),
+                                                  child: Text(
+                                                    dashboardController.faqModel
+                                                        .data![index].answer!,
+                                                    style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(
+                                                          0xFF4D4D4D),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ))),
+                            ),
                     ),
                   ],
                 ),
@@ -190,68 +257,6 @@ class _AccountappState extends State<Accountapp> {
           ],
         ),
       )),
-    );
-  }
-
-  Widget faq1(String title, message, int index) {
-    bool isExpanded = index == 0 ? true : false;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Container(
-        width: 358.w,
-        decoration: BoxDecoration(
-          color: AppColors.greyF1F1F1,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: ExpansionTile(
-          childrenPadding:
-              EdgeInsets.only(left: 6.w, right: 6.w, bottom: 8.h, top: 10.h),
-          initiallyExpanded: isExpanded,
-          onExpansionChanged: (bool expanding) {
-            setState(() {
-              isExpanded = expanding;
-            });
-          },
-          trailing: const Text(""),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 290.w,
-                child: Text(
-                  title,
-                  maxLines: 2,
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      color: const Color(0xFF141414),
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-            ],
-          ),
-          children: <Widget>[
-            Container(
-              width: 345.w,
-              // height: 109.h,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: const Color(0xFF4D4D4D),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:farmfeeders/models/OrderModel/ongoing_order_model.dart';
 import 'package:farmfeeders/models/OrderModel/orders_model.dart';
 import 'package:farmfeeders/models/OrderModel/past_order_model.dart';
 import 'package:farmfeeders/models/OrderModel/recurring_order_model.dart';
+import 'package:farmfeeders/view/YourOrder/recurringOrder.dart';
 import 'package:farmfeeders/view_models/orderApi/order_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -316,67 +317,68 @@ class _OrderListScreenState extends State<OrderListScreen> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              textV != "recurring"
-                  ? const SizedBox()
-                  : Padding(
-                      padding: EdgeInsets.only(
-                        left: 16.w,
-                        right: 16.w,
-                      ),
-                      child: SizedBox(
-                        width: Get.width,
-                        height: 46.h,
-                        child: TextField(
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            color: const Color(0XFF141414),
-                          ),
-                          cursorColor: AppColors.black,
-                          controller: textcontroller,
-                          decoration: InputDecoration(
-                            hintText: "Search here",
-                            hintStyle: TextStyle(
-                              fontSize: 16.sp,
-                              color: const Color(0XFF141414),
-                            ),
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.only(
-                                top: 15.h,
-                                bottom: 15.h,
-                              ),
-                              child: SvgPicture.asset(
-                                "assets/images/searchorder.svg",
-                                width: 15.w,
-                                height: 15.h,
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: const Color(0XFFF1F1F1),
-                            contentPadding:
-                                EdgeInsets.only(top: 11.h, bottom: 11.h),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(
-                                  color: const Color(0xFF707070).withOpacity(0),
-                                  width: 1),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(
-                                  color: const Color(0xFF707070).withOpacity(0),
-                                  width: 1),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(
-                                  color: const Color(0xFF707070).withOpacity(0),
-                                  width: 1),
-                            ),
-                          ),
-                        ),
-                      ),
-//filter(),
-                    ),
+//               textV != "recurring"
+//                   ? const SizedBox()
+//                   : Padding(
+//                       padding: EdgeInsets.only(
+//                         left: 16.w,
+//                         right: 16.w,
+//                       ),
+//                       child: SizedBox(
+//                         width: Get.width,
+//                         height: 46.h,
+//                         child: TextField(
+//                           style: TextStyle(
+//                             fontSize: 16.sp,
+//                             color: const Color(0XFF141414),
+//                           ),
+//                           cursorColor: AppColors.black,
+//                           controller: textcontroller,
+//                           decoration: InputDecoration(
+//                             hintText: "Search here",
+//                             hintStyle: TextStyle(
+//                               fontSize: 16.sp,
+//                               color: const Color(0XFF141414),
+//                             ),
+//                             prefixIcon: Padding(
+//                               padding: EdgeInsets.only(
+//                                 top: 15.h,
+//                                 bottom: 15.h,
+//                               ),
+//                               child: SvgPicture.asset(
+//                                 "assets/images/searchorder.svg",
+//                                 width: 15.w,
+//                                 height: 15.h,
+//                               ),
+//                             ),
+//                             filled: true,
+//                             fillColor: const Color(0XFFF1F1F1),
+//                             contentPadding:
+//                                 EdgeInsets.only(top: 11.h, bottom: 11.h),
+//                             border: OutlineInputBorder(
+//                               borderRadius: BorderRadius.circular(8.r),
+//                               borderSide: BorderSide(
+//                                   color: const Color(0xFF707070).withOpacity(0),
+//                                   width: 1),
+//                             ),
+//                             enabledBorder: OutlineInputBorder(
+//                               borderRadius: BorderRadius.circular(8.r),
+//                               borderSide: BorderSide(
+//                                   color: const Color(0xFF707070).withOpacity(0),
+//                                   width: 1),
+//                             ),
+//                             focusedBorder: OutlineInputBorder(
+//                               borderRadius: BorderRadius.circular(8.r),
+//                               borderSide: BorderSide(
+//                                   color: const Color(0xFF707070).withOpacity(0),
+//                                   width: 1),
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+// //filter(),
+//                     ),
+
               Obx(
                 () => isLoading.value
                     ? const Center(
@@ -415,6 +417,27 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                                                 .data![index]
                                                                 .orderHeaderId!,
                                                           });
+
+                                                      if (ongoingOrderListModel
+                                                              .data![index]
+                                                              .orderType ==
+                                                          "new") {
+                                                        Get.toNamed(
+                                                            "/ongoingorder",
+                                                            arguments: {
+                                                              "id": ongoingOrderListModel
+                                                                  .data![index]
+                                                                  .orderHeaderId!,
+                                                            });
+                                                      } else {
+                                                        Get.to(
+                                                            const RecurringOrder(),
+                                                            arguments: {
+                                                              "id": ongoingOrderListModel
+                                                                  .data![index]
+                                                                  .orderHeaderId!,
+                                                            });
+                                                      }
                                                     },
                                                     child: Container(
                                                       margin:
@@ -1119,15 +1142,15 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () {
-                                                            // Get.toNamed(
-                                                            //     "/deliveredorder",
-                                                            //     arguments: {
-                                                            //       "id": pastOrderListModel
-                                                            //           .data!
-                                                            //           .pastOrders![
-                                                            //               index]
-                                                            //           .orderId!,
-                                                            //     });
+                                                            Get.to(
+                                                                RecurringOrder(),
+                                                                arguments: {
+                                                                  "id": recurringOrderListModel
+                                                                      .data!
+                                                                      .recurringOrders![
+                                                                          index]
+                                                                      .id!,
+                                                                });
                                                           },
                                                           child: Container(
                                                             margin:
@@ -1216,6 +1239,19 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                                                     const SizedBox(
                                                                       height:
                                                                           15,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: Get
+                                                                              .width /
+                                                                          1.7,
+                                                                      child:
+                                                                          Text(
+                                                                        "Next Delivery Date: ${Utils.convertUtcToCustomFormat(recurringOrderListModel.data!.recurringOrders![index].nextPaymentDate!)}",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                12.sp,
+                                                                            color: const Color(0XFF6D6D6D)),
+                                                                      ),
                                                                     ),
                                                                     sizedBoxHeight(
                                                                         8.h),

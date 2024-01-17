@@ -80,6 +80,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   google_fonts:
   gap: ^3.0.1
+  expansion_tile_group: ^1.2.4
 
 flutter_launcher_icons:
   android: "launcher_icon"
