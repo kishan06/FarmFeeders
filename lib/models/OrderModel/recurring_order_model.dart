@@ -53,20 +53,28 @@ class RecurringOrders {
   int? id;
   String? title;
   String? smallImageUrl;
+  String? nextPaymentDate;
 
-  RecurringOrders({this.id, this.title, this.smallImageUrl});
+  RecurringOrders({
+    this.id,
+    this.title,
+    this.smallImageUrl,
+    this.nextPaymentDate,
+  });
 
   RecurringOrders.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['orderId'];
     title = json['title'];
     smallImageUrl = json['small_image_url'];
+    nextPaymentDate = json["nextPaymentDate"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
+    data['orderId'] = id;
     data['title'] = title;
     data['small_image_url'] = smallImageUrl;
+    data['nextPaymentDate'] = nextPaymentDate;
     return data;
   }
 }

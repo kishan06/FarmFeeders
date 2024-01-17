@@ -421,6 +421,7 @@ class NewOrderDetails {
   int? orderHeaderXid;
   int? inventoryXid;
   int? quantity;
+  String? lot;
   String? itemUnitValue;
   String? totalUnitValue;
   String? inventoryTitle;
@@ -430,6 +431,7 @@ class NewOrderDetails {
       {this.orderHeaderXid,
       this.inventoryXid,
       this.quantity,
+      this.lot,
       this.itemUnitValue,
       this.totalUnitValue,
       this.inventoryTitle,
@@ -437,6 +439,7 @@ class NewOrderDetails {
 
   NewOrderDetails.fromJson(Map<String, dynamic> json) {
     orderHeaderXid = json['order_header_xid'];
+    lot = json['lot'];
     inventoryXid = json['inventory_xid'];
     quantity = json['quantity'];
     itemUnitValue = json['item_unit_value'];
@@ -450,6 +453,7 @@ class NewOrderDetails {
     data['order_header_xid'] = orderHeaderXid;
     data['inventory_xid'] = inventoryXid;
     data['quantity'] = quantity;
+    data['lot'] = lot;
     data['item_unit_value'] = itemUnitValue;
     data['total_unit_value'] = totalUnitValue;
     data['inventory_title'] = inventoryTitle;

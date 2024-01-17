@@ -39,6 +39,7 @@ class ApiUrls {
 
   static const orderApi = "${base}orders";
   static const orderDetailsApi = "${base}order-details/";
+  static const recurringOrderDetailsApi = "${base}recurring-order-details";
   static const trainingVideoBookmarkApi = "${base}training_video/bookmark";
   static const trainingVideoDetailApi = "${base}training_video/";
   static const updatetrainingVideoApi = "${base}training_video/update";

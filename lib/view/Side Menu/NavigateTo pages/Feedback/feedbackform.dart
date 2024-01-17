@@ -89,12 +89,12 @@ class _FeedbackformState extends State<Feedbackform> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const Spacer(),
-                      Icon(
-                        Icons.more_vert,
-                        color: AppColors.black,
-                        size: 35.h,
-                      )
+                      // const Spacer(),
+                      // Icon(
+                      //   Icons.more_vert,
+                      //   color: AppColors.black,
+                      //   size: 35.h,
+                      // )
                     ],
                   ),
                 ),
@@ -181,7 +181,7 @@ class _FeedbackformState extends State<Feedbackform> {
                       if (_form.currentState!.validate()) {
                         Utils.loader();
                         var data = FormData.fromMap({
-                          "experience_id": selectedIndex,
+                          "   ": selectedIndex,
                           "comment": _commentController.text,
                         });
                         FeedbackAPI().feedbackApi(data).then((value) {

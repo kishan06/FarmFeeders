@@ -3,6 +3,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
+import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 import 'package:farmfeeders/view_models/RegisterAPI.dart';
@@ -54,6 +55,7 @@ class _RegisterState extends State<Register> {
 
     final isValid = _formKey.currentState?.validate();
     if (isValid!) {
+      Utils.loader();
       Map<String, String> updata = {
         "name": nameController.text,
         "dob": dateregistercontroller.toString(),
@@ -63,6 +65,7 @@ class _RegisterState extends State<Register> {
         "c_password": cpasswordController.text,
       };
       final resp = await RegisterAPI(updata).registerApi();
+      Get.back();
       if (resp.status == ResponseStatus.SUCCESS) {
         int? id = resp.data['data']['id'];
         Get.toNamed('/verifyYourIdentity',
@@ -255,23 +258,20 @@ class _RegisterState extends State<Register> {
                                   LengthLimitingTextInputFormatter(9),
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
-                                leadingIcon:
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SvgPicture.asset("assets/images/phone.svg"),
-
-                                        sizedBoxWidth(5.w),
-
-                                        Text("+353",
-                                           style: TextStyle(
-                                            fontSize: 16.sp,
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                leadingIcon: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset("assets/images/phone.svg"),
+                                    sizedBoxWidth(5.w),
+                                    Text(
+                                      "+353",
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                      ),
+                                    )
+                                  ],
+                                ),
                                 hintText: "",
-                                
                                 validator: (value) {
                                   if (value == value.isEmpty) {
                                     return 'Mobile number is required';
@@ -284,7 +284,6 @@ class _RegisterState extends State<Register> {
                                 },
                                 validatorText: "",
                                 isInputPassword: false,
-                                
                               ),
                             ],
                           ),
@@ -324,7 +323,6 @@ class _RegisterState extends State<Register> {
                           SizedBox(
                             height: 20.h,
                           ),
-                        
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

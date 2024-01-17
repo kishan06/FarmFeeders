@@ -43,14 +43,12 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
     feedInfoController.getApiFeedDropdownData("1");
     isLoading.value = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      feedInfoController.expansionController.clear();
       SetupFarmInfoApi().getFeedLivestockApi().then((value) {
         feedLivestockModel = FeedLivestockModel.fromJson(value.data);
-        feedInfoController.isOpened.clear();
-        feedInfoController.expansionController.clear();
-        feedInfoController.isOpened.value =
-            List.filled(feedLivestockModel.data!.length, false);
-        feedInfoController.expansionController.value = List.filled(
-            feedLivestockModel.data!.length, ExpansionTileController());
+
+        feedInfoController.expansionController =
+            List.filled(5, ExpansionTileController());
         isLoading.value = false;
       });
     });
@@ -230,8 +228,6 @@ class _FeedContainerState extends State<FeedContainer> {
   bool buttonPressed = false;
   RxBool isLoading = false.obs;
 
-  ExpansionTileController expansionTileController = ExpansionTileController();
-
   final tecCurrentFeed = TextEditingController();
   final tecQuantity = TextEditingController();
   final tecMin = TextEditingController();
@@ -242,12 +238,13 @@ class _FeedContainerState extends State<FeedContainer> {
 
   String? selectedFrequency;
   int? selectedFrequencyIndex;
+  bool isExpanded = false;
 
   @override
   void initState() {
     if (widget.isInside) {
       if (widget.selectedFeedId == widget.feedId) {
-        feedInfoController.isOpened[widget.index] = true;
+        isExpanded = true;
         Future.delayed(const Duration(milliseconds: 1), () async {
           isLoading.value = true;
           await feedInfoController
@@ -301,546 +298,537 @@ class _FeedContainerState extends State<FeedContainer> {
         });
       }
     }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Container(
-        decoration: BoxDecoration(
-            border: widget.updated
-                ? Border.all(color: AppColors.buttoncolour, width: 1.5.w)
-                : feedInfoController.isOpened[widget.index]
-                    ? Border.all(color: const Color(0xffCCCCCC))
-                    : null,
-            color: feedInfoController.isOpened[widget.index]
-                ? AppColors.white
-                : AppColors.greyF1F1F1,
-            borderRadius: BorderRadius.circular(10.r)),
-        child: ExpansionTile(
-            controller: expansionTileController,
-            maintainState: true,
-            childrenPadding:
-                EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.w),
-            initiallyExpanded: feedInfoController.isOpened[widget.index],
-            onExpansionChanged: (bool expanding) async {
-              if (expanding) {
-                isLoading.value = true;
-                await feedInfoController
-                    .getApiFeedDropdownData(widget.feedId.toString())
-                    .then((value) {
-                  if (feedInfoController.feedDropdownData!.data.feed != null) {
-                    for (var i
-                        in feedInfoController.feedDropdownData!.data.feedType) {
-                      if (i.id ==
-                          feedInfoController
-                              .feedDropdownData!.data.feed!.feedTypeXid) {
-                        selectedFeedType = i.name;
-                        selectedFeedTypeIndex = i.id;
-                      }
+    return Container(
+      decoration: BoxDecoration(
+          border: widget.updated
+              ? Border.all(color: AppColors.buttoncolour, width: 1.5.w)
+              : isExpanded
+                  ? Border.all(color: const Color(0xffCCCCCC))
+                  : null,
+          color: isExpanded ? AppColors.white : AppColors.greyF1F1F1,
+          borderRadius: BorderRadius.circular(10.r)),
+      child: ExpansionTile(
+          //  controller: feedInfoController.expansionController[widget.index],
+          childrenPadding:
+              EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.w),
+          initiallyExpanded: isExpanded,
+          onExpansionChanged: (bool expanding) async {
+            if (expanding) {
+              isLoading.value = true;
+              await feedInfoController
+                  .getApiFeedDropdownData(widget.feedId.toString())
+                  .then((value) {
+                if (feedInfoController.feedDropdownData!.data.feed != null) {
+                  for (var i
+                      in feedInfoController.feedDropdownData!.data.feedType) {
+                    if (i.id ==
+                        feedInfoController
+                            .feedDropdownData!.data.feed!.feedTypeXid) {
+                      selectedFeedType = i.name;
+                      selectedFeedTypeIndex = i.id;
                     }
+                  }
 
-                    for (var i in feedInfoController
-                        .feedDropdownData!.data.feedFrequency) {
-                      if (i.id ==
-                          feedInfoController
-                              .feedDropdownData!.data.feed!.feedFrequencyXid) {
-                        selectedFrequency = i.name;
-                        selectedFrequencyIndex = i.id;
-                      }
+                  for (var i in feedInfoController
+                      .feedDropdownData!.data.feedFrequency) {
+                    if (i.id ==
+                        feedInfoController
+                            .feedDropdownData!.data.feed!.feedFrequencyXid) {
+                      selectedFrequency = i.name;
+                      selectedFrequencyIndex = i.id;
                     }
+                  }
 
-                    tecCurrentFeed.text = feedInfoController
-                        .feedDropdownData!.data.feed!.currentFeedAvailable!
-                        .toString();
-                    tecQuantity.text = feedInfoController
-                        .feedDropdownData!.data.feed!.qtyPerSeed!
-                        .toString();
-                    tecMin.text = feedInfoController
-                        .feedDropdownData!.data.feed!.minBinCapacity!
-                        .toString();
-                    tecMax.text = feedInfoController
-                        .feedDropdownData!.data.feed!.maxBinCapacity!
-                        .toString();
-                  } else {
-                    selectedFrequencyIndex = null;
-                    selectedFeedTypeIndex = null;
-                    selectedFeedType = null;
-                    selectedFrequency = null;
-                    tecCurrentFeed.clear();
-                    tecMax.clear();
-                    tecMin.clear();
-                    tecQuantity.clear();
-                  }
-                  isLoading.value = false;
-                });
-              }
-              setState(() {
-                feedInfoController.isOpened[widget.index] = expanding;
-                for (int i = 0; i < feedInfoController.isOpened.length; i++) {
-                  if (i != widget.index) {
-                    feedInfoController.isOpened[i] = false;
-                  } else {
-                    feedInfoController.isOpened[i] = true;
-                  }
+                  tecCurrentFeed.text = feedInfoController
+                      .feedDropdownData!.data.feed!.currentFeedAvailable!
+                      .toString();
+                  tecQuantity.text = feedInfoController
+                      .feedDropdownData!.data.feed!.qtyPerSeed!
+                      .toString();
+                  tecMin.text = feedInfoController
+                      .feedDropdownData!.data.feed!.minBinCapacity!
+                      .toString();
+                  tecMax.text = feedInfoController
+                      .feedDropdownData!.data.feed!.maxBinCapacity!
+                      .toString();
+                } else {
+                  selectedFrequencyIndex = null;
+                  selectedFeedTypeIndex = null;
+                  selectedFeedType = null;
+                  selectedFrequency = null;
+                  tecCurrentFeed.clear();
+                  tecMax.clear();
+                  tecMin.clear();
+                  tecQuantity.clear();
                 }
+                isLoading.value = false;
               });
-            },
-            trailing: Icon(
-              feedInfoController.isOpened[widget.index]
-                  ? Icons.keyboard_arrow_up_rounded
-                  : Icons.keyboard_arrow_down_rounded,
-              size: 25.sp,
-              color: feedInfoController.isOpened[widget.index]
-                  ? Colors.black
-                  : Colors.black,
-            ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.network(
-                  (ApiUrls.baseImageUrl + widget.imagePath),
-                  width: 59.w,
-                  // width: 100.w,
+            }
+            setState(() {
+              isExpanded = expanding;
+              // for (int i = 0; i < feedInfoController.isOpened.length; i++) {
+              //   if (i != widget.index) {
+              //     feedInfoController.isOpened[i] = false;
+              //   } else {
+              //     feedInfoController.isOpened[i] = true;
+              //   }
+              //  }
+            });
+          },
+          trailing: Icon(
+            isExpanded
+                ? Icons.keyboard_arrow_up_rounded
+                : Icons.keyboard_arrow_down_rounded,
+            size: 25.sp,
+            color: isExpanded ? Colors.black : Colors.black,
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.network(
+                (ApiUrls.baseImageUrl + widget.imagePath),
+                width: 59.w,
+                // width: 100.w,
 
-                  height: 42.h,
-                  // height: 100.h,
-                ),
-                sizedBoxWidth(19.w),
-                Text(
-                  widget.titleText,
-                  style: TextStyle(
-                      color: AppColors.black,
-                      fontFamily: "Poppins",
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            children: <Widget>[
-              Obx(
-                () => Form(
-                  key: _formFeedContainer,
-                  child: isLoading.value
-                      ? Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.buttoncolour,
-                            ),
+                height: 42.h,
+                // height: 100.h,
+              ),
+              sizedBoxWidth(19.w),
+              Text(
+                widget.titleText,
+                style: TextStyle(
+                    color: AppColors.black,
+                    fontFamily: "Poppins",
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          children: <Widget>[
+            Obx(
+              () => Form(
+                key: _formFeedContainer,
+                child: isLoading.value
+                    ? Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.buttoncolour,
                           ),
-                        )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.grey,
-                            ),
-                            Text(
-                              "Current feed on farm?",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            sizedBoxWidth(6.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Feedtextformfield(
-                                  textEditingController: tecCurrentFeed,
-                                  hintText: "",
-                                  texttype: TextInputType.number,
-                                  validatorText: "Please Enter Feed",
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Please Enter Feed";
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'^\d+\.?\d{0,3}'))
-                                  ],
-                                  // inputFormatters: ,
-                                ),
-                                // sizedBoxWidth(3.w),
-                                const Spacer(),
-                                Container(
-                                  height: 50.h,
-                                  width: 62.w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.h),
-                                      color: AppColors.buttoncolour),
-                                  child: Center(
-                                    child: Text(
-                                      "Kgs",
-                                      style: TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 18.sp),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            sizedBoxHeight(14.h),
-                            Text(
-                              "Type of feed ?",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            sizedBoxHeight(6.h),
-
-                            DropdownBtn(
-                              hint: "Please Select feed type",
-                              // items: ,
-                              items: feedInfoController
-                                  .feedDropdownData!.data.feedType
-                                  .map((e) => DropdownMenuItem(
-                                        value: e.name,
-                                        onTap: () {
-                                          setState(() {
-                                            selectedFeedType = e.name;
-                                            selectedFeedTypeIndex = e.id;
-                                          });
-                                        },
-                                        child: Text(
-                                          e.name,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF4D4D4D),
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: selectedFeedType,
-                            ),
-
-                            sizedBoxHeight(30.h),
-                            Text(
-                              "Feed usage",
-                              style: TextStyle(
-                                  color: const Color(0XFF0E5F02),
-                                  fontFamily: "Poppins",
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            sizedBoxHeight(14.h),
-                            Text(
-                              "Frequency",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            sizedBoxHeight(6.h),
-
-                            DropdownBtn(
-                              hint: "Please Select frequency",
-                              // items: ,
-                              items: feedInfoController
-                                  .feedDropdownData!.data.feedFrequency
-                                  .map((e) => DropdownMenuItem(
-                                        value: e.name,
-                                        onTap: () {
-                                          setState(() {
-                                            selectedFrequency = e.name;
-                                            selectedFrequencyIndex = e.id;
-                                          });
-                                          // selectedBreed = e.name;
-                                          // liveStockInfoController
-                                          //     .updateSelectedBreed(e.name);
-                                          // selectedBreedIndex = e.id;
-                                        },
-                                        child: Text(
-                                          e.name,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF4D4D4D),
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: selectedFrequency,
-                              // liveStockInfoController.liveStockData!.data.ageList
-                              // [
-                              //   "<2 Yrs",
-                              //   "> & <5 yrs",
-                              //   ">5 Yrs",
-                              // ],
-                            ),
-
-                            // SizedBox(
-                            //   width: 315.w,
-                            //   height: 50.h,
-                            //   child: const FarmfeedDropdownBtn(
-                            //       hint: "select frequency",
-                            //       items: [
-                            //         "1 Times a day",
-                            //         "2 Times a day",
-                            //         "3 Times a day",
-                            //       ]),
-                            // ),
-                            sizedBoxHeight(14.h),
-                            Text(
-                              "Quantity",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            sizedBoxHeight(6.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Feedtextformfield(
-                                  textEditingController: tecQuantity,
-                                  hintText: "",
-                                  validatorText: "Please Enter Quantity",
-                                  texttype: TextInputType.number,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Please Enter Quantity";
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'^\d+\.?\d{0,3}'))
-                                  ],
-                                ),
-                                // sizedBoxWidth(3.w),
-                                const Spacer(),
-                                Container(
-                                  height: 50.h,
-                                  width: 62.w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.h),
-                                      color: AppColors.buttoncolour),
-                                  child: Center(
-                                    child: Text(
-                                      "Kgs",
-                                      style: TextStyle(
-                                          color: AppColors.white,
-                                          fontSize: 18.sp),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            sizedBoxHeight(14.h),
-                            Text(
-                              "Bin Capacity",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            sizedBoxHeight(6.h),
-                            Container(
-                              height: 92.h,
-                              // width: 315.w,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: const Color(0xFFF1F1F1),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 6.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Min",
-                                      style: TextStyle(
-                                          color: const Color(0XFF4D4D4D),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    sizedBoxWidth(7.w),
-                                    SizedBox(
-                                      width: 107.w,
-                                      // height: 46.h,
-                                      child: TextFormField(
-                                        controller: tecMin,
-                                        textAlignVertical:
-                                            TextAlignVertical.center,
-                                        style: TextStyle(
-                                          fontSize: 18.sp,
-                                        ),
-                                        cursorColor: const Color(0xFF3B3F43),
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        decoration: InputDecoration(
-                                            errorStyle:
-                                                TextStyle(fontSize: 14.sp),
-                                            isCollapsed: true,
-                                            suffixIconConstraints:
-                                                const BoxConstraints(),
-                                            contentPadding: EdgeInsets.only(
-                                                left: 17.w,
-                                                right: 17.w,
-                                                top: 15.h,
-                                                bottom: 10.h),
-                                            filled: true,
-                                            fillColor: const Color(0XFFFFFFFF),
-                                            hintStyle: TextStyle(
-                                                color: const Color(0xFF4D4D4D),
-                                                fontSize: 18.sp,
-                                                fontFamily: "Poppins"),
-                                            // hintText: "     / Kgs",
-                                            suffixText: "/Kgs"),
-                                        keyboardType: TextInputType.number,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            // return "Enter Min";
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    sizedBoxWidth(11.w),
-                                    Text(
-                                      "Max",
-                                      style: TextStyle(
-                                          color: const Color(0XFF4D4D4D),
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    sizedBoxWidth(6.w),
-                                    SizedBox(
-                                      width: 107.w,
-                                      // height: 46.h,
-                                      child: TextFormField(
-                                        controller: tecMax,
-                                        textAlignVertical:
-                                            TextAlignVertical.center,
-                                        style: TextStyle(
-                                          fontSize: 18.sp,
-                                        ),
-                                        cursorColor: const Color(0xFF3B3F43),
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        decoration: InputDecoration(
-                                            errorStyle:
-                                                TextStyle(fontSize: 14.sp),
-                                            isCollapsed: true,
-                                            suffixIconConstraints:
-                                                const BoxConstraints(),
-                                            contentPadding: EdgeInsets.only(
-                                                left: 17.w,
-                                                right: 17.w,
-                                                top: 15.h,
-                                                bottom: 10.h),
-                                            filled: true,
-                                            fillColor: const Color(0XFFFFFFFF),
-                                            hintStyle: TextStyle(
-                                                color: const Color(0xFF4D4D4D),
-                                                fontSize: 18.sp,
-                                                fontFamily: "Poppins"),
-                                            // hintText: "     / Kgs",
-                                            suffixText: "/Kgs"),
-                                        keyboardType: TextInputType.number,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            // return "Enter Max";
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            sizedBoxHeight(24.h),
-                            InkWell(
-                              onTap: () async {
-                                final isValid =
-                                    _formFeedContainer.currentState?.validate();
-                                if (isValid!) {
-                                  Utils.loader();
-                                  final resp = await feedInfoController
-                                      .setApiFarmFeed(map: {
-                                    'livestock_type': widget.feedId.toString(),
-                                    'current_feed': tecCurrentFeed.text,
-                                    'feed_type':
-                                        selectedFeedTypeIndex.toString(),
-                                    'feed_frequency':
-                                        selectedFrequencyIndex.toString(),
-                                    'qty_per_seed': tecQuantity.text,
-                                    'min_capacity': tecMin.text,
-                                    'max_capacity': tecMax.text
-                                  });
-                                  if (resp! == "success") {
-                                    Get.back();
-                                    commonFlushBar(context,
-                                        msg: "Feed updated successfully",
-                                        title: "Success");
-                                  } else if (resp == "Access Denied") {
-                                    Get.back();
-                                    commonFlushBar(context,
-                                        msg: "Access Denied");
+                        ),
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Divider(
+                            thickness: 1,
+                            color: Colors.grey,
+                          ),
+                          Text(
+                            "Current feed on farm?",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          sizedBoxWidth(6.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Feedtextformfield(
+                                textEditingController: tecCurrentFeed,
+                                hintText: "",
+                                texttype: TextInputType.number,
+                                validatorText: "Please Enter Feed",
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please Enter Feed";
                                   }
-                                  // feedInfoController.changeUpdated(widget.index);
-                                  // Get.back();
-                                  // isSetFeedInfo = true;
-                                  // Get.to(LetsSetUpYourFarm())
-                                  // Get.toNamed("/letsSetUpYourFarm");
-                                } else if ((selectedFeedTypeIndex == null) ||
-                                    (selectedFrequencyIndex == null) ||
-                                    (tecMin.text.isEmpty) ||
-                                    (tecMax.text.isEmpty)) {
-                                  Flushbar(
-                                    message: "Please fill all fields",
-                                    duration: const Duration(seconds: 3),
-                                  ).show(context);
-                                } else {
-                                  Flushbar(
-                                    message: "Please fill all fields",
-                                    duration: const Duration(seconds: 3),
-                                  ).show(context);
-                                }
-                              },
-                              child: Container(
-                                height: 54.h,
-                                width: 330.w,
+                                  return null;
+                                },
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d+\.?\d{0,3}'))
+                                ],
+                                // inputFormatters: ,
+                              ),
+                              // sizedBoxWidth(3.w),
+                              const Spacer(),
+                              Container(
+                                height: 50.h,
+                                width: 62.w,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10.h),
                                     color: AppColors.buttoncolour),
                                 child: Center(
                                   child: Text(
-                                    "Update",
+                                    "Kgs",
                                     style: TextStyle(
                                         color: AppColors.white,
-                                        fontSize: 20.sp),
+                                        fontSize: 18.sp),
                                   ),
                                 ),
                               ),
+                            ],
+                          ),
+                          sizedBoxHeight(14.h),
+                          Text(
+                            "Type of feed ?",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          sizedBoxHeight(6.h),
+
+                          DropdownBtn(
+                            hint: "Please Select feed type",
+                            // items: ,
+                            items: feedInfoController
+                                .feedDropdownData!.data.feedType
+                                .map((e) => DropdownMenuItem(
+                                      value: e.name,
+                                      onTap: () {
+                                        setState(() {
+                                          selectedFeedType = e.name;
+                                          selectedFeedTypeIndex = e.id;
+                                        });
+                                      },
+                                      child: Text(
+                                        e.name,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF4D4D4D),
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ))
+                                .toList(),
+                            value: selectedFeedType,
+                          ),
+
+                          sizedBoxHeight(30.h),
+                          Text(
+                            "Feed usage",
+                            style: TextStyle(
+                                color: const Color(0XFF0E5F02),
+                                fontFamily: "Poppins",
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          sizedBoxHeight(14.h),
+                          Text(
+                            "Frequency",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          sizedBoxHeight(6.h),
+
+                          DropdownBtn(
+                            hint: "Please Select frequency",
+                            // items: ,
+                            items: feedInfoController
+                                .feedDropdownData!.data.feedFrequency
+                                .map((e) => DropdownMenuItem(
+                                      value: e.name,
+                                      onTap: () {
+                                        setState(() {
+                                          selectedFrequency = e.name;
+                                          selectedFrequencyIndex = e.id;
+                                        });
+                                        // selectedBreed = e.name;
+                                        // liveStockInfoController
+                                        //     .updateSelectedBreed(e.name);
+                                        // selectedBreedIndex = e.id;
+                                      },
+                                      child: Text(
+                                        e.name,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF4D4D4D),
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ))
+                                .toList(),
+                            value: selectedFrequency,
+                            // liveStockInfoController.liveStockData!.data.ageList
+                            // [
+                            //   "<2 Yrs",
+                            //   "> & <5 yrs",
+                            //   ">5 Yrs",
+                            // ],
+                          ),
+
+                          // SizedBox(
+                          //   width: 315.w,
+                          //   height: 50.h,
+                          //   child: const FarmfeedDropdownBtn(
+                          //       hint: "select frequency",
+                          //       items: [
+                          //         "1 Times a day",
+                          //         "2 Times a day",
+                          //         "3 Times a day",
+                          //       ]),
+                          // ),
+                          sizedBoxHeight(14.h),
+                          Text(
+                            "Quantity",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          sizedBoxHeight(6.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Feedtextformfield(
+                                textEditingController: tecQuantity,
+                                hintText: "",
+                                validatorText: "Please Enter Quantity",
+                                texttype: TextInputType.number,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please Enter Quantity";
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d+\.?\d{0,3}'))
+                                ],
+                              ),
+                              // sizedBoxWidth(3.w),
+                              const Spacer(),
+                              Container(
+                                height: 50.h,
+                                width: 62.w,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.h),
+                                    color: AppColors.buttoncolour),
+                                child: Center(
+                                  child: Text(
+                                    "Kgs",
+                                    style: TextStyle(
+                                        color: AppColors.white,
+                                        fontSize: 18.sp),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          sizedBoxHeight(14.h),
+                          Text(
+                            "Bin Capacity",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          sizedBoxHeight(6.h),
+                          Container(
+                            height: 92.h,
+                            // width: 315.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: const Color(0xFFF1F1F1),
                             ),
-                            sizedBoxHeight(20.h),
-                          ],
-                        ),
-                ),
-              )
-            ]),
-      ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 6.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Min",
+                                    style: TextStyle(
+                                        color: const Color(0XFF4D4D4D),
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  sizedBoxWidth(7.w),
+                                  SizedBox(
+                                    width: 107.w,
+                                    // height: 46.h,
+                                    child: TextFormField(
+                                      controller: tecMin,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                      ),
+                                      cursorColor: const Color(0xFF3B3F43),
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      decoration: InputDecoration(
+                                          errorStyle:
+                                              TextStyle(fontSize: 14.sp),
+                                          isCollapsed: true,
+                                          suffixIconConstraints:
+                                              const BoxConstraints(),
+                                          contentPadding: EdgeInsets.only(
+                                              left: 17.w,
+                                              right: 17.w,
+                                              top: 15.h,
+                                              bottom: 10.h),
+                                          filled: true,
+                                          fillColor: const Color(0XFFFFFFFF),
+                                          hintStyle: TextStyle(
+                                              color: const Color(0xFF4D4D4D),
+                                              fontSize: 18.sp,
+                                              fontFamily: "Poppins"),
+                                          // hintText: "     / Kgs",
+                                          suffixText: "/Kgs"),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          // return "Enter Min";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  sizedBoxWidth(11.w),
+                                  Text(
+                                    "Max",
+                                    style: TextStyle(
+                                        color: const Color(0XFF4D4D4D),
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  sizedBoxWidth(6.w),
+                                  SizedBox(
+                                    width: 107.w,
+                                    // height: 46.h,
+                                    child: TextFormField(
+                                      controller: tecMax,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                      ),
+                                      cursorColor: const Color(0xFF3B3F43),
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      decoration: InputDecoration(
+                                          errorStyle:
+                                              TextStyle(fontSize: 14.sp),
+                                          isCollapsed: true,
+                                          suffixIconConstraints:
+                                              const BoxConstraints(),
+                                          contentPadding: EdgeInsets.only(
+                                              left: 17.w,
+                                              right: 17.w,
+                                              top: 15.h,
+                                              bottom: 10.h),
+                                          filled: true,
+                                          fillColor: const Color(0XFFFFFFFF),
+                                          hintStyle: TextStyle(
+                                              color: const Color(0xFF4D4D4D),
+                                              fontSize: 18.sp,
+                                              fontFamily: "Poppins"),
+                                          // hintText: "     / Kgs",
+                                          suffixText: "/Kgs"),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          // return "Enter Max";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          sizedBoxHeight(24.h),
+                          InkWell(
+                            onTap: () async {
+                              final isValid =
+                                  _formFeedContainer.currentState?.validate();
+                              if (isValid!) {
+                                Utils.loader();
+                                final resp = await feedInfoController
+                                    .setApiFarmFeed(map: {
+                                  'livestock_type': widget.feedId.toString(),
+                                  'current_feed': tecCurrentFeed.text,
+                                  'feed_type': selectedFeedTypeIndex.toString(),
+                                  'feed_frequency':
+                                      selectedFrequencyIndex.toString(),
+                                  'qty_per_seed': tecQuantity.text,
+                                  'min_capacity': tecMin.text,
+                                  'max_capacity': tecMax.text
+                                });
+                                if (resp! == "success") {
+                                  Get.back();
+                                  commonFlushBar(context,
+                                      msg: "Feed updated successfully",
+                                      title: "Success");
+                                } else if (resp == "Access Denied") {
+                                  Get.back();
+                                  commonFlushBar(context, msg: "Access Denied");
+                                }
+                                // feedInfoController.changeUpdated(widget.index);
+                                // Get.back();
+                                // isSetFeedInfo = true;
+                                // Get.to(LetsSetUpYourFarm())
+                                // Get.toNamed("/letsSetUpYourFarm");
+                              } else if ((selectedFeedTypeIndex == null) ||
+                                  (selectedFrequencyIndex == null) ||
+                                  (tecMin.text.isEmpty) ||
+                                  (tecMax.text.isEmpty)) {
+                                Flushbar(
+                                  message: "Please fill all fields",
+                                  duration: const Duration(seconds: 3),
+                                ).show(context);
+                              } else {
+                                Flushbar(
+                                  message: "Please fill all fields",
+                                  duration: const Duration(seconds: 3),
+                                ).show(context);
+                              }
+                            },
+                            child: Container(
+                              height: 54.h,
+                              width: 330.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.h),
+                                  color: AppColors.buttoncolour),
+                              child: Center(
+                                child: Text(
+                                  "Update",
+                                  style: TextStyle(
+                                      color: AppColors.white, fontSize: 20.sp),
+                                ),
+                              ),
+                            ),
+                          ),
+                          sizedBoxHeight(20.h),
+                        ],
+                      ),
+              ),
+            )
+          ]),
     );
   }
 }

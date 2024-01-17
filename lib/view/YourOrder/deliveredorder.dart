@@ -202,7 +202,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
                     Padding(
                       padding: EdgeInsets.only(left: 16.w),
                       child: Text(
-                        "Order Id :${orderDetailsModel.data!.orderDetails!.orderId!}",
+                        "Order Id: ${orderDetailsModel.data!.orderDetails!.orderId!}",
                         style: TextStyle(
                           fontSize: 18.sp,
                           color: const Color(0XFF141414),
@@ -317,6 +317,16 @@ class _DeliveredorderState extends State<Deliveredorder> {
                                             sizedBoxHeight(2.h),
                                             Text(
                                               "Quantity : ${orderDetailsModel.data!.orderDetails!.orderDetails![index].quantity}",
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w300,
+                                                  color:
+                                                      const Color(0XFF4D4D4D),
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                            sizedBoxHeight(2.h),
+                                            Text(
+                                              "Lot : ${orderDetailsModel.data!.orderDetails!.orderDetails![index].lot}",
                                               style: TextStyle(
                                                   fontSize: 16.sp,
                                                   fontWeight: FontWeight.w300,
@@ -625,85 +635,85 @@ class _DeliveredorderState extends State<Deliveredorder> {
                               ),
                             ),
                             sizedBoxHeight(27.h),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              child: Container(
-                                  // height: 69.h,
-                                  width: 358.w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: const Color(0XffF1F1F1)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 22.w,
-                                            top: 13.h,
-                                            bottom: 13.h),
-                                        child: Text(
-                                          "How was your \nexperience?",
-                                          style: TextStyle(
-                                              fontSize: 18.sp,
-                                              color: const Color(0XFF141414),
-                                              fontFamily: "SF Pro Display",
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                      sizedBoxWidth(49.w),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 13.h, bottom: 13.h),
-                                        child: Column(
-                                          children: [
-                                            SvgPicture.asset(
-                                              "assets/images/greensmiley.svg",
-                                              width: 27.w,
-                                              height: 27.h,
-                                            ),
-                                            sizedBoxHeight(1.h),
-                                            Text(
-                                              "It was great",
-                                              style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color:
-                                                      const Color(0xff0E5F02),
-                                                  fontFamily: "SF Pro Display"),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      sizedBoxWidth(25.w),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: 13.h,
-                                          bottom: 13.h,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            SvgPicture.asset(
-                                              "assets/images/redsmiley.svg",
-                                              width: 27.w,
-                                              height: 27.h,
-                                            ),
-                                            sizedBoxHeight(1.h),
-                                            Text(
-                                              "Not so great.",
-                                              style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color:
-                                                      const Color(0xffCF0000),
-                                                  fontFamily: "SF Pro Display"),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                            ),
-                            sizedBoxHeight(26.h),
+                            // Padding(
+                            //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            //   child: Container(
+                            //       // height: 69.h,
+                            //       width: 358.w,
+                            //       decoration: BoxDecoration(
+                            //           borderRadius: BorderRadius.circular(20),
+                            //           color: const Color(0XffF1F1F1)),
+                            //       child: Row(
+                            //         mainAxisAlignment: MainAxisAlignment.start,
+                            //         crossAxisAlignment:
+                            //             CrossAxisAlignment.center,
+                            //         children: [
+                            //           Padding(
+                            //             padding: EdgeInsets.only(
+                            //                 left: 22.w,
+                            //                 top: 13.h,
+                            //                 bottom: 13.h),
+                            //             child: Text(
+                            //               "How was your \nexperience?",
+                            //               style: TextStyle(
+                            //                   fontSize: 18.sp,
+                            //                   color: const Color(0XFF141414),
+                            //                   fontFamily: "SF Pro Display",
+                            //                   fontWeight: FontWeight.w600),
+                            //             ),
+                            //           ),
+                            //           sizedBoxWidth(49.w),
+                            //           Padding(
+                            //             padding: EdgeInsets.only(
+                            //                 top: 13.h, bottom: 13.h),
+                            //             child: Column(
+                            //               children: [
+                            //                 SvgPicture.asset(
+                            //                   "assets/images/greensmiley.svg",
+                            //                   width: 27.w,
+                            //                   height: 27.h,
+                            //                 ),
+                            //                 sizedBoxHeight(1.h),
+                            //                 Text(
+                            //                   "It was great",
+                            //                   style: TextStyle(
+                            //                       fontSize: 12.sp,
+                            //                       color:
+                            //                           const Color(0xff0E5F02),
+                            //                       fontFamily: "SF Pro Display"),
+                            //                 )
+                            //               ],
+                            //             ),
+                            //           ),
+                            //           sizedBoxWidth(25.w),
+                            //           Padding(
+                            //             padding: EdgeInsets.only(
+                            //               top: 13.h,
+                            //               bottom: 13.h,
+                            //             ),
+                            //             child: Column(
+                            //               children: [
+                            //                 SvgPicture.asset(
+                            //                   "assets/images/redsmiley.svg",
+                            //                   width: 27.w,
+                            //                   height: 27.h,
+                            //                 ),
+                            //                 sizedBoxHeight(1.h),
+                            //                 Text(
+                            //                   "Not so great.",
+                            //                   style: TextStyle(
+                            //                       fontSize: 12.sp,
+                            //                       color:
+                            //                           const Color(0xffCF0000),
+                            //                       fontFamily: "SF Pro Display"),
+                            //                 )
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       )),
+                            // ),
+                            // sizedBoxHeight(26.h),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.w),
                               child: Container(

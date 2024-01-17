@@ -11,9 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FeedInfoContro extends GetxController {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
-  RxList<bool> isOpened = [false].obs;
-  RxList<ExpansionTileController> expansionController =
-      [ExpansionTileController()].obs;
+  List<ExpansionTileController> expansionController = [];
 
   FeedDropDownInfo? _feedDropdownData;
   FeedDropDownInfo? get feedDropdownData => _feedDropdownData;
