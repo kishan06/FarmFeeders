@@ -11,6 +11,7 @@ import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/NotificationModel/notification_count_model.dart';
 import 'package:farmfeeders/models/connection_code_model.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
+import 'package:farmfeeders/view/weather/weather_forecast.dart';
 import 'package:farmfeeders/view_models/ConnectionCodeApi.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
@@ -52,7 +53,6 @@ class _HomeState extends State<Home> {
   bool saved = false;
   final location = ls.Location();
   String? selectedLocation, currentLocationName;
-  double? currentLat = 0, currentLng;
   List<String> locationName = [];
   List<LatLng> locationLatLng = [];
   DashboardController dashboardController = Get.put(DashboardController());
@@ -204,11 +204,13 @@ class _HomeState extends State<Home> {
         await getCurrentAddress();
         final permissionGranted = await location.hasPermission();
         if (permissionGranted == ls.PermissionStatus.granted) {
-          currentLocationName =
-              await getAddressFromLatLng(currentLat!, currentLng!);
-          locationLatLng.add(LatLng(currentLat!, currentLng!));
-          locationName
-              .add(await getAddressFromLatLng(currentLat!, currentLng!));
+          currentLocationName = await getAddressFromLatLng(
+              dashboardController.currentLat!, dashboardController.currentLng!);
+          locationLatLng.add(LatLng(dashboardController.currentLat!,
+              dashboardController.currentLng!));
+          locationName.add(await getAddressFromLatLng(
+              dashboardController.currentLat!,
+              dashboardController.currentLng!));
         }
         for (var i
             in dashboardController.dashboardModel.data!.primaryFarmLocation!) {
@@ -538,256 +540,228 @@ class _HomeState extends State<Home> {
                                                   ),
                                                 ),
                                               )
-                                            : Stack(
-                                                children: [
-                                                  Obx(
-                                                    () => Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: (dashboardController
-                                                                        .weatherCondition
-                                                                        .value ==
-                                                                    "Sunny" ||
-                                                                dashboardController
-                                                                        .weatherCondition
-                                                                        .value ==
-                                                                    "Clear")
-                                                            ? isDaytime
-                                                                ? Lottie.asset(
-                                                                    "assets/lotties/sun_animation.json",
-                                                                    height:
-                                                                        240.h,
-                                                                    width:
-                                                                        240.w,
-                                                                  )
-                                                                : Lottie.asset(
-                                                                    "assets/lotties/moon_animation.json",
-                                                                    height:
-                                                                        175.h,
-                                                                    width:
-                                                                        175.w,
-                                                                  )
-                                                            : (dashboardController
-                                                                        .weatherCondition
-                                                                        .value ==
-                                                                    "Partly cloudy")
-                                                                ? isDaytime
-                                                                    ? Lottie
-                                                                        .asset(
-                                                                        "assets/lotties/sun_with_cloud_animation.json",
-                                                                        height:
-                                                                            240.h,
-                                                                        width:
-                                                                            240.w,
-                                                                      )
-                                                                    : Lottie
-                                                                        .asset(
-                                                                        "assets/lotties/moon_with_cloud_animation.json",
-                                                                        height:
-                                                                            240.h,
-                                                                        width:
-                                                                            240.w,
-                                                                      )
-                                                                : (dashboardController.weatherCondition.value ==
-                                                                            "Cloudy" ||
-                                                                        dashboardController.weatherCondition.value ==
-                                                                            "Overcast")
-                                                                    ? Lottie
-                                                                        .asset(
-                                                                        "assets/lotties/clouds.json",
-                                                                        height:
-                                                                            240.h,
-                                                                        width:
-                                                                            240.w,
-                                                                      )
-                                                                    : (dashboardController.weatherCondition.value == "Mist" ||
-                                                                            dashboardController.weatherCondition.value ==
-                                                                                "Fog" ||
-                                                                            dashboardController.weatherCondition.value ==
-                                                                                "Freezing fog")
-                                                                        ? Lottie
-                                                                            .asset(
-                                                                            "assets/lotties/cloud2.json",
-                                                                            height:
-                                                                                240.h,
-                                                                            width:
-                                                                                240.w,
-                                                                          )
-                                                                        : (dashboardController.weatherCondition.value == "Patchy rain possible" ||
-                                                                                dashboardController.weatherCondition.value == "Patchy freezing drizzle possible" ||
-                                                                                dashboardController.weatherCondition.value == "Thundery outbreaks possible" ||
-                                                                                dashboardController.weatherCondition.value == "Patchy light drizzle" ||
-                                                                                dashboardController.weatherCondition.value == "Light drizzle" ||
-                                                                                dashboardController.weatherCondition.value == "Freezing drizzle" ||
-                                                                                dashboardController.weatherCondition.value == "Heavy freezing drizzle " ||
-                                                                                dashboardController.weatherCondition.value == "Patchy light rain" ||
-                                                                                dashboardController.weatherCondition.value == "Light rain" ||
-                                                                                dashboardController.weatherCondition.value == "Moderate rain at times" ||
-                                                                                dashboardController.weatherCondition.value == "Moderate rain" ||
-                                                                                dashboardController.weatherCondition.value == "Heavy rain at times" ||
-                                                                                dashboardController.weatherCondition.value == "Heavy rain" ||
-                                                                                dashboardController.weatherCondition.value == "Light freezing rain" ||
-                                                                                dashboardController.weatherCondition.value == "Moderate or heavy freezing rain" ||
-                                                                                dashboardController.weatherCondition.value == "Torrential rain shower" ||
-                                                                                dashboardController.weatherCondition.value == "Light sleet showers" ||
-                                                                                dashboardController.weatherCondition.value == "Patchy light rain with thunder" ||
-                                                                                dashboardController.weatherCondition.value == "Moderate or heavy rain with thunder")
-                                                                            ? Lottie.asset(
-                                                                                "assets/lotties/cloud_with_rain_animation.json",
-                                                                                height: 240.h,
-                                                                                width: 240.w,
-                                                                              )
-                                                                            : (dashboardController.weatherCondition.value == "Patchy snow possible" || dashboardController.weatherCondition.value == "Patchy sleet possible" || dashboardController.weatherCondition.value == "Light sleet" || dashboardController.weatherCondition.value == "Moderate or heavy sleet" || dashboardController.weatherCondition.value == "Patchy light snow" || dashboardController.weatherCondition.value == "Light snow" || dashboardController.weatherCondition.value == "Patchy moderate snow" || dashboardController.weatherCondition.value == "Moderate snow" || dashboardController.weatherCondition.value == "Patchy heavy snow" || dashboardController.weatherCondition.value == "Heavy snow" || dashboardController.weatherCondition.value == "Ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy sleet showers" || dashboardController.weatherCondition.value == "Light snow showers" || dashboardController.weatherCondition.value == "Moderate or heavy snow showers" || dashboardController.weatherCondition.value == "Light showers of ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy showers of ice pellets")
-                                                                                ? Lottie.asset(
-                                                                                    "assets/lotties/snow_animation.json",
-                                                                                    height: 240.h,
-                                                                                    width: 240.w,
-                                                                                  )
-                                                                                : (dashboardController.weatherCondition.value == "Blowing snow" || dashboardController.weatherCondition.value == "Blizzard" || dashboardController.weatherCondition.value == "Patchy light snow with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy snow with thunder")
-                                                                                    ? Lottie.asset(
-                                                                                        "assets/lotties/snow_animation.json",
-                                                                                        height: 240.h,
-                                                                                        width: 240.w,
-                                                                                      )
-                                                                                    : Lottie.asset(
-                                                                                        "assets/lotties/cloud2.json",
-                                                                                        height: 240.h,
-                                                                                        width: 240.w,
-                                                                                      )),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            36.w,
-                                                            25.h,
-                                                            36.w,
-                                                            12.h),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Stack(
-                                                              children: [
-                                                                Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        SvgPicture
-                                                                            .asset(
-                                                                          "assets/images/locationconnect.svg",
-                                                                          color:
-                                                                              AppColors.black,
+                                            : InkWell(
+                                                onTap: () {
+                                                  Get.to(
+                                                      const WeatherForecastScreen());
+                                                },
+                                                child: Stack(
+                                                  children: [
+                                                    Obx(
+                                                      () => Align(
+                                                          alignment: Alignment
+                                                              .centerRight,
+                                                          child: (dashboardController
+                                                                          .weatherCondition
+                                                                          .value ==
+                                                                      "Sunny" ||
+                                                                  dashboardController
+                                                                          .weatherCondition
+                                                                          .value ==
+                                                                      "Clear")
+                                                              ? isDaytime
+                                                                  ? Lottie
+                                                                      .asset(
+                                                                      "assets/lotties/sun_animation.json",
+                                                                      height:
+                                                                          240.h,
+                                                                      width:
+                                                                          240.w,
+                                                                    )
+                                                                  : Lottie
+                                                                      .asset(
+                                                                      "assets/lotties/moon_animation.json",
+                                                                      height:
+                                                                          175.h,
+                                                                      width:
+                                                                          175.w,
+                                                                    )
+                                                              : (dashboardController
+                                                                          .weatherCondition
+                                                                          .value ==
+                                                                      "Partly cloudy")
+                                                                  ? isDaytime
+                                                                      ? Lottie
+                                                                          .asset(
+                                                                          "assets/lotties/sun_with_cloud_animation.json",
                                                                           height:
-                                                                              20.h,
+                                                                              240.h,
                                                                           width:
-                                                                              20.h,
-                                                                        ),
-
-                                                                        // textBlack20W7000("Ireland"),
-                                                                        SizedBox(
+                                                                              240.w,
+                                                                        )
+                                                                      : Lottie
+                                                                          .asset(
+                                                                          "assets/lotties/moon_with_cloud_animation.json",
+                                                                          height:
+                                                                              240.h,
                                                                           width:
-                                                                              180.w,
-                                                                          child:
-                                                                              DropdownBtn(
-                                                                            bgColor:
-                                                                                AppColors.pistaE3FFE9,
-                                                                            hint: currentLat != 0
-                                                                                ? currentLocationName!
-                                                                                : locationName[0],
-                                                                            // items: ,
-                                                                            items: locationName
-                                                                                .map((e) => DropdownMenuItem(
-                                                                                      value: e,
-                                                                                      onTap: () {
-                                                                                        setState(() {
-                                                                                          selectedLocation = e;
-
-                                                                                          getCurrentWeatherData(
-                                                                                            locationLatLng[locationName.indexOf(e)].latitude,
-                                                                                            locationLatLng[locationName.indexOf(e)].longitude,
-                                                                                          );
-                                                                                        });
-                                                                                      },
-                                                                                      child: Text(
-                                                                                        e,
-                                                                                        style: const TextStyle(
-                                                                                          fontSize: 14,
-                                                                                          fontWeight: FontWeight.bold,
-                                                                                          color: Color(0xFF4D4D4D),
-                                                                                        ),
-                                                                                        overflow: TextOverflow.ellipsis,
-                                                                                      ),
-                                                                                    ))
-                                                                                .toList(),
-                                                                            value:
-                                                                                selectedLocation,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Obx(
-                                                                      () => textGreen50Bold(
-                                                                          "${dashboardController.isLocationFetching.value ? temperature! : dashboardController.tempValue.value}° C"),
-                                                                    ),
-                                                                    Obx(() =>
-                                                                        Column(
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            rowWithText(
-                                                                                "assets/images/humidity.png",
-                                                                                humidity!,
-                                                                                dashboardController.humidityValue.value),
-                                                                            rowWithText(
-                                                                                "assets/images/wind.png",
-                                                                                "${wind!} kph",
-                                                                                "${dashboardController.windValue.value} kph"),
-                                                                          ],
-                                                                        )),
-                                                                    StreamBuilder<
-                                                                        DateTime>(
-                                                                      stream:
-                                                                          _clockStream,
-                                                                      builder:
-                                                                          (context,
-                                                                              snapshot) {
-                                                                        if (snapshot
-                                                                            .hasData) {
-                                                                          String
-                                                                              formattedDateTime =
-                                                                              DateFormat('E, d MMM - hh:mm a').format(snapshot.data!);
-
-                                                                          return Center(
-                                                                            child:
-                                                                                textBlack18W5000(
-                                                                              formattedDateTime,
-                                                                            ),
-                                                                          );
-                                                                        } else {
-                                                                          return textBlack18W5000(
-                                                                              'Loading...');
-                                                                        }
-                                                                      },
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
+                                                                              240.w,
+                                                                        )
+                                                                  : (dashboardController.weatherCondition.value ==
+                                                                              "Cloudy" ||
+                                                                          dashboardController.weatherCondition.value ==
+                                                                              "Overcast")
+                                                                      ? Lottie
+                                                                          .asset(
+                                                                          "assets/lotties/clouds.json",
+                                                                          height:
+                                                                              240.h,
+                                                                          width:
+                                                                              240.w,
+                                                                        )
+                                                                      : (dashboardController.weatherCondition.value == "Mist" ||
+                                                                              dashboardController.weatherCondition.value == "Fog" ||
+                                                                              dashboardController.weatherCondition.value == "Freezing fog")
+                                                                          ? Lottie.asset(
+                                                                              "assets/lotties/cloud2.json",
+                                                                              height: 240.h,
+                                                                              width: 240.w,
+                                                                            )
+                                                                          : (dashboardController.weatherCondition.value == "Patchy rain possible" || dashboardController.weatherCondition.value == "Patchy freezing drizzle possible" || dashboardController.weatherCondition.value == "Thundery outbreaks possible" || dashboardController.weatherCondition.value == "Patchy light drizzle" || dashboardController.weatherCondition.value == "Light drizzle" || dashboardController.weatherCondition.value == "Freezing drizzle" || dashboardController.weatherCondition.value == "Heavy freezing drizzle " || dashboardController.weatherCondition.value == "Patchy light rain" || dashboardController.weatherCondition.value == "Light rain" || dashboardController.weatherCondition.value == "Moderate rain at times" || dashboardController.weatherCondition.value == "Moderate rain" || dashboardController.weatherCondition.value == "Heavy rain at times" || dashboardController.weatherCondition.value == "Heavy rain" || dashboardController.weatherCondition.value == "Light freezing rain" || dashboardController.weatherCondition.value == "Moderate or heavy freezing rain" || dashboardController.weatherCondition.value == "Torrential rain shower" || dashboardController.weatherCondition.value == "Light sleet showers" || dashboardController.weatherCondition.value == "Patchy light rain with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy rain with thunder")
+                                                                              ? Lottie.asset(
+                                                                                  "assets/lotties/cloud_with_rain_animation.json",
+                                                                                  height: 240.h,
+                                                                                  width: 240.w,
+                                                                                )
+                                                                              : (dashboardController.weatherCondition.value == "Patchy snow possible" || dashboardController.weatherCondition.value == "Patchy sleet possible" || dashboardController.weatherCondition.value == "Light sleet" || dashboardController.weatherCondition.value == "Moderate or heavy sleet" || dashboardController.weatherCondition.value == "Patchy light snow" || dashboardController.weatherCondition.value == "Light snow" || dashboardController.weatherCondition.value == "Patchy moderate snow" || dashboardController.weatherCondition.value == "Moderate snow" || dashboardController.weatherCondition.value == "Patchy heavy snow" || dashboardController.weatherCondition.value == "Heavy snow" || dashboardController.weatherCondition.value == "Ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy sleet showers" || dashboardController.weatherCondition.value == "Light snow showers" || dashboardController.weatherCondition.value == "Moderate or heavy snow showers" || dashboardController.weatherCondition.value == "Light showers of ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy showers of ice pellets")
+                                                                                  ? Lottie.asset(
+                                                                                      "assets/lotties/snow_animation.json",
+                                                                                      height: 240.h,
+                                                                                      width: 240.w,
+                                                                                    )
+                                                                                  : (dashboardController.weatherCondition.value == "Blowing snow" || dashboardController.weatherCondition.value == "Blizzard" || dashboardController.weatherCondition.value == "Patchy light snow with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy snow with thunder")
+                                                                                      ? Lottie.asset(
+                                                                                          "assets/lotties/snow_animation.json",
+                                                                                          height: 240.h,
+                                                                                          width: 240.w,
+                                                                                        )
+                                                                                      : Lottie.asset(
+                                                                                          "assets/lotties/cloud2.json",
+                                                                                          height: 240.h,
+                                                                                          width: 240.w,
+                                                                                        )),
                                                     ),
-                                                  ),
-                                                ],
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              36.w,
+                                                              25.h,
+                                                              36.w,
+                                                              12.h),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Stack(
+                                                                children: [
+                                                                  Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.start,
+                                                                        children: [
+                                                                          SvgPicture
+                                                                              .asset(
+                                                                            "assets/images/locationconnect.svg",
+                                                                            color:
+                                                                                AppColors.black,
+                                                                            height:
+                                                                                20.h,
+                                                                            width:
+                                                                                20.h,
+                                                                          ),
+
+                                                                          // textBlack20W7000("Ireland"),
+                                                                          SizedBox(
+                                                                            width:
+                                                                                180.w,
+                                                                            child:
+                                                                                DropdownBtn(
+                                                                              bgColor: AppColors.pistaE3FFE9,
+                                                                              hint: dashboardController.currentLat != 0 ? currentLocationName! : locationName[0],
+                                                                              // items: ,
+                                                                              items: locationName
+                                                                                  .map((e) => DropdownMenuItem(
+                                                                                        value: e,
+                                                                                        onTap: () {
+                                                                                          setState(() {
+                                                                                            selectedLocation = e;
+
+                                                                                            getCurrentWeatherData(
+                                                                                              locationLatLng[locationName.indexOf(e)].latitude,
+                                                                                              locationLatLng[locationName.indexOf(e)].longitude,
+                                                                                            );
+                                                                                          });
+                                                                                        },
+                                                                                        child: Text(
+                                                                                          e,
+                                                                                          style: const TextStyle(
+                                                                                            fontSize: 14,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            color: Color(0xFF4D4D4D),
+                                                                                          ),
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                        ),
+                                                                                      ))
+                                                                                  .toList(),
+                                                                              value: selectedLocation,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      Obx(
+                                                                        () => textGreen50Bold(
+                                                                            "${dashboardController.isLocationFetching.value ? temperature! : dashboardController.tempValue.value}° C"),
+                                                                      ),
+                                                                      Obx(() =>
+                                                                          Column(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              rowWithText("assets/images/humidity.png", humidity!, dashboardController.humidityValue.value),
+                                                                              rowWithText("assets/images/wind.png", "${wind!} kph", "${dashboardController.windValue.value} kph"),
+                                                                            ],
+                                                                          )),
+                                                                      StreamBuilder<
+                                                                          DateTime>(
+                                                                        stream:
+                                                                            _clockStream,
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          if (snapshot
+                                                                              .hasData) {
+                                                                            String
+                                                                                formattedDateTime =
+                                                                                DateFormat('E, d MMM - hh:mm a').format(snapshot.data!);
+
+                                                                            return Center(
+                                                                              child: textBlack18W5000(
+                                                                                formattedDateTime,
+                                                                              ),
+                                                                            );
+                                                                          } else {
+                                                                            return textBlack18W5000('Loading...');
+                                                                          }
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                         (dashboardController.dashboardModel
                                                         .data!.order !=
@@ -2281,8 +2255,8 @@ class _HomeState extends State<Home> {
       forceAndroidLocationManager: false,
     );
 
-    currentLat = locationData.latitude;
-    currentLng = locationData.longitude;
+    dashboardController.currentLat = locationData.latitude;
+    dashboardController.currentLng = locationData.longitude;
     await getCurrentWeatherData(locationData.latitude, locationData.longitude);
 
     dashboardController.isLocationFetching.value = false;

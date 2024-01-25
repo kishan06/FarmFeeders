@@ -17,7 +17,7 @@ Widget customAppBar(
           children: [
             InkWell(
               onTap: () {
-                Get.back();
+                Get.back(result: true);
               },
               child: CircleAvatar(
                 radius: 20.h,

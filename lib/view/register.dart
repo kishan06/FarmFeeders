@@ -35,6 +35,7 @@ class _RegisterState extends State<Register> {
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController cpasswordController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
   DateTime? _selectedDate;
 
 //  void _submit() {
@@ -58,7 +59,7 @@ class _RegisterState extends State<Register> {
       Utils.loader();
       Map<String, String> updata = {
         "name": nameController.text,
-        "dob": dateregistercontroller.toString(),
+        "dob": dateController.text.toString(),
         "phone_number": phoneController.text,
         "email": emailController.text,
         "password": passwordController.text,
@@ -67,6 +68,12 @@ class _RegisterState extends State<Register> {
       final resp = await RegisterAPI(updata).registerApi();
       Get.back();
       if (resp.status == ResponseStatus.SUCCESS) {
+        nameController.clear();
+        dateController.clear();
+        phoneController.clear();
+        emailController.clear();
+        passwordController.clear();
+        cpasswordController.clear();
         int? id = resp.data['data']['id'];
         Get.toNamed('/verifyYourIdentity',
             arguments: {'id': id, 'phonenumber': phoneController.text});
@@ -196,49 +203,69 @@ class _RegisterState extends State<Register> {
                               SizedBox(
                                 height: 10.h,
                               ),
-                              GestureDetector(
+                              CustomTextFormField(
                                 onTap: () {
                                   _presentDatePicker();
                                 },
-                                child: Container(
-                                  height: 60.h,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFF1F1F1),
-                                    border: Border.all(
-                                      color: Color(0xffF1F1F1),
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 14.0),
-                                    child: Row(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                "assets/images/calender.svg"),
-                                            sizedBoxWidth(10.w)
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            sizedBoxWidth(20.w),
-                                            Text(
-                                              _selectedDate == null
-                                                  ? ''
-                                                  : '$dateregistercontroller',
-                                              style: TextStyle(
-                                                  color: Colors.black),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                readonly: true,
+                                textEditingController: dateController,
+                                leadingIcon: SvgPicture.asset(
+                                    "assets/images/calender.svg"),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter date of birth';
+                                  }
+
+                                  // v2 = true;
+                                  return null;
+                                },
+                                hintText: "",
+                                validatorText: "",
+                                //  isInputPassword: true,
                               ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     _presentDatePicker();
+                              //   },
+                              //   child: Container(
+                              //     height: 60.h,
+                              //     width: double.infinity,
+                              //     decoration: BoxDecoration(
+                              //       color: Color(0xFFF1F1F1),
+                              //       border: Border.all(
+                              //         color: Color(0xffF1F1F1),
+                              //       ),
+                              //       borderRadius: BorderRadius.circular(10.r),
+                              //     ),
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.symmetric(
+                              //           horizontal: 14.0),
+                              //       child: Row(
+                              //         children: [
+                              //           Row(
+                              //             children: [
+                              //               SvgPicture.asset(
+                              //                   "assets/images/calender.svg"),
+                              //               sizedBoxWidth(10.w)
+                              //             ],
+                              //           ),
+                              //           Row(
+                              //             children: [
+                              //               sizedBoxWidth(20.w),
+                              //               Text(
+                              //                 _selectedDate == null
+                              //                     ? ''
+                              //                     : '$dateregistercontroller',
+                              //                 style: TextStyle(
+                              //                     color: Colors.black),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                           SizedBox(
@@ -275,6 +302,10 @@ class _RegisterState extends State<Register> {
                                 validator: (value) {
                                   if (value == value.isEmpty) {
                                     return 'Mobile number is required';
+                                  } else if (!value
+                                      .toString()
+                                      .startsWith("8")) {
+                                    return 'Enter a valid mobile number starting with 8';
                                   } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{9}$)')
                                       .hasMatch(value)) {
                                     return 'Enter valid mobile number';
@@ -435,11 +466,13 @@ class _RegisterState extends State<Register> {
 
   void _presentDatePicker() {
     // showDatePicker is a pre-made funtion of Flutter
+    DateTime eighteenYearsAgo =
+        DateTime.now().subtract(const Duration(days: 365 * 18));
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime.now().subtract(const Duration(days: 1)),
       firstDate: DateTime(1922),
-      lastDate: DateTime.now(),
+      lastDate: DateTime.now().subtract(const Duration(days: 1)),
       builder: (context, child) {
         return Theme(
             data: Theme.of(context).copyWith(
@@ -460,14 +493,34 @@ class _RegisterState extends State<Register> {
       // Check if no date is selected
       if (pickedDate == null) {
         return setState(() {
-          dateregistercontroller = '';
+          dateController.text = '';
         });
       }
-      setState(() {
-        _selectedDate = pickedDate;
-        dateregistercontroller =
-            "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
-      });
+      if (pickedDate.isBefore(eighteenYearsAgo)) {
+        setState(() {
+          _selectedDate = pickedDate;
+          dateController.text =
+              "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Age Restriction"),
+              content: const Text("Sorry, you must be above 18 years age"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }
     });
   }
 }

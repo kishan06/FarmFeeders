@@ -935,6 +935,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
         widget.fromScreen != "fromHomePage") {
       if (subscriptionPlanModel.data![0].customerId == null) {
         customer = await createCustomer();
+        customerId = customer["id"];
       }
     }
 

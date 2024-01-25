@@ -588,12 +588,14 @@ class _addSubUserState extends State<addSubUser> {
 
   void _subUserDatePicker() {
     // showDatePicker is a pre-made funtion of Flutter
+    DateTime eighteenYearsAgo =
+        DateTime.now().subtract(const Duration(days: 365 * 18));
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1922),
-            lastDate: DateTime.now())
-        .then((pickedDate) {
+      context: context,
+      initialDate: DateTime.now().subtract(const Duration(days: 1)),
+      firstDate: DateTime(1922),
+      lastDate: DateTime.now().subtract(const Duration(days: 1)),
+    ).then((pickedDate) {
       // Check if no date is selected
       if (pickedDate == null) {
         return setState(() {
@@ -601,13 +603,34 @@ class _addSubUserState extends State<addSubUser> {
           dob.text = "";
         });
       }
-      setState(() {
-        _selectedDate = pickedDate;
-        dob.text =
-            "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
-        subuserdatecontroller =
-            "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
-      });
+
+      if (pickedDate.isBefore(eighteenYearsAgo)) {
+        setState(() {
+          _selectedDate = pickedDate;
+          dob.text =
+              "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
+          subuserdatecontroller =
+              "${_selectedDate!.day.toString()}-${_selectedDate!.month.toString().padLeft(2, '0')}-${_selectedDate!.year.toString().padLeft(2, '0')}";
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Age Restriction"),
+              content: const Text("Sorry, you must be above 18 years age"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }
     });
   }
 }

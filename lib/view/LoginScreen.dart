@@ -43,6 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
       final resp = await LoginAPI(updata).loginApi();
       Get.back();
       if (resp.status == ResponseStatus.SUCCESS) {
+        tecEmail.clear();
+        tecPassword.clear();
         print("reslo ${resp.data}");
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('accessToken', resp.data["data"]["access_token"]);
@@ -52,10 +54,16 @@ class _LoginScreenState extends State<LoginScreen> {
         Get.offAndToNamed('/sideMenu');
       } else if (resp.status == ResponseStatus.PRIVATE) {
         if (resp.data["status"] == 202) {
-          Get.offAndToNamed('/verifyYourIdentity', arguments: {
+          var result = await Get.toNamed('/verifyYourIdentity', arguments: {
             'id': resp.data['data']['id'],
             'phonenumber': resp.data['data']['phone_number']
           });
+          if (result != null && result) {
+            tecEmail.text = "";
+            tecPassword.text = "";
+            // setState(() {});
+            // _form.currentState!.reset();
+          }
         } else {
           String? message = resp.data['data'];
           utils.showToast("$message");
@@ -77,55 +85,49 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
           child: SingleChildScrollView(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Form(
           key: _form,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                height: 250.h,
+                height: 0.297.sh,
                 color: Color(0xFF0E5F02),
-                child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.start,
+                child: Stack(
+                  //  alignment: Alignment.topCenter,
                   children: [
-                    Stack(
-                      //  alignment: Alignment.topCenter,
-                      children: [
-                        Positioned(
-                          left: -12 * fem,
-                          top: -18 * fem,
-                          child: SvgPicture.asset(
-                            "assets/grass.svg",
-                            width: 430.w,
+                    Positioned(
+                      left: -12 * fem,
+                      top: -18 * fem,
+                      child: SvgPicture.asset(
+                        "assets/grass.svg",
+                        width: 430.w,
+                      ),
+                    ),
+                    Positioned(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 25.h,
                           ),
-                        ),
-                        Positioned(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 25.h,
-                              ),
-                              Center(
-                                child: Image.asset(
-                                  "assets/logo.png",
-                                  height: 200.h,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 25.h,
-                              ),
-                            ],
+                          Center(
+                            child: Image.asset(
+                              "assets/logo.png",
+                              height: 200.h,
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 25.h,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
               Container(
+                height: 0.6.sh,
                 color: Color(0xFF0E5F02),
                 child: Container(
                   // height: double.infinity,

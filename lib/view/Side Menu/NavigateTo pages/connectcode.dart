@@ -15,7 +15,7 @@ class Connectcode extends StatefulWidget {
 }
 
 class _ConnectcodeState extends State<Connectcode> {
-  DashboardController dashboardController = Get.find();
+  DashboardController dashboardController = Get.put(DashboardController());
 
   buildconnectdialog2(context) {
     return showDialog(
