@@ -109,6 +109,7 @@ class NetworkApiServices extends BaseApiServices {
         if (e.response!.statusCode == 403) {
           Map<String, dynamic> responseData =
               Map<String, dynamic>.from(e.response!.data);
+
           if (responseData["message"] == "Subscription Inactive") {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             // print("token " + jsonResp["data"]["accessToken"]);
@@ -117,7 +118,7 @@ class NetworkApiServices extends BaseApiServices {
             await prefs.setString(
                 'id', e.response!.data["data"]["user_id"].toString());
             await prefs.setString(
-                'customerId', e.response!.data["data"]["customer_id"]);
+                'customerId', e.response!.data["data"]["customer_id"] ?? "");
 
             Get.offAll(SubscriptionPlan(
               fromScreen: "SubscriptionInActive",

@@ -82,12 +82,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               scaffoldBackgroundColor: AppColors.white,
               primarySwatch: Colors.blue,
             ),
-
             initialRoute: '/',
-            //  initialRoute: '/paymentSuccessfull',
-            // home: BasicSubscriptionPlan(),
-            //  initialRoute: StripePayment(context),
-
             getPages: AppRoutes.appRoutes(),
           );
         });

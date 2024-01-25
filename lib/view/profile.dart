@@ -58,7 +58,7 @@ class _ProfileState extends State<Profile> {
       Get.put(ProfileImageController());
   SetFarm setFarm = Get.put(SetFarm());
   ProfileController profileController = Get.put(ProfileController());
-  DashboardController dashboardController = Get.find();
+  DashboardController dashboardController = Get.put(DashboardController());
 
   buildprofiledelete2dialog(context) {
     return showDialog(
@@ -460,8 +460,18 @@ class _ProfileState extends State<Profile> {
                                           width: 200.w,
                                           height: 200.h,
                                         )
-                                      : profileController.profileInfoModel.value
-                                              .data!.profilePhoto!.isEmpty
+                                      : (profileController
+                                                      .profileInfoModel
+                                                      .value
+                                                      .data!
+                                                      .profilePhoto ==
+                                                  null ||
+                                              profileController
+                                                  .profileInfoModel
+                                                  .value
+                                                  .data!
+                                                  .profilePhoto!
+                                                  .isEmpty)
                                           ? Image.asset(
                                               "assets/images/profile.png")
                                           : Image.network(
