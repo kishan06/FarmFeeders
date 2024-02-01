@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
@@ -47,7 +48,7 @@ class _YourorderState extends State<Yourorder> {
   void passToOrders(
     String text,
   ) {
-    Get.to(const OrderListScreen(), arguments: {"name": text});
+    Get.to(() => const OrderListScreen(), arguments: {"name": text});
   }
 
   @override
@@ -157,7 +158,7 @@ class _YourorderState extends State<Yourorder> {
                                                   .data!.orderHeaderId!,
                                             });
                                       } else {
-                                        Get.to(const RecurringOrder(),
+                                        Get.to(() => const RecurringOrder(),
                                             arguments: {
                                               "id": ordersModel
                                                   .data!.orderHeaderId!,
@@ -214,8 +215,9 @@ class _YourorderState extends State<Yourorder> {
                                                     ),
                                                   ),
                                                   sizedBoxHeight(15.h),
-                                                  Image.network(
-                                                    "${ApiUrls.baseImageUrl}/${ordersModel.data!.ongoingOrder!.smallImageUrl}",
+                                                  CachedNetworkImage(
+                                                    imageUrl:
+                                                        "${ApiUrls.baseImageUrl}/${ordersModel.data!.ongoingOrder!.smallImageUrl}",
                                                     width: 105.w,
                                                     height: 98.h,
                                                   ),
@@ -865,7 +867,8 @@ class _YourorderState extends State<Yourorder> {
                                                           ));
                                                         } else {
                                                           Get.to(
-                                                              const RecurringOrder(),
+                                                              () =>
+                                                                  const RecurringOrder(),
                                                               arguments: {
                                                                 "id": ordersModel
                                                                     .data!
@@ -911,8 +914,9 @@ class _YourorderState extends State<Yourorder> {
                                                                       .circular(
                                                                           15),
                                                               child:
-                                                                  Image.network(
-                                                                "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders!.smallImageUrl!}",
+                                                                  CachedNetworkImage(
+                                                                imageUrl:
+                                                                    "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders!.smallImageUrl!}",
                                                                 width: 90.w,
                                                                 height: 100.h,
                                                               ),
@@ -1118,8 +1122,10 @@ class _YourorderState extends State<Yourorder> {
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(15),
-                                                          child: Image.network(
-                                                            "${ApiUrls.baseImageUrl}/${ordersModel.data!.cancelledOrders![index].inventory!.smallImageUrl!}",
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl:
+                                                                "${ApiUrls.baseImageUrl}/${ordersModel.data!.cancelledOrders![index].inventory!.smallImageUrl!}",
                                                             width: 90.w,
                                                             height: 100.h,
                                                           ),
@@ -1315,8 +1321,9 @@ class _YourorderState extends State<Yourorder> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             15),
-                                                    child: Image.network(
-                                                      "${ApiUrls.baseImageUrl}/${ordersModel.data!.pastOrders![index].inventory!.smallImageUrl!}",
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                          "${ApiUrls.baseImageUrl}/${ordersModel.data!.pastOrders![index].inventory!.smallImageUrl!}",
                                                       width: 90.w,
                                                       height: 100.h,
                                                     ),

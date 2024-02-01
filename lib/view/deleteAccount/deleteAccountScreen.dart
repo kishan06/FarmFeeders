@@ -75,7 +75,7 @@ class DeleteAccountScreen extends StatelessWidget {
                 const Gap(30),
                 InkWell(
                   onTap: () {
-                    Get.to(const ConfirmDeleteAccountScreen());
+                    Get.to(() => const ConfirmDeleteAccountScreen());
                   },
                   child: Text(
                     'Yes I am ready to deactivate my account',

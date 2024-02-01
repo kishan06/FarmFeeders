@@ -26,6 +26,9 @@ class _ResetPasswordState extends State<ResetPassword> {
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController confirmpasscontroller = TextEditingController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final RegExp passwordRegex = RegExp(
+    r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])(?=.{8,})',
+  );
 
   @override
   void initState() {
@@ -116,36 +119,22 @@ class _ResetPasswordState extends State<ResetPassword> {
                         if (val!.isEmpty) {
                           return "Password can't be empty";
                         }
-                        if (!RegExp(
-                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-                            .hasMatch(val)) {
-                          return 'Invalid Password';
-
-                          // return 'Password must have at least 8 characters \nPassword must have at least 1 Uppercase letter, 1 Lowercase letter, 1 symbol and 1 number';
+                        if (!passwordRegex.hasMatch(val!)) {
+                          return 'Password must be at least 8 characters long, '
+                              'include one uppercase letter, one lowercase letter, '
+                              'one number, and one special character.';
                         } else {
                           return null;
                         }
                       },
                     ),
                     sizedBoxHeight(13.h),
-
-                    // Align(
-                    //   alignment: Alignment.centerLeft,
-                    //       // return 'Password must have at least 8 characters \nPassword must have at least 1 Uppercase letter, 1 Lowercase letter, 1 symbol and 1 number';
-                    //   child: textBlack16W5000(
-                    //     // "Password must have at least 8 characters \nPassword must have at least 1 Uppercase letter \nPassword must have at least 1 Lowercase letter \nPassword must have at least 1 Symbol \nPassword must have at least 1 Number"),
-                    // ),
-
-                    // sizedBoxHeight(13.h),
-
                     Align(
                       alignment: Alignment.centerLeft,
                       child: textBlack16W5000("Confirm Password"),
                     ),
                     sizedBoxHeight(8.h),
                     CustomTextFormField(
-                      // leadingIcon:
-                      //     SvgPicture.asset("assets/images/password.svg"),
                       textEditingController: confirmpasscontroller,
                       hintText: "",
                       validatorText: "",
@@ -165,17 +154,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                         text: "Next",
                         onTap: () {
                           _verifycheck();
-                          // final isValid = _form.currentState?.validate();
-                          // if (isValid!) {
-                          //   Get.toNamed('/loginScreen');
-                          // }
-                          // else {
-                          //   Get.snackbar("Error", "Please Enter Password",
-                          //       margin: EdgeInsets.all(8),
-                          //       snackStyle: SnackStyle.FLOATING,
-                          //       snackPosition: SnackPosition.BOTTOM);
-                          // }
-                          // Get.toNamed("/verifyNumber");
                         }),
                     sizedBoxHeight(40.h),
                   ],

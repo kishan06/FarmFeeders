@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/models/OrderModel/cancelled_order_model.dart';
@@ -431,7 +432,8 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                                             });
                                                       } else {
                                                         Get.to(
-                                                            const RecurringOrder(),
+                                                            () =>
+                                                                const RecurringOrder(),
                                                             arguments: {
                                                               "id": ongoingOrderListModel
                                                                   .data![index]
@@ -511,8 +513,9 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                                                   ),
                                                                   sizedBoxHeight(
                                                                       15.h),
-                                                                  Image.network(
-                                                                    "${ApiUrls.baseImageUrl}/${ongoingOrderListModel.data![index].product!.smallImageUrl}",
+                                                                  CachedNetworkImage(
+                                                                    imageUrl:
+                                                                        "${ApiUrls.baseImageUrl}/${ongoingOrderListModel.data![index].product!.smallImageUrl}",
                                                                     width:
                                                                         105.w,
                                                                     height:
@@ -904,8 +907,9 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               15),
-                                                      child: Image.network(
-                                                        "${ApiUrls.baseImageUrl}/${cancelledOrderListModel.data!.cancelledOrders![index].inventory!.smallImageUrl!}",
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "${ApiUrls.baseImageUrl}/${cancelledOrderListModel.data!.cancelledOrders![index].inventory!.smallImageUrl!}",
                                                         width: 90.w,
                                                         height: 100.h,
                                                       ),
@@ -1041,7 +1045,8 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                                                       .circular(
                                                                           15),
                                                               child:
-                                                                  Image.network(
+                                                                CachedNetworkImage(
+                                                              imageUrl: 
                                                                 "${ApiUrls.baseImageUrl}/${pastOrderListModel.data!.pastOrders![index].inventory!.smallImageUrl!}",
                                                                 width: 90.w,
                                                                 height: 100.h,
@@ -1143,7 +1148,8 @@ class _OrderListScreenState extends State<OrderListScreen> {
                                                         GestureDetector(
                                                           onTap: () {
                                                             Get.to(
-                                                                RecurringOrder(),
+                                                                () =>
+                                                                    const RecurringOrder(),
                                                                 arguments: {
                                                                   "id": recurringOrderListModel
                                                                       .data!

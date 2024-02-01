@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
@@ -361,8 +362,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                                   .isEmpty
                                               ? Image.asset(
                                                   "assets/images/profile.png")
-                                              : Image.network(
-                                                  "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
+                                              : CachedNetworkImage(
+                                                  imageUrl:
+                                                      "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
                                     ),
                                   ),
                                 ),

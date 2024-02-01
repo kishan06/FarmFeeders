@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/controller/news_article_controller.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsData.dart';
@@ -56,24 +57,22 @@ class _newsState extends State<NewsCardBookmarked> {
           ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: controllerNewsArticle.bookmarkedNewsArticle!.data.length,
+              itemCount:
+                  controllerNewsArticle.bookmarkedNewsArticle!.data.length,
               itemBuilder: (context, index) {
-                final cardData = controllerNewsArticle.bookmarkedNewsArticle!.data[index];
-                      // final data = controllerNotification.notificationData!.data[index];
+                final cardData =
+                    controllerNewsArticle.bookmarkedNewsArticle!.data[index];
+                // final data = controllerNotification.notificationData!.data[index];
                 String originalDate = cardData.publishedDatetime;
-                DateTime parsedDate =
-                    DateTime.parse(originalDate);
-                String formattedDate =
-                    DateFormat('d MMM y').format(parsedDate);
+                DateTime parsedDate = DateTime.parse(originalDate);
+                String formattedDate = DateFormat('d MMM y').format(parsedDate);
                 return Column(
                   children: [
                     InkWell(
                       onTap: () async {
                         log(cardData.smallDescription);
 
-                          await launchUrl(Uri.parse(  cardData.smallDescription)
-                            );
-
+                        await launchUrl(Uri.parse(cardData.smallDescription));
                       },
                       child: newslistCard(
                           imageUrl: cardData.smallImageUrl,
@@ -82,8 +81,7 @@ class _newsState extends State<NewsCardBookmarked> {
                           date: formattedDate,
                           bookmarked: cardData.bookmarked,
                           id: cardData.id,
-                          index: index
-                          ),
+                          index: index),
                     )
                     // newslistCard(
                     //   newsData[index]["recipeimage"],
@@ -123,7 +121,8 @@ class _newsState extends State<NewsCardBookmarked> {
             SizedBox(
                 height: 122.w,
                 width: 122.w,
-                child: Image.network(ApiUrls.baseImageUrl + imageUrl)
+                child: CachedNetworkImage(
+                    imageUrl: ApiUrls.baseImageUrl + imageUrl)
                 // NetworkImage(imageUrl),
                 //  Image.asset(
                 //   recipeimage,
@@ -157,7 +156,7 @@ class _newsState extends State<NewsCardBookmarked> {
                           color: Color(0xFF141414)),
                     ),
                   ),
-              
+
                   // Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,12 +164,13 @@ class _newsState extends State<NewsCardBookmarked> {
                       Text(
                         // "7 Feb 2023",
                         date,
-                        style: TextStyle(fontSize: 14, color: Color(0xFF4D4D4D)),
+                        style:
+                            TextStyle(fontSize: 14, color: Color(0xFF4D4D4D)),
                       ),
                       // SizedBox(
                       //   width: 100,
                       // ),
-                  
+
                       // Spacer(),
                       // Container(
                       //   height: 40,
@@ -189,20 +189,25 @@ class _newsState extends State<NewsCardBookmarked> {
                           // });
                         },
                         child: InkWell(
-                          onTap: (){
-                            controllerNewsArticle.changeBookmark(index,isBookmarkedList: true);
-                            controllerNewsArticle.bookmarkApi(index: index,id: id.toString(),isBookmarkList: true);
+                          onTap: () {
+                            controllerNewsArticle.changeBookmark(index,
+                                isBookmarkedList: true);
+                            controllerNewsArticle.bookmarkApi(
+                                index: index,
+                                id: id.toString(),
+                                isBookmarkList: true);
                           },
                           child: bookmarked
                               ? Container(
                                   height: 40,
-                                  child: SvgPicture.asset("assets/images/save.svg"))
+                                  child: SvgPicture.asset(
+                                      "assets/images/save.svg"))
                               : Container(
                                   height: 40,
                                   child: SvgPicture.asset(
                                       "assets/images/saveblank.svg")),
                         ),
-                  
+
                         // SvgPicture.asset("assets/images/save.svg")),
                       ),
                     ],

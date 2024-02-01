@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
@@ -294,8 +295,9 @@ class _RecurringorderState extends State<RecurringOrder> {
                                                 color: const Color(0xff918E8E),
                                               ),
                                               color: AppColors.white),
-                                          child: Image.network(
-                                            "${ApiUrls.baseImageUrl}/${orderDetailsModel.data!.orderDetails!.orderDetails![index].inventoryImage}",
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                "${ApiUrls.baseImageUrl}/${orderDetailsModel.data!.orderDetails!.orderDetails![index].inventoryImage}",
                                             width: 76.w,
                                             height: 71.h,
                                           ),

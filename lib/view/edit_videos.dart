@@ -558,10 +558,6 @@ class _EditVideosState extends State<EditVideos> {
     setState(() {
       videoControllerSet = false;
     });
-    // await _playVideo(file);
-    // Get.to(()=> FilePlayerWidget(file: file));
-    // FilePlayerWidget(file: file);
-    // }
   }
 
   Future getImage(ImageSource source) async {

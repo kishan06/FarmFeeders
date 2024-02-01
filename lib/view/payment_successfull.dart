@@ -112,7 +112,6 @@ class _PaymentSuccessfullState extends State<PaymentSuccessfull> {
                     child: CustomButton(
                         text: "Go To Dashboard",
                         onTap: () {
-                          // Get.to(() => SideMenu());
                           Get.offAllNamed("/sideMenu");
                         }),
                   ),

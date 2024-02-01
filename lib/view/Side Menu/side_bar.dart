@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
@@ -197,8 +198,9 @@ class _SideBarState extends State<SideBar> {
                                                     .isEmpty
                                                 ? Image.asset(
                                                     "assets/images/profile.png")
-                                                : Image.network(
-                                                    "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
+                                                : CachedNetworkImage(
+                                                    imageUrl:
+                                                        "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),
                                       ),
                               ),
                             ),
@@ -257,9 +259,9 @@ class _SideBarState extends State<SideBar> {
                             // } else
                             // {
                             if (index == 8) {
-                              Get.to(SubscriptionPlan(
-                                fromScreen: "froMSideBar",
-                              ));
+                              Get.to(() => SubscriptionPlan(
+                                    fromScreen: "froMSideBar",
+                                  ));
                             } else {
                               Get.toNamed(sideBarData[index]["route"]);
                             }
@@ -286,7 +288,6 @@ void navigateTo(int index, BuildContext context) {
     case 6:
       {
         null;
-        // Get.to(const ContactUs());
       }
       break;
 

@@ -92,42 +92,18 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Container(
                 height: 0.297.sh,
-                color: Color(0xFF0E5F02),
-                child: Stack(
-                  //  alignment: Alignment.topCenter,
-                  children: [
-                    Positioned(
-                      left: -12 * fem,
-                      top: -18 * fem,
-                      child: SvgPicture.asset(
-                        "assets/grass.svg",
-                        width: 430.w,
-                      ),
-                    ),
-                    Positioned(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 25.h,
-                          ),
-                          Center(
-                            child: Image.asset(
-                              "assets/logo.png",
-                              height: 200.h,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25.h,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                color: const Color(0xFF0E5F02),
+                child: Center(
+                  child: Image.asset(
+                    "assets/grass.png",
+                    height: 0.297.sh,
+                    width: Get.width,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Container(
-                height: 0.6.sh,
+                height: 0.66.sh,
                 color: Color(0xFF0E5F02),
                 child: Container(
                   // height: double.infinity,
