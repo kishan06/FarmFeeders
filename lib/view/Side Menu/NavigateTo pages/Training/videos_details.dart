@@ -488,7 +488,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                                                                             ),
                                                                             ElevatedButton(
                                                                               onPressed: () {
-                                                                                Navigator.pop(context, false);
+                                                                                Get.back();
                                                                               },
                                                                               style: ElevatedButton.styleFrom(
                                                                                   side: const BorderSide(

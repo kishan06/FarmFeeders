@@ -123,9 +123,7 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 title: "Livestock Information",
                 des: "Check Your Livestock Details",
               ),
-
               sizedBoxHeight(25.h),
-
               cards(
                 onTap: () async {
                   if (isSetFarmInfo && isSetLiveStockInfo) {
@@ -147,11 +145,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                 title: "Feed Information",
                 des: "Check Your Feed Details",
               ),
-
               (isSetFarmInfo && isSetLiveStockInfo && isSetFeedInfo)
                   ? sizedBoxHeight(100.h)
                   : sizedBoxHeight(35.h),
-
               (isSetFarmInfo && isSetLiveStockInfo && isSetFeedInfo)
                   ? CustomButton(
                       text: "Proceed To Dashboard",
@@ -159,14 +155,6 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                         Get.offAll(() => const PaymentSuccessfull());
                       })
                   : const SizedBox()
-
-              // GestureDetector(
-              //     onTap: () {
-              //       Get.to(SideMenu());
-              //     },
-              //     child: textGreen16W700("Skip & Procced to dashboard"))
-
-              // textBlack16(text)
             ],
           ),
         ),

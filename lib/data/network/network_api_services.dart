@@ -50,43 +50,6 @@ class NetworkApiServices extends BaseApiServices {
   String basicAuth = 'Basic ' +
       base64.encode(utf8.encode(
           '+2\$qPbJR36w&he(jS&WDzfJjtEhJUKUp:t\$Bdq&Jt&sv4yGjcEUq89hEYduRjXH2u'));
-  @override
-  Future<ResponseData> getApi(String url) async {
-    if (kDebugMode) {
-      print("api url is >>> $url");
-    }
-    Response response;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token').toString();
-    try {
-      response = await dio.get(url,
-          options: Options(headers: {
-            'method': 'POST',
-            "authorization": basicAuth,
-            'access-token': token
-
-            // "device-id": deviceId
-          }));
-    } on Exception catch (_) {
-      return ResponseData<dynamic>(
-          'Oops something Went Wrong', ResponseStatus.FAILED);
-    }
-    if (response.statusCode == 200) {
-      return ResponseData<dynamic>(
-        "success",
-        data: response.data,
-        ResponseStatus.SUCCESS,
-      );
-    } else {
-      try {
-        return ResponseData<dynamic>(
-            response.data['message'].toString(), ResponseStatus.FAILED);
-      } catch (_) {
-        return ResponseData<dynamic>(
-            response.statusMessage!, ResponseStatus.FAILED);
-      }
-    }
-  }
 
   @override
   Future<ResponseData> getApi1(String url) async {
@@ -106,43 +69,47 @@ class NetworkApiServices extends BaseApiServices {
           }));
     } on Exception catch (e) {
       if (e is DioException) {
-        if (e.response!.statusCode == 403) {
-          Map<String, dynamic> responseData =
-              Map<String, dynamic>.from(e.response!.data);
+        if (e.response == null) {
+          Get.to(() => const ErrorScreen());
+        } else {
+          if (e.response!.statusCode == 403) {
+            Map<String, dynamic> responseData =
+                Map<String, dynamic>.from(e.response!.data);
 
-          if (responseData["message"] == "Subscription Inactive") {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            // print("token " + jsonResp["data"]["accessToken"]);
+            if (responseData["message"] == "Subscription Inactive") {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              // print("token " + jsonResp["data"]["accessToken"]);
 
-            await prefs.setString('loginStatus', "Subscription Inactive");
-            await prefs.setString(
-                'id', e.response!.data["data"]["user_id"].toString());
-            await prefs.setString(
-                'customerId', e.response!.data["data"]["customer_id"] ?? "");
+              await prefs.setString('loginStatus', "Subscription Inactive");
+              await prefs.setString(
+                  'id', e.response!.data["data"]["user_id"].toString());
+              await prefs.setString(
+                  'customerId', e.response!.data["data"]["customer_id"] ?? "");
 
-            Get.offAll(SubscriptionPlan(
-              fromScreen: "SubscriptionInActive",
-            ));
-          } else if (responseData["message"] ==
-              "Subscription Inactive and Orders Pending") {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            // print("token " + jsonResp["data"]["accessToken"]);
-            await prefs.setString(
-                'loginStatus', "Subscription Inactive and Orders Pending");
-            await prefs.setString(
-                'accessToken', e.response!.data["data"]["access_token"]);
-            await prefs.setString(
-                'token', e.response!.data["data"]["access_token"]);
+              Get.offAll(SubscriptionPlan(
+                fromScreen: "SubscriptionInActive",
+              ));
+            } else if (responseData["message"] ==
+                "Subscription Inactive and Orders Pending") {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              // print("token " + jsonResp["data"]["accessToken"]);
+              await prefs.setString(
+                  'loginStatus', "Subscription Inactive and Orders Pending");
+              await prefs.setString(
+                  'accessToken', e.response!.data["data"]["access_token"]);
+              await prefs.setString(
+                  'token', e.response!.data["data"]["access_token"]);
 
-            token = e.response!.data["data"]["access_token"];
-            Get.offAndToNamed('/sideMenu');
-          } else {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('token', "");
-            Get.offAndToNamed("/loginScreen");
+              token = e.response!.data["data"]["access_token"];
+              Get.offAndToNamed('/sideMenu');
+            } else {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('token', "");
+              Get.offAndToNamed("/loginScreen");
+            }
+          } else if (e.response!.statusCode == 500) {
+            Get.to(() => const ErrorScreen());
           }
-        } else if (e.response!.statusCode == 500) {
-          Get.to(const ErrorScreen());
         }
       }
       return ResponseData<dynamic>(
@@ -193,12 +160,16 @@ class NetworkApiServices extends BaseApiServices {
           }));
     } on Exception catch (e) {
       if (e is DioException) {
-        if (e.response!.statusCode == 403) {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('token', "");
-          Get.offAndToNamed("/loginScreen");
-        } else if (e.response!.statusCode == 500) {
-          Get.to(const ErrorScreen());
+        if (e.response == null) {
+          Get.to(() => const ErrorScreen());
+        } else {
+          if (e.response!.statusCode == 403) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('token', "");
+            Get.offAndToNamed("/loginScreen");
+          } else if (e.response!.statusCode == 500) {
+            Get.to(() => const ErrorScreen());
+          }
         }
       }
       return ResponseData<dynamic>(
@@ -257,41 +228,45 @@ class NetworkApiServices extends BaseApiServices {
                 }));
     } on Exception catch (e) {
       if (e is DioException) {
-        if (e.response!.statusCode == 403) {
-          Map<String, dynamic> responseData =
-              Map<String, dynamic>.from(e.response!.data);
-          if (responseData["message"] == "Subscription Inactive") {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            // print("token " + jsonResp["data"]["accessToken"]);
-            await prefs.setString(
-                'accessToken', e.response!.data["data"]["access_token"]);
-            await prefs.setString('loginStatus', "Subscription Inactive");
-            await prefs.setString(
-                'token', e.response!.data["data"]["access_token"]);
-            token = e.response!.data["data"]["access_token"];
-            Get.offAll(SubscriptionPlan(
-              fromScreen: "SubscriptionInActives",
-            ));
-          } else if (responseData["message"] ==
-              "Subscription Inactive and Orders Pending") {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            // print("token " + jsonResp["data"]["accessToken"]);
-            await prefs.setString(
-                'loginStatus', "Subscription Inactive and Orders Pending");
-            await prefs.setString(
-                'accessToken', e.response!.data["data"]["access_token"]);
-            await prefs.setString(
-                'token', e.response!.data["data"]["access_token"]);
+        if (e.response == null) {
+          Get.to(() => const ErrorScreen());
+        } else {
+          if (e.response!.statusCode == 403) {
+            Map<String, dynamic> responseData =
+                Map<String, dynamic>.from(e.response!.data);
+            if (responseData["message"] == "Subscription Inactive") {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              // print("token " + jsonResp["data"]["accessToken"]);
+              await prefs.setString(
+                  'accessToken', e.response!.data["data"]["access_token"]);
+              await prefs.setString('loginStatus', "Subscription Inactive");
+              await prefs.setString(
+                  'token', e.response!.data["data"]["access_token"]);
+              token = e.response!.data["data"]["access_token"];
+              Get.offAll(SubscriptionPlan(
+                fromScreen: "SubscriptionInActives",
+              ));
+            } else if (responseData["message"] ==
+                "Subscription Inactive and Orders Pending") {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              // print("token " + jsonResp["data"]["accessToken"]);
+              await prefs.setString(
+                  'loginStatus', "Subscription Inactive and Orders Pending");
+              await prefs.setString(
+                  'accessToken', e.response!.data["data"]["access_token"]);
+              await prefs.setString(
+                  'token', e.response!.data["data"]["access_token"]);
 
-            token = e.response!.data["data"]["access_token"];
-            Get.offAndToNamed('/sideMenu');
-          } else {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('token', "");
-            Get.offAndToNamed("/loginScreen");
+              token = e.response!.data["data"]["access_token"];
+              Get.offAndToNamed('/sideMenu');
+            } else {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('token', "");
+              Get.offAndToNamed("/loginScreen");
+            }
+          } else if (e.response!.statusCode == 500) {
+            Get.to(() => const ErrorScreen());
           }
-        } else if (e.response!.statusCode == 500) {
-          Get.to(const ErrorScreen());
         }
       }
       return ResponseData<dynamic>(

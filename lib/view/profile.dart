@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
@@ -474,8 +475,9 @@ class _ProfileState extends State<Profile> {
                                                   .isEmpty)
                                           ? Image.asset(
                                               "assets/images/profile.png")
-                                          : Image.network(
-                                              "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}")),
+                                          : CachedNetworkImage(
+                                              imageUrl:
+                                                  "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}")),
                             ),
                           ),
                           sizedBoxWidth(18.w),

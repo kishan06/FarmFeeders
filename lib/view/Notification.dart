@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/controller/notification_controller.dart';
@@ -730,8 +731,8 @@ class _NotificationCardState extends State<NotificationCard> {
               //   fit: BoxFit.cover,
               // ),
               // NetworkImage("url"),
-              Image.network(
-                ApiUrls.baseImageUrl + widget.imageUrl,
+              CachedNetworkImage(
+                imageUrl: ApiUrls.baseImageUrl + widget.imageUrl,
                 width: 42.w,
                 height: 42.w,
                 fit: BoxFit.cover,

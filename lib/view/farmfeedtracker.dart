@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
@@ -391,8 +392,8 @@ class _FeedContainerState extends State<FeedContainer> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.network(
-                (ApiUrls.baseImageUrl + widget.imagePath),
+              CachedNetworkImage(
+                imageUrl: (ApiUrls.baseImageUrl + widget.imagePath),
                 width: 59.w,
                 // width: 100.w,
 
@@ -788,11 +789,6 @@ class _FeedContainerState extends State<FeedContainer> {
                                   Get.back();
                                   commonFlushBar(context, msg: "Access Denied");
                                 }
-                                // feedInfoController.changeUpdated(widget.index);
-                                // Get.back();
-                                // isSetFeedInfo = true;
-                                // Get.to(LetsSetUpYourFarm())
-                                // Get.toNamed("/letsSetUpYourFarm");
                               } else if ((selectedFeedTypeIndex == null) ||
                                   (selectedFrequencyIndex == null) ||
                                   (tecMin.text.isEmpty) ||

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
@@ -542,7 +543,7 @@ class _HomeState extends State<Home> {
                                               )
                                             : InkWell(
                                                 onTap: () {
-                                                  Get.to(
+                                                  Get.to(() =>
                                                       const WeatherForecastScreen());
                                                 },
                                                 child: Stack(
@@ -848,8 +849,8 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               sizedBoxHeight(
                                                                   15.h),
-                                                              Image.network(
-                                                                "${ApiUrls.baseImageUrl}/${dashboardController.dashboardModel.data!.order!.product!.smallImageUrl}",
+                                                             CachedNetworkImage(
+                                                              imageUrl:   "${ApiUrls.baseImageUrl}/${dashboardController.dashboardModel.data!.order!.product!.smallImageUrl}",
                                                                 width: 105.w,
                                                                 height: 98.h,
                                                               ),
@@ -1375,7 +1376,8 @@ class _HomeState extends State<Home> {
                                                                 height: 170.h,
                                                                 width: 100.w,
                                                               )
-                                                            : Image.network(
+                                                            :  CachedNetworkImage(
+                                                              imageUrl: 
                                                                 "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].container}",
                                                                 height: 170.h,
                                                                 width: 100.w,
@@ -1554,10 +1556,10 @@ class _HomeState extends State<Home> {
                                                                                 "Access Denied") {
                                                                               accessDeniedDialog(context, value.message);
                                                                             } else {
-                                                                              Get.to(Farmfeedtracker(
-                                                                                isInside: true,
-                                                                                index: dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid!,
-                                                                              ));
+                                                                              Get.to(() => Farmfeedtracker(
+                                                                                    isInside: true,
+                                                                                    index: dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid!,
+                                                                                  ));
                                                                             }
                                                                           });
                                                                         }),
@@ -1932,7 +1934,8 @@ class _HomeState extends State<Home> {
                                                               width: 104.w,
                                                               height: 90.h,
                                                             )
-                                                          : Image.network(
+                                                          :  CachedNetworkImage(
+                                                              imageUrl: 
                                                               "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
                                                               width: 104.w,
                                                               height: 90.h,
@@ -2284,7 +2287,8 @@ class _HomeState extends State<Home> {
                     : AppColors.grey4D4D4D)),
         child: Padding(
           padding: EdgeInsets.all(4.h),
-          child: Image.network("${ApiUrls.baseImageUrl}/$imagePath"),
+          child: CachedNetworkImage(
+                                                              imageUrl: "${ApiUrls.baseImageUrl}/$imagePath"),
         ),
       ),
     );

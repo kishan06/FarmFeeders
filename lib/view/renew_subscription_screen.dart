@@ -57,9 +57,9 @@ class _RenewSubscriptionScreenState extends State<RenewSubscriptionScreen> {
             margin: EdgeInsets.symmetric(horizontal: 25),
             child: InkWell(
               onTap: () {
-                Get.to(SubscriptionPlan(
-                  fromScreen: "fromHomePage",
-                ));
+                Get.to(() => SubscriptionPlan(
+                      fromScreen: "fromHomePage",
+                    ));
               },
               child: customButtonCurve(
                   bgColor: AppColors.buttoncolour, text: 'Renew Subscription'),

@@ -91,7 +91,9 @@ class _RegisterState extends State<Register> {
     double baseWidth = 390;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     // double ffem = fem * 0.97;
-
+    final RegExp passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])(?=.{8,})',
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -102,43 +104,15 @@ class _RegisterState extends State<Register> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  height: 250.h,
-                  color: Color(0xFF0E5F02),
-                  child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Stack(
-                        //  alignment: Alignment.topCenter,
-                        children: [
-                          Positioned(
-                            left: -12 * fem,
-                            top: -18 * fem,
-                            child: SvgPicture.asset(
-                              "assets/grass.svg",
-                            ),
-                          ),
-                          Positioned(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 25.h,
-                                ),
-                                Center(
-                                  child: Image.asset(
-                                    "assets/logo.png",
-                                    height: 200.h,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 25.h,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                  height: 250,
+                  color: const Color(0xFF0E5F02),
+                  child: Center(
+                    child: Image.asset(
+                      "assets/grass.png",
+                      height: 0.297.sh,
+                      width: Get.width,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Container(
@@ -367,11 +341,13 @@ class _RegisterState extends State<Register> {
                                     "assets/images/password.svg"),
                                 hintText: "",
                                 validator: (value) {
-                                  if (value == value.isEmpty) {
+                                  if (value.isEmpty) {
                                     return 'Please enter your password';
                                   }
-                                  if (value.length < 8) {
-                                    return 'Password must be at least 8 characters';
+                                  if (!passwordRegex.hasMatch(value!)) {
+                                    return 'Password must be at least 8 characters long, '
+                                        'include one uppercase letter, one lowercase letter, '
+                                        'one number, and one special character.';
                                   }
                                   _password = value;
                                   // v5 = true;

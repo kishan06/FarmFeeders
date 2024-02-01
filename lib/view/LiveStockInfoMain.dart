@@ -1,5 +1,6 @@
 // import 'dart:html';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
@@ -247,8 +248,9 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                               radius: 55,
                                               backgroundColor:
                                                   const Color(0xFFF1F1F1),
-                                              child: Image.network(
-                                                  "${ApiUrls.baseImageUrl}${liveStockTypeModel.data![index].smallImageUrl}"),
+                                              child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "${ApiUrls.baseImageUrl}${liveStockTypeModel.data![index].smallImageUrl}"),
                                             ),
                                             const Spacer(),
                                             Text(

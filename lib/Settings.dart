@@ -138,7 +138,7 @@ class _SettingsState extends State<Settings> {
               sizedBoxHeight(25.h),
               GestureDetector(
                 onTap: () {
-                  Get.to(const DeleteAccountScreen());
+                  Get.to(() => const DeleteAccountScreen());
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),

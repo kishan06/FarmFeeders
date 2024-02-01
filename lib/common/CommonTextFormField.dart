@@ -77,6 +77,7 @@ class _CustomtextFormFieldState extends State<CustomTextFormField> {
         controller: widget.textEditingController,
         onTap: widget.onTap,
         decoration: InputDecoration(
+            errorMaxLines: 5,
             errorStyle: TextStyle(
               fontSize: 14.sp,
               // overflow: TextOverflow.visible
