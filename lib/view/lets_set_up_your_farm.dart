@@ -152,6 +152,9 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                   ? CustomButton(
                       text: "Proceed To Dashboard",
                       onTap: () {
+                        isSetFarmInfo = false;
+                        isSetLiveStockInfo = false;
+                        isSetFeedInfo = false;
                         Get.offAll(() => const PaymentSuccessfull());
                       })
                   : const SizedBox()

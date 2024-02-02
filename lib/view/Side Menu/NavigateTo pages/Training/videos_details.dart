@@ -73,6 +73,13 @@ class _VideosDetailsState extends State<VideosDetails> {
   }
 
   @override
+  void dispose() {
+    videoController.pause();
+    videoController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(
     BuildContext context,
   ) {
@@ -238,321 +245,369 @@ class _VideosDetailsState extends State<VideosDetails> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: customAppBar(text: "Video Details"),
-
-        // backgroundColor: Color(0xFFF5F8FA),
-        elevation: 0,
-        // shadowColor: Colors.black,
-        automaticallyImplyLeading: false,
-        titleSpacing: 0,
-      ),
-      floatingActionButton: !isVisible
-          ? null
-          : GestureDetector(
-              onTap: () async {
-                final result = await dialoBox(false, "", "", 0);
-                if (result != null) {
-                  isLoading.value = true;
-                  NotesListAPI(videoId).noteslistApi().then((value) {
-                    notesData = value.data!;
-                    isLoading.value = false;
-                  });
-                }
-              },
-              child: const CircleAvatar(
-                radius: 25,
-                backgroundColor: Color(0xff0E5F02),
-                child: Icon(
-                  Icons.add,
-                  size: 35,
-                  color: Colors.white,
+    return WillPopScope(
+      onWillPop: () async {
+        videoController.pause();
+        videoController.dispose();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.white,
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Row(
+              children: [
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        videoController.pause();
+                        videoController.dispose();
+                        Get.back(result: true);
+                      },
+                      child: CircleAvatar(
+                        radius: 20.h,
+                        backgroundColor: AppColors.greyF1F1F1,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 6.w),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 25.h,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15.w,
+                    ),
+                    textBlack20W7000Mon("Video Details"),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // backgroundColor: Color(0xFFF5F8FA),
+          elevation: 0,
+          // shadowColor: Colors.black,
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+        ),
+        floatingActionButton: !isVisible
+            ? null
+            : GestureDetector(
+                onTap: () async {
+                  final result = await dialoBox(false, "", "", 0);
+                  if (result != null) {
+                    isLoading.value = true;
+                    NotesListAPI(videoId).noteslistApi().then((value) {
+                      notesData = value.data!;
+                      isLoading.value = false;
+                    });
+                  }
+                },
+                child: const CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Color(0xff0E5F02),
+                  child: Icon(
+                    Icons.add,
+                    size: 35,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  sizedBoxHeight(15.h),
-                  // SizedBox(
-                  //     height: 230.h,
-                  //     width: double.infinity,
-                  //     child: Placeholder()),
-                  SizedBox(
-                      height: 230.h,
-                      // width: 200.w,
-                      child: NetworkPlayerWidget(
-                        videoController: videoController,
-                      )
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    sizedBoxHeight(15.h),
+                    // SizedBox(
+                    //     height: 230.h,
+                    //     width: double.infinity,
+                    //     child: Placeholder()),
+                    SizedBox(
+                        height: 230.h,
+                        // width: 200.w,
+                        child: NetworkPlayerWidget(
+                          videoController: videoController,
+                        )
 
-                      // CircularProgressIndicator()
-                      ),
-                  sizedBoxHeight(15.h),
-                  Text(
-                    title ?? "",
-                    style: TextStyle(
-                        color: const Color(0xff4D4D4D),
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Row(
-                    children: [
-                      textGrey4D4D4D_14(Utils.formattedTimeAgo(Time ?? "")),
-                    ],
-                  ),
-                  sizedBoxHeight(14.h),
-                  textGrey4D4D4D_14('Add Notes:'),
-                ],
+                        // CircularProgressIndicator()
+                        ),
+                    sizedBoxHeight(15.h),
+                    Text(
+                      title ?? "",
+                      style: TextStyle(
+                          color: const Color(0xff4D4D4D),
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    Row(
+                      children: [
+                        textGrey4D4D4D_14(Utils.formattedTimeAgo(Time ?? "")),
+                      ],
+                    ),
+                    sizedBoxHeight(14.h),
+                    textGrey4D4D4D_14('Add Notes:'),
+                  ],
+                ),
               ),
-            ),
-            Obx(
-              () => Expanded(
-                child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: isLoading.value
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                            color: AppColors.buttoncolour,
-                          ))
-                        : notesData.isEmpty
-                            ? const Center(child: Text('No Notes available'))
-                            : ListView.builder(
-                                itemCount: notesData.length,
-                                physics: const BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          final result = await dialoBox(
-                                            true,
-                                            notesData[index].title!,
-                                            notesData[index].description,
-                                            notesData[index].id!,
-                                          );
-                                          if (result != null) {
-                                            isLoading.value = true;
-                                            NotesListAPI(videoId)
-                                                .noteslistApi()
-                                                .then((value) {
-                                              notesData = value.data!;
-                                              isLoading.value = false;
-                                            });
-                                          }
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(8.w),
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xFFF1F1F1),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  CircleAvatar(
-                                                    radius: 5.r,
-                                                    backgroundColor:
-                                                        const Color(0xff0E5F02),
-                                                  ),
-                                                  sizedBoxWidth(11.w),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          text: notesData
-                                                              .elementAt(index)
-                                                              .title,
-                                                          style: TextStyle(
-                                                              fontSize: 16.sp,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                      ),
-                                                      sizedBoxHeight(5.h),
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          //'Text of the printing and typesetting Industry',
-                                                          text: notesData
-                                                              .elementAt(index)
-                                                              .description!,
-                                                          style: TextStyle(
-                                                            fontSize: 13.sp,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      sizedBoxHeight(5.h),
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          text: Utils.convertDate(
-                                                              notesData
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .publishedDatetime ??
-                                                                  ""),
-                                                          style: TextStyle(
-                                                              fontSize: 13.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              !isVisible
-                                                  ? const SizedBox()
-                                                  : Row(
+              Obx(
+                () => Expanded(
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: isLoading.value
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: AppColors.buttoncolour,
+                            ))
+                          : notesData.isEmpty
+                              ? const Center(child: Text('No Notes available'))
+                              : ListView.builder(
+                                  itemCount: notesData.length,
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            final result = await dialoBox(
+                                              true,
+                                              notesData[index].title!,
+                                              notesData[index].description,
+                                              notesData[index].id!,
+                                            );
+                                            if (result != null) {
+                                              isLoading.value = true;
+                                              NotesListAPI(videoId)
+                                                  .noteslistApi()
+                                                  .then((value) {
+                                                notesData = value.data!;
+                                                isLoading.value = false;
+                                              });
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(8.w),
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFF1F1F1),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.r)),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: 5.r,
+                                                      backgroundColor:
+                                                          const Color(
+                                                              0xff0E5F02),
+                                                    ),
+                                                    sizedBoxWidth(11.w),
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
-                                                              .end,
+                                                              .start,
                                                       children: [
-                                                        InkWell(
-                                                          onTap: () async {
-                                                            final result =
-                                                                await showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                                      return AlertDialog(
-                                                                        backgroundColor:
-                                                                            Colors.white,
-                                                                        icon:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .info,
-                                                                          color:
-                                                                              Color(0xFF0E5F02),
-                                                                        ),
-                                                                        title:
-                                                                            const Text(
-                                                                          "Are you sure you want to delete?",
-                                                                          style:
-                                                                              TextStyle(color: Colors.black),
-                                                                        ),
-                                                                        content:
-                                                                            Row(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceAround,
-                                                                          children: [
-                                                                            ElevatedButton(
-                                                                              onPressed: () {
-                                                                                Utils.loader();
-                                                                                DeleteNoteAPI(notesData.elementAt(index).id).deleteNoteApi().then((value) {
-                                                                                  Get.back();
-                                                                                  Get.back(result: true);
-                                                                                });
-                                                                              },
-                                                                              style: ElevatedButton.styleFrom(
-                                                                                shape: RoundedRectangleBorder(
-                                                                                  borderRadius: BorderRadius.circular(10),
-                                                                                ),
-                                                                                backgroundColor: const Color(0xFF0E5F02),
-                                                                              ),
-                                                                              child: SizedBox(
-                                                                                width: 60.w,
-                                                                                child: const Text(
-                                                                                  "Yes",
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(color: Colors.white),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            ElevatedButton(
-                                                                              onPressed: () {
-                                                                                Get.back();
-                                                                              },
-                                                                              style: ElevatedButton.styleFrom(
-                                                                                  side: const BorderSide(
-                                                                                    color: Color(0xFF0E5F02),
-                                                                                  ),
-                                                                                  shape: RoundedRectangleBorder(
-                                                                                    borderRadius: BorderRadius.circular(10),
-                                                                                  ),
-                                                                                  backgroundColor: Colors.white),
-                                                                              child: SizedBox(
-                                                                                width: 60.w,
-                                                                                child: const Text(
-                                                                                  "No",
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(
-                                                                                    color: Color(0xFF0E5F02),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      );
-                                                                    });
-                                                            if (result !=
-                                                                null) {
-                                                              isLoading.value =
-                                                                  true;
-                                                              NotesListAPI(
-                                                                      videoId)
-                                                                  .noteslistApi()
-                                                                  .then(
-                                                                      (value) {
-                                                                notesData =
-                                                                    value.data!;
-                                                                isLoading
-                                                                        .value =
-                                                                    false;
-                                                              });
-                                                            }
-                                                          },
-                                                          child: Icon(
-                                                            Icons
-                                                                .delete_rounded,
-                                                            size: 20.sp,
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text: notesData
+                                                                .elementAt(
+                                                                    index)
+                                                                .title,
+                                                            style: TextStyle(
+                                                                fontSize: 16.sp,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                        sizedBoxHeight(5.h),
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            //'Text of the printing and typesetting Industry',
+                                                            text: notesData
+                                                                .elementAt(
+                                                                    index)
+                                                                .description!,
+                                                            style: TextStyle(
+                                                              fontSize: 13.sp,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        sizedBoxHeight(5.h),
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text: Utils.convertDate(notesData
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .publishedDatetime ??
+                                                                ""),
+                                                            style: TextStyle(
+                                                                fontSize: 13.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                color: Colors
+                                                                    .black),
                                                           ),
                                                         ),
                                                       ],
-                                                    )
-                                            ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                !isVisible
+                                                    ? const SizedBox()
+                                                    : Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              final result =
+                                                                  await showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (BuildContext
+                                                                              context) {
+                                                                        return AlertDialog(
+                                                                          backgroundColor:
+                                                                              Colors.white,
+                                                                          icon:
+                                                                              const Icon(
+                                                                            Icons.info,
+                                                                            color:
+                                                                                Color(0xFF0E5F02),
+                                                                          ),
+                                                                          title:
+                                                                              const Text(
+                                                                            "Are you sure you want to delete?",
+                                                                            style:
+                                                                                TextStyle(color: Colors.black),
+                                                                          ),
+                                                                          content:
+                                                                              Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceAround,
+                                                                            children: [
+                                                                              ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  Utils.loader();
+                                                                                  DeleteNoteAPI(notesData.elementAt(index).id).deleteNoteApi().then((value) {
+                                                                                    Get.back();
+                                                                                    Get.back(result: true);
+                                                                                  });
+                                                                                },
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(10),
+                                                                                  ),
+                                                                                  backgroundColor: const Color(0xFF0E5F02),
+                                                                                ),
+                                                                                child: SizedBox(
+                                                                                  width: 60.w,
+                                                                                  child: const Text(
+                                                                                    "Yes",
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(color: Colors.white),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  Get.back();
+                                                                                },
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                    side: const BorderSide(
+                                                                                      color: Color(0xFF0E5F02),
+                                                                                    ),
+                                                                                    shape: RoundedRectangleBorder(
+                                                                                      borderRadius: BorderRadius.circular(10),
+                                                                                    ),
+                                                                                    backgroundColor: Colors.white),
+                                                                                child: SizedBox(
+                                                                                  width: 60.w,
+                                                                                  child: const Text(
+                                                                                    "No",
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(
+                                                                                      color: Color(0xFF0E5F02),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        );
+                                                                      });
+                                                              if (result !=
+                                                                  null) {
+                                                                isLoading
+                                                                        .value =
+                                                                    true;
+                                                                NotesListAPI(
+                                                                        videoId)
+                                                                    .noteslistApi()
+                                                                    .then(
+                                                                        (value) {
+                                                                  notesData =
+                                                                      value
+                                                                          .data!;
+                                                                  isLoading
+                                                                          .value =
+                                                                      false;
+                                                                });
+                                                              }
+                                                            },
+                                                            child: Icon(
+                                                              Icons
+                                                                  .delete_rounded,
+                                                              size: 20.sp,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      sizedBoxHeight(12.h),
-                                    ],
-                                  );
-                                },
-                                // separatorBuilder: (context, index) {
-                                //   return addNotes();
-                                // },
-                              )),
+                                        sizedBoxHeight(12.h),
+                                      ],
+                                    );
+                                  },
+                                  // separatorBuilder: (context, index) {
+                                  //   return addNotes();
+                                  // },
+                                )),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

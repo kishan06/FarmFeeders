@@ -94,21 +94,25 @@ class _FarmsInfoState extends State<FarmsInfo> {
         child: customButtonCurve(
             text: setFarm.isFarmInfoUpdate.value ? "Update" : "Next",
             onTap: () {
-              final isValid = _formdairy.currentState?.validate();
-              if (isValid!) {
-                Utils.loader();
-                FarmInfoApi()
-                    .farmInfoAddressApi(
-                        framsInfoMapController.farmInfoAddressModel)
-                    .then((value) {
-                  Get.back();
-                  isSetFarmInfo = true;
-                  if (setFarm.isFarmInfoUpdate.value) {
-                    Get.back(result: true);
-                  } else {
-                    Get.toNamed("/letsSetUpYourFarm");
-                  }
-                });
+              if (farmNumber == 0) {
+                utils.showToast("Add alteast one farm to proceed");
+              } else {
+                final isValid = _formdairy.currentState?.validate();
+                if (isValid!) {
+                  Utils.loader();
+                  FarmInfoApi()
+                      .farmInfoAddressApi(
+                          framsInfoMapController.farmInfoAddressModel)
+                      .then((value) {
+                    Get.back();
+                    isSetFarmInfo = true;
+                    if (setFarm.isFarmInfoUpdate.value) {
+                      Get.back(result: true);
+                    } else {
+                      Get.toNamed("/letsSetUpYourFarm");
+                    }
+                  });
+                }
               }
 
               // Get.back();

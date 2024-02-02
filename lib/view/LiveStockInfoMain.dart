@@ -10,6 +10,7 @@ import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_dropdown.dart';
 import 'package:farmfeeders/common/flush_bar.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/live_stock_info_contro.dart';
 import 'package:farmfeeders/models/livestock_type_model.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
@@ -59,15 +60,6 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
 
   @override
   Widget build(BuildContext context) {
-    // double baseWidth = 390;
-    // double fem = MediaQuery.of(context).size.width / baseWidth;
-    // double ffem = fem * 0.97;
-    // bool setDairy = false;
-    // bool setBeef = false;
-    // bool setSheep = false;
-    // bool setPigs = false;
-    // bool setPoultry = false;
-
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
@@ -78,8 +70,21 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
         child: CustomButton(
             text: "Update",
             onTap: () {
-              isSetLiveStockInfo = true;
-              Get.back(result: true);
+              bool isSetLiveStockInfoV = false;
+
+              for (var a in liveStockTypeModel.data!) {
+                if (a.filled == true) {
+                  isSetLiveStockInfoV = true;
+                  break;
+                }
+              }
+
+              if (!isSetLiveStockInfoV) {
+                utils.showToast("Add alteast one livestock data");
+              } else {
+                isSetLiveStockInfo = true;
+                Get.back(result: true);
+              }
             }),
       ),
       appBar: AppBar(

@@ -98,6 +98,44 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Text(
+            "Subscription Plan",
+            style: TextStyle(
+              color: const Color(0XFF141414),
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          leading: widget.fromScreen == "fromSetUpFarm" ||
+                  widget.fromScreen == "SubscriptionInActive"
+              ? const SizedBox()
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: CircleAvatar(
+                      radius: 20.h,
+                      backgroundColor: const Color(0XFFF1F1F1),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8.w),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            size: 25.h,
+                            color: const Color(0XFF141414),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+        ),
         body: Obx(
           () => isLoading.value
               ? const Center(
@@ -110,42 +148,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            widget.fromScreen == "fromSetUpFarm" ||
-                                    widget.fromScreen == "SubscriptionInActive"
-                                ? SizedBox()
-                                : GestureDetector(
-                                    onTap: () {
-                                      Get.back();
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 20.h,
-                                      backgroundColor: const Color(0XFFF1F1F1),
-                                      child: Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 8.w),
-                                          child: Icon(
-                                            Icons.arrow_back_ios,
-                                            size: 25.h,
-                                            color: const Color(0XFF141414),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            sizedBoxWidth(15.w),
-                            Text(
-                              "Subscription Plan",
-                              style: TextStyle(
-                                color: const Color(0XFF141414),
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
                         sizedBoxHeight(20.h),
                         Image.asset("assets/images/subscription_image.png"),
                         sizedBoxHeight(20.h),
@@ -309,36 +311,36 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                                               ],
                                                             ),
                                                           ),
-                                                          RichText(
-                                                            text: TextSpan(
-                                                              text:
-                                                                  "€${(double.parse(subscriptionPlanModel1.data![1].monthlyFee!) / 12).toStringAsFixed(2)}",
-                                                              style: GoogleFonts
-                                                                  .montserrat(
-                                                                color: const Color(
-                                                                    0xFF141414),
-                                                                fontSize: 22,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                              children: <TextSpan>[
-                                                                TextSpan(
-                                                                  text: '/mo',
-                                                                  style: GoogleFonts
-                                                                      .montserrat(
-                                                                    color: const Color(
-                                                                        0xFF141414),
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
+                                                          // RichText(
+                                                          //   text: TextSpan(
+                                                          //     text:
+                                                          //         "€${(double.parse(subscriptionPlanModel1.data![1].monthlyFee!) / 12).toStringAsFixed(2)}",
+                                                          //     style: GoogleFonts
+                                                          //         .montserrat(
+                                                          //       color: const Color(
+                                                          //           0xFF141414),
+                                                          //       fontSize: 22,
+                                                          //       fontWeight:
+                                                          //           FontWeight
+                                                          //               .w500,
+                                                          //     ),
+                                                          //     children: <TextSpan>[
+                                                          //       TextSpan(
+                                                          //         text: '/mo',
+                                                          //         style: GoogleFonts
+                                                          //             .montserrat(
+                                                          //           color: const Color(
+                                                          //               0xFF141414),
+                                                          //           fontSize:
+                                                          //               16,
+                                                          //           fontWeight:
+                                                          //               FontWeight
+                                                          //                   .w500,
+                                                          //         ),
+                                                          //       ),
+                                                          //     ],
+                                                          //   ),
+                                                          // ),
                                                         ],
                                                       )
                                                     : const SizedBox(),
@@ -484,34 +486,34 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                                           ],
                                                         ),
                                                       ),
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          text:
-                                                              "€${(double.parse(subscriptionPlanModel1.data![1].monthlyFee!) / 12).toStringAsFixed(2)}",
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            color: const Color(
-                                                                0xFF141414),
-                                                            fontSize: 22,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                          children: <TextSpan>[
-                                                            TextSpan(
-                                                              text: '/mo',
-                                                              style: GoogleFonts
-                                                                  .montserrat(
-                                                                color: const Color(
-                                                                    0xFF141414),
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
+                                                      // RichText(
+                                                      //   text: TextSpan(
+                                                      //     text:
+                                                      //         "€${(double.parse(subscriptionPlanModel1.data![1].monthlyFee!) / 12).toStringAsFixed(2)}",
+                                                      //     style: GoogleFonts
+                                                      //         .montserrat(
+                                                      //       color: const Color(
+                                                      //           0xFF141414),
+                                                      //       fontSize: 22,
+                                                      //       fontWeight:
+                                                      //           FontWeight.w500,
+                                                      //     ),
+                                                      //     children: <TextSpan>[
+                                                      //       TextSpan(
+                                                      //         text: '/mo',
+                                                      //         style: GoogleFonts
+                                                      //             .montserrat(
+                                                      //           color: const Color(
+                                                      //               0xFF141414),
+                                                      //           fontSize: 16,
+                                                      //           fontWeight:
+                                                      //               FontWeight
+                                                      //                   .w500,
+                                                      //         ),
+                                                      //       ),
+                                                      //     ],
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   )
                                                 : const SizedBox(),
@@ -673,36 +675,36 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                                               ],
                                                             ),
                                                           ),
-                                                          RichText(
-                                                            text: TextSpan(
-                                                              text:
-                                                                  "€${(double.parse(subscriptionPlanModel1.data![0].monthlyFee!) / 30).toStringAsFixed(2)}",
-                                                              style: GoogleFonts
-                                                                  .montserrat(
-                                                                color: const Color(
-                                                                    0xFF141414),
-                                                                fontSize: 22,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                              children: <TextSpan>[
-                                                                TextSpan(
-                                                                  text: '/day',
-                                                                  style: GoogleFonts
-                                                                      .montserrat(
-                                                                    color: const Color(
-                                                                        0xFF141414),
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
+                                                          // RichText(
+                                                          //   text: TextSpan(
+                                                          //     text:
+                                                          //         "€${(double.parse(subscriptionPlanModel1.data![0].monthlyFee!) / 30).toStringAsFixed(2)}",
+                                                          //     style: GoogleFonts
+                                                          //         .montserrat(
+                                                          //       color: const Color(
+                                                          //           0xFF141414),
+                                                          //       fontSize: 22,
+                                                          //       fontWeight:
+                                                          //           FontWeight
+                                                          //               .w500,
+                                                          //     ),
+                                                          //     children: <TextSpan>[
+                                                          //       TextSpan(
+                                                          //         text: '/day',
+                                                          //         style: GoogleFonts
+                                                          //             .montserrat(
+                                                          //           color: const Color(
+                                                          //               0xFF141414),
+                                                          //           fontSize:
+                                                          //               16,
+                                                          //           fontWeight:
+                                                          //               FontWeight
+                                                          //                   .w500,
+                                                          //         ),
+                                                          //       ),
+                                                          //     ],
+                                                          //   ),
+                                                          // ),
                                                         ],
                                                       )
                                                     : const SizedBox()
@@ -821,34 +823,34 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                                           ],
                                                         ),
                                                       ),
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          text:
-                                                              "€${(double.parse(subscriptionPlanModel1.data![0].monthlyFee!) / 30).toStringAsFixed(2)}",
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            color: const Color(
-                                                                0xFF141414),
-                                                            fontSize: 22,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                          children: <TextSpan>[
-                                                            TextSpan(
-                                                              text: '/day',
-                                                              style: GoogleFonts
-                                                                  .montserrat(
-                                                                color: const Color(
-                                                                    0xFF141414),
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
+                                                      // RichText(
+                                                      //   text: TextSpan(
+                                                      //     text:
+                                                      //         "€${(double.parse(subscriptionPlanModel1.data![0].monthlyFee!) / 30).toStringAsFixed(2)}",
+                                                      //     style: GoogleFonts
+                                                      //         .montserrat(
+                                                      //       color: const Color(
+                                                      //           0xFF141414),
+                                                      //       fontSize: 22,
+                                                      //       fontWeight:
+                                                      //           FontWeight.w500,
+                                                      //     ),
+                                                      //     children: <TextSpan>[
+                                                      //       TextSpan(
+                                                      //         text: '/day',
+                                                      //         style: GoogleFonts
+                                                      //             .montserrat(
+                                                      //           color: const Color(
+                                                      //               0xFF141414),
+                                                      //           fontSize: 16,
+                                                      //           fontWeight:
+                                                      //               FontWeight
+                                                      //                   .w500,
+                                                      //         ),
+                                                      //       ),
+                                                      //     ],
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   )
                                                 : const SizedBox(),
@@ -918,7 +920,8 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                 text: (subscriptionPlanModel.data![0].plan! ||
                                         subscriptionPlanModel.data![1].plan!)
                                     ? "Cancel Subscription"
-                                    : 'Activate Subscription'))
+                                    : 'Activate Subscription')),
+                        sizedBoxHeight(25.h),
                       ],
                     ),
                   ),
