@@ -58,17 +58,17 @@ class _TrainingMainState extends State<TrainingMain> {
                   Text(
                     "Select Your Categories Of Interests",
                     style: TextStyle(
-                        color: Color(0xFF4D4D4D),
+                        color: const Color(0xFF4D4D4D),
                         fontFamily: 'Poppins',
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              TrainingMainCard()
+              const TrainingMainCard()
 
               //  sizedBoxHeight(58.h)
             ],

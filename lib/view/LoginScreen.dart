@@ -36,9 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final isValid = _form.currentState?.validate();
     if (isValid!) {
       Utils.loader();
-      Map<String, String> updata = {
+      Map<String, dynamic> updata = {
         "email": tecEmail.text,
-        "password": tecPassword.text
+        "password": tecPassword.text,
+        "principal_type_xid": 4,
       };
       final resp = await LoginAPI(updata).loginApi();
       Get.back();

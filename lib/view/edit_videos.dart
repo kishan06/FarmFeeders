@@ -96,6 +96,13 @@ class _EditVideosState extends State<EditVideos> {
     });
   }
 
+  @override
+  void dispose() {
+    videoController.pause();
+    videoController.dispose();
+    super.dispose();
+  }
+
   DashboardController dashboardController = Get.put(DashboardController());
   @override
   void initState() {
@@ -230,214 +237,258 @@ class _EditVideosState extends State<EditVideos> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        title: customAppBar(text: isUpdate ? "Update Video" : "Add Video"),
-
-        // backgroundColor: Color(0xFFF5F8FA),
-        elevation: 0,
-        // shadowColor: Colors.black,
-        automaticallyImplyLeading: false,
-        titleSpacing: 0,
-      ),
-      body: SafeArea(
-          child: Padding(
-        padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _form,
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.end,
+    return WillPopScope(
+      onWillPop: () async {
+        videoController.pause();
+        videoController.dispose();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.white,
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Row(
               children: [
-                Column(
+                Row(
                   children: [
-                    isUpdate
-                        ? Builder(builder: (context) {
-                            if (videoControllerSet == false) {
-                              setVideoPlayerController();
-                            }
-
-                            return Container(
-                                height: 300.h,
-                                child: videoControllerSet
-                                    ? NetworkPlayerWidget(
-                                        videoController: videoController,
-                                      )
-                                    : Text("Loading")
-                                // CircularProgressIndicator()
-                                );
-                          })
-                        : file == null
-                            ? InkWell(
-                                onTap: () {
-                                  builduploadprofile(true);
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 185.h,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.buttoncolour,
-                                        width: 2.h),
-                                    borderRadius: BorderRadius.circular(27.h),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.04),
-                                        blurRadius: 10,
-                                        spreadRadius: 2,
-                                      )
-                                    ],
-                                    color: AppColors.white,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/images/upload.svg",
-                                        height: 48.h,
-                                        width: 48.h,
-                                      ),
-                                      sizedBoxHeight(18.h),
-                                      SizedBox(
-                                          width: 255.w,
-                                          child: textBlack18W700Center(
-                                              "Browse to choose a video"))
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Builder(builder: (context) {
-                                if (videoControllerSet == false) {
-                                  setVideoPlayerController();
-                                }
-                                // videoController = VideoPlayerController.file(File(file!.path))
-                                // ..addListener(() => setState(() {}))
-                                // ..setLooping(true)
-                                // ..initialize().then((_) => videoController.pause());
-
-                                return Container(
-                                    height: 300.h,
-                                    // width: 200.w,
-                                    child: videoControllerSet
-                                        ? NetworkPlayerWidget(
-                                            videoController: videoController,
-                                          )
-                                        : Text("Loading")
-                                    // CircularProgressIndicator()
-                                    );
-                              }),
-                    sizedBoxHeight(20.h),
-                    isUpdate
-                        ? CustomButton(
-                            text: "Re-upload Video",
-                            onTap: () {
-                              videoControllerSet = false;
-                              setState(() {});
-                              builduploadprofile(true);
-                            },
-                          )
-                        : file == null
-                            ? SizedBox()
-                            : CustomButton(
-                                text: "Re-upload Video",
-                                onTap: () {
-                                  builduploadprofile(true);
-                                },
-                              ),
-                    sizedBoxHeight(20.h),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: textBlack16W5000("Title"),
+                    InkWell(
+                      onTap: () {
+                        videoController.pause();
+                        videoController.dispose();
+                        Get.back(result: true);
+                      },
+                      child: CircleAvatar(
+                        radius: 20.h,
+                        backgroundColor: AppColors.greyF1F1F1,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 6.w),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 25.h,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    sizedBoxHeight(8.h),
-                    CustomTextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Title Required";
-                          }
-                          return null;
-                        },
-                        textEditingController: titlecontroller,
-                        hintText: "Animal Husbandry And Management",
-                        validatorText: "Title Required"),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: textBlack16W5000("Subtitle"),
+                    SizedBox(
+                      width: 15.w,
                     ),
-                    sizedBoxHeight(8.h),
-                    CustomTextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Subtitle Required";
-                          }
-                          return null;
-                        },
-                        textEditingController: subtitlecontroller,
-                        hintText: "Animal Husbandry And Management",
-                        validatorText: "Enter Subtitle"),
-                    sizedBoxHeight(25.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        textBlack25W7000("Access"),
-                        SvgPicture.asset(
-                          "assets/images/access_done.svg",
-                          height: 25.h,
-                          width: 25.h,
-                        )
-                      ],
-                    ),
-                    Divider(
-                      color: AppColors.grey4D4D4D,
-                      thickness: 0.5.h,
-                    ),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: subUserController.dataList.length,
-                        itemBuilder: (ctx, index) {
-                          return AccessCustomListTile(
-                            title: subUserController.dataList[index]["name"],
-
-                            addVideoPage: true,
-                            id: subUserController.dataList[index]["id"],
-                            isUpdate: isUpdate,
-                            //sizefactor: MediaQuery.of(context).size.width * 0.4,
-                          );
-                        }),
+                    textBlack20W7000Mon(
+                        isUpdate ? "Update Video" : "Add Video"),
                   ],
                 ),
               ],
             ),
           ),
-        ),
-      )),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: CustomButton(
-          text: isUpdate ? "Update" : "Upload",
-          onTap: () {
-            final isValid = _form.currentState?.validate();
 
-            if (isValid!) {
-              if (subUserController.selectedIds.isEmpty) {
-                commonFlushBar(context,
-                    msg: "Provide access to alteast one user");
-              } else {
-                if (isUpdate) {
-                  _uploadcheck();
+          // backgroundColor: Color(0xFFF5F8FA),
+          elevation: 0,
+          // shadowColor: Colors.black,
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+        ),
+        body: SafeArea(
+            child: Padding(
+          padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 0),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _form,
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    children: [
+                      isUpdate
+                          ? Builder(builder: (context) {
+                              if (videoControllerSet == false) {
+                                setVideoPlayerController();
+                              }
+
+                              return Container(
+                                  height: 300.h,
+                                  child: videoControllerSet
+                                      ? NetworkPlayerWidget(
+                                          videoController: videoController,
+                                        )
+                                      : Text("Loading")
+                                  // CircularProgressIndicator()
+                                  );
+                            })
+                          : file == null
+                              ? InkWell(
+                                  onTap: () {
+                                    builduploadprofile(true);
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 185.h,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppColors.buttoncolour,
+                                          width: 2.h),
+                                      borderRadius: BorderRadius.circular(27.h),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.04),
+                                          blurRadius: 10,
+                                          spreadRadius: 2,
+                                        )
+                                      ],
+                                      color: AppColors.white,
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          "assets/images/upload.svg",
+                                          height: 48.h,
+                                          width: 48.h,
+                                        ),
+                                        sizedBoxHeight(18.h),
+                                        SizedBox(
+                                            width: 255.w,
+                                            child: textBlack18W700Center(
+                                                "Browse to choose a video"))
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : Builder(builder: (context) {
+                                  if (videoControllerSet == false) {
+                                    setVideoPlayerController();
+                                  }
+                                  // videoController = VideoPlayerController.file(File(file!.path))
+                                  // ..addListener(() => setState(() {}))
+                                  // ..setLooping(true)
+                                  // ..initialize().then((_) => videoController.pause());
+
+                                  return Container(
+                                      height: 300.h,
+                                      // width: 200.w,
+                                      child: videoControllerSet
+                                          ? NetworkPlayerWidget(
+                                              videoController: videoController,
+                                            )
+                                          : Text("Loading")
+                                      // CircularProgressIndicator()
+                                      );
+                                }),
+                      sizedBoxHeight(20.h),
+                      isUpdate
+                          ? CustomButton(
+                              text: "Re-upload Video",
+                              onTap: () {
+                                videoControllerSet = false;
+                                setState(() {});
+                                builduploadprofile(true);
+                              },
+                            )
+                          : file == null
+                              ? SizedBox()
+                              : CustomButton(
+                                  text: "Re-upload Video",
+                                  onTap: () {
+                                    builduploadprofile(true);
+                                  },
+                                ),
+                      sizedBoxHeight(20.h),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: textBlack16W5000("Title"),
+                      ),
+                      sizedBoxHeight(8.h),
+                      CustomTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Title Required";
+                            }
+                            return null;
+                          },
+                          textEditingController: titlecontroller,
+                          hintText: "Animal Husbandry And Management",
+                          validatorText: "Title Required"),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: textBlack16W5000("Subtitle"),
+                      ),
+                      sizedBoxHeight(8.h),
+                      CustomTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Subtitle Required";
+                            }
+                            return null;
+                          },
+                          textEditingController: subtitlecontroller,
+                          hintText: "Animal Husbandry And Management",
+                          validatorText: "Enter Subtitle"),
+                      sizedBoxHeight(25.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          textBlack25W7000("Access"),
+                          SvgPicture.asset(
+                            "assets/images/access_done.svg",
+                            height: 25.h,
+                            width: 25.h,
+                          )
+                        ],
+                      ),
+                      Divider(
+                        color: AppColors.grey4D4D4D,
+                        thickness: 0.5.h,
+                      ),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: subUserController.dataList.length,
+                          itemBuilder: (ctx, index) {
+                            return AccessCustomListTile(
+                              title: subUserController.dataList[index]["name"],
+
+                              addVideoPage: true,
+                              id: subUserController.dataList[index]["id"],
+                              isUpdate: isUpdate,
+                              //sizefactor: MediaQuery.of(context).size.width * 0.4,
+                            );
+                          }),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: CustomButton(
+            text: isUpdate ? "Update" : "Upload",
+            onTap: () {
+              final isValid = _form.currentState?.validate();
+
+              if (isValid!) {
+                if (subUserController.selectedIds.isEmpty) {
+                  commonFlushBar(context,
+                      msg: "Provide access to alteast one user");
                 } else {
-                  if (file == null) {
-                    commonFlushBar(context, msg: "Video is Required");
-                  } else {
+                  if (isUpdate) {
                     _uploadcheck();
+                  } else {
+                    if (file == null) {
+                      commonFlushBar(context, msg: "Video is Required");
+                    } else {
+                      _uploadcheck();
+                    }
                   }
                 }
               }
-            }
 
-            // UploadvideoAPI(updata).uploadvideoApi();
-          },
+              // UploadvideoAPI(updata).uploadvideoApi();
+            },
+          ),
         ),
       ),
     );

@@ -59,6 +59,40 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+          child: CustomButton(
+              text: "Update",
+              onTap: () async {
+                List<bool> values =
+                    List.filled(feedLivestockModel.data!.length, true);
+
+                for (int i = 0; i < feedLivestockModel.data!.length; i++) {
+                  await feedInfoController
+                      .getApiFeedDropdownData(
+                          (feedLivestockModel.data![i].id!).toString())
+                      .then((value) {
+                    if (feedInfoController.feedDropdownData!.data.feed ==
+                        null) {
+                      values[i] = false;
+                      utils.showToast("Please Update All Feeds");
+                      // return;
+                    }
+                  });
+                }
+                if (values.every((value) => value)) {
+                  isSetFeedInfo = true;
+
+                  Get.back(result: true);
+                }
+
+                // isSetLiveStockInfo = true;
+                // Get.back(result: true);
+              }),
+        ),
         backgroundColor: AppColors.white,
         body: Column(
           children: [
@@ -149,43 +183,6 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
                                             );
                                           },
                                         ),
-                                  CustomButton(
-                                      text: "Update",
-                                      onTap: () async {
-                                        List<bool> values = List.filled(
-                                            feedLivestockModel.data!.length,
-                                            true);
-
-                                        for (int i = 0;
-                                            i < feedLivestockModel.data!.length;
-                                            i++) {
-                                          await feedInfoController
-                                              .getApiFeedDropdownData(
-                                                  (feedLivestockModel
-                                                          .data![i].id!)
-                                                      .toString())
-                                              .then((value) {
-                                            if (feedInfoController
-                                                    .feedDropdownData!
-                                                    .data
-                                                    .feed ==
-                                                null) {
-                                              values[i] = false;
-                                              utils.showToast(
-                                                  "Please Update All Feeds");
-                                              // return;
-                                            }
-                                          });
-                                        }
-                                        if (values.every((value) => value)) {
-                                          isSetFeedInfo = true;
-
-                                          Get.back(result: true);
-                                        }
-
-                                        // isSetLiveStockInfo = true;
-                                        // Get.back(result: true);
-                                      }),
                                 ],
                               ),
                             );
