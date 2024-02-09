@@ -66,7 +66,7 @@ class _TrainingMaincardState extends State<TrainingMainCard> {
           },
           child: Container(
             decoration: BoxDecoration(
-                color: Color(0xFFF1F1F1),
+                color: const Color(0xFFF1F1F1),
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding:

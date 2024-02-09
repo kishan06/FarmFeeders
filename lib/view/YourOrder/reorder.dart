@@ -39,13 +39,15 @@ class _ReorderscreenState extends State<Reorderscreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AlertDialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor: Get.isDarkMode ? Colors.black : Color(0XFFFFFFFF),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
             // contentPadding: EdgeInsets.fromLTRB(48, 60, 47, 37),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               side: BorderSide(
-                  color: Get.isDarkMode ? Colors.grey : Color(0XFFFFFFFF)),
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
             ),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -106,14 +108,14 @@ class _ReorderscreenState extends State<Reorderscreen> {
                       },
                       child: CircleAvatar(
                         radius: 20.h,
-                        backgroundColor: Color(0XFFF1F1F1),
+                        backgroundColor: const Color(0XFFF1F1F1),
                         child: Center(
                           child: Padding(
                             padding: EdgeInsets.only(left: 8.w),
                             child: Icon(
                               Icons.arrow_back_ios,
                               size: 25.h,
-                              color: Color(0XFF141414),
+                              color: const Color(0XFF141414),
                             ),
                           ),
                         ),
@@ -123,7 +125,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                     Text(
                       "Reorder",
                       style: TextStyle(
-                        color: Color(0XFF141414),
+                        color: const Color(0XFF141414),
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -136,7 +138,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                 "1 items currently unavailable",
                 style: TextStyle(
                     fontSize: 18.sp,
-                    color: Color(0XFF141414),
+                    color: const Color(0XFF141414),
                     fontWeight: FontWeight.bold,
                     fontFamily: "Poppins"),
               ),
@@ -144,7 +146,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
               Container(
                 width: 358.w,
                 // height: 124.h,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: Color(0xffF1F1F1),
                     boxShadow: [
@@ -178,7 +180,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                             "Text of the printing and \ntypesetting",
                             style: TextStyle(
                                 fontSize: 15.sp,
-                                color: Color(0xff141414),
+                                color: const Color(0xff141414),
                                 fontFamily: "Poppins"),
                           ),
                           sizedBoxHeight(11.h),
@@ -186,7 +188,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                             "3 Hours ago",
                             style: TextStyle(
                                 fontSize: 14.sp,
-                                color: Color(0xff141414),
+                                color: const Color(0xff141414),
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "Poppins"),
                           )
@@ -215,7 +217,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
               Container(
                 width: 358.w,
                 height: 120.h,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: Color(0xffF1F1F1),
                     boxShadow: [
@@ -241,7 +243,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                             style: TextStyle(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff141414),
+                                color: const Color(0xff141414),
                                 fontFamily: "Poppins"),
                           ),
                           sizedBoxHeight(3.h),
@@ -250,7 +252,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                             style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff141414),
+                                color: const Color(0xff141414),
                                 fontFamily: "Poppins"),
                           ),
                           sizedBoxHeight(3.h),
@@ -264,7 +266,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                                   "Qty: $counter",
                                   style: TextStyle(
                                       fontSize: 14.sp,
-                                      color: Color(0xff4D4D4D),
+                                      color: const Color(0xff4D4D4D),
                                       fontFamily: "Poppins"),
                                 ),
                               ),
@@ -291,7 +293,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                                   "$counter",
                                   style: TextStyle(
                                       fontSize: 14.sp,
-                                      color: Color(0xff141414),
+                                      color: const Color(0xff141414),
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -330,7 +332,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
               Container(
                 width: 358.w,
                 height: 120.h,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: Color(0xffF1F1F1),
                     boxShadow: [
@@ -356,7 +358,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                             style: TextStyle(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff141414),
+                                color: const Color(0xff141414),
                                 fontFamily: "Poppins"),
                           ),
                           sizedBoxHeight(3.h),
@@ -365,7 +367,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                             style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff141414),
+                                color: const Color(0xff141414),
                                 fontFamily: "Poppins"),
                           ),
                           sizedBoxHeight(3.h),
@@ -379,7 +381,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                                   "Qty: $counter2",
                                   style: TextStyle(
                                       fontSize: 14.sp,
-                                      color: Color(0xff4D4D4D),
+                                      color: const Color(0xff4D4D4D),
                                       fontFamily: "Poppins"),
                                 ),
                               ),
@@ -406,7 +408,7 @@ class _ReorderscreenState extends State<Reorderscreen> {
                                   "$counter2",
                                   style: TextStyle(
                                       fontSize: 14.sp,
-                                      color: Color(0xff141414),
+                                      color: const Color(0xff141414),
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.bold),
                                 ),

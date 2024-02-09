@@ -3,6 +3,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/models/OrderModel/orders_model.dart';
 import 'package:farmfeeders/view/YourOrder/orderListScreen.dart';
 import 'package:farmfeeders/view_models/orderApi/order_api.dart';
@@ -24,16 +25,18 @@ class Yourorder extends StatefulWidget {
 }
 
 class _YourorderState extends State<Yourorder> {
-  RxBool isLoading = true.obs;
-  OrdersModel ordersModel = OrdersModel();
-
+  DashboardController dashboardController = Get.put(DashboardController());
   String loginStatus = "";
   @override
   void initState() {
+    if (dashboardController.isOrderFirst) {
+      dashboardController.isLoading.value = true;
+    }
     getData();
     OrderApi().getOrdersListApi().then((value) {
-      ordersModel = OrdersModel.fromJson(value.data);
-      isLoading.value = false;
+      dashboardController.ordersModel = OrdersModel.fromJson(value.data);
+      dashboardController.isLoading.value = false;
+      dashboardController.isOrderFirst = false;
     });
     super.initState();
   }
@@ -64,7 +67,7 @@ class _YourorderState extends State<Yourorder> {
           await Future.delayed(const Duration(milliseconds: 1500));
           getData();
           OrderApi().getOrdersListApi().then((value) {
-            ordersModel = OrdersModel.fromJson(value.data);
+            dashboardController.ordersModel = OrdersModel.fromJson(value.data);
             // isLoading.value = false;
           });
           setState(() {});
@@ -89,7 +92,7 @@ class _YourorderState extends State<Yourorder> {
                 ),
               ),
               Obx(
-                () => isLoading.value
+                () => dashboardController.isLoading.value
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -103,6 +106,7 @@ class _YourorderState extends State<Yourorder> {
                       )
                     : Expanded(
                         child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +139,9 @@ class _YourorderState extends State<Yourorder> {
                               ],
                             ),
                             sizedBoxHeight(15.h),
-                            ordersModel.data!.ongoingOrder == null
+                            dashboardController
+                                        .ordersModel.data!.ongoingOrder ==
+                                    null
                                 ? Padding(
                                     padding: const EdgeInsets.all(25.0),
                                     child: Center(
@@ -149,19 +155,23 @@ class _YourorderState extends State<Yourorder> {
                                   )
                                 : GestureDetector(
                                     onTap: () {
-                                      if (ordersModel
-                                              .data!.ongoingOrder!.orderType ==
+                                      if (dashboardController.ordersModel.data!
+                                              .ongoingOrder!.orderType ==
                                           "new") {
                                         Get.toNamed("/ongoingorder",
                                             arguments: {
-                                              "id": ordersModel
-                                                  .data!.orderHeaderId!,
+                                              "id": dashboardController
+                                                  .ordersModel
+                                                  .data!
+                                                  .orderHeaderId!,
                                             });
                                       } else {
                                         Get.to(() => const RecurringOrder(),
                                             arguments: {
-                                              "id": ordersModel
-                                                  .data!.orderHeaderId!,
+                                              "id": dashboardController
+                                                  .ordersModel
+                                                  .data!
+                                                  .orderHeaderId!,
                                             });
                                       }
                                     },
@@ -217,14 +227,17 @@ class _YourorderState extends State<Yourorder> {
                                                   sizedBoxHeight(15.h),
                                                   CachedNetworkImage(
                                                     imageUrl:
-                                                        "${ApiUrls.baseImageUrl}/${ordersModel.data!.ongoingOrder!.smallImageUrl}",
+                                                        "${ApiUrls.baseImageUrl}/${dashboardController.ordersModel.data!.ongoingOrder!.smallImageUrl}",
                                                     width: 105.w,
                                                     height: 98.h,
                                                   ),
                                                   //  sizedBoxHeight(7.h),
                                                   Text(
-                                                    ordersModel.data!
-                                                        .ongoingOrder!.title!,
+                                                    dashboardController
+                                                        .ordersModel
+                                                        .data!
+                                                        .ongoingOrder!
+                                                        .title!,
                                                     maxLines: 2,
                                                     style: TextStyle(
                                                         fontSize: 13.sp,
@@ -255,18 +268,23 @@ class _YourorderState extends State<Yourorder> {
                                                         dashColor:
                                                             Color(0XFF0E5F02),
                                                       ),
-                                                      ordersModel.data!
+                                                      dashboardController
+                                                              .ordersModel
+                                                              .data!
                                                               .orderStatus!
                                                               .any((item) =>
                                                                   item.deliveryStatusXid ==
                                                                   4)
                                                           ? status()
-                                                          : (ordersModel.data!
+                                                          : (dashboardController
+                                                                      .ordersModel
+                                                                      .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
                                                                           item.deliveryStatusXid ==
                                                                           1) ||
-                                                                  ordersModel
+                                                                  dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
@@ -309,13 +327,17 @@ class _YourorderState extends State<Yourorder> {
                                                         dashColor:
                                                             Color(0XFF0E5F02),
                                                       ),
-                                                      ordersModel.data!
+                                                      dashboardController
+                                                              .ordersModel
+                                                              .data!
                                                               .orderStatus!
                                                               .any((item) =>
                                                                   item.deliveryStatusXid ==
                                                                   5)
                                                           ? status()
-                                                          : ordersModel.data!
+                                                          : dashboardController
+                                                                  .ordersModel
+                                                                  .data!
                                                                   .orderStatus!
                                                                   .any((item) =>
                                                                       item.deliveryStatusXid ==
@@ -357,18 +379,23 @@ class _YourorderState extends State<Yourorder> {
                                                         dashColor:
                                                             Color(0XFF0E5F02),
                                                       ),
-                                                      ordersModel.data!
+                                                      dashboardController
+                                                              .ordersModel
+                                                              .data!
                                                               .orderStatus!
                                                               .any((item) =>
                                                                   item.deliveryStatusXid ==
                                                                   7)
                                                           ? status()
-                                                          : (ordersModel.data!
+                                                          : (dashboardController
+                                                                      .ordersModel
+                                                                      .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
                                                                           item.deliveryStatusXid ==
                                                                           5) ||
-                                                                  ordersModel
+                                                                  dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
@@ -436,7 +463,8 @@ class _YourorderState extends State<Yourorder> {
                                                           sizedBoxWidth(6.w),
                                                           Text(
                                                             Utils.convertUtcToCustomFormat(
-                                                                ordersModel
+                                                                dashboardController
+                                                                    .ordersModel
                                                                     .data!
                                                                     .orderDate!),
                                                             style: TextStyle(
@@ -460,13 +488,15 @@ class _YourorderState extends State<Yourorder> {
                                                               BorderRadius
                                                                   .circular(
                                                                       25.h),
-                                                          color: (ordersModel
+                                                          color: (dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
                                                                           item.deliveryStatusXid ==
                                                                           3) &&
-                                                                  ordersModel
+                                                                  dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
@@ -481,7 +511,8 @@ class _YourorderState extends State<Yourorder> {
                                                           "Packed and ready",
                                                           style: TextStyle(
                                                               fontSize: 14.sp,
-                                                              color: ordersModel
+                                                              color: dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
@@ -495,7 +526,9 @@ class _YourorderState extends State<Yourorder> {
                                                                   "Poppins"),
                                                         ),
                                                       ),
-                                                      ordersModel.data!
+                                                      dashboardController
+                                                              .ordersModel
+                                                              .data!
                                                               .orderStatus!
                                                               .any((item) =>
                                                                   item.deliveryStatusXid ==
@@ -514,12 +547,12 @@ class _YourorderState extends State<Yourorder> {
                                                                 sizedBoxWidth(
                                                                     6.w),
                                                                 Text(
-                                                                  Utils.convertUtcToCustomFormat(
-                                                                      ordersModel
-                                                                          .data!
-                                                                          .orderStatus![
-                                                                              3]
-                                                                          .createdAt!),
+                                                                  Utils.convertUtcToCustomFormat(dashboardController
+                                                                      .ordersModel
+                                                                      .data!
+                                                                      .orderStatus![
+                                                                          2]
+                                                                      .createdAt!),
                                                                   style: TextStyle(
                                                                       color: const Color(
                                                                           0xff4D4D4D),
@@ -543,13 +576,15 @@ class _YourorderState extends State<Yourorder> {
                                                               BorderRadius
                                                                   .circular(
                                                                       25.h),
-                                                          color: !(ordersModel
+                                                          color: !(dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
                                                                           item.deliveryStatusXid ==
                                                                           4) &&
-                                                                  ordersModel
+                                                                  dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
@@ -565,7 +600,8 @@ class _YourorderState extends State<Yourorder> {
                                                             "Out for delivery",
                                                             style: TextStyle(
                                                               fontSize: 14.sp,
-                                                              color: ordersModel
+                                                              color: dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
@@ -581,7 +617,9 @@ class _YourorderState extends State<Yourorder> {
                                                           ),
                                                         ),
                                                       ),
-                                                      ordersModel.data!
+                                                      dashboardController
+                                                              .ordersModel
+                                                              .data!
                                                               .orderStatus!
                                                               .any((item) =>
                                                                   item.deliveryStatusXid ==
@@ -597,12 +635,12 @@ class _YourorderState extends State<Yourorder> {
                                                                 sizedBoxWidth(
                                                                     6.w),
                                                                 Text(
-                                                                  Utils.convertUtcToCustomFormat(
-                                                                      ordersModel
-                                                                          .data!
-                                                                          .orderStatus![
-                                                                              3]
-                                                                          .createdAt!),
+                                                                  Utils.convertUtcToCustomFormat(dashboardController
+                                                                      .ordersModel
+                                                                      .data!
+                                                                      .orderStatus![
+                                                                          3]
+                                                                      .createdAt!),
                                                                   style: TextStyle(
                                                                       color: const Color(
                                                                           0xff4D4D4D),
@@ -626,19 +664,22 @@ class _YourorderState extends State<Yourorder> {
                                                               BorderRadius
                                                                   .circular(
                                                                       25.h),
-                                                          color: !((ordersModel
+                                                          color: !((dashboardController
+                                                                          .ordersModel
                                                                           .data!
                                                                           .orderStatus!
                                                                           .any((item) =>
                                                                               item.deliveryStatusXid ==
                                                                               5) ||
-                                                                      ordersModel
+                                                                      dashboardController
+                                                                          .ordersModel
                                                                           .data!
                                                                           .orderStatus!
                                                                           .any((item) =>
                                                                               item.deliveryStatusXid ==
                                                                               6)) &&
-                                                                  ordersModel
+                                                                  dashboardController
+                                                                      .ordersModel
                                                                       .data!
                                                                       .orderStatus!
                                                                       .any((item) =>
@@ -659,7 +700,9 @@ class _YourorderState extends State<Yourorder> {
                                                                   "Poppins"),
                                                         ),
                                                       ),
-                                                      ordersModel.data!
+                                                      dashboardController
+                                                              .ordersModel
+                                                              .data!
                                                               .orderStatus!
                                                               .any((item) =>
                                                                   item.deliveryStatusXid ==
@@ -675,14 +718,14 @@ class _YourorderState extends State<Yourorder> {
                                                                 sizedBoxWidth(
                                                                     6.w),
                                                                 Text(
-                                                                  Utils.convertUtcToCustomFormat(
-                                                                      ordersModel
-                                                                          .data!
-                                                                          .orderStatus![
-                                                                              5]
-                                                                          .createdAt!),
+                                                                  Utils.convertUtcToCustomFormat(dashboardController
+                                                                      .ordersModel
+                                                                      .data!
+                                                                      .orderStatus![
+                                                                          5]
+                                                                      .createdAt!),
                                                                   style: TextStyle(
-                                                                      color: ordersModel.data!.orderStatus!.any((item) =>
+                                                                      color: dashboardController.ordersModel.data!.orderStatus!.any((item) =>
                                                                               item.deliveryStatusXid ==
                                                                               7)
                                                                           ? const Color(
@@ -710,13 +753,17 @@ class _YourorderState extends State<Yourorder> {
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.recurringOrders == null
+                                : dashboardController.ordersModel.data!
+                                            .recurringOrders ==
+                                        null
                                     ? const SizedBox()
                                     : sizedBoxHeight(19.h),
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.recurringOrders == null
+                                : dashboardController.ordersModel.data!
+                                            .recurringOrders ==
+                                        null
                                     ? const SizedBox()
                                     : Row(
                                         mainAxisAlignment:
@@ -748,13 +795,17 @@ class _YourorderState extends State<Yourorder> {
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.recurringOrders == null
+                                : dashboardController.ordersModel.data!
+                                            .recurringOrders ==
+                                        null
                                     ? const SizedBox()
                                     : sizedBoxHeight(6.h),
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.recurringOrders == null
+                                : dashboardController.ordersModel.data!
+                                            .recurringOrders ==
+                                        null
                                     ? const SizedBox()
                                     : ListView.builder(
                                         shrinkWrap: true,
@@ -770,7 +821,8 @@ class _YourorderState extends State<Yourorder> {
                                                   children: [
                                                     GestureDetector(
                                                       onTap: () {
-                                                        if (ordersModel
+                                                        if (dashboardController
+                                                                .ordersModel
                                                                 .data!
                                                                 .recurringOrders!
                                                                 .orderId ==
@@ -870,7 +922,8 @@ class _YourorderState extends State<Yourorder> {
                                                               () =>
                                                                   const RecurringOrder(),
                                                               arguments: {
-                                                                "id": ordersModel
+                                                                "id": dashboardController
+                                                                    .ordersModel
                                                                     .data!
                                                                     .recurringOrders!
                                                                     .orderId!,
@@ -916,7 +969,7 @@ class _YourorderState extends State<Yourorder> {
                                                               child:
                                                                   CachedNetworkImage(
                                                                 imageUrl:
-                                                                    "${ApiUrls.baseImageUrl}/${ordersModel.data!.recurringOrders!.smallImageUrl!}",
+                                                                    "${ApiUrls.baseImageUrl}/${dashboardController.ordersModel.data!.recurringOrders!.smallImageUrl!}",
                                                                 width: 90.w,
                                                                 height: 100.h,
                                                               ),
@@ -937,7 +990,8 @@ class _YourorderState extends State<Yourorder> {
                                                                       Get.width /
                                                                           1.7,
                                                                   child: Text(
-                                                                    ordersModel
+                                                                    dashboardController
+                                                                        .ordersModel
                                                                         .data!
                                                                         .recurringOrders!
                                                                         .title!,
@@ -964,7 +1018,7 @@ class _YourorderState extends State<Yourorder> {
                                                                       Get.width /
                                                                           1.7,
                                                                   child: Text(
-                                                                    "Next Delivery Date: ${Utils.convertUtcToCustomFormat(ordersModel.data!.recurringOrders!.nextPaymentDate!)}",
+                                                                    "Next Delivery Date: ${Utils.convertUtcToCustomFormat(dashboardController.ordersModel.data!.recurringOrders!.nextPaymentDate!)}",
                                                                     style: TextStyle(
                                                                         fontSize: 12
                                                                             .sp,
@@ -1020,13 +1074,15 @@ class _YourorderState extends State<Yourorder> {
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.cancelledOrders!.isEmpty
+                                : dashboardController.ordersModel.data!
+                                        .cancelledOrders!.isEmpty
                                     ? const SizedBox()
                                     : sizedBoxHeight(16.h),
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.cancelledOrders!.isEmpty
+                                : dashboardController.ordersModel.data!
+                                        .cancelledOrders!.isEmpty
                                     ? const SizedBox()
                                     : Row(
                                         mainAxisAlignment:
@@ -1058,7 +1114,8 @@ class _YourorderState extends State<Yourorder> {
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.cancelledOrders!.isEmpty
+                                : dashboardController.ordersModel.data!
+                                        .cancelledOrders!.isEmpty
                                     ? const SizedBox()
                                     : sizedBoxHeight(6.h),
                             loginStatus ==
@@ -1068,7 +1125,7 @@ class _YourorderState extends State<Yourorder> {
                                     shrinkWrap: true,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
-                                    itemCount: ordersModel
+                                    itemCount: dashboardController.ordersModel
                                         .data!.cancelledOrders!.length,
                                     itemBuilder: (ctx, index) {
                                       return index > 3
@@ -1081,7 +1138,8 @@ class _YourorderState extends State<Yourorder> {
                                                   onTap: () {
                                                     Get.toNamed("/cancelorder",
                                                         arguments: {
-                                                          "id": ordersModel
+                                                          "id": dashboardController
+                                                              .ordersModel
                                                               .data!
                                                               .cancelledOrders![
                                                                   index]
@@ -1125,7 +1183,7 @@ class _YourorderState extends State<Yourorder> {
                                                           child:
                                                               CachedNetworkImage(
                                                             imageUrl:
-                                                                "${ApiUrls.baseImageUrl}/${ordersModel.data!.cancelledOrders![index].inventory!.smallImageUrl!}",
+                                                                "${ApiUrls.baseImageUrl}/${dashboardController.ordersModel.data!.cancelledOrders![index].inventory!.smallImageUrl!}",
                                                             width: 90.w,
                                                             height: 100.h,
                                                           ),
@@ -1145,7 +1203,8 @@ class _YourorderState extends State<Yourorder> {
                                                               width: Get.width /
                                                                   1.7,
                                                               child: Text(
-                                                                ordersModel
+                                                                dashboardController
+                                                                    .ordersModel
                                                                     .data!
                                                                     .cancelledOrders![
                                                                         index]
@@ -1173,7 +1232,7 @@ class _YourorderState extends State<Yourorder> {
                                                               width: Get.width /
                                                                   1.7,
                                                               child: Text(
-                                                                "Order cancelled on ${Utils.convertUtcToCustomFormat(ordersModel.data!.cancelledOrders![index].createdAt!)}",
+                                                                "Order cancelled on ${Utils.convertUtcToCustomFormat(dashboardController.ordersModel.data!.cancelledOrders![index].createdAt!)}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         12.sp,
@@ -1228,13 +1287,15 @@ class _YourorderState extends State<Yourorder> {
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.pastOrders!.isEmpty
+                                : dashboardController
+                                        .ordersModel.data!.pastOrders!.isEmpty
                                     ? const SizedBox()
                                     : sizedBoxHeight(16.h),
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.pastOrders!.isEmpty
+                                : dashboardController
+                                        .ordersModel.data!.pastOrders!.isEmpty
                                     ? const SizedBox()
                                     : Row(
                                         mainAxisAlignment:
@@ -1266,7 +1327,8 @@ class _YourorderState extends State<Yourorder> {
                             loginStatus ==
                                     "Subscription Inactive and Orders Pending"
                                 ? const SizedBox()
-                                : ordersModel.data!.pastOrders!.isEmpty
+                                : dashboardController
+                                        .ordersModel.data!.pastOrders!.isEmpty
                                     ? const SizedBox()
                                     : sizedBoxHeight(6.h),
                             loginStatus ==
@@ -1276,8 +1338,8 @@ class _YourorderState extends State<Yourorder> {
                                     shrinkWrap: true,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
-                                    itemCount:
-                                        ordersModel.data!.pastOrders!.length,
+                                    itemCount: dashboardController
+                                        .ordersModel.data!.pastOrders!.length,
                                     itemBuilder: (ctx, index) {
                                       return Column(
                                         crossAxisAlignment:
@@ -1287,7 +1349,8 @@ class _YourorderState extends State<Yourorder> {
                                             onTap: () {
                                               Get.toNamed("/deliveredorder",
                                                   arguments: {
-                                                    "id": ordersModel
+                                                    "id": dashboardController
+                                                        .ordersModel
                                                         .data!
                                                         .pastOrders![index]
                                                         .orderId!,
@@ -1323,7 +1386,7 @@ class _YourorderState extends State<Yourorder> {
                                                             15),
                                                     child: CachedNetworkImage(
                                                       imageUrl:
-                                                          "${ApiUrls.baseImageUrl}/${ordersModel.data!.pastOrders![index].inventory!.smallImageUrl!}",
+                                                          "${ApiUrls.baseImageUrl}/${dashboardController.ordersModel.data!.pastOrders![index].inventory!.smallImageUrl!}",
                                                       width: 90.w,
                                                       height: 100.h,
                                                     ),
@@ -1341,7 +1404,8 @@ class _YourorderState extends State<Yourorder> {
                                                       SizedBox(
                                                         width: Get.width / 1.7,
                                                         child: Text(
-                                                          ordersModel
+                                                          dashboardController
+                                                              .ordersModel
                                                               .data!
                                                               .pastOrders![
                                                                   index]
@@ -1365,7 +1429,7 @@ class _YourorderState extends State<Yourorder> {
                                                       SizedBox(
                                                         width: Get.width / 1.7,
                                                         child: Text(
-                                                          "Order delivered on ${Utils.convertUtcToCustomFormat(ordersModel.data!.pastOrders![index].createdAt!)}",
+                                                          "Order delivered on ${Utils.convertUtcToCustomFormat(dashboardController.ordersModel.data!.pastOrders![index].createdAt!)}",
                                                           style: TextStyle(
                                                               fontSize: 12.sp,
                                                               color: const Color(

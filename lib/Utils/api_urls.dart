@@ -1,5 +1,3 @@
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/subscription_plan.dart';
-
 class ApiUrls {
   static const base = "https://farmflow.betadelivery.com/api/";
 

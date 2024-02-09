@@ -312,6 +312,8 @@ class _manageUserState extends State<manageUser> {
                                                   height: 18,
                                                 ),
                                                 Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     const Text(
                                                       "EMAIL                 : ",
@@ -320,11 +322,13 @@ class _manageUserState extends State<manageUser> {
                                                           color: Color(
                                                               0xFF4D4D4D)),
                                                     ),
-                                                    Text(
-                                                      dataList[index].email!,
-                                                      style: const TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.grey),
+                                                    Flexible(
+                                                      child: Text(
+                                                        dataList[index].email!,
+                                                        style: const TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors.grey),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -344,7 +348,7 @@ class _manageUserState extends State<manageUser> {
                                                           color: Color(
                                                               0xFF4D4D4D)),
                                                     ),
-                                                    Container(
+                                                    SizedBox(
                                                       width: Get.width / 2.1,
                                                       child: Text(
                                                         dataList[index]

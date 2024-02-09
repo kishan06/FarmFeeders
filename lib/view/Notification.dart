@@ -28,20 +28,7 @@ class _NotificationState extends State<Notification> {
   @override
   void initState() {
     controllerNotification.getNotificationData();
-    // _data = [
-    //   {
-    //     "image": "assets/images/Notification.svg",
-    //     "title": "Your feed is getting low!.",
-    //     "subtitle": "Farm Feed Is Down To 8%. \nPlease Refill It Quickly.",
-    //     "text": "12.00 PM",
-    //   },
-    //   {
-    //     "image": "assets/images/Notification1.svg",
-    //     "title": "Order is arriving soon.",
-    //     "subtitle": "Your Order Has Left The \nWarehouse And Is On Its Way!",
-    //     "text": "11.00 PM",
-    //   },
-    // ];
+
     super.initState();
   }
 

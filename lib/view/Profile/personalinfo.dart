@@ -450,17 +450,36 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                         CustomTextFormField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
-                            FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                            LengthLimitingTextInputFormatter(9),
+                            //  FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                           ],
                           textEditingController: phoneController,
                           hintText: 'Enter Contact Number',
                           texttype: TextInputType.number,
                           validatorText: 'Please enter contact number',
+                          leadingIcon: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SvgPicture.asset("assets/images/phone.svg"),
+                              sizedBoxWidth(5.w),
+                              Text(
+                                "+353",
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                ),
+                              )
+                            ],
+                          ),
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter contact number";
+                            if (value == value.isEmpty) {
+                              return 'Mobile number is required';
+                            } else if (!value.toString().startsWith("8")) {
+                              return 'Enter a valid mobile number starting with 8';
+                            } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{9}$)')
+                                .hasMatch(value)) {
+                              return 'Enter valid mobile number';
                             }
+                            // v3 = true;
                             return null;
                           },
                         ),

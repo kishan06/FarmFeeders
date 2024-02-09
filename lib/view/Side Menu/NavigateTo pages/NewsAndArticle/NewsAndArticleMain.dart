@@ -112,15 +112,15 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                                 cardData.smallDescription));
                                           },
                                           child: CarouselCard(
-                                              type: cardData.artCategory,
-                                              title: cardData.title,
-                                              // description: description,
-                                              date: formattedDate,
-                                              imageUrl: cardData.smallImageUrl,
-                                              bookmarked: cardData.bookmarked,
-                                              index: index,
-                                              id: cardData.id,
-                                              ),
+                                            type: cardData.artCategory,
+                                            title: cardData.title,
+                                            // description: description,
+                                            date: formattedDate,
+                                            imageUrl: cardData.smallImageUrl,
+                                            bookmarked: cardData.bookmarked,
+                                            index: index,
+                                            id: cardData.id,
+                                          ),
                                         );
                                       },
                                       options: CarouselOptions(
@@ -189,12 +189,9 @@ class CarouselCard extends StatelessWidget {
     required this.bookmarked,
     required this.index,
     required this.id,
-
-
   });
   // final CarouselController carouselController = CarouselController();
   final controllerNewsArticle = Get.put(NewsArticleController());
-
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +202,9 @@ class CarouselCard extends StatelessWidget {
         color: Colors.blue.shade100,
         borderRadius: BorderRadius.circular(15),
         image: DecorationImage(
-            image: NetworkImage(ApiUrls.baseImageUrl + imageUrl),
+            image: NetworkImage(
+              ApiUrls.baseImageUrl + imageUrl,
+            ),
             // AssetImage("assets/images/newsback.png"),
             fit: BoxFit.cover),
       ),
@@ -242,11 +241,11 @@ class CarouselCard extends StatelessWidget {
                   radius: 20.h,
                   backgroundColor: AppColors.greyF2F4F5,
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       // print("pressed");
                       controllerNewsArticle.changeBookmark(index);
-                      controllerNewsArticle.bookmarkApi(index: index,id: id.toString());
-                    
+                      controllerNewsArticle.bookmarkApi(
+                          index: index, id: id.toString());
                     },
                     child: bookmarked
                         ? SizedBox(
@@ -254,8 +253,8 @@ class CarouselCard extends StatelessWidget {
                             child: SvgPicture.asset("assets/images/save.svg"))
                         : SizedBox(
                             height: 40.h,
-                            child:
-                                SvgPicture.asset("assets/images/saveblank.svg")),
+                            child: SvgPicture.asset(
+                                "assets/images/saveblank.svg")),
                   ),
                 )
               ],

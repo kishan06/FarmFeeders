@@ -54,7 +54,7 @@ class _RenewSubscriptionScreenState extends State<RenewSubscriptionScreen> {
             height: 100.h,
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 25),
+            margin: const EdgeInsets.symmetric(horizontal: 25),
             child: InkWell(
               onTap: () {
                 Get.to(() => SubscriptionPlan(
