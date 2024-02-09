@@ -46,7 +46,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                                 color: const Color(0xff141414)),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 18,
                         ),
                         Text(
@@ -56,7 +56,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                               fontWeight: FontWeight.w500,
                               color: const Color(0xff141414)),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.check_circle_rounded,
                           color: Color(0xFF0E5F02),
                           size: 24,
@@ -97,31 +97,31 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                                 },
                                 child: CircleAvatar(
                                   backgroundColor: Colors.white,
-                                  child: Center(
+                                  radius: 15.r,
+                                  child: const Center(
                                     child: Icon(
                                       Icons.arrow_back_ios_new,
                                       color: Colors.black,
                                     ),
                                   ),
-                                  radius: 15.r,
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               CircleAvatar(
                                 backgroundColor:
                                     Colors.transparent.withOpacity(0.28),
-                                child: Center(
+                                radius: 15.r,
+                                child: const Center(
                                   child: Icon(
                                     Icons.bookmark_border,
                                     color: Colors.white,
                                     size: 25,
                                   ),
                                 ),
-                                radius: 15.r,
                               ),
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -129,7 +129,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                                 height: 28.h,
                                 width: 70.w,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF80B918),
+                                  color: const Color(0xFF80B918),
                                   borderRadius: BorderRadius.circular(14),
                                 ),
                                 child: Center(
@@ -148,7 +148,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                             "Increasing Feed Efficiency",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                color: Color(0xFFEEEEEE),
+                                color: const Color(0xFFEEEEEE),
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -157,7 +157,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                               Text(
                                 "Trending",
                                 style: TextStyle(
-                                    color: Color(0xFFEEEEEE),
+                                    color: const Color(0xFFEEEEEE),
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w300),
                               ),
@@ -172,13 +172,13 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                               Text(
                                 "6 Hours ago",
                                 style: TextStyle(
-                                    color: Color(0xFFEEEEEE),
+                                    color: const Color(0xFFEEEEEE),
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w300),
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 60,
                           )
                         ],

@@ -45,7 +45,7 @@ class _NoInternetscreenState extends State<NoInternetscreen> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                        "Our digital tractor's stuck in the mud!\nEnsure your internet's up and running.",
+                        "Internet Connection is Down!\n\nEnsure your internet's up and running.",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.montserrat(
                           fontSize: 18.0,

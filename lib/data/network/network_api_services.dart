@@ -6,14 +6,11 @@ import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/data/network/base_api_services.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData;
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
-import '../../Utils/colors.dart';
 import '../../view/ErrorScreen/error_screen.dart';
 import '../../view/Side Menu/NavigateTo pages/subscription_plan.dart';
 
@@ -228,6 +225,7 @@ class NetworkApiServices extends BaseApiServices {
                 }));
     } on Exception catch (e) {
       if (e is DioException) {
+        log(e.response.toString());
         if (e.response == null) {
           Get.to(() => const ErrorScreen());
         } else {

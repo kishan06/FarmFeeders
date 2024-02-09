@@ -111,6 +111,9 @@ class _addSubUserState extends State<addSubUser> {
 
   @override
   Widget build(BuildContext context) {
+    final RegExp passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])(?=.{8,})',
+    );
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -224,11 +227,25 @@ class _addSubUserState extends State<addSubUser> {
                       ],
                       textEditingController: phone,
                       texttype: TextInputType.phone,
-                      leadingIcon: SvgPicture.asset("assets/images/phone.svg"),
+                      leadingIcon: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset("assets/images/phone.svg"),
+                          sizedBoxWidth(5.w),
+                          Text(
+                            "+353",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                            ),
+                          )
+                        ],
+                      ),
                       hintText: "Phone",
                       validator: (value) {
                         if (value == value.isEmpty) {
                           return 'Mobile number is required';
+                        } else if (!value.toString().startsWith("8")) {
+                          return 'Enter a valid mobile number starting with 8';
                         } else if (!RegExp(r'(^(?:[+0]9)?[0-9]{9}$)')
                             .hasMatch(value)) {
                           return 'Enter valid mobile number';
@@ -297,13 +314,17 @@ class _addSubUserState extends State<addSubUser> {
                             if (value == value.isEmpty) {
                               return 'Please enter your password';
                             }
-                            if (value.length < 8) {
-                              return 'Password must be at least 8 characters';
+                            if (!passwordRegex.hasMatch(value!)) {
+                              return 'Password must be at least 8 characters long, '
+                                  'include one uppercase letter, one lowercase letter, '
+                                  'one number, and one special character.';
                             }
                           }
                           if (isEdit && password.text.isNotEmpty) {
-                            if (value.length < 8) {
-                              return 'Password must be at least 8 characters';
+                            if (!passwordRegex.hasMatch(value!)) {
+                              return 'Password must be at least 8 characters long, '
+                                  'include one uppercase letter, one lowercase letter, '
+                                  'one number, and one special character.';
                             }
                           }
 

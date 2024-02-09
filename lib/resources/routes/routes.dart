@@ -15,7 +15,6 @@ import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Feedback/feedbac
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/ArticlesDetails.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsAndArticleMain.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/SavedArticles.dart';
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/EditNote.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/TrainingMain.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/VideosList.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/videos_details.dart';
@@ -163,10 +162,6 @@ class AppRoutes {
         GetPage(
           name: RouteName.VideosDetails,
           page: () => VideosDetails(),
-        ),
-        GetPage(
-          name: RouteName.EditNote,
-          page: () => EditNote(),
         ),
         GetPage(
           name: RouteName.faqs,

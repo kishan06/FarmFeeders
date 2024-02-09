@@ -73,7 +73,7 @@ class _SplashSliderState extends State<SplashSlider> {
                             style: TextStyle(
                               fontSize: 30.sp,
                               fontWeight: FontWeight.bold,
-                              color: Color(0XFF000000),
+                              color: const Color(0XFF000000),
                             ),
                           ),
                         ),
@@ -87,7 +87,7 @@ class _SplashSliderState extends State<SplashSlider> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16.sp,
-                              color: Color(0XFF4D4D4D),
+                              color: const Color(0XFF4D4D4D),
                             ),
                           ),
                         ),
@@ -165,7 +165,9 @@ class _SplashSliderState extends State<SplashSlider> {
       margin: EdgeInsets.only(right: 5.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.h),
-        color: currentIndex == index ? Color(0XFf0E5F02) : Color(0XFf0E5F02),
+        color: currentIndex == index
+            ? const Color(0XFf0E5F02)
+            : const Color(0XFf0E5F02),
       ),
     );
   }

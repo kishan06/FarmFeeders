@@ -455,6 +455,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
+                                      const SizedBox(width: 15),
                                       SvgPicture.asset(
                                         "assets/images/downloadorder.svg",
                                         // width: 12.w,

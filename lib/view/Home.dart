@@ -159,8 +159,11 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    if (dashboardController.isDashboardFirst) {
+      dashboardController.isDashboardApiLoading.value = true;
+    }
     dashboardController.isWeatherLoading.value = true;
-    dashboardController.isDashboardApiLoading.value = true;
+
     _clockStream = Stream<DateTime>.periodic(const Duration(seconds: 1), (_) {
       return DateTime.now();
     });
@@ -202,6 +205,7 @@ class _HomeState extends State<Home> {
           saved = dashboardController.dashboardModel.data!.article!.bookmarked!;
         }
         dashboardController.isDashboardApiLoading.value = false;
+        dashboardController.isDashboardFirst = false;
         await getCurrentAddress();
         final permissionGranted = await location.hasPermission();
         if (permissionGranted == ls.PermissionStatus.granted) {
@@ -259,13 +263,7 @@ class _HomeState extends State<Home> {
     bool isDaytime = isDaytimeNow(currentTime, sunrise, sunset);
 
     return Scaffold(
-        // appBar: AppBar(
-        //   title: customAppBarHome(text: "knc"),
-        //   backgroundColor: Colors.white,
-        //   automaticallyImplyLeading: false,
-        //   elevation: 0,
-        //   titleSpacing: 0,
-        // ),
+       
         body: RefreshIndicator(
       strokeWidth: 3,
       displacement: 250,
@@ -288,7 +286,7 @@ class _HomeState extends State<Home> {
           for (var i in dashboardController.dashboardModel.data!.currentFeed!) {
             if (i.feedLow!) {
               if (feedPerValue > i.feedLowPer!) {
-                feedPerValue.value = i.feedLowPer!;
+                feedPerValue.value = i.feedLowPer!.toPrecision(2);
               }
             }
           }
@@ -849,8 +847,9 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               sizedBoxHeight(
                                                                   15.h),
-                                                             CachedNetworkImage(
-                                                              imageUrl:   "${ApiUrls.baseImageUrl}/${dashboardController.dashboardModel.data!.order!.product!.smallImageUrl}",
+                                                              CachedNetworkImage(
+                                                                imageUrl:
+                                                                    "${ApiUrls.baseImageUrl}/${dashboardController.dashboardModel.data!.order!.product!.smallImageUrl}",
                                                                 width: 105.w,
                                                                 height: 98.h,
                                                               ),
@@ -1109,7 +1108,7 @@ class _HomeState extends State<Home> {
                                                                             ),
                                                                             sizedBoxWidth(6.w),
                                                                             Text(
-                                                                              Utils.convertUtcToCustomFormat(dashboardController.dashboardModel.data!.order!.orderStatus![3].createdAt!),
+                                                                              Utils.convertUtcToCustomFormat(dashboardController.dashboardModel.data!.order!.orderStatus![2].createdAt!),
                                                                               style: TextStyle(color: const Color(0xff4D4D4D), fontSize: 8.sp, fontFamily: "Poppins"),
                                                                             )
                                                                           ],
@@ -1376,9 +1375,9 @@ class _HomeState extends State<Home> {
                                                                 height: 170.h,
                                                                 width: 100.w,
                                                               )
-                                                            :  CachedNetworkImage(
-                                                              imageUrl: 
-                                                                "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].container}",
+                                                            : CachedNetworkImage(
+                                                                imageUrl:
+                                                                    "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].container}",
                                                                 height: 170.h,
                                                                 width: 100.w,
                                                               ),
@@ -1934,9 +1933,9 @@ class _HomeState extends State<Home> {
                                                               width: 104.w,
                                                               height: 90.h,
                                                             )
-                                                          :  CachedNetworkImage(
-                                                              imageUrl: 
-                                                              "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
+                                                          : CachedNetworkImage(
+                                                              imageUrl:
+                                                                  "${ApiUrls.baseImageUrl}${dashboardController.dashboardModel.data!.article!.smallImageUrl!}",
                                                               width: 104.w,
                                                               height: 90.h,
                                                             ),
@@ -2126,7 +2125,7 @@ class _HomeState extends State<Home> {
                                                     textBlack18W7000(
                                                         "Feed Low! Refill Now"),
                                                     textGrey4D4D4D_14(
-                                                        "Feed Quantity At ${feedPerValue.value}%")
+                                                        "Feed Quantity At ${feedPerValue.value.toPrecision(2)}%")
                                                   ],
                                                 ),
                                                 const Spacer(),
@@ -2134,8 +2133,7 @@ class _HomeState extends State<Home> {
                                                   onTap: () {
                                                     setState(() {
                                                       lowFeed = false;
-                                                    });
-                                                    // lowFeed = false;
+                                                    });                                                    // lowFeed = false;
                                                   },
                                                   child: CircleAvatar(
                                                     radius: 17.h,
@@ -2288,7 +2286,7 @@ class _HomeState extends State<Home> {
         child: Padding(
           padding: EdgeInsets.all(4.h),
           child: CachedNetworkImage(
-                                                              imageUrl: "${ApiUrls.baseImageUrl}/$imagePath"),
+              imageUrl: "${ApiUrls.baseImageUrl}/$imagePath"),
         ),
       ),
     );

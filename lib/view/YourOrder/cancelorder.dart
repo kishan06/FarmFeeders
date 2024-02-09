@@ -457,6 +457,7 @@ class _CancelorderState extends State<Cancelorder> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
+                                      const SizedBox(width: 15),
                                       SvgPicture.asset(
                                         "assets/images/downloadorder.svg",
                                         // width: 12.w,

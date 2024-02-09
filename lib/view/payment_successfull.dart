@@ -17,9 +17,8 @@ class PaymentSuccessfull extends StatefulWidget {
 class _PaymentSuccessfullState extends State<PaymentSuccessfull> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Get.offAllNamed("/sideMenu");
 
       // showDialog(
