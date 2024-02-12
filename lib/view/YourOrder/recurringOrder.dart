@@ -849,10 +849,10 @@ class _RecurringorderState extends State<RecurringOrder> {
                                           ),
                                         ),
                               orderDetailsModel.data!.deliveryStatus!.isNotEmpty
-                                  ? SizedBox()
+                                  ? const SizedBox()
                                   : sizedBoxHeight(20.h),
                               orderDetailsModel.data!.deliveryStatus!.isNotEmpty
-                                  ? SizedBox()
+                                  ? const SizedBox()
                                   : Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 16.w),

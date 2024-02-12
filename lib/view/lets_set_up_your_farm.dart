@@ -12,12 +12,8 @@ import 'package:get/get.dart';
 import '../Utils/custom_button.dart';
 import '../controller/profile_controller.dart';
 import '../controller/set_farm.dart';
-import '../models/ProfileModel/profile_info_model.dart';
 import '../models/SetupFarmInfoModel/farm_info_model.dart';
-import '../view_models/ProfileAPI.dart';
 import '../view_models/SetupFarmInfoAPI.dart';
-import 'Side Menu/NavigateTo pages/subscription_plan.dart';
-import 'basic_subscription_plan.dart';
 import 'payment_successfull.dart';
 
 bool isSetFarmInfo = false;
