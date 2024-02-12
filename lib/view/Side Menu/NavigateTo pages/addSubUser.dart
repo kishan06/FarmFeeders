@@ -1,5 +1,4 @@
 //import 'package:farmfeeders/Utils/SizedBox.dart';
-import 'dart:developer';
 
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/utils.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../../models/AddressModel/search_responce_model.dart';
 import '../../placeServices/place_services.dart';

@@ -8,10 +8,8 @@ import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
-import 'package:farmfeeders/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
@@ -138,7 +136,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               ),
               textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: AppColors.buttoncolour,
+                  foregroundColor: AppColors.buttoncolour,
                 ),
               ),
             ),

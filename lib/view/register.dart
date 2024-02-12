@@ -116,7 +116,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 Container(
-                  color: Color(0xFF0E5F02),
+                  color: const Color(0xFF0E5F02),
                   child: Container(
                     // height: double.infinity,
                     decoration: const BoxDecoration(
@@ -459,7 +459,7 @@ class _RegisterState extends State<Register> {
               ),
               textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: AppColors.buttoncolour,
+                  foregroundColor: AppColors.buttoncolour,
                 ),
               ),
             ),

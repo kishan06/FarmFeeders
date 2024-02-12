@@ -58,6 +58,7 @@ class Data {
     description = json['description'];
     monthlyFee = json['monthly_fee'];
     stripeProductId = json['stripe_product_id'];
+
     stripePriceId = json['stripe_price_id'];
     validDays = json['valid_days'];
     active = json['active'];
