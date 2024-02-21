@@ -5,7 +5,6 @@ import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
-import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/models/NotesModel.dart';
 import 'package:farmfeeders/view_models/DeleteNotesAPI.dart';
 import 'package:farmfeeders/view_models/NotesListAPI.dart';
@@ -13,7 +12,6 @@ import 'package:farmfeeders/view_models/TrainingNotesAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/custom_button.dart';
@@ -26,8 +24,8 @@ class VideosDetails extends StatefulWidget {
 }
 
 class _VideosDetailsState extends State<VideosDetails> {
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _contentController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
   late VideoPlayerController videoController;
   final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
   String? videourl;
@@ -35,11 +33,11 @@ class _VideosDetailsState extends State<VideosDetails> {
   String? Time;
   int? videoId;
   RxBool isLoading = true.obs;
+  RxBool isListEmpty = true.obs;
   List<Data> notesData = [];
   @override
   void initState() {
     super.initState();
-    // TODO: implement initState
     checkSubUserPermission();
     videourl = Get.arguments["videourl"];
     Time = Get.arguments["publisheddate"];
@@ -49,12 +47,17 @@ class _VideosDetailsState extends State<VideosDetails> {
     videoController = VideoPlayerController.networkUrl(
         Uri.parse('https://farmflow.betadelivery.com/public/$videourl'))
       ..addListener(() => setState(() {}))
-      ..setLooping(true)
+      ..setLooping(false)
       ..initialize().then((_) => videoController.pause());
 
     NotesListAPI(videoId).noteslistApi().then((value) {
       notesData = value.data!;
       isLoading.value = false;
+      if (notesData.isEmpty) {
+        isListEmpty.value = true;
+      } else {
+        isListEmpty.value = false;
+      }
     });
   }
 
@@ -197,7 +200,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                     },
                     fillColor: AppColors.white,
                     borderColor: const Color(0xFF0E5F02),
-                    maxLines: 8,
+                    maxLines: 5,
                   ),
                   SizedBox(
                     height: 20.h,
@@ -230,6 +233,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                                 }).then((value) {
                                   _titleController.clear();
                                   _contentController.clear();
+                                  isListEmpty.value = false;
                                   Get.back();
                                   Get.back(result: true);
                                 });
@@ -356,7 +360,11 @@ class _VideosDetailsState extends State<VideosDetails> {
                       ],
                     ),
                     sizedBoxHeight(14.h),
-                    textGrey4D4D4D_14('Add Notes:'),
+                    Obx(
+                      () => isListEmpty.value
+                          ? textGrey4D4D4D_14('Add Notes:')
+                          : textGrey4D4D4D_14('Notes:'),
+                    )
                   ],
                 ),
               ),
@@ -420,20 +428,25 @@ class _VideosDetailsState extends State<VideosDetails> {
                                                               0xff0E5F02),
                                                     ),
                                                     sizedBoxWidth(11.w),
-                                                    Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            text: notesData
+                                                    Container(
+                                                      width: Get.width / 1.5,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            notesData
                                                                 .elementAt(
                                                                     index)
-                                                                .title,
+                                                                .title!,
+                                                            maxLines: 5,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                             style: TextStyle(
                                                                 fontSize: 16.sp,
                                                                 color: Colors
@@ -442,40 +455,41 @@ class _VideosDetailsState extends State<VideosDetails> {
                                                                     FontWeight
                                                                         .w500),
                                                           ),
-                                                        ),
-                                                        sizedBoxHeight(5.h),
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            //'Text of the printing and typesetting Industry',
-                                                            text: notesData
-                                                                .elementAt(
-                                                                    index)
-                                                                .description!,
-                                                            style: TextStyle(
-                                                              fontSize: 13.sp,
-                                                              color:
-                                                                  Colors.black,
+                                                          sizedBoxHeight(5.h),
+                                                          RichText(
+                                                            text: TextSpan(
+                                                              //'Text of the printing and typesetting Industry',
+                                                              text: notesData
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .description!,
+                                                              style: TextStyle(
+                                                                fontSize: 13.sp,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        sizedBoxHeight(5.h),
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            text: Utils.convertDate(notesData
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .publishedDatetime ??
-                                                                ""),
-                                                            style: TextStyle(
-                                                                fontSize: 13.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                                color: Colors
-                                                                    .black),
+                                                          sizedBoxHeight(5.h),
+                                                          RichText(
+                                                            text: TextSpan(
+                                                              text: Utils.convertDate(notesData
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .publishedDatetime ??
+                                                                  ""),
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      13.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                  color: Colors
+                                                                      .black),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -581,6 +595,16 @@ class _VideosDetailsState extends State<VideosDetails> {
                                                                   isLoading
                                                                           .value =
                                                                       false;
+                                                                  if (notesData
+                                                                      .isEmpty) {
+                                                                    isListEmpty
+                                                                            .value =
+                                                                        true;
+                                                                  } else {
+                                                                    isListEmpty
+                                                                            .value =
+                                                                        false;
+                                                                  }
                                                                 });
                                                               }
                                                             },

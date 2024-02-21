@@ -268,6 +268,35 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ],
                       ),
                     ),
+                    sizedBoxWidth(36.w),
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 27.r,
+                            backgroundColor: Colors.red,
+                            child: Icon(
+                              Icons.delete,
+                              size: 30.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 6.h,
+                          ),
+                          Text(
+                            'Delete',
+                            style: TextStyle(
+                                fontSize: 13.sp,
+                                color: const Color(0xff444444),
+                                fontFamily: 'Poppins'),
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],

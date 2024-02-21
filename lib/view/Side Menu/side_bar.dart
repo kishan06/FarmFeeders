@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
@@ -263,6 +261,8 @@ class _SideBarState extends State<SideBar> {
                                     fromScreen: "froMSideBar",
                                   ));
                             } else {
+                              // dashboardController.isSideMenuClosed.value =
+                              //     false;
                               Get.toNamed(sideBarData[index]["route"]);
                             }
 

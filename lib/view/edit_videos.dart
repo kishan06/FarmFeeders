@@ -8,13 +8,10 @@ import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/utils.dart';
-import 'package:farmfeeders/common/Videouploadbottomsheet.dart';
-import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
-import 'package:farmfeeders/view/NotificationSettings.dart';
 import 'package:farmfeeders/view_models/UploadvideoAPI.dart';
 // import 'package:farmfeeders/view/Settings.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +30,6 @@ import 'package:path/path.dart' as path;
 import '../common/flush_bar.dart';
 import '../controller/sub_user_controller.dart';
 import '../models/video_detail_model.dart';
-import 'Side Menu/NavigateTo pages/Training/VideosList.dart';
 
 String longVideo =
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
@@ -57,20 +53,6 @@ class _EditVideosState extends State<EditVideos> {
   TextEditingController subtitlecontroller = TextEditingController();
   String? categoryindex;
   bool isUpdate = false;
-
-  // late CustomVideoPlayerWebController _customVideoPlayerWebController;
-  // late CustomVideoPlayerController _customVideoPlayerController;
-  // late VideoPlayerController _videoPlayerController,
-  //     _videoPlayerController2,
-  //     _videoPlayerController3;
-
-  final CustomVideoPlayerSettings _customVideoPlayerSettings =
-      const CustomVideoPlayerSettings();
-
-  final CustomVideoPlayerWebSettings _customVideoPlayerWebSettings =
-      CustomVideoPlayerWebSettings(
-    src: longVideo,
-  );
 
   late VideoPlayerController videoController;
 
@@ -106,7 +88,6 @@ class _EditVideosState extends State<EditVideos> {
   DashboardController dashboardController = Get.put(DashboardController());
   @override
   void initState() {
-    // TODO: implement initState
     categoryindex = Get.arguments["categoryindex"];
     isUpdate = Get.arguments['isUpdate'];
     subUserController.selectedIds.clear();
@@ -114,17 +95,17 @@ class _EditVideosState extends State<EditVideos> {
       titlecontroller.text = dashboardController.videoData.title!;
       subtitlecontroller.text = dashboardController.videoData.smallDescription!;
       log("${ApiUrls.baseImageUrl}/${dashboardController.videoData.videoUrl}");
-      videoController = VideoPlayerController.network(
-          "${ApiUrls.baseImageUrl}/${dashboardController.videoData.videoUrl}")
+      videoController = VideoPlayerController.networkUrl(Uri.parse(
+          "${ApiUrls.baseImageUrl}/${dashboardController.videoData.videoUrl}"))
         ..addListener(() => setState(() {}))
-        ..setLooping(true)
+        ..setLooping(false)
         ..initialize().then((_) => videoController.pause());
       videoControllerSet = true;
     } else {
-      videoController = VideoPlayerController.network(
-          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
+      videoController = VideoPlayerController.networkUrl(Uri.parse(
+          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'))
         ..addListener(() => setState(() {}))
-        ..setLooping(true)
+        ..setLooping(false)
         ..initialize().then((_) => videoController.pause());
     }
     super.initState();
@@ -244,6 +225,7 @@ class _EditVideosState extends State<EditVideos> {
         return true;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: AppColors.white,
           title: Padding(
@@ -307,13 +289,13 @@ class _EditVideosState extends State<EditVideos> {
                                 setVideoPlayerController();
                               }
 
-                              return Container(
+                              return SizedBox(
                                   height: 300.h,
                                   child: videoControllerSet
                                       ? NetworkPlayerWidget(
                                           videoController: videoController,
                                         )
-                                      : Text("Loading")
+                                      : const Text("Loading")
                                   // CircularProgressIndicator()
                                   );
                             })
@@ -361,19 +343,15 @@ class _EditVideosState extends State<EditVideos> {
                                   if (videoControllerSet == false) {
                                     setVideoPlayerController();
                                   }
-                                  // videoController = VideoPlayerController.file(File(file!.path))
-                                  // ..addListener(() => setState(() {}))
-                                  // ..setLooping(true)
-                                  // ..initialize().then((_) => videoController.pause());
 
-                                  return Container(
+                                  return SizedBox(
                                       height: 300.h,
                                       // width: 200.w,
                                       child: videoControllerSet
                                           ? NetworkPlayerWidget(
                                               videoController: videoController,
                                             )
-                                          : Text("Loading")
+                                          : const Text("Loading")
                                       // CircularProgressIndicator()
                                       );
                                 }),
@@ -382,13 +360,11 @@ class _EditVideosState extends State<EditVideos> {
                           ? CustomButton(
                               text: "Re-upload Video",
                               onTap: () {
-                                videoControllerSet = false;
-                                setState(() {});
                                 builduploadprofile(true);
                               },
                             )
                           : file == null
-                              ? SizedBox()
+                              ? const SizedBox()
                               : CustomButton(
                                   text: "Re-upload Video",
                                   onTap: () {
@@ -463,31 +439,34 @@ class _EditVideosState extends State<EditVideos> {
           ),
         )),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: CustomButton(
-            text: isUpdate ? "Update" : "Upload",
-            onTap: () {
-              final isValid = _form.currentState?.validate();
+          padding: MediaQuery.of(context).viewInsets,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: CustomButton(
+              text: isUpdate ? "Update" : "Upload",
+              onTap: () {
+                final isValid = _form.currentState?.validate();
 
-              if (isValid!) {
-                if (subUserController.selectedIds.isEmpty) {
-                  commonFlushBar(context,
-                      msg: "Provide access to alteast one user");
-                } else {
-                  if (isUpdate) {
-                    _uploadcheck();
+                if (isValid!) {
+                  if (subUserController.selectedIds.isEmpty) {
+                    commonFlushBar(context,
+                        msg: "Provide access to alteast one user");
                   } else {
-                    if (file == null) {
-                      commonFlushBar(context, msg: "Video is Required");
-                    } else {
+                    if (isUpdate) {
                       _uploadcheck();
+                    } else {
+                      if (file == null) {
+                        commonFlushBar(context, msg: "Video is Required");
+                      } else {
+                        _uploadcheck();
+                      }
                     }
                   }
                 }
-              }
 
-              // UploadvideoAPI(updata).uploadvideoApi();
-            },
+                // UploadvideoAPI(updata).uploadvideoApi();
+              },
+            ),
           ),
         ),
       ),
@@ -596,6 +575,9 @@ class _EditVideosState extends State<EditVideos> {
       source: source,
       maxDuration: const Duration(seconds: 10),
     );
+    if (file != null) {
+      Utils.loader();
+    }
     attachimage = file!.path;
 
     MediaInfo? mediaInfo = await VideoCompress.compressVideo(
@@ -609,6 +591,9 @@ class _EditVideosState extends State<EditVideos> {
     setState(() {
       videoControllerSet = false;
     });
+    if (file != null) {
+      Get.back();
+    }
   }
 
   Future getImage(ImageSource source) async {
@@ -667,7 +652,7 @@ class _CustomListTileState extends State<AccessCustomListTile> {
         }
       }
     }
-    return Container(
+    return SizedBox(
       height: 60.h,
       child: Padding(
         padding:

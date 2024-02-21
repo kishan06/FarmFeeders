@@ -805,44 +805,93 @@ class _OngoingorderState extends State<Ongoingorder> {
                                               .any((item) =>
                                                   item.deliveryStatusXid != 7)
                                       ? const SizedBox()
-                                      : Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 16.w),
-                                          child: Container(
-                                            padding: const EdgeInsets.all(12),
-                                            width: 358.w,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.h),
-                                                color: AppColors.buttoncolour),
-                                            child: Center(
-                                              child: RichText(
-                                                text: TextSpan(
-                                                  text:
-                                                      'Share this OTP with your delivery agent: ',
-                                                  style: GoogleFonts.montserrat(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: AppColors.white,
-                                                      fontSize: 18.sp),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      text: orderDetailsModel
-                                                          .data!.deliveryOtp,
+                                      : orderDetailsModel.data!.deliveryStatus!
+                                                  .any((item) =>
+                                                      item.deliveryStatusXid ==
+                                                      6) &&
+                                              orderDetailsModel
+                                                  .data!.deliveryStatus!
+                                                  .any((item) =>
+                                                      item.deliveryStatusXid ==
+                                                      7)
+                                          ? Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 16.w),
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(12),
+                                                width: 358.w,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.h),
+                                                    color:
+                                                        AppColors.buttoncolour),
+                                                child: Center(
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      text:
+                                                          'OTP shared successfully with the delivery agent.',
                                                       style: GoogleFonts
                                                           .montserrat(
-                                                        fontSize: 20.sp,
-                                                        color: AppColors.white,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppColors
+                                                                  .white,
+                                                              fontSize: 18.sp),
                                                     ),
-                                                  ],
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 16.w),
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(12),
+                                                width: 358.w,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.h),
+                                                    color:
+                                                        AppColors.buttoncolour),
+                                                child: Center(
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      text:
+                                                          'Share this OTP with your delivery agent: ',
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppColors
+                                                                  .white,
+                                                              fontSize: 18.sp),
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                          text:
+                                                              orderDetailsModel
+                                                                  .data!
+                                                                  .deliveryOtp,
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                            fontSize: 20.sp,
+                                                            color:
+                                                                AppColors.white,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
                               orderDetailsModel.data!.deliveryStatus!.isNotEmpty
                                   ? SizedBox()
                                   : sizedBoxHeight(20.h),

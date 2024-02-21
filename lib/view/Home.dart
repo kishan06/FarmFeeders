@@ -263,7 +263,6 @@ class _HomeState extends State<Home> {
     bool isDaytime = isDaytimeNow(currentTime, sunrise, sunset);
 
     return Scaffold(
-       
         body: RefreshIndicator(
       strokeWidth: 3,
       displacement: 250,
@@ -386,11 +385,11 @@ class _HomeState extends State<Home> {
                               Text(
                                 dashboardController
                                     .dashboardModel.data!.userName!,
-                                style: TextStyle(
-                                    fontSize: 20.sp,
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "Montserrat"),
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20.sp,
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ],
                           ),
@@ -2133,7 +2132,7 @@ class _HomeState extends State<Home> {
                                                   onTap: () {
                                                     setState(() {
                                                       lowFeed = false;
-                                                    });                                                    // lowFeed = false;
+                                                    }); // lowFeed = false;
                                                   },
                                                   child: CircleAvatar(
                                                     radius: 17.h,
