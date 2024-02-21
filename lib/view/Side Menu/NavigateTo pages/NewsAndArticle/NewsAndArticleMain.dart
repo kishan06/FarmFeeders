@@ -37,9 +37,6 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    // controllerNewsArticle.dispose();
-    //  _scrollviewcontroller!.dispose();
     super.dispose();
   }
 
@@ -48,19 +45,22 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: customAppBar(
-                text: "News & Article",
-                actions: true,
-                icon: GestureDetector(
-                  onTap: () {
-                    Get.toNamed("/savedarticlemain");
-                  },
-                  child: Icon(
-                    Icons.bookmark_rounded,
-                    size: 26.sp,
-                    color: const Color(0xFF0E5F02),
-                  ),
-                )),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 18.0),
+              child: customAppBar(
+                  text: "News & Article",
+                  actions: true,
+                  icon: GestureDetector(
+                    onTap: () {
+                      Get.toNamed("/savedarticlemain");
+                    },
+                    child: Icon(
+                      Icons.bookmark_rounded,
+                      size: 26.sp,
+                      color: const Color(0xFF0E5F02),
+                    ),
+                  )),
+            ),
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
             elevation: 0,
@@ -83,8 +83,11 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                 (context, index) => Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
                                     CarouselSlider.builder(
-                                      carouselController: CarouselController(),
+                                      carouselController: carouselController,
                                       itemCount: controllerNewsArticle
                                                   .newsArticlesData!
                                                   .data
@@ -135,6 +138,31 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                               sliderPage.value = index;
                                             });
                                           }),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: controllerNewsArticle
+                                          .newsArticlesData!.data
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        return Container(
+                                          width: 12.0,
+                                          height: 12.0,
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 4.0),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color:
+                                                  sliderPage.value == entry.key
+                                                      ? AppColors.buttoncolour
+                                                      : Colors.grey),
+                                        );
+                                      }).toList(),
                                     ),
                                   ],
                                 ),

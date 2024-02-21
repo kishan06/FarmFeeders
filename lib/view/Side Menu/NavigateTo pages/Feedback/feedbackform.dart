@@ -3,6 +3,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
+import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/view_models/FeedbackAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +26,7 @@ class _FeedbackformState extends State<Feedbackform> {
   int? selectedIndex;
 
   final TextEditingController _commentController = TextEditingController();
+  DashboardController dashboardController = Get.put(DashboardController());
   @override
   void initState() {
     super.initState();
@@ -181,12 +183,14 @@ class _FeedbackformState extends State<Feedbackform> {
                       if (_form.currentState!.validate()) {
                         Utils.loader();
                         var data = FormData.fromMap({
-                          "   ": selectedIndex,
+                          "experience_id": selectedIndex,
                           "comment": _commentController.text,
                         });
                         FeedbackAPI().feedbackApi(data).then((value) {
                           FocusManager.instance.primaryFocus?.unfocus();
                           _commentController.clear();
+                          dashboardController.isSideMenuClosed.value = true;
+                          dashboardController.animationController.reverse();
                           Get.back();
                           Get.back();
                           Get.back();

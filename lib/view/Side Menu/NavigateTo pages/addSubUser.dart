@@ -1,5 +1,3 @@
-//import 'package:farmfeeders/Utils/SizedBox.dart';
-
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
@@ -289,50 +287,52 @@ class _addSubUserState extends State<addSubUser> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Password",
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      CustomTextFormField(
-                        textEditingController: password,
-                        leadingIcon:
-                            SvgPicture.asset("assets/images/password.svg"),
-                        hintText: "",
-                        validator: (value) {
-                          if (!isEdit) {
-                            if (value == value.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            if (!passwordRegex.hasMatch(value!)) {
-                              return 'Password must be at least 8 characters long, '
-                                  'include one uppercase letter, one lowercase letter, '
-                                  'one number, and one special character.';
-                            }
-                          }
-                          if (isEdit && password.text.isNotEmpty) {
-                            if (!passwordRegex.hasMatch(value!)) {
-                              return 'Password must be at least 8 characters long, '
-                                  'include one uppercase letter, one lowercase letter, '
-                                  'one number, and one special character.';
-                            }
-                          }
+                  isEdit
+                      ? SizedBox()
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Password",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            CustomTextFormField(
+                              textEditingController: password,
+                              leadingIcon: SvgPicture.asset(
+                                  "assets/images/password.svg"),
+                              hintText: "",
+                              validator: (value) {
+                                if (!isEdit) {
+                                  if (value == value.isEmpty) {
+                                    return 'Please enter your password';
+                                  }
+                                  if (!passwordRegex.hasMatch(value!)) {
+                                    return 'Password must be at least 8 characters long, '
+                                        'include one uppercase letter, one lowercase letter, '
+                                        'one number, and one special character.';
+                                  }
+                                }
+                                if (isEdit && password.text.isNotEmpty) {
+                                  if (!passwordRegex.hasMatch(value!)) {
+                                    return 'Password must be at least 8 characters long, '
+                                        'include one uppercase letter, one lowercase letter, '
+                                        'one number, and one special character.';
+                                  }
+                                }
 
-                          return null;
-                        },
-                        validatorText: "",
-                        isInputPassword: true,
-                      ),
-                    ],
-                  ),
+                                return null;
+                              },
+                              validatorText: "",
+                              isInputPassword: true,
+                            ),
+                          ],
+                        ),
                   SizedBox(
                     height: 20.h,
                   ),

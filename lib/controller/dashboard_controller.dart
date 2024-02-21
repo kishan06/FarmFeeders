@@ -1,4 +1,5 @@
 import 'package:farmfeeders/models/faq_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/OrderModel/orders_model.dart';
@@ -16,6 +17,7 @@ class DashboardController extends GetxController {
   RxBool isLocationFetching = false.obs;
   RxString weatherCondition = "".obs;
   RxBool isDashboardApiLoading = false.obs;
+  late AnimationController animationController;
   RxBool isWeatherLoading = false.obs;
   bool isDashboardFirst = true;
   bool isOrderFirst = true;
@@ -26,5 +28,6 @@ class DashboardController extends GetxController {
   String faqText = "";
   double? currentLat = 0, currentLng = 0;
   VideoData videoData = VideoData();
+  RxBool isSideMenuClosed = true.obs;
   List<WeatherModel> weatherModel = [];
 }

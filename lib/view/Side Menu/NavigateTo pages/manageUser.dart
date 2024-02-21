@@ -156,7 +156,10 @@ class _manageUserState extends State<manageUser> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: customAppBar(text: "Manage Users"),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: customAppBar(text: "Manage Users"),
+          ),
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           elevation: 0,
@@ -253,7 +256,7 @@ class _manageUserState extends State<manageUser> {
                                                 Row(
                                                   children: [
                                                     const Text(
-                                                      "FULL NAME        : ",
+                                                      "Full Name        : ",
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Color(
@@ -273,7 +276,7 @@ class _manageUserState extends State<manageUser> {
                                                 Row(
                                                   children: [
                                                     const Text(
-                                                      "DATE OF BIRTH : ",
+                                                      "Date Of Birth : ",
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Color(
@@ -293,7 +296,7 @@ class _manageUserState extends State<manageUser> {
                                                 Row(
                                                   children: [
                                                     const Text(
-                                                      "PHONE               : ",
+                                                      "Phone               : ",
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Color(
@@ -316,7 +319,7 @@ class _manageUserState extends State<manageUser> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     const Text(
-                                                      "EMAIL                 : ",
+                                                      "Email                 : ",
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Color(
@@ -342,7 +345,7 @@ class _manageUserState extends State<manageUser> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     const Text(
-                                                      "ADDRESS           : ",
+                                                      "Address           : ",
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Color(
