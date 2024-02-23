@@ -173,7 +173,7 @@ class _SideBarState extends State<SideBar> {
                               width: 65.w,
                               child: Obx(
                                 () => isLoading.value
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(100),
@@ -241,7 +241,7 @@ class _SideBarState extends State<SideBar> {
                   Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: sideBarData.length,
                       itemBuilder: (_, index) {
                         return SideBarTile(

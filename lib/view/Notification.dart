@@ -130,7 +130,7 @@ class _NotificationState extends State<Notification> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Approve the connection request for ${name}",
+                    "Approve the connection request for $name",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,

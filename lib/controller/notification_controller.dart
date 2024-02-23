@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/global.dart';

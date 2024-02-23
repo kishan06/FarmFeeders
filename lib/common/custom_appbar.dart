@@ -42,14 +42,14 @@ Widget customAppBar(
                 : textBlack20W7000Mon(text),
           ],
         ),
-        Spacer(),
+        const Spacer(),
         actions
             ? icon
             // Icons.bookmark,
             // color: Color(0xFF0E5F02),
             // size: 26.sp,
 
-            : SizedBox(),
+            : const SizedBox(),
       ],
     ),
   );

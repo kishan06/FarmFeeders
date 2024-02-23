@@ -38,8 +38,8 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
   final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
   static const LatLng dublin = LatLng(53.349805, -6.26031);
   static LatLngBounds irelandBounds = LatLngBounds(
-      southwest: LatLng(51.451275, -6.808388),
-      northeast: LatLng(55.1316222195, -6.03298539878));
+      southwest: const LatLng(51.451275, -6.808388),
+      northeast: const LatLng(55.1316222195, -6.03298539878));
 // {'Ireland': [-9.97708574059, 51.6693012559, -6.03298539878, 55.1316222195]}},
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
                                     setState(() {});
                                   },
                                   child: const Padding(
-                                    padding: const EdgeInsets.only(top: 0),
+                                    padding: EdgeInsets.only(top: 0),
                                     child: Icon(
                                       Icons.cancel_sharp,
                                       color: Colors.black,
@@ -270,7 +270,7 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
                       // myLocationEnabled: true,
                       // myLocationButtonEnabled: true,
                       cameraTargetBounds: CameraTargetBounds(irelandBounds),
-                      initialCameraPosition: CameraPosition(
+                      initialCameraPosition: const CameraPosition(
                         target: dublin,
                         zoom: 7,
                       ),
@@ -464,7 +464,7 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
         ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-          child: Container(
+          child: SizedBox(
             width: Get.width / 1,
             height: 50,
             child: customButtonCurve(

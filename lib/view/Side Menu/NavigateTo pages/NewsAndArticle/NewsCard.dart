@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/controller/news_article_controller.dart';
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -145,15 +144,12 @@ class _newsState extends State<newsCard> {
                   SizedBox(
                     height: 5.h,
                   ),
-                  Container(
-                    // width: 200.w,
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF141414)),
-                    ),
+                  Text(
+                    title,
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF141414)),
                   ),
 
                   // Spacer(),
@@ -163,8 +159,8 @@ class _newsState extends State<newsCard> {
                       Text(
                         // "7 Feb 2023",
                         date,
-                        style:
-                            TextStyle(fontSize: 14, color: Color(0xFF4D4D4D)),
+                        style: const TextStyle(
+                            fontSize: 14, color: Color(0xFF4D4D4D)),
                       ),
                       // SizedBox(
                       //   width: 100,
@@ -194,11 +190,11 @@ class _newsState extends State<newsCard> {
                                 index: index, id: id.toString());
                           },
                           child: bookmarked
-                              ? Container(
+                              ? SizedBox(
                                   height: 40,
                                   child: SvgPicture.asset(
                                       "assets/images/save.svg"))
-                              : Container(
+                              : SizedBox(
                                   height: 40,
                                   child: SvgPicture.asset(
                                       "assets/images/saveblank.svg")),
@@ -213,7 +209,7 @@ class _newsState extends State<newsCard> {
             ),
           ],
         ),
-        Divider(
+        const Divider(
             // endIndent: 20.w,
             // indent: 20.w,
             ),

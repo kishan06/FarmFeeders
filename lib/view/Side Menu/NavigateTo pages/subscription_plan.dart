@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';

@@ -20,7 +20,6 @@ class _NewVideoplayerState extends State<NewVideoplayer> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     videoController = VideoPlayerController.file(File(widget.file!.path))
       ..addListener(() => setState(() {}))
@@ -31,7 +30,7 @@ class _NewVideoplayerState extends State<NewVideoplayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: 300.h,
         child: NetworkPlayerWidget(videoController: videoController),
       ),

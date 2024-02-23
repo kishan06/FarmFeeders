@@ -30,7 +30,6 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controllerNewsArticle.getNewsArticleData();
   }

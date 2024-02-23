@@ -105,11 +105,11 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.contactus,
-          page: () => ContactUs(),
+          page: () => const ContactUs(),
         ),
         GetPage(
           name: RouteName.liveStockInfoMain,
-          page: () => LiveStockInfoLive(),
+          page: () => const LiveStockInfoLive(),
         ),
         GetPage(
           name: RouteName.feedtracker,
@@ -117,105 +117,105 @@ class AppRoutes {
         ),
         GetPage(
           name: RouteName.home,
-          page: () => Home(),
+          page: () => const Home(),
         ),
         GetPage(
           name: RouteName.sideMenu,
-          page: () => SideMenu(),
+          page: () => const SideMenu(),
         ),
         GetPage(
           name: RouteName.profile,
-          page: () => Profile(),
+          page: () => const Profile(),
         ),
         GetPage(
           name: RouteName.personalinfo,
-          page: () => PersonalInfo(),
+          page: () => const PersonalInfo(),
         ),
         GetPage(
           name: RouteName.manageuser,
-          page: () => manageUser(),
+          page: () => const manageUser(),
         ),
         GetPage(
           name: RouteName.addSubUser,
-          page: () => addSubUser(),
+          page: () => const addSubUser(),
         ),
         GetPage(
           name: RouteName.newsAndArticleMain,
-          page: () => NewsAndArticleMain(),
+          page: () => const NewsAndArticleMain(),
         ),
         GetPage(
           name: RouteName.savedArticleMain,
-          page: () => SavedArticleMain(),
+          page: () => const SavedArticleMain(),
         ),
         GetPage(
           name: RouteName.ArticleDetails,
-          page: () => ArticleDetails(),
+          page: () => const ArticleDetails(),
         ),
         GetPage(
           name: RouteName.TrainingMain,
-          page: () => TrainingMain(),
+          page: () => const TrainingMain(),
         ),
         GetPage(
           name: RouteName.VideosList,
-          page: () => VideosList(),
+          page: () => const VideosList(),
         ),
         GetPage(
           name: RouteName.VideosDetails,
-          page: () => VideosDetails(),
+          page: () => const VideosDetails(),
         ),
         GetPage(
           name: RouteName.faqs,
-          page: () => Faq(),
+          page: () => const Faq(),
         ),
         GetPage(
           name: RouteName.accountfaq,
-          page: () => Accountapp(),
+          page: () => const Accountapp(),
         ),
         GetPage(
           name: RouteName.yourordermain,
-          page: () => Yourorder(),
+          page: () => const Yourorder(),
         ),
         GetPage(
           name: RouteName.editVideos,
-          page: () => EditVideos(),
+          page: () => const EditVideos(),
         ),
         GetPage(
           name: RouteName.feedBack,
-          page: () => FeedBack(),
+          page: () => const FeedBack(),
         ),
         GetPage(
           name: RouteName.ongoingorder,
-          page: () => Ongoingorder(),
+          page: () => const Ongoingorder(),
         ),
         GetPage(
           name: RouteName.cancelorder,
-          page: () => Cancelorder(),
+          page: () => const Cancelorder(),
         ),
         GetPage(
           name: RouteName.deliveredorder,
-          page: () => Deliveredorder(),
+          page: () => const Deliveredorder(),
         ),
         GetPage(
           name: RouteName.reorder,
-          page: () => Reorderscreen(
+          page: () => const Reorderscreen(
               // onChanged: (value) => 0,
               ),
         ),
         GetPage(
           name: RouteName.connect,
-          page: () => Connectcode(
+          page: () => const Connectcode(
               // onChanged: (value) => 0,
               ),
         ),
         GetPage(
           name: RouteName.feedbackform,
-          page: () => Feedbackform(
+          page: () => const Feedbackform(
               // onChanged: (value) => 0,
               ),
         ),
         GetPage(
           name: RouteName.settings,
-          page: () => Settings(
+          page: () => const Settings(
               // onChanged: (value) => 0,
               ),
         ),

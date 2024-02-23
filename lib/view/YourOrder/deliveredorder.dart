@@ -94,7 +94,7 @@ class _DeliveredorderState extends State<Deliveredorder> {
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
-                        launch("tel://${number}");
+                        launch("tel://$number");
                       },
                       child: Container(
                         height: 48.h,
@@ -528,7 +528,8 @@ class _DeliveredorderState extends State<Deliveredorder> {
                                                             .createdAt! ??
                                                         "2023-12-05T11:36:49.000000Z"),
                                                 style: TextStyle(
-                                                    color: Color(0xFFE3E3E3),
+                                                    color:
+                                                        const Color(0xFFE3E3E3),
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.w400,
                                                     fontFamily: "Poppins"),
