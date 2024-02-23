@@ -3,13 +3,10 @@ import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
-import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 class FeedBack extends StatefulWidget {
@@ -74,7 +71,7 @@ class _FeedBackState extends State<FeedBack> {
                     "How did you feel while using farmflow?",
                   ),
 
-                  Row(),
+                  const Row(),
 
                   sizedBoxHeight(80.h),
 
@@ -108,9 +105,7 @@ class _FeedBackState extends State<FeedBack> {
 
                   SizedBox(
                     height: 250.h,
-                    child: Container(
-                        // color: AppColors.redFA5658,
-                        child: ScrollSnapList(
+                    child: ScrollSnapList(
                       itemBuilder: _buildItemList,
                       itemSize: 150,
                       curve: Curves.decelerate,
@@ -125,7 +120,7 @@ class _FeedBackState extends State<FeedBack> {
                         });
                         // focusedValue = val;
                       },
-                    )),
+                    ),
                   ),
 
                   SizedBox(
@@ -154,13 +149,14 @@ class _FeedBackState extends State<FeedBack> {
   List<int> data = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
   Widget _buildItemList(BuildContext context, int index) {
-    if (index == data.length)
-      return Center(
+    if (index == data.length) {
+      return const Center(
         child: CircularProgressIndicator(
           color: AppColors.buttoncolour,
         ),
       );
-    return Container(
+    }
+    return SizedBox(
       width: 150,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

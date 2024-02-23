@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
@@ -396,7 +394,7 @@ class _HomeState extends State<Home> {
                           const Spacer(),
                           Stack(
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 42.h,
                                 width: 45.h,
                               ),
@@ -1119,7 +1117,7 @@ class _HomeState extends State<Home> {
                                                                     height:
                                                                         30.h,
                                                                     padding:
-                                                                        EdgeInsets
+                                                                        const EdgeInsets
                                                                             .all(5),
                                                                     decoration:
                                                                         BoxDecoration(
@@ -1182,7 +1180,7 @@ class _HomeState extends State<Home> {
                                                                     height:
                                                                         30.h,
                                                                     padding:
-                                                                        EdgeInsets
+                                                                        const EdgeInsets
                                                                             .all(5),
                                                                     decoration:
                                                                         BoxDecoration(
@@ -1333,7 +1331,7 @@ class _HomeState extends State<Home> {
                                                               .currentFeed!
                                                               .length,
                                                           (index) => Container(
-                                                                margin: EdgeInsets
+                                                                margin: const EdgeInsets
                                                                     .only(
                                                                         left:
                                                                             15),
@@ -2014,7 +2012,7 @@ class _HomeState extends State<Home> {
                                                                     });
                                                                   },
                                                                   child: !saved
-                                                                      ? Container(
+                                                                      ? SizedBox(
                                                                           height: 25
                                                                               .h,
                                                                           width: 25
@@ -2023,7 +2021,7 @@ class _HomeState extends State<Home> {
                                                                               SvgPicture.asset(
                                                                             "assets/images/saveblank.svg",
                                                                           ))
-                                                                      : Container(
+                                                                      : SizedBox(
                                                                           height:
                                                                               25.h,
                                                                           width:
@@ -2182,7 +2180,7 @@ class _HomeState extends State<Home> {
 
   Future<String> getAddressFromLatLng(double lat, lng) async {
     late final List<Placemark> placemarks;
-    await Future.delayed(Duration(seconds: 1), () async {
+    await Future.delayed(const Duration(seconds: 1), () async {
       placemarks = await placemarkFromCoordinates(
         lat,
         lng,

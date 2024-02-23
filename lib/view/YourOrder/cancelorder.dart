@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -96,7 +93,7 @@ class _CancelorderState extends State<Cancelorder> {
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
-                        launch("tel://${number}");
+                        launch("tel://$number");
                       },
                       child: Container(
                         height: 48.h,

@@ -13,7 +13,7 @@ Widget customAppBarHome({required String text}) {
           width: 40.w,
         ),
         textBlack20W7000Mon(text),
-        Spacer(),
+        const Spacer(),
         InkWell(
           onTap: () {
             Get.back();

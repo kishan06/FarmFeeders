@@ -1,15 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/common/error_msg.dart';
 import 'package:farmfeeders/common/loading.dart';
 import 'package:farmfeeders/controller/news_article_controller.dart';
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsCard.dart';
-import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsData.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/news_card_bookmarked.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SavedArticleMain extends StatefulWidget {
@@ -24,7 +20,6 @@ class _SavedArticleState extends State<SavedArticleMain> {
   var sliderPage = 0.obs;
   final CarouselController carouselController = CarouselController();
   final controllerNewsArticle = Get.put(NewsArticleController());
-  
 
   @override
   void initState() {
@@ -57,7 +52,7 @@ class _SavedArticleState extends State<SavedArticleMain> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: 1,
-                  (context, index) => Column(
+                  (context, index) => const Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [],
                   ),
@@ -77,18 +72,21 @@ class _SavedArticleState extends State<SavedArticleMain> {
                 //     textBlack18W600Mon("Latest News"),
                 //   ],
                 // ),
-                Expanded(
-                  child: GetBuilder<NewsArticleController>(builder: (builder){
-                    return controllerNewsArticle.isLoadingBookmarkList 
-                    ? Loading()
-                    : controllerNewsArticle.bookmarkedNewsArticle == null 
-                      ? ErrorMsg()
-                      : controllerNewsArticle.bookmarkedNewsArticle!.data.isEmpty 
-                      ? ErrorMsg(msg: "No bookmarked news and articles",)
-                      : NewsCardBookmarked();
-                  })
-                  // newsCard(bookmarkedList: true,)
-                )
+                Expanded(child:
+                        GetBuilder<NewsArticleController>(builder: (builder) {
+                  return controllerNewsArticle.isLoadingBookmarkList
+                      ? const Loading()
+                      : controllerNewsArticle.bookmarkedNewsArticle == null
+                          ? ErrorMsg()
+                          : controllerNewsArticle
+                                  .bookmarkedNewsArticle!.data.isEmpty
+                              ? ErrorMsg(
+                                  msg: "No bookmarked news and articles",
+                                )
+                              : NewsCardBookmarked();
+                })
+                    // newsCard(bookmarkedList: true,)
+                    )
               ],
             ),
           ),

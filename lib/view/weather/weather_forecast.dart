@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/models/weather_model.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
@@ -376,7 +374,8 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Container(width: 100,
+                                      SizedBox(
+                                        width: 100,
                                         child: Text(
                                           dashboardController
                                               .weatherModel[index].name!,

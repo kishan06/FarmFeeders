@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class SetupFarmInfoApi {
   Future<ResponseData<dynamic>> getFarmInfoApi() async {
