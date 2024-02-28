@@ -1032,15 +1032,6 @@ class _RecurringorderState extends State<RecurringOrder> {
                                                     fontFamily: "Poppins"),
                                               ),
                                               sizedBoxHeight(8.h),
-                                              // Text(
-                                              //   "Order g: 408-0073624-7437935",
-                                              //   style: TextStyle(
-                                              //       fontSize: 14.sp,
-                                              //       color:
-                                              //           const Color(0XFF141414),
-                                              //       fontFamily: "Poppins"),
-                                              // ),
-                                              // sizedBoxHeight(7.h),
                                               Text(
                                                 "Ordered: ${Utils.convertDate(orderDetailsModel.data!.orderDetails!.orderDate!)}",
                                                 style: TextStyle(
@@ -1151,12 +1142,12 @@ class _RecurringorderState extends State<RecurringOrder> {
                                                           ),
                                                           Expanded(
                                                             flex: 3,
-                                                            child: Text(
+                                                            child: Text(Utils.convertISOToFormattedDate(
                                                                 orderDetailsModel
                                                                     .data!
                                                                     .orderHistory![
                                                                         index]
-                                                                    .deliveryDate!),
+                                                                    .deliveryDate!)),
                                                           ),
                                                           Expanded(
                                                             flex: 2,

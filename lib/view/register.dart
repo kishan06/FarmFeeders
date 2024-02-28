@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:farmfeeders/common/limit_range.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -55,6 +56,7 @@ class _RegisterState extends State<Register> {
     // networkApiServices.getHttpResponse();
 
     final isValid = _formKey.currentState?.validate();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (isValid!) {
       Utils.loader();
       Map<String, String> updata = {
@@ -64,6 +66,7 @@ class _RegisterState extends State<Register> {
         "email": emailController.text,
         "password": passwordController.text,
         "c_password": cpasswordController.text,
+        "player_id": prefs.getString('playerId')!,
       };
       final resp = await RegisterAPI(updata).registerApi();
       Get.back();

@@ -78,7 +78,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           .profileInfoModel.value.data!.profilePhoto!.isEmpty) {
         //
         imageFile = await Utils.assetImageToMultipartFile(
-            "assets/images/profile.png", "profile");
+            "assets/default_image.jpg", "profile");
       } else {
         imageFile = await Utils.networkImageToMultipartFile(
           "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}",
@@ -272,6 +272,16 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     GestureDetector(
                       onTap: () {
                         Get.back();
+                        Utils.loader();
+                        ProfileAPI().deleteProfileImageAPI().then((value) {
+                          ProfileAPI().getProfileInfo().then((value) {
+                            profileController.profileInfoModel.value =
+                                ProfileInfoModel.fromJson(value.data);
+                            utils.showToast("Profile Deleted Sucessfully");
+                            Get.back();
+                            setState(() {});
+                          });
+                        });
                       },
                       child: Column(
                         children: [
@@ -388,7 +398,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                                   .profilePhoto!
                                                   .isEmpty
                                               ? Image.asset(
-                                                  "assets/images/profile.png")
+                                                  "assets/default_image.jpg")
                                               : CachedNetworkImage(
                                                   imageUrl:
                                                       "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),

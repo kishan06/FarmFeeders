@@ -495,7 +495,7 @@ class DeliveryStatus {
 
 class OrderHistory {
   int? id;
-  double? netValue;
+  String? netValue;
   String? deliveryDate;
 
   OrderHistory({
@@ -507,7 +507,7 @@ class OrderHistory {
   OrderHistory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     netValue = json['net_value'];
-    deliveryDate = json['delivery_date'];
+    deliveryDate = json['delivery_date'] == null ? "" : json['delivery_date'];
   }
 
   Map<String, dynamic> toJson() {

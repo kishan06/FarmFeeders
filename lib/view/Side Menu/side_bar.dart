@@ -195,7 +195,7 @@ class _SideBarState extends State<SideBar> {
                                                     .profilePhoto!
                                                     .isEmpty
                                                 ? Image.asset(
-                                                    "assets/images/profile.png")
+                                                    "assets/default_image.jpg")
                                                 : CachedNetworkImage(
                                                     imageUrl:
                                                         "${ApiUrls.baseImageUrl}/${profileController.profileInfoModel.value.data!.profilePhoto}"),

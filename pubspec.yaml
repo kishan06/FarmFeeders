@@ -83,7 +83,8 @@ dependencies:
   gap: ^3.0.1
   expansion_tile_group: ^1.2.4
   flutter_dotenv: ^5.1.0
-
+  onesignal_flutter: ^3.5.1
+  firebase_core:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true

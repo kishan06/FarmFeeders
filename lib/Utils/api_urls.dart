@@ -14,6 +14,7 @@ class ApiUrls {
   static const getNewsArticle = "${base}news-and-articles";
   static const profileInfoAPI = "${base}profile-info";
   static const updateProfileInfoAPI = "${base}profile-update";
+  static const deleteProfileImageAPI = "${base}delete_profile/image";
   static const feedbackApi = "${base}feedback";
   static const farmInfoApi = "${base}edit/farm-info";
   static const livestockTypeApi = "${base}livestock/types";

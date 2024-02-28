@@ -701,6 +701,7 @@ class _FeedContainerState extends State<FeedContainer> {
                                         if (value == null || value.isEmpty) {
                                           // return "Enter Min";
                                         }
+
                                         return null;
                                       },
                                     ),
@@ -765,26 +766,50 @@ class _FeedContainerState extends State<FeedContainer> {
                               final isValid =
                                   _formFeedContainer.currentState?.validate();
                               if (isValid!) {
-                                Utils.loader();
-                                final resp = await feedInfoController
-                                    .setApiFarmFeed(map: {
-                                  'livestock_type': widget.feedId.toString(),
-                                  'current_feed': tecCurrentFeed.text,
-                                  'feed_type': selectedFeedTypeIndex.toString(),
-                                  'feed_frequency':
-                                      selectedFrequencyIndex.toString(),
-                                  'qty_per_seed': tecQuantity.text,
-                                  'min_capacity': tecMin.text,
-                                  'max_capacity': tecMax.text
-                                });
-                                if (resp! == "success") {
-                                  Get.back();
-                                  commonFlushBar(context,
-                                      msg: "Feed updated successfully",
-                                      title: "Success");
-                                } else if (resp == "Access Denied") {
-                                  Get.back();
-                                  commonFlushBar(context, msg: "Access Denied");
+                                if (double.tryParse(tecMin.text) != null &&
+                                    double.tryParse(tecMax.text) != null) {
+                                  double minValue = double.parse(tecMin.text);
+                                  double maxValue = double.parse(tecMax.text);
+                                  double feedValue =
+                                      double.parse(tecCurrentFeed.text);
+                                  if (minValue > maxValue) {
+                                    Flushbar(
+                                      message:
+                                          "Min value cannot be greater than Max value",
+                                      duration: const Duration(seconds: 3),
+                                    ).show(context);
+                                  } else if (feedValue > maxValue) {
+                                    Flushbar(
+                                      message:
+                                          "Current feed value cannot be greater than Max value",
+                                      duration: const Duration(seconds: 3),
+                                    ).show(context);
+                                  } else {
+                                    Utils.loader();
+                                    final resp = await feedInfoController
+                                        .setApiFarmFeed(map: {
+                                      'livestock_type':
+                                          widget.feedId.toString(),
+                                      'current_feed': tecCurrentFeed.text,
+                                      'feed_type':
+                                          selectedFeedTypeIndex.toString(),
+                                      'feed_frequency':
+                                          selectedFrequencyIndex.toString(),
+                                      'qty_per_seed': tecQuantity.text,
+                                      'min_capacity': tecMin.text,
+                                      'max_capacity': tecMax.text
+                                    });
+                                    if (resp! == "success") {
+                                      Get.back();
+                                      commonFlushBar(context,
+                                          msg: "Feed updated successfully",
+                                          title: "Success");
+                                    } else if (resp == "Access Denied") {
+                                      Get.back();
+                                      commonFlushBar(context,
+                                          msg: "Access Denied");
+                                    }
+                                  }
                                 }
                               } else if ((selectedFeedTypeIndex == null) ||
                                   (selectedFrequencyIndex == null) ||
