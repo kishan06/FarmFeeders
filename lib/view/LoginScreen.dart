@@ -34,12 +34,14 @@ class _LoginScreenState extends State<LoginScreen> {
     // networkApiServices.getHttpResponse();
 
     final isValid = _form.currentState?.validate();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (isValid!) {
       Utils.loader();
       Map<String, dynamic> updata = {
         "email": tecEmail.text,
         "password": tecPassword.text,
         "principal_type_xid": 4,
+        "player_id": prefs.getString('playerId'),
       };
       final resp = await LoginAPI(updata).loginApi();
       Get.back();

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "927988746065",
+    "project_id": "farmflow-5f14e",
+    "storage_bucket": "farmflow-5f14e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927988746065:android:21c298e1d9eb7fa1e37570",
+        "android_client_info": {
+          "package_name": "com.example.farmfeeders"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM8yHbh2agTpTBwR-hEj2Ce85ewEF_Xbc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
