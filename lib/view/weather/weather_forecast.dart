@@ -1,4 +1,5 @@
 import 'package:farmfeeders/Utils/colors.dart';
+import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/models/weather_model.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
 import 'package:flutter/material.dart';
@@ -123,6 +124,16 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size(Get.width, 56),
+            child: Container(
+                height: 56,
+                color: AppColors.pistaE3FFE9,
+                padding: const EdgeInsets.only(
+                  top: 20,
+                ),
+                child: customAppBar(
+                    text: "Weather Forecast", inBottomSheet: false))),
         body: Obx(
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,

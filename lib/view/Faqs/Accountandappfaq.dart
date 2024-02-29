@@ -29,7 +29,7 @@ class _AccountappState extends State<Accountapp> {
           children: [
             Container(
               height: 177.h,
-              width: 390.w,
+              width: Get.width,
               color: const Color(0xFF80B918),
               child: Column(
                 children: [
@@ -118,8 +118,7 @@ class _AccountappState extends State<Accountapp> {
             Container(
               color: const Color(0xFF80B918),
               child: Container(
-                width: 390.w,
-                //  height: Get.height / 1.41,
+                width: Get.width,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(

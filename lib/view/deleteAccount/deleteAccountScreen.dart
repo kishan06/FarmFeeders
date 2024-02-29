@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../common/custom_appbar.dart';
 import 'confirmDeleteAccount.dart';
 
 class DeleteAccountScreen extends StatelessWidget {
@@ -14,6 +15,15 @@ class DeleteAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size(Get.width, 56),
+            child: Container(
+                height: 56,
+                padding: const EdgeInsets.only(
+                  top: 20,
+                ),
+                child: customAppBar(
+                    text: "Delete Account", inBottomSheet: false))),
         body: Center(
           child: Container(
             margin: const EdgeInsets.all(16),
