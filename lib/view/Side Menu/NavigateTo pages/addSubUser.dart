@@ -113,8 +113,10 @@ class _addSubUserState extends State<addSubUser> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title:
-              customAppBar(text: isEdit ? "Update Sub User" : "Add Sub User"),
+          title: Container(
+              margin: EdgeInsets.only(top: 15),
+              child: customAppBar(
+                  text: isEdit ? "Update Sub User" : "Add Sub User")),
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           elevation: 0,

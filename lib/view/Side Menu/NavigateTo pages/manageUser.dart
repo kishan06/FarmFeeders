@@ -228,8 +228,7 @@ class _manageUserState extends State<manageUser> {
                         color: AppColors.buttoncolour,
                       )
                     : dataList.isNotEmpty
-                        ? SizedBox(
-                            height: Get.height / 1.42,
+                        ? Expanded(
                             child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: dataList.length,

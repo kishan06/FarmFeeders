@@ -834,7 +834,7 @@ class _YourorderState extends State<Yourorder> {
                                                                         .circular(
                                                                             20.0)), //this right here
                                                             child: SizedBox(
-                                                              height: 200,
+                                                              height: 213,
                                                               child: Padding(
                                                                 padding:
                                                                     const EdgeInsets

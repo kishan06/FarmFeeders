@@ -7,6 +7,9 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../Utils/colors.dart';
+import '../../common/custom_appbar.dart';
+
 class ConfirmDeleteAccountScreen extends StatelessWidget {
   const ConfirmDeleteAccountScreen({super.key});
 
@@ -17,6 +20,15 @@ class ConfirmDeleteAccountScreen extends StatelessWidget {
     RxInt selectedIndex = 7.obs;
     return SafeArea(
       child: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size(Get.width, 56),
+            child: Container(
+                height: 56,
+                padding: const EdgeInsets.only(
+                  top: 20,
+                ),
+                child: customAppBar(
+                    text: "Delete Account", inBottomSheet: false))),
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
           child: Container(
@@ -51,8 +63,9 @@ class ConfirmDeleteAccountScreen extends StatelessWidget {
                 const Gap(20),
                 SizedBox(
                   width: Get.width,
-                  height: 180,
                   child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: 6,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(

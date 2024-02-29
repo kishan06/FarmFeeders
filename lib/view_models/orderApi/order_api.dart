@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Utils/api_urls.dart';
@@ -96,9 +97,16 @@ class OrderApi {
       'Authorization': "Bearer ${prefs.getString('token')}",
       'Content-Type': 'application/json',
     };
-    final appStorage = Directory("/storage/emulated/0/Download");
-    final file = File('${appStorage.path}/$name');
+    Directory? appStorage;
+    if (Platform.isAndroid) {
+      appStorage = Directory("/storage/emulated/0/Download");
+    } else if (Platform.isIOS) {
+      appStorage = await getApplicationDocumentsDirectory();
+    }
 
+    final file = File('${appStorage!.path}/$name');
+    log('${appStorage.path}/$name');
+    log(url);
     try {
       utils.showToast("Downloading...");
 
