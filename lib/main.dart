@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:farmfeeders/Utils/colors.dart';
@@ -26,16 +27,16 @@ Future<void> main() async {
   OneSignal.shared.setAppId("19cd37f3-7bd7-4b1d-8c59-b3cce2386c9e");
   OneSignal.shared.promptUserForPushNotificationPermission();
 
-  final status = await OneSignal.shared.getDeviceState();
-  final String? osUserID = status?.userId;
-
   Stripe.publishableKey =
       "pk_test_51NleA3BYVJTtq48mzSztnR76rUC9ZIRjZ4a4jEdz6V3D4Zd1utMCe0xMRYJuRnzlF5UKfLIsrNKtFrdI6CFZn7Xm007zmh2SfP";
   // "pk_test_51NmWnhSHA3cTuLkgr4SJbN7PN2Uz3sPLj1TzDbCoMpjBvNlXROsnnJoQjsqlcJEht8VzYLCfmqrpqsfk9iJ2Rsgg00bVMCbQRj";
   SharedPreferences prefs = await SharedPreferences.getInstance();
   // GlobalVariables globalVariables = GlobalVariables();
   token = prefs.getString('accessToken');
-  await prefs.setString('playerId', osUserID!);
+  OneSignal.shared
+      .setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
+    await prefs.setString('playerId', changes.to.userId!);
+  });
   // log(token!);
   await dotenv.load(fileName: ".env");
   SystemChrome.setPreferredOrientations([
