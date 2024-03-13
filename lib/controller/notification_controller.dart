@@ -25,7 +25,7 @@ class NotificationController extends GetxController {
       var dio = Dio();
       var response = await dio.request(
         ApiUrls.getNotificationData,
-        // 'https://farmflow.betadelivery.com/api/farmer/notifications',
+       
         options: Options(
           method: 'GET',
           headers: headers,

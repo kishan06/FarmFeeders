@@ -14,7 +14,7 @@ class UploadvideoAPI {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await NetworkApiServices().postApi(
       data,
-      "https://farmflow.betadelivery.com/api/training_video",
+      "${ApiUrls.base}training_video",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

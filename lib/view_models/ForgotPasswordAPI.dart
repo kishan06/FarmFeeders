@@ -1,4 +1,5 @@
 import 'package:farmfeeders/Utils/base_manager.dart';
+import '../Utils/api_urls.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 
 class ForgotPasswordAPI {
@@ -10,7 +11,7 @@ class ForgotPasswordAPI {
   Future<ResponseData<dynamic>> forgotpasswordApi() async {
     final response = await NetworkApiServices().postApi(
       data,
-      "https://farmflow.betadelivery.com/api/forgot-password",
+      "${ApiUrls.base}forgot-password",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

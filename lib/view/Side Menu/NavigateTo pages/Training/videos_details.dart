@@ -1,4 +1,5 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/networkPlayer.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
@@ -45,7 +46,7 @@ class _VideosDetailsState extends State<VideosDetails> {
     title = Get.arguments["title"];
 
     videoController = VideoPlayerController.networkUrl(
-        Uri.parse('https://farmflow.betadelivery.com/public/$videourl'))
+        Uri.parse('${ApiUrls.baseImageUrl}/$videourl'))
       ..addListener(() => setState(() {}))
       ..setLooping(false)
       ..initialize().then((_) => videoController.pause());

@@ -18,35 +18,8 @@ class NetworkApiServices extends BaseApiServices {
   Dio dio = Dio();
   DashboardController dashboardController = Get.put(DashboardController());
 
-  getApiResponse() async {
-    print("getApiResponse");
-    var headers = {
-      'Authorization':
-          'Basic KzIkcVBiSlIzNncmaGUoalMmV0R6ZkpqdEVoSlVLVXA6dCRCZHEmSnQmc3Y0eUdqY0VVcTg5aEVZZHVSalhIMnU='
-    };
-    var data = FormData.fromMap(
-        {'email': 'subfarmer@wdimails.com', 'password': 'User@123'});
-
-    var dio = Dio();
-    var response = await dio.request(
-      'https://farmflow.betadelivery.com/api/login',
-      options: Options(
-        method: 'POST',
-        headers: headers,
-      ),
-      data: data,
-    );
-
-    if (response.statusCode == 200) {
-      print(json.encode(response.data));
-    } else {
-      print(response.statusMessage);
-    }
-  }
-
-  String basicAuth = 'Basic ' +
-      base64.encode(utf8.encode(
-          '+2\$qPbJR36w&he(jS&WDzfJjtEhJUKUp:t\$Bdq&Jt&sv4yGjcEUq89hEYduRjXH2u'));
+  String basicAuth =
+      'Basic ${base64.encode(utf8.encode('+2\$qPbJR36w&he(jS&WDzfJjtEhJUKUp:t\$Bdq&Jt&sv4yGjcEUq89hEYduRjXH2u'))}';
 
   @override
   Future<ResponseData> getApi1(String url) async {

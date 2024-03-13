@@ -1,5 +1,6 @@
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
+import '../Utils/api_urls.dart';
 
 class RegisterAPI {
   RegisterAPI(this.data);
@@ -7,7 +8,7 @@ class RegisterAPI {
   Future<ResponseData<dynamic>> registerApi() async {
     final response = await NetworkApiServices().postApi(
       data,
-      "https://farmflow.betadelivery.com/api/register",
+      "${ApiUrls.base}register",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

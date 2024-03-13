@@ -30,9 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController tecPassword = TextEditingController();
   NetworkApiServices networkApiServices = NetworkApiServices();
   _logincheck() async {
-    // networkApiServices.getApiResponse();
-    // networkApiServices.getHttpResponse();
-
     final isValid = _form.currentState?.validate();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (isValid!) {
