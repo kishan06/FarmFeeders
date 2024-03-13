@@ -46,7 +46,7 @@ class NewsArticleController extends GetxController {
       var dio = Dio();
       var response = await dio.request(
         ApiUrls.getNewsArticle,
-        // 'https://farmflow.betadelivery.com/api/farmer/notifications',
+        
         options: Options(
           method: 'GET',
           headers: headers,
@@ -85,7 +85,7 @@ class NewsArticleController extends GetxController {
       };
       var dio = Dio();
       var response = await dio.request(
-        // 'https://farmflow.betadelivery.com/api/bookmarked/news-and-articles',
+       
         ApiUrls.getBookmarkedNewsList,
         options: Options(
           method: 'GET',
@@ -129,7 +129,7 @@ class NewsArticleController extends GetxController {
 
       var dio = Dio();
       var response = await dio.request(
-        // 'https://farmflow.betadelivery.com/api/bookmark-article',
+      
         ApiUrls.boomarkNewsAndArticles,
         options: Options(
           method: 'POST',

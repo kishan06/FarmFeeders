@@ -1,13 +1,15 @@
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 
+import '../Utils/api_urls.dart';
+
 class VerifyNumberAPI {
   VerifyNumberAPI(this.data);
   var data;
   Future<ResponseData<dynamic>> verifynumberApi() async {
     final response = await NetworkApiServices().postApi(
       data,
-      "https://farmflow.betadelivery.com/api/verify-fp-otp",
+      "${ApiUrls.base}verify-fp-otp",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

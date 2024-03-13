@@ -810,6 +810,11 @@ class _FeedContainerState extends State<FeedContainer> {
                                           msg: "Access Denied");
                                     }
                                   }
+                                } else {
+                                  Flushbar(
+                                    message: "Min or Max Capacity is Empty",
+                                    duration: const Duration(seconds: 3),
+                                  ).show(context);
                                 }
                               } else if ((selectedFeedTypeIndex == null) ||
                                   (selectedFrequencyIndex == null) ||

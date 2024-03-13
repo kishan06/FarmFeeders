@@ -1,5 +1,6 @@
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
+import '../Utils/api_urls.dart';
 
 class ResetPasswordAPI {
   ResetPasswordAPI(
@@ -10,7 +11,7 @@ class ResetPasswordAPI {
   Future<ResponseData<dynamic>> resetpasswordApi() async {
     final response = await NetworkApiServices().postApi(
       data,
-      "https://farmflow.betadelivery.com/api/reset-password",
+      "${ApiUrls.base}reset-password",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

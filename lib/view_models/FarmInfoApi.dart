@@ -4,13 +4,14 @@ import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 import 'package:farmfeeders/models/FarmInfoModel/FarmInfoModel.dart';
+import '../Utils/api_urls.dart';
 
 class FarmInfoApi {
   Future<ResponseData<dynamic>> farmInfoAddressApi(
       FarmInfoAddressModel farmInfoAddressModel) async {
     final response = await NetworkApiServices().postApi(
       jsonEncode(farmInfoAddressModel),
-      "https://farmflow.betadelivery.com/api/farm-info",
+      "${ApiUrls.base}farm-info",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

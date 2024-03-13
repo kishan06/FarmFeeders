@@ -93,7 +93,6 @@ class FeedInfoContro extends GetxController {
       var dio = Dio();
       var response = await dio.request(
         ApiUrls.setFeedInfo,
-        // 'https://farmflow.betadelivery.com/api/store/feed-info',
         options: Options(
           method: 'POST',
           headers: headers,

@@ -1,13 +1,14 @@
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 import 'package:farmfeeders/models/NotesModel.dart';
+import '../Utils/api_urls.dart';
 
 class NotesListAPI {
   NotesListAPI(this.data);
   var data;
   Future<NotesModel> noteslistApi() async {
     final response = await NetworkApiServices().getApi1(
-      "https://farmflow.betadelivery.com/api/training_video/notes/$data",
+      "${ApiUrls.base}training_video/notes/$data",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

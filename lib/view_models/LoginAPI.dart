@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 import 'package:farmfeeders/models/loginModel.dart';
+import '../Utils/api_urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginAPI {
@@ -12,7 +13,7 @@ class LoginAPI {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await NetworkApiServices().postApi(
       data,
-      "https://farmflow.betadelivery.com/api/login",
+      "${ApiUrls.base}login",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

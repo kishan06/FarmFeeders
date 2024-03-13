@@ -4,12 +4,14 @@ import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 import 'package:farmfeeders/models/expertlistModel.dart';
 
+import '../Utils/api_urls.dart';
+
 class ExpertListAPI {
   ExpertListAPI();
   var data;
   Future<ResponseData<dynamic>> expertlistApi() async {
     final response = await NetworkApiServices().getApi1(
-      "https://farmflow.betadelivery.com/api/experts-list",
+      "${ApiUrls.base}experts-list",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {
@@ -36,7 +38,7 @@ class ExpertListAPI {
     });
     final response = await NetworkApiServices().postApi(
       data,
-      "https://farmflow.betadelivery.com/api/bookmark-expert",
+      "${ApiUrls.base}bookmark-expert",
     );
 
     if (response.status == ResponseStatus.SUCCESS) {

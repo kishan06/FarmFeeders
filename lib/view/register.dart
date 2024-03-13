@@ -52,8 +52,6 @@ class _RegisterState extends State<Register> {
 
   NetworkApiServices networkApiServices = NetworkApiServices();
   _registercheck() async {
-    // networkApiServices.getApiResponse();
-    // networkApiServices.getHttpResponse();
 
     final isValid = _formKey.currentState?.validate();
     SharedPreferences prefs = await SharedPreferences.getInstance();
