@@ -45,6 +45,7 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: PreferredSize(
             preferredSize: Size(Get.width, 56),
             child: Container(
@@ -463,7 +464,13 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
           ),
         ),
         bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+          padding: EdgeInsets.only(
+              left: 16.w,
+              right: 16.w,
+              top: 15.h,
+              bottom: MediaQuery.of(context).viewInsets.bottom == 0
+                  ? 15.h
+                  : MediaQuery.of(context).viewInsets.bottom + 15),
           child: SizedBox(
             width: Get.width / 1,
             height: 50,
