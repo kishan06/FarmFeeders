@@ -1,7 +1,7 @@
 class ApiUrls {
-  static const base = "https://farmflow.betadelivery.com/api/";
+  static const base = "https://staging.farmflowsolutions.com/api/";
 
-  static const baseImageUrl = "https://farmflow.betadelivery.com/public";
+  static const baseImageUrl = "https://staging.farmflowsolutions.com/public";
   static const liveStockGet = "${base}livestock/data/";
   static const liveStockSet = "${base}livestock-info";
   static const dashboardApi = "${base}dashboard";

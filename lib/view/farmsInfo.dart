@@ -90,7 +90,13 @@ class _FarmsInfoState extends State<FarmsInfo> {
         titleSpacing: 0,
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 25.h),
+        padding: EdgeInsets.only(
+            left: 16.w,
+            right: 16.w,
+            top: 15.h,
+            bottom: MediaQuery.of(context).viewInsets.bottom == 0
+                ? 25.h
+                : MediaQuery.of(context).viewInsets.bottom + 25),
         child: customButtonCurve(
             text: setFarm.isFarmInfoUpdate.value ? "Update" : "Next",
             onTap: () {

@@ -784,6 +784,12 @@ class _FeedContainerState extends State<FeedContainer> {
                                           "Current feed value cannot be greater than Max value",
                                       duration: const Duration(seconds: 3),
                                     ).show(context);
+                                  } else if ((selectedFeedTypeIndex == null) ||
+                                      (selectedFrequencyIndex == null)) {
+                                    Flushbar(
+                                      message: "Please fill all fields",
+                                      duration: const Duration(seconds: 3),
+                                    ).show(context);
                                   } else {
                                     Utils.loader();
                                     final resp = await feedInfoController
