@@ -15,6 +15,14 @@ class ConfirmDeleteAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> reasonsList = [
+      "Technical Issues",
+      "Privacy Concerns",
+      "Better Alternatives",
+      "Lack of useful features",
+      "Unresponsive Customer Support",
+      "Changes in Pricing",
+    ];
     TextEditingController textarea = TextEditingController();
 
     RxInt selectedIndex = 7.obs;
@@ -80,7 +88,7 @@ class ConfirmDeleteAccountScreen extends StatelessWidget {
                             selectedIndex.value = index;
                           },
                           child: Container(
-                            height: 15,
+                            height: 20,
                             decoration: BoxDecoration(
                                 color: selectedIndex.value == index
                                     ? const Color(0xFF008000)
@@ -89,17 +97,21 @@ class ConfirmDeleteAccountScreen extends StatelessWidget {
                                   color: const Color(0xFF008000),
                                 ),
                                 borderRadius: BorderRadius.circular(5)),
-                            child: Center(
-                              child: Text(
-                                'Test',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: selectedIndex.value == index
-                                      ? Colors.white
-                                      : Colors.black,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Center(
+                                child: Text(
+                                  reasonsList[index],
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: selectedIndex.value == index
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
