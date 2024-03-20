@@ -884,9 +884,9 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                   height: 10,
                                 ),
                                 Text(
-                                  "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley ",
+                                  "Select the right plan according your requirements. You can always upgrade or downgrade later.",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 )

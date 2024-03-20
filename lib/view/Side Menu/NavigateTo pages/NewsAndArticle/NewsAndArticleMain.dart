@@ -76,119 +76,145 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                         headerSliverBuilder:
                             (BuildContext context, bool boxIsScrolled) {
                           return <Widget>[
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                childCount: 1,
-                                (context, index) => Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    CarouselSlider.builder(
-                                      carouselController: carouselController,
-                                      itemCount: controllerNewsArticle
-                                                  .newsArticlesData!
-                                                  .data
-                                                  .length <
-                                              5
-                                          ? controllerNewsArticle
-                                              .newsArticlesData!.data.length
-                                          : 5,
-                                      itemBuilder: (context, index, realIndex) {
-                                        final cardData = controllerNewsArticle
-                                            .newsArticlesData!.data[index];
-                                        // final data = controllerNotification.notificationData!.data[index];
-                                        String originalDate =
-                                            cardData.publishedDatetime;
-                                        DateTime parsedDate =
-                                            DateTime.parse(originalDate);
-                                        String formattedDate =
-                                            DateFormat('d MMM y')
-                                                .format(parsedDate);
-                                        return InkWell(
-                                          onTap: () async {
-                                            // log(cardData.smallDescription);
-
-                                            await launchUrl(Uri.parse(
-                                                cardData.smallDescription));
-                                          },
-                                          child: CarouselCard(
-                                            type: cardData.artCategory,
-                                            title: cardData.title,
-                                            // description: description,
-                                            date: formattedDate,
-                                            imageUrl: cardData.smallImageUrl,
-                                            bookmarked: cardData.bookmarked,
-                                            index: index,
-                                            id: cardData.id,
+                            controllerNewsArticle.newsArticlesData!.data.isEmpty
+                                ? const SliverToBoxAdapter()
+                                : SliverList(
+                                    delegate: SliverChildBuilderDelegate(
+                                      childCount: 1,
+                                      (context, index) => Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
                                           ),
-                                        );
-                                      },
-                                      options: CarouselOptions(
-                                          enlargeCenterPage: true,
-                                          autoPlay: true,
-                                          height: 169.h,
-                                          autoPlayAnimationDuration:
-                                              const Duration(seconds: 3),
-                                          viewportFraction: 0.8,
-                                          onPageChanged: (index, reason) {
-                                            setState(() {
-                                              sliderPage.value = index;
-                                            });
-                                          }),
+                                          CarouselSlider.builder(
+                                            carouselController:
+                                                carouselController,
+                                            itemCount: controllerNewsArticle
+                                                        .newsArticlesData!
+                                                        .data
+                                                        .length <
+                                                    5
+                                                ? controllerNewsArticle
+                                                    .newsArticlesData!
+                                                    .data
+                                                    .length
+                                                : 5,
+                                            itemBuilder:
+                                                (context, index, realIndex) {
+                                              final cardData =
+                                                  controllerNewsArticle
+                                                      .newsArticlesData!
+                                                      .data[index];
+                                              // final data = controllerNotification.notificationData!.data[index];
+                                              String originalDate =
+                                                  cardData.publishedDatetime;
+                                              DateTime parsedDate =
+                                                  DateTime.parse(originalDate);
+                                              String formattedDate =
+                                                  DateFormat('d MMM y')
+                                                      .format(parsedDate);
+                                              return InkWell(
+                                                onTap: () async {
+                                                  // log(cardData.smallDescription);
+
+                                                  await launchUrl(Uri.parse(
+                                                      cardData
+                                                          .smallDescription));
+                                                },
+                                                child: CarouselCard(
+                                                  type: cardData.artCategory,
+                                                  title: cardData.title,
+                                                  // description: description,
+                                                  date: formattedDate,
+                                                  imageUrl:
+                                                      cardData.smallImageUrl,
+                                                  bookmarked:
+                                                      cardData.bookmarked,
+                                                  index: index,
+                                                  id: cardData.id,
+                                                ),
+                                              );
+                                            },
+                                            options: CarouselOptions(
+                                                enlargeCenterPage: true,
+                                                autoPlay: true,
+                                                height: 169.h,
+                                                autoPlayAnimationDuration:
+                                                    const Duration(seconds: 3),
+                                                viewportFraction: 0.8,
+                                                onPageChanged: (index, reason) {
+                                                  setState(() {
+                                                    sliderPage.value = index;
+                                                  });
+                                                }),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: controllerNewsArticle
+                                                .newsArticlesData!.data
+                                                .asMap()
+                                                .entries
+                                                .map((entry) {
+                                              return Container(
+                                                width: 12.0,
+                                                height: 12.0,
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8.0,
+                                                        horizontal: 4.0),
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: sliderPage.value ==
+                                                            entry.key
+                                                        ? AppColors.buttoncolour
+                                                        : Colors.grey),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: controllerNewsArticle
-                                          .newsArticlesData!.data
-                                          .asMap()
-                                          .entries
-                                          .map((entry) {
-                                        return Container(
-                                          width: 12.0,
-                                          height: 12.0,
-                                          margin: const EdgeInsets.symmetric(
-                                              vertical: 8.0, horizontal: 4.0),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color:
-                                                  sliderPage.value == entry.key
-                                                      ? AppColors.buttoncolour
-                                                      : Colors.grey),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  ),
                           ];
                         },
                         body: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Row(
-                                children: [
-                                  textBlack18W600Mon("Latest News"),
-                                ],
-                              ),
-                              Expanded(
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        // Get.toNamed("/articledetails");
-                                      },
-                                      child: newsCard()))
-                            ],
-                          ),
+                          child: controllerNewsArticle
+                                  .newsArticlesData!.data.isEmpty
+                              ? Center(
+                                  child: Text("No News/Article Available",
+                                      style: TextStyle(
+                                          fontSize: 18.sp,
+                                          color: const Color(0xFF141414),
+                                          fontWeight: FontWeight.w600)),
+                                )
+                              : Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    Row(
+                                      children: [
+                                        textBlack18W600Mon("Latest News"),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    Expanded(
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              // Get.toNamed("/articledetails");
+                                            },
+                                            child: newsCard()))
+                                  ],
+                                ),
                         ),
                       );
           })),

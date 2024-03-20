@@ -1,4 +1,5 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/models/expertlistModel.dart';
@@ -189,57 +190,105 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                               BorderRadius.circular(
                                                                   100), //<-- SEE HERE
                                                         ),
-                                                        child: Image.asset(
-                                                          // image,
-                                                          "assets/images/connect2.png",
-                                                          width: 66.w,
-                                                          height: 66.w,
-                                                        ),
+                                                        child: advisor
+                                                                .smallImageUrl!
+                                                                .isEmpty
+                                                            ? Image.asset(
+                                                                // image,
+                                                                "assets/default_image.jpg",
+                                                                width: 66.w,
+                                                                height: 66.w,
+                                                              )
+                                                            : ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            60),
+                                                                child: Image
+                                                                    .network(
+                                                                  "${ApiUrls.baseImageUrl}/${advisor.smallImageUrl}",
+                                                                  width: 66.w,
+                                                                  height: 66.w,
+                                                                ),
+                                                              ),
                                                       ),
                                                     ),
                                                     sizedBoxWidth(8.w),
-                                                    SizedBox(
-                                                      width: 195.w,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          RichText(
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            text: TextSpan(
-                                                              text:
-                                                                  advisor.name,
-                                                              // "Roma dsouza",
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 16.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        RichText(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          text: TextSpan(
+                                                            text: advisor.name,
+                                                            // "Roma dsouza",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 16.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
                                                             ),
                                                           ),
-                                                          Row(
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                "assets/images/call.svg",
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              "assets/images/call.svg",
+                                                              width: 13.w,
+                                                              height: 13.w,
+                                                            ),
+                                                            sizedBoxWidth(5.w),
+                                                            RichText(
+                                                              text: TextSpan(
+                                                                text: advisor
+                                                                    .contactNumber,
+                                                                // "0225845855",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: const Color(
+                                                                      0XFF585858),
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 3.h),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                "assets/images/locationconnect.svg",
                                                                 width: 13.w,
                                                                 height: 13.w,
                                                               ),
-                                                              sizedBoxWidth(
-                                                                  5.w),
-                                                              RichText(
+                                                            ),
+                                                            sizedBoxWidth(5.w),
+                                                            SizedBox(
+                                                              width: 170.w,
+                                                              child: RichText(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip,
                                                                 text: TextSpan(
                                                                   text: advisor
-                                                                      .contactNumber,
-                                                                  // "0225845855",
+                                                                      .location,
+                                                                  // "Canada",
                                                                   style:
                                                                       TextStyle(
                                                                     color: const Color(
@@ -248,54 +297,11 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                         16.sp,
                                                                   ),
                                                                 ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        top: 3
-                                                                            .h),
-                                                                child:
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                  "assets/images/locationconnect.svg",
-                                                                  width: 13.w,
-                                                                  height: 13.w,
-                                                                ),
                                                               ),
-                                                              sizedBoxWidth(
-                                                                  5.w),
-                                                              SizedBox(
-                                                                width: 180.w,
-                                                                child: RichText(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .clip,
-                                                                  text:
-                                                                      TextSpan(
-                                                                    text: advisor
-                                                                        .location,
-                                                                    // "Canada",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: const Color(
-                                                                          0XFF585858),
-                                                                      fontSize:
-                                                                          16.sp,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
 
                                                     // sizedBoxWidth(16.w),
@@ -467,56 +473,105 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                               BorderRadius.circular(
                                                                   100), //<-- SEE HERE
                                                         ),
-                                                        child: Image.asset(
-                                                          // image,
-                                                          "assets/images/connect2.png",
-                                                          width: 66.w,
-                                                          height: 66.w,
-                                                        ),
+                                                        child: vet
+                                                                .smallImageUrl!
+                                                                .isEmpty
+                                                            ? Image.asset(
+                                                                // image,
+                                                                "assets/default_image.jpg",
+                                                                width: 66.w,
+                                                                height: 66.w,
+                                                              )
+                                                            : ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            60),
+                                                                child: Image
+                                                                    .network(
+                                                                  "${ApiUrls.baseImageUrl}/${vet.smallImageUrl}",
+                                                                  width: 66.w,
+                                                                  height: 66.w,
+                                                                ),
+                                                              ),
                                                       ),
                                                     ),
                                                     sizedBoxWidth(8.w),
-                                                    SizedBox(
-                                                      width: 195.w,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          RichText(
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            text: TextSpan(
-                                                              text: vet.name,
-                                                              // "Roma dsouza",
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 16.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        RichText(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          text: TextSpan(
+                                                            text: vet.name,
+                                                            // "Roma dsouza",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 16.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
                                                             ),
                                                           ),
-                                                          Row(
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                "assets/images/call.svg",
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              "assets/images/call.svg",
+                                                              width: 13.w,
+                                                              height: 13.w,
+                                                            ),
+                                                            sizedBoxWidth(5.w),
+                                                            RichText(
+                                                              text: TextSpan(
+                                                                text: vet
+                                                                    .contactNumber,
+                                                                // "0225845855",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: const Color(
+                                                                      0XFF585858),
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 3.h),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                "assets/images/locationconnect.svg",
                                                                 width: 13.w,
                                                                 height: 13.w,
                                                               ),
-                                                              sizedBoxWidth(
-                                                                  5.w),
-                                                              RichText(
+                                                            ),
+                                                            sizedBoxWidth(5.w),
+                                                            SizedBox(
+                                                              width: 170.w,
+                                                              child: RichText(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip,
                                                                 text: TextSpan(
                                                                   text: vet
-                                                                      .contactNumber,
-                                                                  // "0225845855",
+                                                                      .location,
+                                                                  // "Canada",
                                                                   style:
                                                                       TextStyle(
                                                                     color: const Color(
@@ -525,54 +580,11 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                         16.sp,
                                                                   ),
                                                                 ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        top: 3
-                                                                            .h),
-                                                                child:
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                  "assets/images/locationconnect.svg",
-                                                                  width: 13.w,
-                                                                  height: 13.w,
-                                                                ),
                                                               ),
-                                                              sizedBoxWidth(
-                                                                  5.w),
-                                                              SizedBox(
-                                                                width: 180.w,
-                                                                child: RichText(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .clip,
-                                                                  text:
-                                                                      TextSpan(
-                                                                    text: vet
-                                                                        .location,
-                                                                    // "Canada",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: const Color(
-                                                                          0XFF585858),
-                                                                      fontSize:
-                                                                          16.sp,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
 
                                                     // sizedBoxWidth(16.w),
@@ -737,57 +749,106 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                               BorderRadius.circular(
                                                                   100), //<-- SEE HERE
                                                         ),
-                                                        child: Image.asset(
-                                                          // image,
-                                                          "assets/images/connect2.png",
-                                                          width: 66.w,
-                                                          height: 66.w,
-                                                        ),
+                                                        child: repairman
+                                                                .smallImageUrl!
+                                                                .isEmpty
+                                                            ? Image.asset(
+                                                                // image,
+                                                                "assets/default_image.jpg",
+                                                                width: 66.w,
+                                                                height: 66.w,
+                                                              )
+                                                            : ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            60),
+                                                                child: Image
+                                                                    .network(
+                                                                  "${ApiUrls.baseImageUrl}/${repairman.smallImageUrl}",
+                                                                  width: 66.w,
+                                                                  height: 66.w,
+                                                                ),
+                                                              ),
                                                       ),
                                                     ),
                                                     sizedBoxWidth(8.w),
-                                                    SizedBox(
-                                                      width: 195.w,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          RichText(
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            text: TextSpan(
-                                                              text: repairman
-                                                                  .name,
-                                                              // "Roma dsouza",
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 16.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        RichText(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          text: TextSpan(
+                                                            text:
+                                                                repairman.name,
+                                                            // "Roma dsouza",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 16.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
                                                             ),
                                                           ),
-                                                          Row(
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                "assets/images/call.svg",
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              "assets/images/call.svg",
+                                                              width: 13.w,
+                                                              height: 13.w,
+                                                            ),
+                                                            sizedBoxWidth(5.w),
+                                                            RichText(
+                                                              text: TextSpan(
+                                                                text: repairman
+                                                                    .contactNumber,
+                                                                // "0225845855",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: const Color(
+                                                                      0XFF585858),
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 3.h),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                "assets/images/locationconnect.svg",
                                                                 width: 13.w,
                                                                 height: 13.w,
                                                               ),
-                                                              sizedBoxWidth(
-                                                                  5.w),
-                                                              RichText(
+                                                            ),
+                                                            sizedBoxWidth(5.w),
+                                                            SizedBox(
+                                                              width: 170.w,
+                                                              child: RichText(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip,
                                                                 text: TextSpan(
                                                                   text: repairman
-                                                                      .contactNumber,
-                                                                  // "0225845855",
+                                                                      .location,
+                                                                  // "Canada",
                                                                   style:
                                                                       TextStyle(
                                                                     color: const Color(
@@ -796,54 +857,11 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                         16.sp,
                                                                   ),
                                                                 ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        top: 3
-                                                                            .h),
-                                                                child:
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                  "assets/images/locationconnect.svg",
-                                                                  width: 13.w,
-                                                                  height: 13.w,
-                                                                ),
                                                               ),
-                                                              sizedBoxWidth(
-                                                                  5.w),
-                                                              SizedBox(
-                                                                width: 180.w,
-                                                                child: RichText(
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .clip,
-                                                                  text:
-                                                                      TextSpan(
-                                                                    text: repairman
-                                                                        .location,
-                                                                    // "Canada",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: const Color(
-                                                                          0XFF585858),
-                                                                      fontSize:
-                                                                          16.sp,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
 
                                                     // sizedBoxWidth(16.w),
