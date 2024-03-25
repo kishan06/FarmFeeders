@@ -52,7 +52,6 @@ class _RegisterState extends State<Register> {
 
   NetworkApiServices networkApiServices = NetworkApiServices();
   _registercheck() async {
-
     final isValid = _formKey.currentState?.validate();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (isValid!) {
@@ -69,15 +68,15 @@ class _RegisterState extends State<Register> {
       final resp = await RegisterAPI(updata).registerApi();
       Get.back();
       if (resp.status == ResponseStatus.SUCCESS) {
+        int? id = resp.data['data']['id'];
+        Get.toNamed('/verifyYourIdentity',
+            arguments: {'id': id, 'phonenumber': phoneController.text});
         nameController.clear();
         dateController.clear();
         phoneController.clear();
         emailController.clear();
         passwordController.clear();
         cpasswordController.clear();
-        int? id = resp.data['data']['id'];
-        Get.toNamed('/verifyYourIdentity',
-            arguments: {'id': id, 'phonenumber': phoneController.text});
       } else if (resp.status == ResponseStatus.PRIVATE) {
         String? message = resp.data['message'];
         utils.showToast("$message");

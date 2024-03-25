@@ -644,118 +644,137 @@ class _FeedContainerState extends State<FeedContainer> {
                           ),
                           sizedBoxHeight(6.h),
                           Container(
-                            height: 92.h,
+                            height: 130.h,
                             // width: 315.w,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.r),
                               color: const Color(0xFFF1F1F1),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 6.w),
-                              child: Row(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 6.w,
+                                vertical: 8,
+                              ),
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    "Min",
-                                    style: TextStyle(
-                                        color: const Color(0XFF4D4D4D),
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  sizedBoxWidth(7.w),
-                                  SizedBox(
-                                    width: 107.w,
-                                    // height: 46.h,
-                                    child: TextFormField(
-                                      controller: tecMin,
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Min",
+                                        style: TextStyle(
+                                            color: const Color(0XFF4D4D4D),
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                      cursorColor: const Color(0xFF3B3F43),
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      decoration: InputDecoration(
-                                          errorStyle:
-                                              TextStyle(fontSize: 14.sp),
-                                          isCollapsed: true,
-                                          suffixIconConstraints:
-                                              const BoxConstraints(),
-                                          contentPadding: EdgeInsets.only(
-                                              left: 17.w,
-                                              right: 17.w,
-                                              top: 15.h,
-                                              bottom: 10.h),
-                                          filled: true,
-                                          fillColor: const Color(0XFFFFFFFF),
-                                          hintStyle: TextStyle(
-                                              color: const Color(0xFF4D4D4D),
-                                              fontSize: 18.sp,
-                                              fontFamily: "Poppins"),
-                                          // hintText: "     / Kgs",
-                                          suffixText: "/Kgs"),
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          // return "Enter Min";
-                                        }
+                                      sizedBoxWidth(10.w),
+                                      SizedBox(
+                                        width: 200.w,
+                                        // height: 46.h,
+                                        child: TextFormField(
+                                          controller: tecMin,
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                          ),
+                                          cursorColor: const Color(0xFF3B3F43),
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          decoration: InputDecoration(
+                                              errorStyle:
+                                                  TextStyle(fontSize: 14.sp),
+                                              isCollapsed: true,
+                                              suffixIconConstraints:
+                                                  const BoxConstraints(),
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 17.w,
+                                                  right: 17.w,
+                                                  top: 15.h,
+                                                  bottom: 10.h),
+                                              filled: true,
+                                              fillColor:
+                                                  const Color(0XFFFFFFFF),
+                                              hintStyle: TextStyle(
+                                                  color:
+                                                      const Color(0xFF4D4D4D),
+                                                  fontSize: 18.sp,
+                                                  fontFamily: "Poppins"),
+                                              // hintText: "     / Kgs",
+                                              suffixText: "/Kgs"),
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              // return "Enter Min";
+                                            }
 
-                                        return null;
-                                      },
-                                    ),
-                                  ),
-                                  sizedBoxWidth(11.w),
-                                  Text(
-                                    "Max",
-                                    style: TextStyle(
-                                        color: const Color(0XFF4D4D4D),
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  sizedBoxWidth(6.w),
-                                  SizedBox(
-                                    width: 107.w,
-                                    // height: 46.h,
-                                    child: TextFormField(
-                                      controller: tecMax,
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
+                                            return null;
+                                          },
+                                        ),
                                       ),
-                                      cursorColor: const Color(0xFF3B3F43),
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      decoration: InputDecoration(
-                                          errorStyle:
-                                              TextStyle(fontSize: 14.sp),
-                                          isCollapsed: true,
-                                          suffixIconConstraints:
-                                              const BoxConstraints(),
-                                          contentPadding: EdgeInsets.only(
-                                              left: 17.w,
-                                              right: 17.w,
-                                              top: 15.h,
-                                              bottom: 10.h),
-                                          filled: true,
-                                          fillColor: const Color(0XFFFFFFFF),
-                                          hintStyle: TextStyle(
-                                              color: const Color(0xFF4D4D4D),
-                                              fontSize: 18.sp,
-                                              fontFamily: "Poppins"),
-                                          // hintText: "     / Kgs",
-                                          suffixText: "/Kgs"),
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          // return "Enter Max";
-                                        }
-                                        return null;
-                                      },
-                                    ),
+                                    ],
                                   ),
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Max",
+                                        style: TextStyle(
+                                            color: const Color(0XFF4D4D4D),
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      sizedBoxWidth(6.w),
+                                      SizedBox(
+                                        width: 200.w,
+                                        // height: 46.h,
+                                        child: TextFormField(
+                                          controller: tecMax,
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                          ),
+                                          cursorColor: const Color(0xFF3B3F43),
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          decoration: InputDecoration(
+                                              errorStyle:
+                                                  TextStyle(fontSize: 14.sp),
+                                              isCollapsed: true,
+                                              suffixIconConstraints:
+                                                  const BoxConstraints(),
+                                              contentPadding: EdgeInsets.only(
+                                                  left: 17.w,
+                                                  right: 17.w,
+                                                  top: 15.h,
+                                                  bottom: 10.h),
+                                              filled: true,
+                                              fillColor:
+                                                  const Color(0XFFFFFFFF),
+                                              hintStyle: TextStyle(
+                                                  color:
+                                                      const Color(0xFF4D4D4D),
+                                                  fontSize: 18.sp,
+                                                  fontFamily: "Poppins"),
+                                              // hintText: "     / Kgs",
+                                              suffixText: "/Kgs"),
+                                          keyboardType: TextInputType.number,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              // return "Enter Max";
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),

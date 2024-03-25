@@ -52,4 +52,5 @@ class ApiUrls {
   static const deleteProfileApi = "${base}profile-delete";
   static const subscriptionsApi = "${base}subscriptions";
   static const subscriptionPlanApi = "${base}subscriptionPlans";
+  static const lougoutApi = "${base}logout";
 }

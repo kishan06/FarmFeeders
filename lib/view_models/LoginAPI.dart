@@ -35,4 +35,23 @@ class LoginAPI {
     }
     return response;
   }
+
+  Future<ResponseData<dynamic>> logoutApi() async {
+    final response = await NetworkApiServices().postApi(
+      data,
+      ApiUrls.lougoutApi,
+    );
+    log(response.toString());
+    if (response.status == ResponseStatus.SUCCESS) {
+      Map<String, dynamic> responseData =
+          Map<String, dynamic>.from(response.data);
+      if (responseData['success']) {
+        return response;
+      } else {
+        return ResponseData<dynamic>(
+            responseData['message'], ResponseStatus.FAILED);
+      }
+    }
+    return response;
+  }
 }

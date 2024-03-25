@@ -1,7 +1,9 @@
+import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/view/deleteAccount/deleteAccountScreen.dart';
+import 'package:farmfeeders/view_models/LoginAPI.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter/material.dart';
@@ -387,12 +389,16 @@ class _SettingsState extends State<Settings> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await prefs.setString('accessToken', "");
-                        await prefs.setString('token', "");
-                        token = null;
-                        Get.offAllNamed("/loginScreen");
+                        LoginAPI({}).logoutApi().then((value) async {
+                          if (value.status == ResponseStatus.SUCCESS) {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            await prefs.setString('accessToken', "");
+                            await prefs.setString('token', "");
+                            token = null;
+                            Get.offAllNamed("/loginScreen");
+                          }
+                        });
                       },
                       child: Container(
                         height: 48.h,
