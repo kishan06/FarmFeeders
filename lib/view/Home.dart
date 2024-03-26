@@ -1118,7 +1118,8 @@ class _HomeState extends State<Home> {
                                                                         30.h,
                                                                     padding:
                                                                         const EdgeInsets
-                                                                            .all(5),
+                                                                            .all(
+                                                                            5),
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       borderRadius:
@@ -1181,7 +1182,8 @@ class _HomeState extends State<Home> {
                                                                         30.h,
                                                                     padding:
                                                                         const EdgeInsets
-                                                                            .all(5),
+                                                                            .all(
+                                                                            5),
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       borderRadius:
@@ -1266,25 +1268,34 @@ class _HomeState extends State<Home> {
                                                             horizontal: 24.w,
                                                             vertical: 15.h),
                                                     child: Row(
-                                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            const SizedBox(
-                                                              height: 15,
-                                                            ),
-                                                            textBlack20W7000(
-                                                                "No ongoing order's right now"),
-                                                            Lottie.asset(
-                                                                "assets/lotties/delivery_track.json",
-                                                                height: 50.h,
-                                                                width: 130.w,
-                                                                fit: BoxFit
-                                                                    .cover)
-                                                          ],
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const SizedBox(
+                                                                height: 15,
+                                                              ),
+                                                              Center(
+                                                                child:
+                                                                    textBlack20W7000(
+                                                                  "No order's right now",
+                                                                  align: TextAlign
+                                                                      .center,
+                                                                ),
+                                                              ),
+                                                              Center(
+                                                                child: Lottie.asset(
+                                                                    "assets/lotties/delivery_track.json",
+                                                                    height: 50.h,
+                                                                    width: 130.w,
+                                                                    fit: BoxFit
+                                                                        .cover),
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -1331,8 +1342,9 @@ class _HomeState extends State<Home> {
                                                               .currentFeed!
                                                               .length,
                                                           (index) => Container(
-                                                                margin: const EdgeInsets
-                                                                    .only(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
                                                                         left:
                                                                             15),
                                                                 child: currentFeedSelection(

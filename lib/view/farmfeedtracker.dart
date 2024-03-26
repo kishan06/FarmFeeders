@@ -414,7 +414,7 @@ class _FeedContainerState extends State<FeedContainer> {
                 key: _formFeedContainer,
                 child: isLoading.value
                     ? Container(
-                        margin: EdgeInsets.only(top: 20),
+                        margin: const EdgeInsets.only(top: 20),
                         child: const Center(
                           child: CircularProgressIndicator(
                             color: AppColors.buttoncolour,
@@ -586,7 +586,7 @@ class _FeedContainerState extends State<FeedContainer> {
                           // ),
                           sizedBoxHeight(14.h),
                           Text(
-                            "Quantity",
+                            "Quantity Per Feed",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: "Poppins",
