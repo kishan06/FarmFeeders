@@ -59,9 +59,10 @@ Widget textBlue15NormalMon(String text) {
   );
 }
 
-Widget textBlack20W7000(String text) {
+Widget textBlack20W7000(String text, {TextAlign align = TextAlign.start}) {
   return Text(
     text,
+    textAlign: align,
     style: TextStyle(
       fontSize: 20.sp,
       color: AppColors.black,
