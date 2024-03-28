@@ -7,6 +7,7 @@ import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:farmfeeders/models/SubscriptionModel/subscription_model.dart';
 import 'package:farmfeeders/models/SubscriptionModel/subscription_plan_model.dart';
+import 'package:farmfeeders/view/Side%20Menu/webview_subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -896,18 +897,25 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                         ),
                         sizedBoxHeight(20.h),
                         InkWell(
-                            onTap: () {
-                              if (subscriptionPlanModel.data![0].plan! ||
-                                  subscriptionPlanModel.data![1].plan!) {
-                                deleteSubscription(
-                                    subscriptionPlanModel.data![0].plan!
-                                        ? subscriptionPlanModel
-                                            .data![0].stripeSubscriptionId!
-                                        : subscriptionPlanModel
-                                            .data![1].stripeSubscriptionId!);
-                              } else {
-                                init();
-                              }
+                            onTap: () async {
+                              // if (subscriptionPlanModel.data![0].plan! ||
+                              //     subscriptionPlanModel.data![1].plan!) {
+                              //   deleteSubscription(
+                              //       subscriptionPlanModel.data![0].plan!
+                              //           ? subscriptionPlanModel
+                              //               .data![0].stripeSubscriptionId!
+                              //           : subscriptionPlanModel
+                              //               .data![1].stripeSubscriptionId!);
+                              // } else {
+                              //   init();
+                              // }
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+
+                              Get.to(WebViewSubscription(
+                                  token: prefs
+                                      .getString('accessToken')
+                                      .toString()));
                             },
                             child: customButtonCurve(
                                 bgColor: (subscriptionPlanModel

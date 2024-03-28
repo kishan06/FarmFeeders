@@ -85,6 +85,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   onesignal_flutter: ^3.5.1
   firebase_core:
+  flutter_inappwebview: ^6.0.0
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
