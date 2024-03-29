@@ -7,7 +7,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../Utils/colors.dart';
 import '../../common/custom_appbar.dart';
 
 class ConfirmDeleteAccountScreen extends StatelessWidget {

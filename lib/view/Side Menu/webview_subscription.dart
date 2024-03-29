@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -35,15 +34,13 @@ class _WebViewSubscriptionState extends State<WebViewSubscription> {
 
   @override
   Widget build(BuildContext context) {
-    log("TEST ==> ${profileController.profileInfoModel.value.data!.id.toString()}");
     return Scaffold(
       body: InAppWebView(
         key: webViewKey,
         initialUrlRequest: URLRequest(
-            url: WebUri("https://staging.farmflowsolutions.com/subcription"),
+            url: WebUri(
+                "https://staging.farmflowsolutions.com/subcription/${profileController.profileInfoModel.value.data!.id}"),
             headers: {
-              "user_id":
-                  profileController.profileInfoModel.value.data!.id.toString(),
               "Authorization": widget.token,
             }),
         onReceivedError: (controller, request, error) {
