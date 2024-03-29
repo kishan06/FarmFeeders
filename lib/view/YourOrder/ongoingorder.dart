@@ -97,7 +97,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
-                        launch("tel://${number}");
+                        launch("tel://$number");
                       },
                       child: Container(
                         height: 48.h,

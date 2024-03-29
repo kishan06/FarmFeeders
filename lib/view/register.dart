@@ -70,7 +70,7 @@ class _RegisterState extends State<Register> {
       if (resp.status == ResponseStatus.SUCCESS) {
         int? id = resp.data['data']['id'];
         Get.toNamed('/verifyYourIdentity',
-            arguments: {'id': id, 'phonenumber': phoneController.text});
+            arguments: {'id': id, 'phonenumber': emailController.text});
         nameController.clear();
         dateController.clear();
         phoneController.clear();

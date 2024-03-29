@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (resp.data["status"] == 202) {
           var result = await Get.toNamed('/verifyYourIdentity', arguments: {
             'id': resp.data['data']['id'],
-            'phonenumber': resp.data['data']['phone_number']
+            'phonenumber': resp.data['data']['email']
           });
           if (result != null && result) {
             tecEmail.text = "";

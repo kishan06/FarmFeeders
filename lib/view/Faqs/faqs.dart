@@ -169,7 +169,7 @@ class _FaqState extends State<Faq> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/images/faqimage.svg",
+                                    "assets/images/account_app.svg",
                                     width: 67.w,
                                     height: 67.h,
                                   ),
@@ -213,7 +213,7 @@ class _FaqState extends State<Faq> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/images/faqservices.svg",
+                                    "assets/images/services.svg",
                                     width: 67.w,
                                     height: 67.h,
                                   ),
@@ -264,7 +264,7 @@ class _FaqState extends State<Faq> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/images/faqimage.svg",
+                                    "assets/images/subscription.svg",
                                     width: 67.w,
                                     height: 67.h,
                                   ),
@@ -308,7 +308,7 @@ class _FaqState extends State<Faq> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/images/faqservices.svg",
+                                    "assets/images/connect_with_experts.svg",
                                     width: 67.w,
                                     height: 67.h,
                                   ),
