@@ -3,13 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/profile_controller.dart';
 
 class WebViewSubscription extends StatefulWidget {
-  WebViewSubscription({super.key, required this.token});
+  WebViewSubscription({
+    super.key,
+    required this.token,
+    required this.id,
+  });
   String token;
+  String id;
 
   @override
   State<WebViewSubscription> createState() => _WebViewSubscriptionState();
@@ -17,12 +21,6 @@ class WebViewSubscription extends StatefulWidget {
 
 class _WebViewSubscriptionState extends State<WebViewSubscription> {
   final GlobalKey webViewKey = GlobalKey();
-  String? token;
-  getData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('accessToken');
-    log(prefs.getString('accessToken').toString());
-  }
 
   @override
   void initState() {
@@ -34,12 +32,13 @@ class _WebViewSubscriptionState extends State<WebViewSubscription> {
 
   @override
   Widget build(BuildContext context) {
+    log("ID ==> ${widget.id}");
     return Scaffold(
       body: InAppWebView(
         key: webViewKey,
         initialUrlRequest: URLRequest(
             url: WebUri(
-                "https://staging.farmflowsolutions.com/subcription/${profileController.profileInfoModel.value.data!.id}"),
+                "https://staging.farmflowsolutions.com/subcription/${widget.id}"),
             headers: {
               "Authorization": widget.token,
             }),

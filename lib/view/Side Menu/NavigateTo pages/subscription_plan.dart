@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
@@ -16,6 +18,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../Utils/global.dart';
 import '../../../data/stripe/api_service.dart';
 import '../../../view_models/subscriptionApi.dart';
 import 'package:http/http.dart' as http;
@@ -41,6 +44,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
   String customerId = '';
   @override
   void initState() {
+    log(widget.fromScreen.toString());
     if (widget.fromScreen == "fromSetUpFarm" ||
         widget.fromScreen == "SubscriptionInActive" ||
         widget.fromScreen == "fromHomePage") {
@@ -92,6 +96,111 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     }
   }
 
+  buildprofilelogoutdialog(context) {
+    return showDialog(
+      context: context,
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
+            //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              side: BorderSide(
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
+            ),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //sizedBoxHeight(32.h),
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    "assets/images/logout (1)@2x.png",
+                    width: 40.w,
+                    height: 50.h,
+                  ),
+                ),
+                SizedBox(
+                  height: 22.h,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Are you sure you want to Logout?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22.sp,
+                      //fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+                sizedBoxHeight(21.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.setString('accessToken', "");
+                        await prefs.setString('token', "");
+                        token = null;
+                        Get.offAllNamed("/loginScreen");
+                      },
+                      child: Container(
+                        height: 48.h,
+                        width: 140.w,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.h),
+                            color: AppColors.buttoncolour),
+                        child: Center(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(
+                                color: AppColors.white, fontSize: 18.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                    sizedBoxWidth(28.w),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48.h,
+                        width: 140.w,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0XFF0E5F02)),
+                            borderRadius: BorderRadius.circular(10.h),
+                            color: AppColors.white),
+                        child: Center(
+                          child: Text(
+                            "No",
+                            style: TextStyle(
+                                color: AppColors.buttoncolour, fontSize: 18.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -109,6 +218,25 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
               fontWeight: FontWeight.w600,
             ),
           ),
+          actions: [
+            (widget.fromScreen == "SubscriptionInActive" ||
+                    widget.fromScreen == "fromSetUpFarm")
+                ? InkWell(
+                    onTap: () {
+                      buildprofilelogoutdialog(context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Logout",
+                          style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                          )),
+                    ),
+                  )
+                : SizedBox(),
+          ],
           leading: widget.fromScreen == "fromSetUpFarm" ||
                   widget.fromScreen == "SubscriptionInActive"
               ? const SizedBox()
@@ -913,6 +1041,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                   await SharedPreferences.getInstance();
 
                               Get.to(WebViewSubscription(
+                                  id: id,
                                   token: prefs
                                       .getString('accessToken')
                                       .toString()));
