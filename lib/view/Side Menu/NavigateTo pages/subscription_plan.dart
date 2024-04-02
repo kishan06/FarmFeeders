@@ -44,11 +44,11 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
   String customerId = '';
   @override
   void initState() {
+    getData();
     log(widget.fromScreen.toString());
     if (widget.fromScreen == "fromSetUpFarm" ||
         widget.fromScreen == "SubscriptionInActive" ||
         widget.fromScreen == "fromHomePage") {
-      getData();
       SubscriptionApi().getSubscriptionPlanApi().then((value) {
         subscriptionPlanModel1 = SubscriptionPlanModel1.fromJson(value.data);
         isLoading.value = false;
@@ -90,6 +90,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     name = prefs.getString("name")!;
     email = prefs.getString("email")!;
     id = prefs.getString("id")!;
+    log("ID TEST ==> ${id}");
     if (widget.fromScreen == "SubscriptionInActive" ||
         widget.fromScreen == "fromHomePage") {
       customerId = prefs.getString("customerId")!;
