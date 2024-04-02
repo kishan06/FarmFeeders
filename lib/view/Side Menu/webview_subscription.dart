@@ -42,11 +42,8 @@ class _WebViewSubscriptionState extends State<WebViewSubscription> {
             headers: {
               "Authorization": widget.token,
             }),
-        onReceivedError: (controller, request, error) {
-          log(error.description);
-        },
-        onReceivedHttpError: (controller, request, errorResponse) {
-          log(errorResponse.data.toString());
+        onCloseWindow: (controller) {
+          log("Trigerring this ");
         },
       ),
     );
