@@ -19,6 +19,8 @@ class ApiUrls {
   static const farmInfoApi = "${base}edit/farm-info";
   static const livestockTypeApi = "${base}livestock/types";
   static const feedLivestockApi = "${base}feed/livestocks";
+
+  static const deleteFeedLivestockApi = "${base}delete/livestock-info/";
   static const faqApi = "${base}faqs/";
 
   static const boomarkNewsAndArticles = "${base}bookmark-article";

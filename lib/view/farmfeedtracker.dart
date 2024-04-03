@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -17,6 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../models/livestock_type_model.dart';
 import '../view_models/SetupFarmInfoAPI.dart';
 
 class Farmfeedtracker extends StatefulWidget {
@@ -37,20 +40,31 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
 
   FeedInfoContro feedInfoController = Get.put(FeedInfoContro());
   FeedLivestockModel feedLivestockModel = FeedLivestockModel();
+  LiveStockTypeModel liveStockTypeModel = LiveStockTypeModel();
   RxBool isLoading = false.obs;
+  List<String> noOfAnimalList = [];
+  String isInside = Get.arguments["fromScreeen"];
   @override
   void initState() {
     super.initState();
+    log(widget.isInside.toString());
     feedInfoController.getApiFeedDropdownData("1");
     isLoading.value = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       feedInfoController.expansionController.clear();
       SetupFarmInfoApi().getFeedLivestockApi().then((value) {
         feedLivestockModel = FeedLivestockModel.fromJson(value.data);
-
-        feedInfoController.expansionController =
-            List.filled(5, ExpansionTileController());
-        isLoading.value = false;
+        SetupFarmInfoApi().getLivestockTypeApi().then((value) {
+          liveStockTypeModel = LiveStockTypeModel.fromJson(value.data);
+          for (var a in liveStockTypeModel.data!) {
+            if (a.userLivestockLink!.isNotEmpty) {
+              noOfAnimalList.add(a.userLivestockLink![0].number.toString());
+            }
+          }
+          feedInfoController.expansionController =
+              List.filled(5, ExpansionTileController());
+          isLoading.value = false;
+        });
       });
     });
   }
@@ -59,40 +73,44 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 20,
-          ),
-          child: CustomButton(
-              text: "Update",
-              onTap: () async {
-                List<bool> values =
-                    List.filled(feedLivestockModel.data!.length, true);
+        bottomNavigationBar: isInside == "inside"
+            ? SizedBox()
+            : Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                child: CustomButton(
+                    text: "Update",
+                    onTap: () async {
+                      List<bool> values =
+                          List.filled(feedLivestockModel.data!.length, true);
 
-                for (int i = 0; i < feedLivestockModel.data!.length; i++) {
-                  await feedInfoController
-                      .getApiFeedDropdownData(
-                          (feedLivestockModel.data![i].id!).toString())
-                      .then((value) {
-                    if (feedInfoController.feedDropdownData!.data.feed ==
-                        null) {
-                      values[i] = false;
-                      utils.showToast("Please Update All Feeds");
-                      // return;
-                    }
-                  });
-                }
-                if (values.every((value) => value)) {
-                  isSetFeedInfo = true;
+                      for (int i = 0;
+                          i < feedLivestockModel.data!.length;
+                          i++) {
+                        await feedInfoController
+                            .getApiFeedDropdownData(
+                                (feedLivestockModel.data![i].id!).toString())
+                            .then((value) {
+                          if (feedInfoController.feedDropdownData!.data.feed ==
+                              null) {
+                            values[i] = false;
+                            utils.showToast("Please Update All Feeds");
+                            // return;
+                          }
+                        });
+                      }
+                      if (values.every((value) => value)) {
+                        isSetFeedInfo = true;
 
-                  Get.back(result: true);
-                }
+                        Get.back(result: true);
+                      }
 
-                // isSetLiveStockInfo = true;
-                // Get.back(result: true);
-              }),
-        ),
+                      // isSetLiveStockInfo = true;
+                      // Get.back(result: true);
+                    }),
+              ),
         backgroundColor: AppColors.white,
         body: Column(
           children: [
@@ -166,6 +184,7 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
                                             return Column(
                                               children: [
                                                 FeedContainer(
+                                                  number: noOfAnimalList[index],
                                                   titleText: feedLivestockModel
                                                       .data![index].name!,
                                                   imagePath: feedLivestockModel
@@ -202,6 +221,7 @@ class FeedContainer extends StatefulWidget {
   int feedId;
   int selectedFeedId;
   bool isInside;
+  String number;
 
   FeedContainer({
     super.key,
@@ -212,6 +232,7 @@ class FeedContainer extends StatefulWidget {
     required this.feedId,
     required this.selectedFeedId,
     required this.isInside,
+    required this.number,
   });
 
   @override
@@ -387,19 +408,31 @@ class _FeedContainerState extends State<FeedContainer> {
             color: isExpanded ? Colors.black : Colors.black,
           ),
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CachedNetworkImage(
-                imageUrl: (ApiUrls.baseImageUrl + widget.imagePath),
-                width: 59.w,
-                // width: 100.w,
+              Row(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: (ApiUrls.baseImageUrl + widget.imagePath),
+                    width: 59.w,
+                    // width: 100.w,
 
-                height: 42.h,
-                // height: 100.h,
+                    height: 42.h,
+                    // height: 100.h,
+                  ),
+                  sizedBoxWidth(19.w),
+                  Text(
+                    widget.titleText,
+                    style: TextStyle(
+                        color: AppColors.black,
+                        fontFamily: "Poppins",
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-              sizedBoxWidth(19.w),
               Text(
-                widget.titleText,
+                widget.number,
                 style: TextStyle(
                     color: AppColors.black,
                     fontFamily: "Poppins",

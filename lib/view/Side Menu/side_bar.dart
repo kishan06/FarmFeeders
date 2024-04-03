@@ -71,33 +71,33 @@ class _SideBarState extends State<SideBar> {
       "text": "News & Articles",
       "route": "/newsandarticlemain"
     },
-    {
-      "icon": Image.asset(
-        "assets/images/faq.png",
-        height: 30.h,
-        width: 30.h,
-      ),
-      "text": "FAQ",
-      "route": "/faq"
-    },
-    {
-      "icon": Image.asset(
-        "assets/images/feedback.png",
-        height: 30.h,
-        width: 30.h,
-      ),
-      "text": "Feedback",
-      "route": "/feedBack"
-    },
-    {
-      "icon": Image.asset(
-        "assets/images/contactus.png",
-        height: 30.h,
-        width: 30.h,
-      ),
-      "text": "Contact Us",
-      "route": "/contactus"
-    },
+    // {
+    //   "icon": Image.asset(
+    //     "assets/images/faq.png",
+    //     height: 30.h,
+    //     width: 30.h,
+    //   ),
+    //   "text": "FAQ",
+    //   "route": "/faq"
+    // },
+    // {
+    //   "icon": Image.asset(
+    //     "assets/images/feedback.png",
+    //     height: 30.h,
+    //     width: 30.h,
+    //   ),
+    //   "text": "Feedback",
+    //   "route": "/feedBack"
+    // },
+    // {
+    //   "icon": Image.asset(
+    //     "assets/images/contactus.png",
+    //     height: 30.h,
+    //     width: 30.h,
+    //   ),
+    //   "text": "Contact Us",
+    //   "route": "/contactus"
+    // },
     {
       "icon": Image.asset(
         "assets/images/connection_code.png",
@@ -107,15 +107,15 @@ class _SideBarState extends State<SideBar> {
       "text": "Connection Code",
       "route": "/connect"
     },
-    {
-      "icon": Image.asset(
-        "assets/images/subscription@2x.png",
-        height: 30.h,
-        width: 30.h,
-      ),
-      "text": "Subscription Plan",
-      "route": "/SubscriptionPlan"
-    },
+    // {
+    //   "icon": Image.asset(
+    //     "assets/images/subscription@2x.png",
+    //     height: 30.h,
+    //     width: 30.h,
+    //   ),
+    //   "text": "Subscription Plan",
+    //   "route": "/SubscriptionPlan"
+    // },
   ];
 
   final ProfileImageController editProfileImage =

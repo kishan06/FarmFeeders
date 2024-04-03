@@ -1289,8 +1289,10 @@ class _HomeState extends State<Home> {
                                                               Center(
                                                                 child: Lottie.asset(
                                                                     "assets/lotties/delivery_track.json",
-                                                                    height: 50.h,
-                                                                    width: 130.w,
+                                                                    height:
+                                                                        50.h,
+                                                                    width:
+                                                                        130.w,
                                                                     fit: BoxFit
                                                                         .cover),
                                                               )
@@ -1564,10 +1566,15 @@ class _HomeState extends State<Home> {
                                                                                 "Access Denied") {
                                                                               accessDeniedDialog(context, value.message);
                                                                             } else {
-                                                                              Get.to(() => Farmfeedtracker(
-                                                                                    isInside: true,
-                                                                                    index: dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid!,
-                                                                                  ));
+                                                                              Get
+                                                                                  .to(
+                                                                                      () => Farmfeedtracker(
+                                                                                            isInside: true,
+                                                                                            index: dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid!,
+                                                                                          ),
+                                                                                      arguments: {
+                                                                                    "fromScreeen": "inside"
+                                                                                  });
                                                                             }
                                                                           });
                                                                         }),

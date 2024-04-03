@@ -1,6 +1,9 @@
 // import 'dart:html';
 
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
@@ -20,6 +23,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Utils/sized_box.dart';
+import '../models/feed_Info_dropdown.dart';
 
 class LiveStockInfoLive extends StatefulWidget {
   const LiveStockInfoLive({super.key});
@@ -44,6 +51,10 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
   final tecNumber = TextEditingController();
   int? selectedAgeIndex;
   int? selectedBreedIndex;
+  int filledCount = 0;
+
+  FeedDropDownInfo? _feedDropdownData;
+  List<Map<int, bool>> checkList = [];
 
   @override
   void initState() {
@@ -51,11 +62,257 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SetupFarmInfoApi().getLivestockTypeApi().then((value) {
         liveStockTypeModel = LiveStockTypeModel.fromJson(value.data);
+        for (var a in liveStockTypeModel.data!) {
+          if (a.filled!) {
+            filledCount += 1;
+            getApiFeedDropdownData(a.id!.toString());
+          }
+        }
         isLoading.value = false;
       });
     });
 
     super.initState();
+  }
+
+  bool checkValue(List<Map<int, bool>> mapList, int key, bool value) {
+    for (var map in mapList) {
+      if (map.containsKey(key) && map[key] == value) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getApiFeedDropdownData(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    try {
+      var headers = {
+        'Authorization': "Bearer $token",
+      };
+      var dio = Dio();
+      log(ApiUrls.getFeedInfoDropdownData + id);
+      var response = await dio.request(
+        ApiUrls.getFeedInfoDropdownData + id,
+        options: Options(
+          method: 'GET',
+          headers: headers,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        _feedDropdownData = FeedDropDownInfo.fromJson(response.data);
+
+        checkList.add({
+          int.parse(id): _feedDropdownData!.data.feed != null ? true : false
+        });
+        log(checkList.toString());
+      } else {
+        print(response.statusMessage);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  buildprofilelogoutdialog(context, id) {
+    return showDialog(
+      context: context,
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
+            //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              side: BorderSide(
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
+            ),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //sizedBoxHeight(32.h),
+                const Align(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.delete,
+                    size: 50,
+                    color: AppColors.redFA5658,
+                  ),
+                ),
+                SizedBox(
+                  height: 22.h,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Are you sure you want to Delete?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22.sp,
+                      //fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+                sizedBoxHeight(21.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        Get.back();
+                        isLoading.value = true;
+                        SetupFarmInfoApi()
+                            .deleteFeedLivestockApi(id.toString())
+                            .then((value) {
+                          filledCount = 0;
+                          SetupFarmInfoApi()
+                              .getLivestockTypeApi()
+                              .then((value) {
+                            liveStockTypeModel =
+                                LiveStockTypeModel.fromJson(value.data);
+                            checkList.clear();
+                            for (var a in liveStockTypeModel.data!) {
+                              if (a.filled!) {
+                                filledCount += 1;
+                                getApiFeedDropdownData(a.id!.toString());
+                              }
+                            }
+                            isLoading.value = false;
+                          });
+                        });
+                      },
+                      child: Container(
+                        height: 48.h,
+                        width: 140.w,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.h),
+                            color: AppColors.buttoncolour),
+                        child: Center(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(
+                                color: AppColors.white, fontSize: 18.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                    sizedBoxWidth(28.w),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48.h,
+                        width: 140.w,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0XFF0E5F02)),
+                            borderRadius: BorderRadius.circular(10.h),
+                            color: AppColors.white),
+                        child: Center(
+                          child: Text(
+                            "No",
+                            style: TextStyle(
+                                color: AppColors.buttoncolour, fontSize: 18.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  restrictCancelDialog(context) {
+    return showDialog(
+      context: context,
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
+            //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              side: BorderSide(
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
+            ),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //sizedBoxHeight(32.h),
+                const Align(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.warning_rounded,
+                    size: 80,
+                    color: Colors.redAccent,
+                  ),
+                ),
+                SizedBox(
+                  height: 22.h,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "You need to add alteast one other feed data to delete this one",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22.sp,
+                      //fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+                sizedBoxHeight(21.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48.h,
+                        width: 180.w,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.h),
+                            color: AppColors.buttoncolour),
+                        child: Center(
+                          child: Text(
+                            "OK",
+                            style: TextStyle(
+                                color: AppColors.white, fontSize: 18.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -234,20 +491,98 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             const Spacer(),
-                                            Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 5.h, right: 5.h),
-                                                child: Icon(
-                                                  Icons.check_circle_outline,
-                                                  size: 19.w,
-                                                  color: liveStockTypeModel
-                                                          .data![index].filled!
-                                                      ? AppColors.buttoncolour
-                                                      : AppColors.transparent,
+                                            Row(
+                                              children: [
+                                                filledCount == 1
+                                                    ? SizedBox()
+                                                    : InkWell(
+                                                        onTap: () {
+                                                          if (checkValue(
+                                                              checkList,
+                                                              liveStockTypeModel
+                                                                  .data![index]
+                                                                  .userLivestockLink![
+                                                                      0]
+                                                                  .livestockTypeXid!,
+                                                              false)) {
+                                                            buildprofilelogoutdialog(
+                                                                context,
+                                                                liveStockTypeModel
+                                                                    .data![
+                                                                        index]
+                                                                    .userLivestockLink![
+                                                                        0]
+                                                                    .id);
+                                                          } else {
+                                                            int trueCount = checkList.fold(
+                                                                0,
+                                                                (count, map) =>
+                                                                    count +
+                                                                    (map.containsValue(
+                                                                            true)
+                                                                        ? 1
+                                                                        : 0));
+                                                            if (trueCount > 1) {
+                                                              buildprofilelogoutdialog(
+                                                                  context,
+                                                                  liveStockTypeModel
+                                                                      .data![
+                                                                          index]
+                                                                      .userLivestockLink![
+                                                                          0]
+                                                                      .id);
+                                                            } else {
+                                                              restrictCancelDialog(
+                                                                  context);
+                                                            }
+                                                          }
+                                                        },
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 5.h,
+                                                                    left: 5.h),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .cancel_outlined,
+                                                              size: 19.w,
+                                                              color: liveStockTypeModel
+                                                                      .data![
+                                                                          index]
+                                                                      .filled!
+                                                                  ? AppColors
+                                                                      .redFA5658
+                                                                  : AppColors
+                                                                      .transparent,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                const Spacer(),
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 5.h, right: 5.h),
+                                                    child: Icon(
+                                                      Icons
+                                                          .check_circle_outline,
+                                                      size: 19.w,
+                                                      color: liveStockTypeModel
+                                                              .data![index]
+                                                              .filled!
+                                                          ? AppColors
+                                                              .buttoncolour
+                                                          : AppColors
+                                                              .transparent,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
                                             CircleAvatar(
                                               radius: 55,
@@ -275,64 +610,6 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                     ],
                   ),
                 ),
-
-                // Expanded(
-                //         child: GridView.builder(
-                //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //             crossAxisCount: 2,
-
-                //           ),
-                //           itemBuilder: (BuildContext context, int index){
-                //             return InkWell(
-                //               onTap: () {
-                //                 addDataDialog(0);
-                //               },
-                //               child: Container(
-                //                 decoration: BoxDecoration(
-                //                   border: Border.all(
-                //                     width: setDairy ? 2.5 : 0.5,
-                //                     color: Color(0xFF0E5F02),
-                //                     // color: AppColors.white
-                //                   ),
-                //                   borderRadius: BorderRadius.circular(10),
-                //                 ),
-                //                 height: 210.h,
-                //                 width: 170.w,
-                //                 child: Column(
-                //                   // mainAxisSize: MainAxisSize.max,
-                //                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //                   children: [
-                //                     Spacer(),
-                //                     Align(
-                //                       alignment: Alignment.centerRight,
-                //                       child: Padding(
-                //                         padding: EdgeInsets.only(top: 5.h,right: 5.h),
-                //                         child: Icon(Icons.check_circle_outline,
-                //                           size: 19.w,
-                //                           color: setDairy ? AppColors.buttoncolour : AppColors.transparent,
-                //                         ),
-                //                       ),
-                //                     ),
-                //                     CircleAvatar(
-                //                       radius: 55,
-                //                       backgroundColor: Color(0xFFF1F1F1),
-                //                       child: Image.asset("assets/images/dairy.png"),
-                //                     ),
-                //                     Spacer(),
-                //                     Text(
-                //                       "Dairy",
-                //                       style: TextStyle(
-                //                           fontSize: 20,
-                //                           fontWeight: FontWeight.w500),
-                //                     ),
-                //                     Spacer(),
-                //                   ],
-                //                 ),
-                //               ),
-                //             );
-                //           }
-                //         ),
-                //       ),
               ],
             ),
           ),
@@ -340,10 +617,6 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
       )),
     );
   }
-
-  // Widget addDailog(){
-  //   return
-  // }
 
   buildAddDataDailog({required int index, required String titleText}) {
     final _formKey = GlobalKey<FormState>();
@@ -565,6 +838,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                             SetupFarmInfoApi()
                                                 .getLivestockTypeApi()
                                                 .then((value) {
+                                              filledCount = 0;
                                               isLoading.value = true;
                                               liveStockTypeModel =
                                                   LiveStockTypeModel.fromJson(
@@ -573,6 +847,15 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                               Get.back();
                                               Get.back();
                                               setLiveStockFor(index);
+                                              checkList.clear();
+                                              for (var a
+                                                  in liveStockTypeModel.data!) {
+                                                if (a.filled!) {
+                                                  filledCount += 1;
+                                                  getApiFeedDropdownData(
+                                                      a.id!.toString());
+                                                }
+                                              }
                                             });
                                           } else if (value == "Access Denied") {
                                             Get.back();
