@@ -90,7 +90,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     name = prefs.getString("name")!;
     email = prefs.getString("email")!;
     id = prefs.getString("id")!;
-    log("ID TEST ==> ${id}");
     if (widget.fromScreen == "SubscriptionInActive" ||
         widget.fromScreen == "fromHomePage") {
       customerId = prefs.getString("customerId")!;
@@ -439,36 +438,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                                               ],
                                                             ),
                                                           ),
-                                                          // RichText(
-                                                          //   text: TextSpan(
-                                                          //     text:
-                                                          //         "€${(double.parse(subscriptionPlanModel1.data![1].monthlyFee!) / 12).toStringAsFixed(2)}",
-                                                          //     style: GoogleFonts
-                                                          //         .montserrat(
-                                                          //       color: const Color(
-                                                          //           0xFF141414),
-                                                          //       fontSize: 22,
-                                                          //       fontWeight:
-                                                          //           FontWeight
-                                                          //               .w500,
-                                                          //     ),
-                                                          //     children: <TextSpan>[
-                                                          //       TextSpan(
-                                                          //         text: '/mo',
-                                                          //         style: GoogleFonts
-                                                          //             .montserrat(
-                                                          //           color: const Color(
-                                                          //               0xFF141414),
-                                                          //           fontSize:
-                                                          //               16,
-                                                          //           fontWeight:
-                                                          //               FontWeight
-                                                          //                   .w500,
-                                                          //         ),
-                                                          //       ),
-                                                          //     ],
-                                                          //   ),
-                                                          // ),
                                                         ],
                                                       )
                                                     : const SizedBox(),
@@ -556,23 +525,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                                     )
                                                   ],
                                                 ),
-                                                // Container(
-                                                //   height: 35.h,
-                                                //   padding: EdgeInsets.symmetric(
-                                                //       horizontal: 10),
-                                                //   decoration: BoxDecoration(
-                                                //       borderRadius:
-                                                //           BorderRadius.circular(4),
-                                                //       color: Color(0xFFE3FFE9)),
-                                                //   child: Center(
-                                                //       child: Text(
-                                                //     "-25% Off",
-                                                //     style: GoogleFonts.montserrat(
-                                                //       fontSize: 16.sp,
-                                                //       fontWeight: FontWeight.w500,
-                                                //     ),
-                                                //   )),
-                                                // )
                                               ],
                                             ),
                                             SizedBox(
@@ -614,34 +566,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                                           ],
                                                         ),
                                                       ),
-                                                      // RichText(
-                                                      //   text: TextSpan(
-                                                      //     text:
-                                                      //         "€${(double.parse(subscriptionPlanModel1.data![1].monthlyFee!) / 12).toStringAsFixed(2)}",
-                                                      //     style: GoogleFonts
-                                                      //         .montserrat(
-                                                      //       color: const Color(
-                                                      //           0xFF141414),
-                                                      //       fontSize: 22,
-                                                      //       fontWeight:
-                                                      //           FontWeight.w500,
-                                                      //     ),
-                                                      //     children: <TextSpan>[
-                                                      //       TextSpan(
-                                                      //         text: '/mo',
-                                                      //         style: GoogleFonts
-                                                      //             .montserrat(
-                                                      //           color: const Color(
-                                                      //               0xFF141414),
-                                                      //           fontSize: 16,
-                                                      //           fontWeight:
-                                                      //               FontWeight
-                                                      //                   .w500,
-                                                      //         ),
-                                                      //       ),
-                                                      //     ],
-                                                      //   ),
-                                                      // ),
                                                     ],
                                                   )
                                                 : const SizedBox(),
@@ -951,34 +875,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                                                           ],
                                                         ),
                                                       ),
-                                                      // RichText(
-                                                      //   text: TextSpan(
-                                                      //     text:
-                                                      //         "€${(double.parse(subscriptionPlanModel1.data![0].monthlyFee!) / 30).toStringAsFixed(2)}",
-                                                      //     style: GoogleFonts
-                                                      //         .montserrat(
-                                                      //       color: const Color(
-                                                      //           0xFF141414),
-                                                      //       fontSize: 22,
-                                                      //       fontWeight:
-                                                      //           FontWeight.w500,
-                                                      //     ),
-                                                      //     children: <TextSpan>[
-                                                      //       TextSpan(
-                                                      //         text: '/day',
-                                                      //         style: GoogleFonts
-                                                      //             .montserrat(
-                                                      //           color: const Color(
-                                                      //               0xFF141414),
-                                                      //           fontSize: 16,
-                                                      //           fontWeight:
-                                                      //               FontWeight
-                                                      //                   .w500,
-                                                      //         ),
-                                                      //       ),
-                                                      //     ],
-                                                      //   ),
-                                                      // ),
                                                     ],
                                                   )
                                                 : const SizedBox(),
@@ -1027,25 +923,58 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                         sizedBoxHeight(20.h),
                         InkWell(
                             onTap: () async {
-                              // if (subscriptionPlanModel.data![0].plan! ||
-                              //     subscriptionPlanModel.data![1].plan!) {
-                              //   deleteSubscription(
-                              //       subscriptionPlanModel.data![0].plan!
-                              //           ? subscriptionPlanModel
-                              //               .data![0].stripeSubscriptionId!
-                              //           : subscriptionPlanModel
-                              //               .data![1].stripeSubscriptionId!);
-                              // } else {
-                              //   init();
-                              // }
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
 
-                              Get.to(WebViewSubscription(
+                              var result = await Get.to(WebViewSubscription(
                                   id: id,
                                   token: prefs
                                       .getString('accessToken')
                                       .toString()));
+                              if (result != null && result) {
+                                log("THIS ==> ${widget.fromScreen!}");
+                                isLoading.value = true;
+                                SubscriptionApi()
+                                    .getSubscriptionPlanApi()
+                                    .then((value) {
+                                  subscriptionPlanModel1 =
+                                      SubscriptionPlanModel1.fromJson(
+                                          value.data);
+
+                                  SubscriptionApi()
+                                      .getSubscriptionData()
+                                      .then((value) async {
+                                    subscriptionPlanModel =
+                                        SubscriptionPlanModel.fromJson(
+                                            value.data);
+                                    if (subscriptionPlanModel.data![0].plan!) {
+                                      selectedSubscription.value = false;
+                                    } else {
+                                      selectedSubscription.value = true;
+                                    }
+                                    isLoading.value = false;
+                                    if (subscriptionPlanModel.data![0].plan! ||
+                                        subscriptionPlanModel.data![1].plan!) {
+                                      if (widget.fromScreen ==
+                                          "fromSetUpFarm") {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        Get.offAllNamed('/letsSetUpYourFarm',
+                                            arguments: {
+                                              'id': prefs
+                                                  .getString("id")
+                                                  .toString(),
+                                            });
+                                      } else if (widget.fromScreen ==
+                                              "SubscriptionInActive" ||
+                                          widget.fromScreen == "fromHomePage") {
+                                        Get.offAndToNamed('/sideMenu');
+                                      }
+                                    }
+                                  });
+                                });
+                              }
                             },
                             child: customButtonCurve(
                                 bgColor: (subscriptionPlanModel

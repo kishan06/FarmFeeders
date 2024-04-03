@@ -68,4 +68,28 @@ class SetupFarmInfoApi {
     }
     return response;
   }
+
+  Future<ResponseData<dynamic>> deleteFeedLivestockApi(String id) async {
+    final response = await NetworkApiServices().deleteApi(
+      ApiUrls.deleteFeedLivestockApi + id,
+      {},
+    );
+    log(response.data.toString());
+    if (response.status == ResponseStatus.SUCCESS) {
+      Map<String, dynamic> responseData =
+          Map<String, dynamic>.from(response.data);
+      if (responseData["message"] == "Access Denied") {
+        return ResponseData<dynamic>(
+            responseData['message'], ResponseStatus.FAILED);
+      } else {
+        if (responseData['success']) {
+          return response;
+        } else {
+          return ResponseData<dynamic>(
+              responseData['message'], ResponseStatus.FAILED);
+        }
+      }
+    }
+    return response;
+  }
 }

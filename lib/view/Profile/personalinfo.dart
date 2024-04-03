@@ -493,6 +493,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           textEditingController: phoneController,
                           hintText: 'Enter Contact Number',
                           texttype: TextInputType.number,
+                          readonly: true,
                           validatorText: 'Please enter contact number',
                           leadingIcon: Row(
                             mainAxisSize: MainAxisSize.min,

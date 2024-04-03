@@ -123,7 +123,8 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
               cards(
                 onTap: () async {
                   if (isSetFarmInfo && isSetLiveStockInfo) {
-                    var res = await Get.toNamed("/farmfeedtracker");
+                    var res = await Get.toNamed("/farmfeedtracker",
+                        arguments: {"fromScreeen": "outside"});
                     if (res == true) {
                       setState(() {});
                     }
@@ -132,9 +133,6 @@ class _LetsSetUpYourFarmState extends State<LetsSetUpYourFarm> {
                         msg:
                             "Please update Farm information & Live stock information");
                   }
-                  // var res = await Get.toNamed("/farmfeedtracker");
-
-                  // Get.toNamed("/farmfeedtracker");
                 },
                 set: isSetFeedInfo,
                 imagePath: "assets/images/setupFarm3.png",

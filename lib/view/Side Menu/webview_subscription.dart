@@ -29,22 +29,35 @@ class _WebViewSubscriptionState extends State<WebViewSubscription> {
   }
 
   ProfileController profileController = Get.put(ProfileController());
+  InAppWebViewController? webViewController;
 
   @override
   Widget build(BuildContext context) {
-    log("ID ==> ${widget.id}");
-    return Scaffold(
-      body: InAppWebView(
-        key: webViewKey,
-        initialUrlRequest: URLRequest(
-            url: WebUri(
-                "https://staging.farmflowsolutions.com/subcription/${widget.id}"),
-            headers: {
-              "Authorization": widget.token,
-            }),
-        onCloseWindow: (controller) {
-          log("Trigerring this ");
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        final controller = webViewController;
+        if (controller != null) {
+          if (await controller.canGoBack()) {
+            Get.back(result: true);
+
+            return false;
+          }
+        }
+        Get.back(result: true);
+        return false;
+      },
+      child: Scaffold(
+        body: InAppWebView(
+          key: webViewKey,
+          initialSettings:
+              InAppWebViewSettings(allowsBackForwardNavigationGestures: true),
+          initialUrlRequest: URLRequest(
+              url: WebUri(
+                  "https://staging.farmflowsolutions.com/subcription/${widget.id}"),
+              headers: {
+                "Authorization": widget.token,
+              }),
+        ),
       ),
     );
   }

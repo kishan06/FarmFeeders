@@ -616,7 +616,8 @@ class _ProfileState extends State<Profile> {
                                 if (value.message == "Access Denied") {
                                   accessDeniedDialog(context, value.message);
                                 } else {
-                                  Get.toNamed("/farmfeedtracker");
+                                  Get.toNamed("/farmfeedtracker",
+                                      arguments: {"fromScreeen": "inside"});
                                 }
                               });
                             },
