@@ -237,6 +237,9 @@ class NetworkApiServices extends BaseApiServices {
             }
           } else if (e.response!.statusCode == 500) {
             Get.to(() => const ErrorScreen());
+          } else if (e.response!.statusCode == 404) {
+            return ResponseData<dynamic>("success", ResponseStatus.SUCCESS,
+                data: e.response!.data);
           }
         }
       }

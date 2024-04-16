@@ -325,18 +325,22 @@ class _OngoingorderState extends State<Ongoingorder> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                orderDetailsModel
-                                                    .data!
-                                                    .orderDetails!
-                                                    .orderDetails![index]
-                                                    .inventoryTitle!,
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    color:
-                                                        const Color(0XFF141414),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily: "Poppins"),
+                                              SizedBox(
+                                                width: 0.6.sw,
+                                                child: Text(
+                                                  orderDetailsModel
+                                                      .data!
+                                                      .orderDetails!
+                                                      .orderDetails![index]
+                                                      .inventoryTitle!,
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(
+                                                          0XFF141414),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontFamily: "Poppins"),
+                                                ),
                                               ),
                                               sizedBoxHeight(2.h),
                                               Text(

@@ -55,4 +55,5 @@ class ApiUrls {
   static const subscriptionsApi = "${base}subscriptions";
   static const subscriptionPlanApi = "${base}subscriptionPlans";
   static const lougoutApi = "${base}logout";
+  static const refillProduct = "${base}refill_product/";
 }

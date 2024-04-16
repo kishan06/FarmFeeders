@@ -244,6 +244,7 @@ class CurrentFeed {
   String? livestockName;
   String? livestockUri;
   String? container;
+  String? feedType;
 
   CurrentFeed({
     this.id,
@@ -261,6 +262,7 @@ class CurrentFeed {
     this.livestockName,
     this.livestockUri,
     this.container,
+    this.feedType,
   });
 
   CurrentFeed.fromJson(Map<String, dynamic> json) {
@@ -280,6 +282,7 @@ class CurrentFeed {
     livestockName = json['livestock_name'];
     livestockUri = json['livestock_uri'];
     container = json["container"];
+    feedType = json['feed_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -299,6 +302,7 @@ class CurrentFeed {
     data['livestock_name'] = livestockName;
     data['livestock_uri'] = livestockUri;
     data['container'] = container;
+    data['feed_type'] = feedType;
     return data;
   }
 }

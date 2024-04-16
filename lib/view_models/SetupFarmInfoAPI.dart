@@ -92,4 +92,26 @@ class SetupFarmInfoApi {
     }
     return response;
   }
+
+  Future<ResponseData<dynamic>> refillFeedApi(int userId, String feedId) async {
+    final response = await NetworkApiServices().postApi(
+      {"user_id": userId},
+      ApiUrls.refillProduct + feedId,
+    );
+
+    if (response.status == ResponseStatus.SUCCESS) {
+      //  log(response.data.toString());
+      Map<String, dynamic> responseData =
+          Map<String, dynamic>.from(response.data);
+      if (responseData['success']) {
+        print("success $response");
+        return response;
+      } else {
+        //  log(response.data.toString());
+        return ResponseData<dynamic>(
+            responseData['message'], ResponseStatus.FAILED);
+      }
+    }
+    return response;
+  }
 }

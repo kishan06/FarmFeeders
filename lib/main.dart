@@ -6,6 +6,8 @@ import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/firebase_options.dart';
 import 'package:farmfeeders/resources/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,8 +38,18 @@ Future<void> main() async {
       .setSubscriptionObserver((OSSubscriptionStateChanges changes) async {
     await prefs.setString('playerId', changes.to.userId!);
   });
+
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
   // log(token!);
   await dotenv.load(fileName: ".env");
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then((value) => runApp(const MyApp()));
@@ -90,7 +102,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         builder: (context, child) {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
+            title: 'FarmFlow Farmer',
             theme: ThemeData(
               fontFamily: "Poppins",
               scaffoldBackgroundColor: AppColors.white,
