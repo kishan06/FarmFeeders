@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
@@ -75,6 +77,7 @@ class _HomeState extends State<Home> {
       wind = "00.0",
       weatherCondition = "";
   RxDouble feedPerValue = 101.0.obs;
+  RxString feedTypeV = "".obs;
 
   bool isDaytimeNow(
       DateTime currentTime, DateTime sunriseTime, DateTime sunsetTime) {
@@ -155,6 +158,121 @@ class _HomeState extends State<Home> {
     );
   }
 
+  noOrderAvailabledialog(context) {
+    return showDialog(
+      context: context,
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+            backgroundColor:
+                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
+            //contentPadding: EdgeInsets.fromLTRB(96, 32, 96, 28),
+            shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              side: BorderSide(
+                  color:
+                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
+            ),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //sizedBoxHeight(32.h),
+                const Align(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.warning_amber_outlined,
+                      color: Colors.red,
+                      size: 60,
+                    )),
+                SizedBox(
+                  height: 22.h,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "There are no latest orders available. Please update the feed manually !",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22.sp,
+                      //fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+                sizedBoxHeight(21.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        SetupFarmInfoApi().getFeedLivestockApi().then((value) {
+                          if (value.message == "Access Denied") {
+                            accessDeniedDialog(context, value.message);
+                          } else {
+                            Get.back();
+                            Get.to(
+                                () => Farmfeedtracker(
+                                      isInside: true,
+                                      index: dashboardController
+                                          .dashboardModel
+                                          .data!
+                                          .currentFeed![selectedCurrentFeed]
+                                          .livestockTypeXid!,
+                                    ),
+                                arguments: {"fromScreeen": "inside"});
+                          }
+                        });
+                      },
+                      child: Container(
+                        height: 48.h,
+                        width: 140.w,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.h),
+                            color: AppColors.buttoncolour),
+                        child: Center(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(
+                                color: AppColors.white, fontSize: 18.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                    sizedBoxWidth(28.w),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48.h,
+                        width: 140.w,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0XFF0E5F02)),
+                            borderRadius: BorderRadius.circular(10.h),
+                            color: AppColors.white),
+                        child: Center(
+                          child: Text(
+                            "No",
+                            style: TextStyle(
+                                color: AppColors.buttoncolour, fontSize: 18.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     if (dashboardController.isDashboardFirst) {
@@ -196,6 +314,7 @@ class _HomeState extends State<Home> {
           if (i.feedLow!) {
             if (feedPerValue > i.feedLowPer!) {
               feedPerValue.value = i.feedLowPer!;
+              feedTypeV.value = i.feedType!;
             }
           }
         }
@@ -1560,22 +1679,15 @@ class _HomeState extends State<Home> {
                                                                         onTap:
                                                                             () {
                                                                           SetupFarmInfoApi()
-                                                                              .getFeedLivestockApi()
+                                                                              .refillFeedApi(profileController.profileInfoModel.value.data!.id!, dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid.toString())
                                                                               .then((value) {
-                                                                            if (value.message ==
-                                                                                "Access Denied") {
-                                                                              accessDeniedDialog(context, value.message);
-                                                                            } else {
-                                                                              Get
-                                                                                  .to(
-                                                                                      () => Farmfeedtracker(
-                                                                                            isInside: true,
-                                                                                            index: dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid!,
-                                                                                          ),
-                                                                                      arguments: {
-                                                                                    "fromScreeen": "inside"
-                                                                                  });
-                                                                            }
+                                                                            Map<String, dynamic>
+                                                                                responseData =
+                                                                                Map<String, dynamic>.from(value.data);
+                                                                            log(responseData.toString());
+                                                                            if (responseData["data"]["order"] ==
+                                                                                "There is no order") {}
+                                                                            noOrderAvailabledialog(context);
                                                                           });
                                                                         }),
                                                               )
@@ -2119,7 +2231,7 @@ class _HomeState extends State<Home> {
                                                 CircleAvatar(
                                                   radius: 25.h,
                                                   backgroundColor:
-                                                      AppColors.redFA5658,
+                                                      feedTypeV.value==  ""? Colors.yellow: AppColors.redFA5658,
                                                   child: CircleAvatar(
                                                     radius: 18.h,
                                                     backgroundColor:

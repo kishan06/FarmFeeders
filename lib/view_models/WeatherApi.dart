@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:dio/dio.dart';
@@ -12,7 +13,7 @@ class WeatherApi {
       var response = await dio.get(
         "http://api.weatherapi.com/v1/current.json?key=$weatherApi&q=$lat,$lng&aqi=yes",
       );
-      // log(response.toString());
+      log(response.toString());
       final responseData = jsonDecode(response.toString());
 
       return ResponseData<dynamic>("success", ResponseStatus.SUCCESS,

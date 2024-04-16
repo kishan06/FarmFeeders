@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         builder: (context, child) {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
+            title: 'FarmFlow Farmer',
             theme: ThemeData(
               fontFamily: "Poppins",
               scaffoldBackgroundColor: AppColors.white,
