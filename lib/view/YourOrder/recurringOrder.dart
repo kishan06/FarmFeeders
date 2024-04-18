@@ -353,6 +353,16 @@ class _RecurringorderState extends State<RecurringOrder> {
                                               ),
                                               sizedBoxHeight(2.h),
                                               Text(
+                                                "Order Type :Bin",
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.w300,
+                                                    color:
+                                                        const Color(0XFF4D4D4D),
+                                                    fontFamily: "Poppins"),
+                                              ),
+                                              sizedBoxHeight(2.h),
+                                              Text(
                                                 "Lot : ${orderDetailsModel.data!.orderDetails!.orderDetails![index].lot}",
                                                 style: TextStyle(
                                                     fontSize: 16.sp,

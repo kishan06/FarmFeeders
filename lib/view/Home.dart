@@ -84,6 +84,168 @@ class _HomeState extends State<Home> {
     return currentTime.isAfter(sunriseTime) && currentTime.isBefore(sunsetTime);
   }
 
+  mapBottomSheet() {
+    return showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(26.r),
+          topRight: Radius.circular(26.r),
+        ),
+      ),
+      builder: (context) {
+        return Container(
+          height: 0.4.sh,
+          margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (_, index) {
+                return index == 0
+                    ? text18w5004D4D4D("Connected Sales Rep")
+                    : Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 15.h,
+                            backgroundColor: AppColors.buttoncolour,
+                            child: CircleAvatar(
+                              radius: 14.h,
+                              backgroundColor: AppColors.white,
+                              child: textblack14M((index).toString()),
+                            ),
+                          ),
+                          sizedBoxWidth(10.w),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                                launch("tel://898565655");
+                              },
+                              child: OngoingOrderMainTile(
+                                "",
+                                "Jayesh",
+                                "898565655",
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget OngoingOrderMainTile(dynamic image, dynamic name, dynamic number) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Container(
+        //width: double.infinity,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+          color: Color(0xFFFFFFFF),
+          // color: AppColors.greyMed
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 11.h,
+            ),
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: image == null || image.isEmpty
+                        ? Image.asset(
+                            "assets/images/connectperson.png",
+                            width: 65,
+                            height: 65,
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: CachedNetworkImage(
+                              maxWidthDiskCache: 65,
+                              memCacheWidth: 65,
+                              memCacheHeight: 65,
+                              maxHeightDiskCache: 65,
+                              imageUrl: "${ApiUrls.baseImageUrl}/$image",
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(
+                                color: AppColors.buttoncolour,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                          ),
+                  ),
+                ),
+                sizedBoxWidth(8.w),
+                SizedBox(
+                  // width: 195.w,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      RichText(
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                          text: name,
+                          // "Roma dsouza",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images/call.svg",
+                            width: 13.w,
+                            height: 13.w,
+                          ),
+                          sizedBoxWidth(5.w),
+                          RichText(
+                            text: TextSpan(
+                              text: number,
+                              // "0225845855",
+                              style: TextStyle(
+                                color: const Color(0XFF585858),
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                          ),
+                          Container()
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 11.h,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   accessDeniedDialog(context, text) {
     return showDialog(
       context: context,
@@ -2231,7 +2393,7 @@ class _HomeState extends State<Home> {
                                                 CircleAvatar(
                                                   radius: 25.h,
                                                   backgroundColor:
-                                                      feedTypeV.value==  ""? Colors.yellow: AppColors.redFA5658,
+                                                      AppColors.redFA5658,
                                                   child: CircleAvatar(
                                                     radius: 18.h,
                                                     backgroundColor:
@@ -2245,7 +2407,7 @@ class _HomeState extends State<Home> {
                                                     ),
                                                   ),
                                                 ),
-                                                sizedBoxWidth(20.w),
+                                                sizedBoxWidth(10.w),
                                                 Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -2257,6 +2419,25 @@ class _HomeState extends State<Home> {
                                                   ],
                                                 ),
                                                 const Spacer(),
+                                                InkWell(
+                                                  onTap: () {
+                                                    mapBottomSheet();
+                                                  },
+                                                  child: CircleAvatar(
+                                                    radius: 17.h,
+                                                    backgroundColor:
+                                                        AppColors.white,
+                                                    child: Icon(
+                                                      Icons.call,
+                                                      size: 25.h,
+                                                      color: AppColors
+                                                          .buttoncolour,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 8,
+                                                ),
                                                 InkWell(
                                                   onTap: () {
                                                     setState(() {
