@@ -364,6 +364,16 @@ class _OngoingorderState extends State<Ongoingorder> {
                                               ),
                                               sizedBoxHeight(2.h),
                                               Text(
+                                                "Order Type :Bin",
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.w300,
+                                                    color:
+                                                        const Color(0XFF4D4D4D),
+                                                    fontFamily: "Poppins"),
+                                              ),
+                                              sizedBoxHeight(2.h),
+                                              Text(
                                                 "€ ${double.parse(orderDetailsModel.data!.orderDetails!.orderDetails![index].itemUnitValue!) * orderDetailsModel.data!.orderDetails!.orderDetails![index].quantity!}",
                                                 style: TextStyle(
                                                     fontSize: 16.sp,
