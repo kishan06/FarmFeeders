@@ -200,14 +200,29 @@ class _CancelorderState extends State<Cancelorder> {
                   children: [
                     sizedBoxHeight(9.h),
                     Padding(
-                      padding: EdgeInsets.only(left: 16.w),
-                      child: Text(
-                        "Order Id: ${orderDetailsModel.data!.orderDetails!.orderId!}",
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          color: const Color(0XFF141414),
-                          fontFamily: "Poppins",
-                        ),
+                      padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Order Id: ${orderDetailsModel.data!.orderDetails!.orderId!}",
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              color: const Color(0XFF141414),
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          Text(
+                            orderDetailsModel.data!.orderDetails!.orderType == 1
+                                ? "Order Type : Bin"
+                                : "Order Type : Shed",
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              color: const Color(0XFF141414),
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Expanded(
@@ -337,7 +352,13 @@ class _CancelorderState extends State<Cancelorder> {
                                             ),
                                             sizedBoxHeight(2.h),
                                             Text(
-                                              "Order Type :Bin",
+                                              orderDetailsModel
+                                                          .data!
+                                                          .orderDetails!
+                                                          .orderType ==
+                                                      1
+                                                  ? "Order Type : Bin"
+                                                  : "Order Type : Shed",
                                               style: TextStyle(
                                                   fontSize: 16.sp,
                                                   fontWeight: FontWeight.w300,

@@ -100,6 +100,7 @@ class OrderDetails {
   DeliveryAgent? deliveryAgent;
   Farmer? farmer;
   List<NewOrderDetails>? orderDetails;
+  int? orderType;
 
   OrderDetails(
       {this.orderId,
@@ -126,7 +127,8 @@ class OrderDetails {
       this.salesman,
       this.deliveryAgent,
       this.farmer,
-      this.orderDetails});
+      this.orderDetails,
+      this.orderType});
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
@@ -165,6 +167,7 @@ class OrderDetails {
         orderDetails!.add(NewOrderDetails.fromJson(v));
       });
     }
+    orderType = json["order_type"];
   }
 
   Map<String, dynamic> toJson() {
@@ -186,6 +189,7 @@ class OrderDetails {
     data['discount_value'] = discountValue;
     data['total_value'] = totalValue;
     data['net_value'] = netValue;
+    data["order_type"] = orderType;
     data['delivery_instruction'] = deliveryInstruction;
     data['order_date'] = orderDate;
     if (orderFrequency != null) {

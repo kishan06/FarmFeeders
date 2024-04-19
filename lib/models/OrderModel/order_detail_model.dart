@@ -82,6 +82,7 @@ class OrderDetails {
   String? netValue;
   String? deliveryInstruction;
   String? orderDate;
+  int? orderType;
   OrderFrequency? orderFrequency;
   OrderFrequency? orderStatus;
   String? salesman;
@@ -114,6 +115,7 @@ class OrderDetails {
       this.salesman,
       this.deliveryAgent,
       this.farmer,
+      this.orderType,
       this.orderDetails});
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
@@ -146,6 +148,7 @@ class OrderDetails {
     deliveryAgent = json['delivery_agent'] != null
         ? DeliveryAgent.fromJson(json['delivery_agent'])
         : null;
+    orderType = json["order_type"];
     farmer = json['farmer'] != null ? Farmer.fromJson(json['farmer']) : null;
     if (json['order_details'] != null) {
       orderDetails = <NewOrderDetails>[];
@@ -172,6 +175,7 @@ class OrderDetails {
     data['recurring_end_date'] = recurringEndDate;
     data['discount_type'] = discountType;
     data['discount_value'] = discountValue;
+    data['order_type'] = orderType;
     data['total_value'] = totalValue;
     data['net_value'] = netValue;
     data['delivery_instruction'] = deliveryInstruction;

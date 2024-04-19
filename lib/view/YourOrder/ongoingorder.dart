@@ -218,14 +218,33 @@ class _OngoingorderState extends State<Ongoingorder> {
                     children: [
                       sizedBoxHeight(9.h),
                       Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: Text(
-                          "Order Id: ${orderDetailsModel.data!.orderDetails!.orderId!}",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: const Color(0XFF141414),
-                            fontFamily: "Poppins",
-                          ),
+                        padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Order Id: ${orderDetailsModel.data!.orderDetails!.orderId!}",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                color: const Color(0XFF141414),
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            Text(
+                              orderDetailsModel.data!.orderDetails!.orderType ==
+                                      1
+                                  ? "Order Type : Bin"
+                                  : "Order Type : Shed",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                color: const Color(0XFF141414),
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Expanded(
@@ -355,16 +374,6 @@ class _OngoingorderState extends State<Ongoingorder> {
                                               sizedBoxHeight(2.h),
                                               Text(
                                                 "Lot : ${orderDetailsModel.data!.orderDetails!.orderDetails![index].lot}",
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    fontWeight: FontWeight.w300,
-                                                    color:
-                                                        const Color(0XFF4D4D4D),
-                                                    fontFamily: "Poppins"),
-                                              ),
-                                              sizedBoxHeight(2.h),
-                                              Text(
-                                                "Order Type :Bin",
                                                 style: TextStyle(
                                                     fontSize: 16.sp,
                                                     fontWeight: FontWeight.w300,
