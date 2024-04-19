@@ -34,6 +34,7 @@ class Data {
   TrainingVideos? trainingVideos;
   Article? article;
   DataFilled? dataFilled;
+  List<SalesAgents>? salesAgents;
 
   Data(
       {this.order,
@@ -43,6 +44,7 @@ class Data {
       this.profileCompletionPercentage,
       this.trainingVideos,
       this.article,
+      this.salesAgents,
       this.dataFilled});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -77,6 +79,12 @@ class Data {
     dataFilled = json['data_filled'] != null
         ? DataFilled.fromJson(json['data_filled'])
         : null;
+    if (json['sales_Agents'] != null) {
+      salesAgents = <SalesAgents>[];
+      json['sales_Agents'].forEach((v) {
+        salesAgents!.add(SalesAgents.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -102,6 +110,31 @@ class Data {
     if (dataFilled != null) {
       data['data_filled'] = dataFilled!.toJson();
     }
+    if (salesAgents != null) {
+      data['sales_Agents'] = salesAgents!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class SalesAgents {
+  String? userName;
+  String? profilePhoto;
+  String? phoneNumber;
+
+  SalesAgents({this.userName, this.profilePhoto, this.phoneNumber});
+
+  SalesAgents.fromJson(Map<String, dynamic> json) {
+    userName = json['user_name'];
+    profilePhoto = json['profile_photo'] ?? "";
+    phoneNumber = json['phone_number'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['user_name'] = userName;
+    data['profile_photo'] = profilePhoto;
+    data['phone_number'] = phoneNumber;
     return data;
   }
 }

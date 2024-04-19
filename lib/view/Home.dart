@@ -103,7 +103,9 @@ class _HomeState extends State<Home> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
-              itemCount: 10,
+              itemCount:
+                  dashboardController.dashboardModel.data!.salesAgents!.length +
+                      1,
               itemBuilder: (_, index) {
                 return index == 0
                     ? text18w5004D4D4D("Connected Sales Rep")
@@ -123,12 +125,16 @@ class _HomeState extends State<Home> {
                             child: InkWell(
                               onTap: () {
                                 Navigator.pop(context);
-                                launch("tel://898565655");
+                                launch(
+                                    "tel://${dashboardController.dashboardModel.data!.salesAgents![index - 1].phoneNumber}");
                               },
                               child: OngoingOrderMainTile(
-                                "",
-                                "Jayesh",
-                                "898565655",
+                                dashboardController.dashboardModel.data!
+                                    .salesAgents![index - 1].profilePhoto,
+                                dashboardController.dashboardModel.data!
+                                    .salesAgents![index - 1].userName,
+                                dashboardController.dashboardModel.data!
+                                    .salesAgents![index - 1].phoneNumber,
                               ),
                             ),
                           ),
@@ -170,7 +176,7 @@ class _HomeState extends State<Home> {
                     ),
                     child: image == null || image.isEmpty
                         ? Image.asset(
-                            "assets/images/connectperson.png",
+                            "assets/default_image.jpg",
                             width: 65,
                             height: 65,
                           )
@@ -355,7 +361,7 @@ class _HomeState extends State<Home> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "There are no latest orders available. Please update the feed manually !",
+                    "There are no feed related latest orders available. Please update the feed manually !",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,
@@ -1847,9 +1853,28 @@ class _HomeState extends State<Home> {
                                                                                 responseData =
                                                                                 Map<String, dynamic>.from(value.data);
                                                                             log(responseData.toString());
-                                                                            if (responseData["data"]["order"] ==
-                                                                                "There is no order") {}
-                                                                            noOrderAvailabledialog(context);
+                                                                            if (responseData["data"]["order"] == "There is no order" ||
+                                                                                responseData["data"]["order"] == "There is no order related to these Feed") {
+                                                                              noOrderAvailabledialog(context);
+                                                                            } else if (responseData["data"]["order"].trim() == "Order Refill success") {
+                                                                              utils.showToast("Order Refill success");
+ //  dashboardController.isDashboardApiLoading.value = true;
+                                                                              DashboardApi().getDashboardData().then((value) async {
+                                                                                dashboardController.dashboardModel = DashboardModel.fromJson(value.data);
+
+                                                                                for (var i in dashboardController.dashboardModel.data!.currentFeed!) {
+                                                                                  if (i.feedLow!) {
+                                                                                    if (feedPerValue > i.feedLowPer!) {
+                                                                                      feedPerValue.value = i.feedLowPer!;
+                                                                                      feedTypeV.value = i.feedType!;
+                                                                                    }
+                                                                                  }
+                                                                                  setState(() {
+                                                                                    
+                                                                                  });
+                                                                                }// dashboardController.isDashboardApiLoading.value = false;
+                                                                              });
+                                                                            }
                                                                           });
                                                                         }),
                                                               )
