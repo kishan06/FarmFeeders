@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:farmfeeders/common/limit_range.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -11,6 +9,8 @@ import 'package:lottie/lottie.dart';
 import '../Utils/colors.dart';
 
 class NoInternetscreen extends StatefulWidget {
+  const NoInternetscreen({super.key});
+
   @override
   _NoInternetscreenState createState() => _NoInternetscreenState();
 }
@@ -26,7 +26,7 @@ class _NoInternetscreenState extends State<NoInternetscreen> {
           body: Column(children: [
         Center(
           child: Container(
-            margin: EdgeInsets.only(top: 100),
+            margin: const EdgeInsets.only(top: 100),
             height: 180.h,
             width: Get.width,
             child: Lottie.asset("assets/lotties/no_internet.json",
@@ -43,13 +43,16 @@ class _NoInternetscreenState extends State<NoInternetscreen> {
                     height: 15.0,
                   ),
                   Text("Whoops!",
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
-                          fontWeight: FontWeight.bold, letterSpacing: 1.5)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(
+                              fontWeight: FontWeight.bold, letterSpacing: 1.5)),
                   const SizedBox(
                     height: 30.0,
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                         "Internet Connection is Down!\n\nEnsure your internet's up and running.",
                         textAlign: TextAlign.center,

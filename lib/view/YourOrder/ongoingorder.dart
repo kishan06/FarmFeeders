@@ -7,7 +7,6 @@ import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -814,107 +813,107 @@ class _OngoingorderState extends State<Ongoingorder> {
                                         ],
                                       ),
                                     ),
-                              orderDetailsModel.data!.deliveryStatus!.isEmpty
-                                  ? const SizedBox()
-                                  : sizedBoxHeight(20.h),
-                              orderDetailsModel.data!.deliveryStatus!.isEmpty
-                                  ? const SizedBox()
-                                  : !orderDetailsModel.data!.deliveryStatus!
-                                              .any((item) =>
-                                                  item.deliveryStatusXid ==
-                                                  6) &&
-                                          orderDetailsModel
-                                              .data!.deliveryStatus!
-                                              .any((item) =>
-                                                  item.deliveryStatusXid != 7)
-                                      ? const SizedBox()
-                                      : orderDetailsModel.data!.deliveryStatus!
-                                                  .any((item) =>
-                                                      item.deliveryStatusXid ==
-                                                      6) &&
-                                              orderDetailsModel
-                                                  .data!.deliveryStatus!
-                                                  .any((item) =>
-                                                      item.deliveryStatusXid ==
-                                                      7)
-                                          ? Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 16.w),
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(12),
-                                                width: 358.w,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.h),
-                                                    color:
-                                                        AppColors.buttoncolour),
-                                                child: Center(
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                      text:
-                                                          'OTP shared successfully with the delivery agent.',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: AppColors
-                                                                  .white,
-                                                              fontSize: 18.sp),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          : Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 16.w),
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(12),
-                                                width: 358.w,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.h),
-                                                    color:
-                                                        AppColors.buttoncolour),
-                                                child: Center(
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                      text:
-                                                          'Share this OTP with your delivery agent: ',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: AppColors
-                                                                  .white,
-                                                              fontSize: 18.sp),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                          text:
-                                                              orderDetailsModel
-                                                                  .data!
-                                                                  .deliveryOtp,
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            fontSize: 20.sp,
-                                                            color:
-                                                                AppColors.white,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                              // orderDetailsModel.data!.deliveryStatus!.isEmpty
+                              //     ? const SizedBox()
+                              //     : sizedBoxHeight(20.h),
+                              // orderDetailsModel.data!.deliveryStatus!.isEmpty
+                              //     ? const SizedBox()
+                              //     : !orderDetailsModel.data!.deliveryStatus!
+                              //                 .any((item) =>
+                              //                     item.deliveryStatusXid ==
+                              //                     6) &&
+                              //             orderDetailsModel
+                              //                 .data!.deliveryStatus!
+                              //                 .any((item) =>
+                              //                     item.deliveryStatusXid != 7)
+                              //         ? const SizedBox()
+                              //         : orderDetailsModel.data!.deliveryStatus!
+                              //                     .any((item) =>
+                              //                         item.deliveryStatusXid ==
+                              //                         6) &&
+                              //                 orderDetailsModel
+                              //                     .data!.deliveryStatus!
+                              //                     .any((item) =>
+                              //                         item.deliveryStatusXid ==
+                              //                         7)
+                              //             ? Padding(
+                              //                 padding: EdgeInsets.symmetric(
+                              //                     horizontal: 16.w),
+                              //                 child: Container(
+                              //                   padding:
+                              //                       const EdgeInsets.all(12),
+                              //                   width: 358.w,
+                              //                   decoration: BoxDecoration(
+                              //                       borderRadius:
+                              //                           BorderRadius.circular(
+                              //                               10.h),
+                              //                       color:
+                              //                           AppColors.buttoncolour),
+                              //                   child: Center(
+                              //                     child: RichText(
+                              //                       text: TextSpan(
+                              //                         text:
+                              //                             'OTP shared successfully with the delivery agent.',
+                              //                         style: GoogleFonts
+                              //                             .montserrat(
+                              //                                 fontWeight:
+                              //                                     FontWeight
+                              //                                         .w500,
+                              //                                 color: AppColors
+                              //                                     .white,
+                              //                                 fontSize: 18.sp),
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               )
+                              //             : Padding(
+                              //                 padding: EdgeInsets.symmetric(
+                              //                     horizontal: 16.w),
+                              //                 child: Container(
+                              //                   padding:
+                              //                       const EdgeInsets.all(12),
+                              //                   width: 358.w,
+                              //                   decoration: BoxDecoration(
+                              //                       borderRadius:
+                              //                           BorderRadius.circular(
+                              //                               10.h),
+                              //                       color:
+                              //                           AppColors.buttoncolour),
+                              //                   child: Center(
+                              //                     child: RichText(
+                              //                       text: TextSpan(
+                              //                         text:
+                              //                             'Share this OTP with your delivery agent: ',
+                              //                         style: GoogleFonts
+                              //                             .montserrat(
+                              //                                 fontWeight:
+                              //                                     FontWeight
+                              //                                         .w500,
+                              //                                 color: AppColors
+                              //                                     .white,
+                              //                                 fontSize: 18.sp),
+                              //                         children: <TextSpan>[
+                              //                           TextSpan(
+                              //                             text:
+                              //                                 orderDetailsModel
+                              //                                     .data!
+                              //                                     .deliveryOtp,
+                              //                             style: GoogleFonts
+                              //                                 .montserrat(
+                              //                               fontSize: 20.sp,
+                              //                               color:
+                              //                                   AppColors.white,
+                              //                               fontWeight:
+                              //                                   FontWeight.w600,
+                              //                             ),
+                              //                           ),
+                              //                         ],
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
                               orderDetailsModel.data!.deliveryStatus!.isNotEmpty
                                   ? const SizedBox()
                                   : sizedBoxHeight(20.h),
@@ -964,7 +963,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                       ),
                                       boxShadow: const [
                                         BoxShadow(
-                                            color: Color(0xFF00000029),
+                                            color: Color(0xff00000029),
                                             blurRadius: 6.0,
                                             spreadRadius: 0)
                                       ]),
@@ -1059,7 +1058,7 @@ class _OngoingorderState extends State<Ongoingorder> {
                                       color: Color(0XFFF1F1F1),
                                       boxShadow: [
                                         BoxShadow(
-                                            color: Color(0xFF00000029),
+                                            color: Color(0xff00000029),
                                             blurRadius: 6.0,
                                             spreadRadius: 0)
                                       ]),

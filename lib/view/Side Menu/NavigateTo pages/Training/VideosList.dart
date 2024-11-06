@@ -7,7 +7,6 @@ import 'package:farmfeeders/view_models/UploadvideoAPI.dart';
 import 'package:farmfeeders/view_models/VideoListAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_share/flutter_share.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -316,13 +315,4 @@ class _VideosListState extends State<VideosList> {
       ),
     );
   }
-}
-
-Future<void> share() async {
-  await FlutterShare.share(
-    title: 'Example share',
-    // text: 'Example share text',
-    linkUrl: 'https://flutter.dev/',
-    // chooserTitle: 'Example Chooser Title'
-  );
 }

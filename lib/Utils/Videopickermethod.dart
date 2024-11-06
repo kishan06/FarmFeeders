@@ -16,10 +16,10 @@ class ImagePickerMethod {
           maxHeight: 512,
           maxWidth: 512,
           compressQuality: 100,
-          cropStyle: CropStyle.circle,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-          ],
+          // cropStyle: CropStyle.circle,
+          // aspectRatioPresets: [
+          //   CropAspectRatioPreset.square,
+          // ],
           uiSettings: [
             AndroidUiSettings(
               toolbarTitle: "Crop Image",

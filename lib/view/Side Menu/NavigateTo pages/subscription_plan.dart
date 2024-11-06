@@ -12,16 +12,15 @@ import 'package:farmfeeders/models/SubscriptionModel/subscription_plan_model.dar
 import 'package:farmfeeders/view/Side%20Menu/webview_subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Utils/global.dart';
 import '../../../data/stripe/api_service.dart';
 import '../../../view_models/subscriptionApi.dart';
-import 'package:http/http.dart' as http;
 
 class SubscriptionPlan extends StatefulWidget {
   String? fromScreen;
@@ -235,7 +234,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                           )),
                     ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ],
           leading: widget.fromScreen == "fromSetUpFarm" ||
                   widget.fromScreen == "SubscriptionInActive"
@@ -1013,12 +1012,12 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
           ? customerId
           : subscriptionPlanModel.data![0].customerId ?? customer!['id'],
     );
-    await createCreditCard(
-        widget.fromScreen == "SubscriptionInActive" ||
-                widget.fromScreen == "fromHomePage"
-            ? customerId
-            : subscriptionPlanModel.data![0].customerId ?? customer!['id'],
-        paymentIntent['client_secret']);
+    // await createCreditCard(
+    //     widget.fromScreen == "SubscriptionInActive" ||
+    //             widget.fromScreen == "fromHomePage"
+    //         ? customerId
+    //         : subscriptionPlanModel.data![0].customerId ?? customer!['id'],
+    //     paymentIntent['client_secret']);
     Map<String, dynamic> customerPaymentMethods =
         await getCustomerPaymentMethods(
       widget.fromScreen == "SubscriptionInActive" ||
@@ -1069,24 +1068,24 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
   }
 
   //create credit card
-  Future<void> createCreditCard(
-    String customerId,
-    String paymentIntentClientSecret,
-  ) async {
-    await Stripe.instance.initPaymentSheet(
-      paymentSheetParameters: SetupPaymentSheetParameters(
-        primaryButtonLabel: !selectedSubscription.value
-            ? 'Subscribe \$${subscriptionPlanModel1.data![0].monthlyFee}'
-            : 'Subscribe \$${subscriptionPlanModel1.data![1].monthlyFee}',
-        style: ThemeMode.dark,
-        merchantDisplayName: 'Farm Feeders',
-        customerId: customerId,
-        setupIntentClientSecret: paymentIntentClientSecret,
-      ),
-    );
+  // Future<void> createCreditCard(
+  //   String customerId,
+  //   String paymentIntentClientSecret,
+  // ) async {
+  //   await Stripe.instance.initPaymentSheet(
+  //     paymentSheetParameters: SetupPaymentSheetParameters(
+  //       primaryButtonLabel: !selectedSubscription.value
+  //           ? 'Subscribe \$${subscriptionPlanModel1.data![0].monthlyFee}'
+  //           : 'Subscribe \$${subscriptionPlanModel1.data![1].monthlyFee}',
+  //       style: ThemeMode.dark,
+  //       merchantDisplayName: 'Farm Feeders',
+  //       customerId: customerId,
+  //       setupIntentClientSecret: paymentIntentClientSecret,
+  //     ),
+  //   );
 
-    await Stripe.instance.presentPaymentSheet();
-  }
+  //   await Stripe.instance.presentPaymentSheet();
+  // }
 
   //get customer payment method
   Future<Map<String, dynamic>> getCustomerPaymentMethods(

@@ -1,16 +1,18 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:async';
+
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:dio/dio.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
-import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
+import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/view_models/UploadvideoAPI.dart';
 // import 'package:farmfeeders/view/Settings.dart';
@@ -22,11 +24,9 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart' as Getx hide MultipartFile, FormData;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:farmfeeders/common/limit_range.dart';
-import 'package:video_compress/video_compress.dart';
-import '../Utils/networkPlayer.dart';
 import 'package:path/path.dart' as path;
 
+import '../Utils/networkPlayer.dart';
 import '../common/flush_bar.dart';
 import '../controller/sub_user_controller.dart';
 import '../models/video_detail_model.dart';
@@ -65,7 +65,7 @@ class _EditVideosState extends State<EditVideos> {
   bool videoControllerSet = false;
 
   setVideoPlayerController() async {
-    videoController = await VideoPlayerController.file(File(file!.path))
+    videoController = VideoPlayerController.file(File(file!.path))
       ..addListener(() => setState(() {}))
       ..setLooping(true)
       ..initialize().then((_) => videoController.pause());
@@ -153,62 +153,117 @@ class _EditVideosState extends State<EditVideos> {
           );
         }
       }
-      Set<int> uniqueNumbers = subUserController.selectedIds.toSet();
-      List<int> uniqueList = uniqueNumbers.toList();
+      if (subUserController.selectedIds.isEmpty) {
+        if (isUpdate) {
+          Utils.loader();
+          var formData = FormData.fromMap({});
+          if (file == null) {
+            formData = FormData.fromMap({
+              "id": dashboardController.videoData.id,
+              "title": titlecontroller.text,
+              "sub_title": subtitlecontroller.text,
+              "category_id": categoryindex.toString(),
+            });
+          } else {
+            formData = FormData.fromMap({
+              "id": dashboardController.videoData.id,
+              "title": titlecontroller.text,
+              "sub_title": subtitlecontroller.text,
+              "video": multipartFiles.isNotEmpty ? multipartFiles : null,
+              "category_id": categoryindex.toString(),
+            });
+          }
 
-      if (isUpdate) {
-        Utils.loader();
-        var formData = FormData.fromMap({});
-        if (file == null) {
-          formData = FormData.fromMap({
-            "id": dashboardController.videoData.id,
+          final data = await UploadvideoAPI(formData).updatevideoApi(formData);
+
+          if (data.status == ResponseStatus.SUCCESS) {
+            utils.showToast(data.message);
+            videoController.dispose();
+            Get.back();
+            Get.back(result: true);
+          } else {
+            utils.showToast(data.message);
+            Get.back();
+          }
+        } else {
+          Utils.loader();
+          var formData = FormData.fromMap({
             "title": titlecontroller.text,
             "sub_title": subtitlecontroller.text,
+            "video": multipartFiles.isNotEmpty ? multipartFiles : null,
             "category_id": categoryindex.toString(),
-            "access_ids[]": uniqueList,
           });
+
+          final data = await UploadvideoAPI(formData).uploadvideoApi();
+
+          if (data.status == ResponseStatus.SUCCESS) {
+            utils.showToast(data.message);
+            videoController.dispose();
+            Get.back();
+            Get.back(result: true);
+          } else {
+            utils.showToast(data.message);
+            Get.back();
+          }
+        }
+      } else {
+        Set<int> uniqueNumbers = subUserController.selectedIds.toSet();
+        List<int> uniqueList = uniqueNumbers.toList();
+
+        if (isUpdate) {
+          Utils.loader();
+          var formData = FormData.fromMap({});
+          if (file == null) {
+            formData = FormData.fromMap({
+              "id": dashboardController.videoData.id,
+              "title": titlecontroller.text,
+              "sub_title": subtitlecontroller.text,
+              "category_id": categoryindex.toString(),
+              "access_ids[]": uniqueList,
+            });
+          } else {
+            formData = FormData.fromMap({
+              "id": dashboardController.videoData.id,
+              "title": titlecontroller.text,
+              "sub_title": subtitlecontroller.text,
+              "video": multipartFiles.isNotEmpty ? multipartFiles : null,
+              "category_id": categoryindex.toString(),
+              "access_ids[]": uniqueList,
+            });
+          }
+
+          final data = await UploadvideoAPI(formData).updatevideoApi(formData);
+
+          if (data.status == ResponseStatus.SUCCESS) {
+            utils.showToast(data.message);
+            videoController.dispose();
+            Get.back();
+            Get.back(result: true);
+          } else {
+            utils.showToast(data.message);
+            Get.back();
+          }
         } else {
-          formData = FormData.fromMap({
-            "id": dashboardController.videoData.id,
+          Utils.loader();
+          var formData = FormData.fromMap({
             "title": titlecontroller.text,
             "sub_title": subtitlecontroller.text,
             "video": multipartFiles.isNotEmpty ? multipartFiles : null,
             "category_id": categoryindex.toString(),
             "access_ids[]": uniqueList,
           });
-        }
 
-        final data = await UploadvideoAPI(formData).updatevideoApi(formData);
+          final data = await UploadvideoAPI(formData).uploadvideoApi();
 
-        if (data.status == ResponseStatus.SUCCESS) {
-          utils.showToast(data.message);
-          videoController.dispose();
-          Get.back();
-          Get.back(result: true);
-        } else {
-          utils.showToast(data.message);
-          Get.back();
-        }
-      } else {
-        Utils.loader();
-        var formData = FormData.fromMap({
-          "title": titlecontroller.text,
-          "sub_title": subtitlecontroller.text,
-          "video": multipartFiles.isNotEmpty ? multipartFiles : null,
-          "category_id": categoryindex.toString(),
-          "access_ids[]": uniqueList,
-        });
-
-        final data = await UploadvideoAPI(formData).uploadvideoApi();
-
-        if (data.status == ResponseStatus.SUCCESS) {
-          utils.showToast(data.message);
-          videoController.dispose();
-          Get.back();
-          Get.back(result: true);
-        } else {
-          utils.showToast(data.message);
-          Get.back();
+          if (data.status == ResponseStatus.SUCCESS) {
+            utils.showToast(data.message);
+            videoController.dispose();
+            Get.back();
+            Get.back(result: true);
+          } else {
+            utils.showToast(data.message);
+            Get.back();
+          }
         }
       }
     } catch (e) {}
@@ -448,18 +503,13 @@ class _EditVideosState extends State<EditVideos> {
                 final isValid = _form.currentState?.validate();
 
                 if (isValid!) {
-                  if (subUserController.selectedIds.isEmpty) {
-                    commonFlushBar(context,
-                        msg: "Provide access to alteast one user");
+                  if (isUpdate) {
+                    _uploadcheck();
                   } else {
-                    if (isUpdate) {
-                      _uploadcheck();
+                    if (file == null) {
+                      commonFlushBar(context, msg: "Video is Required");
                     } else {
-                      if (file == null) {
-                        commonFlushBar(context, msg: "Video is Required");
-                      } else {
-                        _uploadcheck();
-                      }
+                      _uploadcheck();
                     }
                   }
                 }
@@ -580,13 +630,13 @@ class _EditVideosState extends State<EditVideos> {
     }
     attachimage = file!.path;
 
-    MediaInfo? mediaInfo = await VideoCompress.compressVideo(
-      attachimage!,
-      quality: VideoQuality.LowQuality,
-      deleteOrigin: false,
-    );
+    // MediaInfo? mediaInfo = await VideoCompress.compressVideo(
+    //   attachimage!,
+    //   quality: VideoQuality.LowQuality,
+    //   deleteOrigin: false,
+    // );
 
-    attachimage = mediaInfo!.path;
+    attachimage = file!.path; //mediaInfo!.path;
 
     setState(() {
       videoControllerSet = false;
@@ -604,7 +654,7 @@ class _EditVideosState extends State<EditVideos> {
       // final imagePermanent = await saveFilePermanently(image.path);
 
       setState(() {
-        this._image = imageTemporary;
+        _image = imageTemporary;
       });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
@@ -614,14 +664,14 @@ class _EditVideosState extends State<EditVideos> {
 
 class AccessCustomListTile extends StatefulWidget {
   AccessCustomListTile({
-    Key? key,
+    super.key,
     required this.title,
     this.addVideoPage = false,
     this.id = 0,
     this.isUpdate = false,
 
     //required this.sizefactor
-  }) : super(key: key);
+  });
 
   final String? title;
 

@@ -1,16 +1,17 @@
+import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
-import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/view_models/LoginAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:farmfeeders/common/limit_range.dart';
-import 'package:farmfeeders/Utils/base_manager.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Utils/utils.dart';
 import '../data/network/network_api_services.dart';
 
@@ -32,6 +33,15 @@ class _LoginScreenState extends State<LoginScreen> {
   _logincheck() async {
     final isValid = _form.currentState?.validate();
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+      var token = prefs.getString('accessToken');
+
+      String? playerId = OneSignal.User.pushSubscription.id;
+      if (playerId != null) {
+        print("Directly fetched Player ID -> $playerId");
+
+        await prefs.setString("playerId", playerId);
+      }
     if (isValid!) {
       Utils.loader();
       Map<String, dynamic> updata = {
@@ -104,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Container(
                 height: 0.66.sh,
-                color: Color(0xFF0E5F02),
+                color: const Color(0xFF0E5F02),
                 child: Container(
                   // height: double.infinity,
                   decoration: const BoxDecoration(

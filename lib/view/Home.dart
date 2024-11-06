@@ -4,7 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/api_urls.dart';
 import 'package:farmfeeders/Utils/colors.dart';
+import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/Utils/utils.dart';
+import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/controller/notification_controller.dart';
@@ -17,21 +20,17 @@ import 'package:farmfeeders/view_models/ConnectionCodeApi.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as ls;
-import 'package:geolocator/geolocator.dart';
-import 'package:farmfeeders/common/custom_button_curve.dart';
-import 'package:farmfeeders/Utils/sized_box.dart';
-import 'package:farmfeeders/Utils/texts.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:flutter_share/flutter_share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -847,17 +846,17 @@ class _HomeState extends State<Home> {
                                                                       .asset(
                                                                       "assets/lotties/sun_animation.json",
                                                                       height:
-                                                                          240.h,
+                                                                          180.h,
                                                                       width:
-                                                                          240.w,
+                                                                          180.w,
                                                                     )
                                                                   : Lottie
                                                                       .asset(
                                                                       "assets/lotties/moon_animation.json",
                                                                       height:
-                                                                          175.h,
+                                                                          180.h,
                                                                       width:
-                                                                          175.w,
+                                                                          180.w,
                                                                     )
                                                               : (dashboardController
                                                                           .weatherCondition
@@ -868,17 +867,17 @@ class _HomeState extends State<Home> {
                                                                           .asset(
                                                                           "assets/lotties/sun_with_cloud_animation.json",
                                                                           height:
-                                                                              240.h,
+                                                                              180.h,
                                                                           width:
-                                                                              240.w,
+                                                                              180.w,
                                                                         )
                                                                       : Lottie
                                                                           .asset(
                                                                           "assets/lotties/moon_with_cloud_animation.json",
                                                                           height:
-                                                                              240.h,
+                                                                              180.h,
                                                                           width:
-                                                                              240.w,
+                                                                              180.w,
                                                                         )
                                                                   : (dashboardController.weatherCondition.value ==
                                                                               "Cloudy" ||
@@ -888,40 +887,40 @@ class _HomeState extends State<Home> {
                                                                           .asset(
                                                                           "assets/lotties/clouds.json",
                                                                           height:
-                                                                              240.h,
+                                                                              180.h,
                                                                           width:
-                                                                              240.w,
+                                                                              180.w,
                                                                         )
                                                                       : (dashboardController.weatherCondition.value == "Mist" ||
                                                                               dashboardController.weatherCondition.value == "Fog" ||
                                                                               dashboardController.weatherCondition.value == "Freezing fog")
                                                                           ? Lottie.asset(
                                                                               "assets/lotties/cloud2.json",
-                                                                              height: 240.h,
-                                                                              width: 240.w,
+                                                                              height: 180.h,
+                                                                              width: 180.w,
                                                                             )
                                                                           : (dashboardController.weatherCondition.value == "Patchy rain possible" || dashboardController.weatherCondition.value == "Patchy freezing drizzle possible" || dashboardController.weatherCondition.value == "Thundery outbreaks possible" || dashboardController.weatherCondition.value == "Patchy light drizzle" || dashboardController.weatherCondition.value == "Light drizzle" || dashboardController.weatherCondition.value == "Freezing drizzle" || dashboardController.weatherCondition.value == "Heavy freezing drizzle " || dashboardController.weatherCondition.value == "Patchy light rain" || dashboardController.weatherCondition.value == "Light rain" || dashboardController.weatherCondition.value == "Moderate rain at times" || dashboardController.weatherCondition.value == "Moderate rain" || dashboardController.weatherCondition.value == "Heavy rain at times" || dashboardController.weatherCondition.value == "Heavy rain" || dashboardController.weatherCondition.value == "Light freezing rain" || dashboardController.weatherCondition.value == "Moderate or heavy freezing rain" || dashboardController.weatherCondition.value == "Torrential rain shower" || dashboardController.weatherCondition.value == "Light sleet showers" || dashboardController.weatherCondition.value == "Patchy light rain with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy rain with thunder")
                                                                               ? Lottie.asset(
                                                                                   "assets/lotties/cloud_with_rain_animation.json",
-                                                                                  height: 240.h,
-                                                                                  width: 240.w,
+                                                                                  height: 180.h,
+                                                                                  width: 180.w,
                                                                                 )
                                                                               : (dashboardController.weatherCondition.value == "Patchy snow possible" || dashboardController.weatherCondition.value == "Patchy sleet possible" || dashboardController.weatherCondition.value == "Light sleet" || dashboardController.weatherCondition.value == "Moderate or heavy sleet" || dashboardController.weatherCondition.value == "Patchy light snow" || dashboardController.weatherCondition.value == "Light snow" || dashboardController.weatherCondition.value == "Patchy moderate snow" || dashboardController.weatherCondition.value == "Moderate snow" || dashboardController.weatherCondition.value == "Patchy heavy snow" || dashboardController.weatherCondition.value == "Heavy snow" || dashboardController.weatherCondition.value == "Ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy sleet showers" || dashboardController.weatherCondition.value == "Light snow showers" || dashboardController.weatherCondition.value == "Moderate or heavy snow showers" || dashboardController.weatherCondition.value == "Light showers of ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy showers of ice pellets")
                                                                                   ? Lottie.asset(
                                                                                       "assets/lotties/snow_animation.json",
-                                                                                      height: 240.h,
-                                                                                      width: 240.w,
+                                                                                      height: 180.h,
+                                                                                      width: 180.w,
                                                                                     )
                                                                                   : (dashboardController.weatherCondition.value == "Blowing snow" || dashboardController.weatherCondition.value == "Blizzard" || dashboardController.weatherCondition.value == "Patchy light snow with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy snow with thunder")
                                                                                       ? Lottie.asset(
                                                                                           "assets/lotties/snow_animation.json",
-                                                                                          height: 240.h,
-                                                                                          width: 240.w,
+                                                                                          height: 180.h,
+                                                                                          width: 180.w,
                                                                                         )
                                                                                       : Lottie.asset(
                                                                                           "assets/lotties/cloud2.json",
-                                                                                          height: 240.h,
-                                                                                          width: 240.w,
+                                                                                          height: 180.h,
+                                                                                          width: 180.w,
                                                                                         )),
                                                     ),
                                                     Padding(
@@ -1858,7 +1857,7 @@ class _HomeState extends State<Home> {
                                                                               noOrderAvailabledialog(context);
                                                                             } else if (responseData["data"]["order"].trim() == "Order Refill success") {
                                                                               utils.showToast("Order Refill success");
- //  dashboardController.isDashboardApiLoading.value = true;
+                                                                              //  dashboardController.isDashboardApiLoading.value = true;
                                                                               DashboardApi().getDashboardData().then((value) async {
                                                                                 dashboardController.dashboardModel = DashboardModel.fromJson(value.data);
 
@@ -1869,10 +1868,8 @@ class _HomeState extends State<Home> {
                                                                                       feedTypeV.value = i.feedType!;
                                                                                     }
                                                                                   }
-                                                                                  setState(() {
-                                                                                    
-                                                                                  });
-                                                                                }// dashboardController.isDashboardApiLoading.value = false;
+                                                                                  setState(() {});
+                                                                                } // dashboardController.isDashboardApiLoading.value = false;
                                                                               });
                                                                             }
                                                                           });
@@ -2460,7 +2457,7 @@ class _HomeState extends State<Home> {
                                                     ),
                                                   ),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 8,
                                                 ),
                                                 InkWell(
@@ -2623,15 +2620,6 @@ class _HomeState extends State<Home> {
               imageUrl: "${ApiUrls.baseImageUrl}/$imagePath"),
         ),
       ),
-    );
-  }
-
-  Future<void> share() async {
-    await FlutterShare.share(
-      title: 'Example share',
-      // text: 'Example share text',
-      linkUrl: 'https://flutter.dev/',
-      // chooserTitle: 'Example Chooser Title'
     );
   }
 }

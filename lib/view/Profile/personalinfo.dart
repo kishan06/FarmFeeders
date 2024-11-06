@@ -7,6 +7,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/custom_button.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,9 +16,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
-import 'package:farmfeeders/common/limit_range.dart';
+import 'package:path_provider/path_provider.dart';
+
 import '../../Utils/api_urls.dart';
 import '../../Utils/base_manager.dart';
 import '../../Utils/utils.dart';
@@ -590,10 +591,10 @@ class ProfileImageController extends GetxController {
           maxHeight: 512,
           maxWidth: 512,
           compressQuality: 100,
-          cropStyle: CropStyle.circle,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-          ],
+          // cropStyle: CropStyle.circle,
+          // aspectRatioPresets: [
+          //   CropAspectRatioPreset.square,
+          // ],
           uiSettings: [
             AndroidUiSettings(
               toolbarTitle: "Crop Image",
@@ -620,7 +621,7 @@ class ProfileImageController extends GetxController {
 
 class Personaldatepicker extends StatelessWidget {
   Personaldatepicker({
-    Key? key,
+    super.key,
     required this.datecontroller,
     required this.ontap,
     this.validator,
@@ -637,7 +638,7 @@ class Personaldatepicker extends StatelessWidget {
     // this.keyboardType,
     this.suffixIconConstraints,
     this.texttype,
-  }) : super(key: key);
+  });
 
   final TextEditingController datecontroller;
   final GestureTapCallback ontap;

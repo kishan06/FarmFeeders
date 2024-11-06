@@ -4,6 +4,7 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -21,6 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       var token = prefs.getString('accessToken');
+
+      String? playerId = OneSignal.User.pushSubscription.id;
+      if (playerId != null) {
+        print("Directly fetched Player ID -> $playerId");
+
+        await prefs.setString("playerId", playerId);
+      }
       if ((token == null || token == "")) {
         Get.offAndToNamed("/splashslider");
       } else {

@@ -27,7 +27,8 @@ class VideosDetails extends StatefulWidget {
 class _VideosDetailsState extends State<VideosDetails> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
-  late VideoPlayerController videoController;
+  late VideoPlayerController videoPlayerController;
+
   final GlobalKey<FormState> _formdairy = GlobalKey<FormState>();
   String? videourl;
   String? title;
@@ -45,11 +46,11 @@ class _VideosDetailsState extends State<VideosDetails> {
     videoId = Get.arguments["videoId"];
     title = Get.arguments["title"];
 
-    videoController = VideoPlayerController.networkUrl(
+    videoPlayerController = VideoPlayerController.networkUrl(
         Uri.parse('${ApiUrls.baseImageUrl}/$videourl'))
       ..addListener(() => setState(() {}))
       ..setLooping(false)
-      ..initialize().then((_) => videoController.pause());
+      ..initialize().then((_) => videoPlayerController.pause());
 
     NotesListAPI(videoId).noteslistApi().then((value) {
       notesData = value.data!;
@@ -78,8 +79,8 @@ class _VideosDetailsState extends State<VideosDetails> {
 
   @override
   void dispose() {
-    videoController.pause();
-    videoController.dispose();
+    videoPlayerController.pause();
+    videoPlayerController.dispose();
     super.dispose();
   }
 
@@ -252,8 +253,8 @@ class _VideosDetailsState extends State<VideosDetails> {
 
     return WillPopScope(
       onWillPop: () async {
-        videoController.pause();
-        videoController.dispose();
+        videoPlayerController.pause();
+        videoPlayerController.dispose();
         return true;
       },
       child: Scaffold(
@@ -267,8 +268,8 @@ class _VideosDetailsState extends State<VideosDetails> {
                   children: [
                     InkWell(
                       onTap: () {
-                        videoController.pause();
-                        videoController.dispose();
+                        videoPlayerController.pause();
+                        videoPlayerController.dispose();
                         Get.back(result: true);
                       },
                       child: CircleAvatar(
@@ -342,7 +343,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                         height: 230.h,
                         // width: 200.w,
                         child: NetworkPlayerWidget(
-                          videoController: videoController,
+                          videoController: videoPlayerController,
                         )
 
                         // CircularProgressIndicator()
@@ -429,7 +430,7 @@ class _VideosDetailsState extends State<VideosDetails> {
                                                               0xff0E5F02),
                                                     ),
                                                     sizedBoxWidth(11.w),
-                                                    Container(
+                                                    SizedBox(
                                                       width: Get.width / 1.5,
                                                       child: Column(
                                                         mainAxisAlignment:

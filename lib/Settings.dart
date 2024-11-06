@@ -155,23 +155,23 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               sizedBoxHeight(12.h),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed("/SubscriptionPlan");
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Text(
-                    "Subscription Plans",
-                    style: TextStyle(
-                        fontSize: 20.sp,
-                        color: const Color(0XFF0E5F02),
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-              sizedBoxHeight(12.h),
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.toNamed("/SubscriptionPlan");
+              //   },
+              //   child: Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 16.w),
+              //     child: Text(
+              //       "Subscription Plans",
+              //       style: TextStyle(
+              //           fontSize: 20.sp,
+              //           color: const Color(0XFF0E5F02),
+              //           fontFamily: "Poppins",
+              //           fontWeight: FontWeight.w600),
+              //     ),
+              //   ),
+              // ),
+              // sizedBoxHeight(12.h),
               GestureDetector(
                 onTap: () {
                   Get.toNamed("/feedBack");

@@ -3,25 +3,24 @@ import 'dart:async';
 import 'package:farmfeeders/Utils/base_manager.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/global.dart';
-import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/common/custom_button_curve.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/Utils/texts.dart';
+import 'package:farmfeeders/common/custom_appbar.dart';
+import 'package:farmfeeders/common/custom_button_curve.dart';
+import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/data/network/network_api_services.dart';
 import 'package:farmfeeders/view_models/VerifyIdentityAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:farmfeeders/common/limit_range.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Utils/api_urls.dart';
 import '../controller/profile_controller.dart';
-import 'Side Menu/NavigateTo pages/subscription_plan.dart';
 
 class VerifyYourIdentity extends StatefulWidget {
   const VerifyYourIdentity({super.key});
@@ -75,9 +74,9 @@ class _VerifyYourIdentityState extends State<VerifyYourIdentity> {
         token = resp.data["data"]["token"];
 
         // int? id = resp.data['data']['id'];
-        Get.offAll(SubscriptionPlan(
-          fromScreen: "fromSetUpFarm",
-        ));
+        Get.offAllNamed('/letsSetUpYourFarm', arguments: {
+          'id': prefs.getString("id").toString(),
+        });
       } else if (resp.status == ResponseStatus.PRIVATE) {
         String? message = resp.data['data'];
         utils.showToast("$message");

@@ -25,7 +25,8 @@ class NewsAndArticleMain extends StatefulWidget {
 class _NewsAndArticleState extends State<NewsAndArticleMain> {
   ScrollController? _scrollviewcontroller;
   var sliderPage = 0.obs;
-  final CarouselController carouselController = CarouselController();
+  final CarouselSliderController carouselController =
+      CarouselSliderController();
   final controllerNewsArticle = Get.put(NewsArticleController());
 
   @override

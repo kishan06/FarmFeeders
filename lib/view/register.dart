@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:farmfeeders/common/limit_range.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
@@ -53,7 +54,16 @@ class _RegisterState extends State<Register> {
   NetworkApiServices networkApiServices = NetworkApiServices();
   _registercheck() async {
     final isValid = _formKey.currentState?.validate();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      var token = prefs.getString('accessToken');
+
+      String? playerId = OneSignal.User.pushSubscription.id;
+      if (playerId != null) {
+        print("Directly fetched Player ID -> $playerId");
+
+        await prefs.setString("playerId", playerId);
+      }
     if (isValid!) {
       Utils.loader();
       Map<String, String> updata = {
