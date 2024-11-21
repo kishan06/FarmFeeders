@@ -20,6 +20,7 @@ import 'package:farmfeeders/view_models/ConnectionCodeApi.dart';
 import 'package:farmfeeders/view_models/DashboardApi.dart';
 import 'package:farmfeeders/view_models/NotificationAPI.dart';
 import 'package:farmfeeders/view_models/WeatherApi.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -824,6 +825,14 @@ class _HomeState extends State<Home> {
                                               )
                                             : InkWell(
                                                 onTap: () {
+                                                  FirebaseAnalytics.instance
+                                                      .logEvent(
+                                                          name:
+                                                              'weather_details_opened',
+                                                          parameters: {
+                                                        'from_location':
+                                                            currentLocationName!,
+                                                      });
                                                   Get.to(() =>
                                                       const WeatherForecastScreen());
                                                 },
@@ -846,17 +855,17 @@ class _HomeState extends State<Home> {
                                                                       .asset(
                                                                       "assets/lotties/sun_animation.json",
                                                                       height:
-                                                                          180.h,
+                                                                          160.h,
                                                                       width:
-                                                                          180.w,
+                                                                          160.w,
                                                                     )
                                                                   : Lottie
                                                                       .asset(
                                                                       "assets/lotties/moon_animation.json",
                                                                       height:
-                                                                          180.h,
+                                                                          160.h,
                                                                       width:
-                                                                          180.w,
+                                                                          160.w,
                                                                     )
                                                               : (dashboardController
                                                                           .weatherCondition
@@ -867,17 +876,17 @@ class _HomeState extends State<Home> {
                                                                           .asset(
                                                                           "assets/lotties/sun_with_cloud_animation.json",
                                                                           height:
-                                                                              180.h,
+                                                                              160.h,
                                                                           width:
-                                                                              180.w,
+                                                                              160.w,
                                                                         )
                                                                       : Lottie
                                                                           .asset(
                                                                           "assets/lotties/moon_with_cloud_animation.json",
                                                                           height:
-                                                                              180.h,
+                                                                              160.h,
                                                                           width:
-                                                                              180.w,
+                                                                              160.w,
                                                                         )
                                                                   : (dashboardController.weatherCondition.value ==
                                                                               "Cloudy" ||
@@ -887,40 +896,40 @@ class _HomeState extends State<Home> {
                                                                           .asset(
                                                                           "assets/lotties/clouds.json",
                                                                           height:
-                                                                              180.h,
+                                                                              160.h,
                                                                           width:
-                                                                              180.w,
+                                                                              160.w,
                                                                         )
                                                                       : (dashboardController.weatherCondition.value == "Mist" ||
                                                                               dashboardController.weatherCondition.value == "Fog" ||
                                                                               dashboardController.weatherCondition.value == "Freezing fog")
                                                                           ? Lottie.asset(
                                                                               "assets/lotties/cloud2.json",
-                                                                              height: 180.h,
-                                                                              width: 180.w,
+                                                                              height: 160.h,
+                                                                              width: 160.w,
                                                                             )
                                                                           : (dashboardController.weatherCondition.value == "Patchy rain possible" || dashboardController.weatherCondition.value == "Patchy freezing drizzle possible" || dashboardController.weatherCondition.value == "Thundery outbreaks possible" || dashboardController.weatherCondition.value == "Patchy light drizzle" || dashboardController.weatherCondition.value == "Light drizzle" || dashboardController.weatherCondition.value == "Freezing drizzle" || dashboardController.weatherCondition.value == "Heavy freezing drizzle " || dashboardController.weatherCondition.value == "Patchy light rain" || dashboardController.weatherCondition.value == "Light rain" || dashboardController.weatherCondition.value == "Moderate rain at times" || dashboardController.weatherCondition.value == "Moderate rain" || dashboardController.weatherCondition.value == "Heavy rain at times" || dashboardController.weatherCondition.value == "Heavy rain" || dashboardController.weatherCondition.value == "Light freezing rain" || dashboardController.weatherCondition.value == "Moderate or heavy freezing rain" || dashboardController.weatherCondition.value == "Torrential rain shower" || dashboardController.weatherCondition.value == "Light sleet showers" || dashboardController.weatherCondition.value == "Patchy light rain with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy rain with thunder")
                                                                               ? Lottie.asset(
                                                                                   "assets/lotties/cloud_with_rain_animation.json",
-                                                                                  height: 180.h,
-                                                                                  width: 180.w,
+                                                                                  height: 160.h,
+                                                                                  width: 160.w,
                                                                                 )
                                                                               : (dashboardController.weatherCondition.value == "Patchy snow possible" || dashboardController.weatherCondition.value == "Patchy sleet possible" || dashboardController.weatherCondition.value == "Light sleet" || dashboardController.weatherCondition.value == "Moderate or heavy sleet" || dashboardController.weatherCondition.value == "Patchy light snow" || dashboardController.weatherCondition.value == "Light snow" || dashboardController.weatherCondition.value == "Patchy moderate snow" || dashboardController.weatherCondition.value == "Moderate snow" || dashboardController.weatherCondition.value == "Patchy heavy snow" || dashboardController.weatherCondition.value == "Heavy snow" || dashboardController.weatherCondition.value == "Ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy sleet showers" || dashboardController.weatherCondition.value == "Light snow showers" || dashboardController.weatherCondition.value == "Moderate or heavy snow showers" || dashboardController.weatherCondition.value == "Light showers of ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy showers of ice pellets")
                                                                                   ? Lottie.asset(
                                                                                       "assets/lotties/snow_animation.json",
-                                                                                      height: 180.h,
-                                                                                      width: 180.w,
+                                                                                      height: 160.h,
+                                                                                      width: 160.w,
                                                                                     )
                                                                                   : (dashboardController.weatherCondition.value == "Blowing snow" || dashboardController.weatherCondition.value == "Blizzard" || dashboardController.weatherCondition.value == "Patchy light snow with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy snow with thunder")
                                                                                       ? Lottie.asset(
                                                                                           "assets/lotties/snow_animation.json",
-                                                                                          height: 180.h,
-                                                                                          width: 180.w,
+                                                                                          height: 160.h,
+                                                                                          width: 160.w,
                                                                                         )
                                                                                       : Lottie.asset(
                                                                                           "assets/lotties/cloud2.json",
-                                                                                          height: 180.h,
-                                                                                          width: 180.w,
+                                                                                          height: 160.h,
+                                                                                          width: 160.w,
                                                                                         )),
                                                     ),
                                                     Padding(
@@ -1845,6 +1854,12 @@ class _HomeState extends State<Home> {
                                                                             "Refill Now",
                                                                         onTap:
                                                                             () {
+                                                                          FirebaseAnalytics.instance.logEvent(
+                                                                              name: 'feed_refill_clicked',
+                                                                              parameters: {
+                                                                                'feed_type': feedTypeV.value,
+                                                                                'current_level': feedPerValue.value,
+                                                                              });
                                                                           SetupFarmInfoApi()
                                                                               .refillFeedApi(profileController.profileInfoModel.value.data!.id!, dashboardController.dashboardModel.data!.currentFeed![selectedCurrentFeed].livestockTypeXid.toString())
                                                                               .then((value) {
@@ -2222,6 +2237,20 @@ class _HomeState extends State<Home> {
                                                 sizedBoxHeight(15.h),
                                                 InkWell(
                                                   onTap: () async {
+                                                    FirebaseAnalytics.instance
+                                                        .logEvent(
+                                                            name:
+                                                                'article_bookmark_toggled',
+                                                            parameters: {
+                                                          'article_id':
+                                                              dashboardController
+                                                                  .dashboardModel
+                                                                  .data!
+                                                                  .article!
+                                                                  .id!,
+                                                          'new_state': (!saved)
+                                                              .toString(),
+                                                        });
                                                     await launchUrl(Uri.parse(
                                                         dashboardController
                                                             .dashboardModel
@@ -2320,6 +2349,20 @@ class _HomeState extends State<Home> {
                                                                 ),
                                                                 InkWell(
                                                                   onTap: () {
+                                                                    FirebaseAnalytics
+                                                                        .instance
+                                                                        .logEvent(
+                                                                            name:
+                                                                                'article_bookmark_toggled',
+                                                                            parameters: {
+                                                                          'article_id': dashboardController
+                                                                              .dashboardModel
+                                                                              .data!
+                                                                              .article!
+                                                                              .id!,
+                                                                          'new_state':
+                                                                              (!saved).toString(),
+                                                                        });
                                                                     setState(
                                                                         () {
                                                                       saved =
@@ -2443,6 +2486,17 @@ class _HomeState extends State<Home> {
                                                 const Spacer(),
                                                 InkWell(
                                                   onTap: () {
+                                                    FirebaseAnalytics.instance
+                                                        .logEvent(
+                                                            name:
+                                                                'feed_low_contact_clicked',
+                                                            parameters: {
+                                                          'feed_type':
+                                                              feedTypeV.value,
+                                                          'current_level':
+                                                              feedPerValue
+                                                                  .value,
+                                                        });
                                                     mapBottomSheet();
                                                   },
                                                   child: CircleAvatar(
@@ -2462,6 +2516,17 @@ class _HomeState extends State<Home> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
+                                                    FirebaseAnalytics.instance
+                                                        .logEvent(
+                                                            name:
+                                                                'feed_low_warning_dismissed',
+                                                            parameters: {
+                                                          'feed_type':
+                                                              feedTypeV.value,
+                                                          'current_level':
+                                                              feedPerValue
+                                                                  .value,
+                                                        });
                                                     setState(() {
                                                       lowFeed = false;
                                                     }); // lowFeed = false;

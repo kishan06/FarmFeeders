@@ -1,4 +1,5 @@
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/Training/TrainingMainData.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,8 +19,10 @@ class _TrainingMaincardState extends State<TrainingMainCard> {
 
   @override
   void initState() {
-    // ignore: todo
-    // TODO: implement initState
+    FirebaseAnalytics.instance.logScreenView(
+      screenName: 'training_list_screen',
+      screenClass: 'TrainingMainCard',
+    );
 
     super.initState();
   }
@@ -62,6 +65,14 @@ class _TrainingMaincardState extends State<TrainingMainCard> {
       children: [
         GestureDetector(
           onTap: () {
+            FirebaseAnalytics.instance.logEvent(
+              name: 'select_training',
+              parameters: {
+                'training_id': id,
+                'training_title': title,
+                'training_route': route,
+              },
+            );
             Get.toNamed(route, arguments: {"categoryindex": id});
           },
           child: Container(

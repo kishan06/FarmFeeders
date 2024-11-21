@@ -5,6 +5,7 @@ import 'package:farmfeeders/models/VideosListModel.dart';
 import 'package:farmfeeders/models/video_detail_model.dart';
 import 'package:farmfeeders/view_models/UploadvideoAPI.dart';
 import 'package:farmfeeders/view_models/VideoListAPI.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,9 +25,8 @@ class VideosList extends StatefulWidget {
 class _VideosListState extends State<VideosList> {
   String? Time;
   String categoryindex = Get.arguments["categoryindex"];
-  // Future<ResponseData<dynamic>> fetchVideoList() async {
-  //   return VideoListAPI(categoryindex).videolistApi();
-  // }
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   @override
   void initState() {
     checkSubUserPermission();
@@ -104,7 +104,15 @@ class _VideosListState extends State<VideosList> {
                   return Column(
                     children: [
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          await analytics.logEvent(
+                            name: 'select_video',
+                            parameters: {
+                              'video_id': videoData.id!,
+                              'video_title': videoData.title!,
+                              'category_id': categoryindex,
+                            },
+                          );
                           Get.toNamed("/videosdetails", arguments: {
                             "videourl": videoData.videoUrl,
                             "title": videoData.title,
@@ -203,7 +211,14 @@ class _VideosListState extends State<VideosList> {
                                         itemBuilder: (context) {
                                           return [
                                             PopupMenuItem(
-                                              onTap: () {
+                                              onTap: () async {
+                                                await analytics.logEvent(
+                                                  name: 'add_new_video',
+                                                  parameters: {
+                                                    'category_id':
+                                                        categoryindex,
+                                                  },
+                                                );
                                                 UploadvideoAPI("")
                                                     .trainingVideoDetailApi(
                                                         videoData.id!)
@@ -243,6 +258,15 @@ class _VideosListState extends State<VideosList> {
                                                 buildprofilelogoutdialog(
                                                   context,
                                                   () async {
+                                                    await analytics.logEvent(
+                                                      name: 'delete_video',
+                                                      parameters: {
+                                                        'video_id':
+                                                            videoData.id!,
+                                                        'video_title':
+                                                            videoData.title!,
+                                                      },
+                                                    );
                                                     Utils.loader();
                                                     UploadvideoAPI("")
                                                         .deleteTrainingVideo(
@@ -276,7 +300,16 @@ class _VideosListState extends State<VideosList> {
                                 child: Align(
                                   alignment: Alignment.bottomRight,
                                   child: InkWell(
-                                    onTap: () {
+                                    onTap: () async {
+                                      await analytics.logEvent(
+                                        name: 'toggle_video_bookmark',
+                                        parameters: {
+                                          'video_id': videoData.id!,
+                                          'video_title': videoData.title!,
+                                          'is_bookmarking':
+                                              !videoData.bookmarked!,
+                                        },
+                                      );
                                       setState(() {
                                         videoData.bookmarked == true
                                             ? true

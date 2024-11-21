@@ -18,6 +18,7 @@ import 'package:farmfeeders/controller/live_stock_info_contro.dart';
 import 'package:farmfeeders/models/livestock_type_model.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:farmfeeders/view_models/SetupFarmInfoAPI.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,6 +60,10 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
   @override
   void initState() {
     isLoading.value = true;
+    FirebaseAnalytics.instance.logScreenView(
+      screenName: 'LivestockInfo',
+      screenClass: 'LiveStockInfoLive',
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SetupFarmInfoApi().getLivestockTypeApi().then((value) {
         liveStockTypeModel = LiveStockTypeModel.fromJson(value.data);
@@ -168,6 +173,10 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                   children: [
                     InkWell(
                       onTap: () async {
+                        await FirebaseAnalytics.instance
+                            .logEvent(name: 'delete_livestock', parameters: {
+                          'livestock_id': id.toString(),
+                        });
                         Get.back();
                         isLoading.value = true;
                         SetupFarmInfoApi()
@@ -322,7 +331,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
         padding: EdgeInsets.only(
           left: 16.0.w,
           right: 16.w,
-          bottom: 15,
+          bottom: 15, 
         ),
         child: CustomButton(
             text: "Update",
@@ -339,6 +348,10 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
               if (!isSetLiveStockInfoV) {
                 utils.showToast("Add alteast one livestock data");
               } else {
+                FirebaseAnalytics.instance
+                    .logEvent(name: 'update_livestock_info', parameters: {
+                  'total_livestock_types': filledCount.toString(),
+                });
                 isSetLiveStockInfo = true;
                 Get.back(result: true);
               }
@@ -494,7 +507,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                             Row(
                                               children: [
                                                 filledCount == 1
-                                                    ? SizedBox()
+                                                    ? const SizedBox()
                                                     : InkWell(
                                                         onTap: () {
                                                           if (checkValue(
@@ -619,7 +632,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
   }
 
   buildAddDataDailog({required int index, required String titleText}) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     return showDialog(
       context: context,
@@ -642,7 +655,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                             color: AppColors.buttoncolour,
                           ))
                         : Form(
-                            key: _formKey,
+                            key: formKey,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -821,7 +834,7 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                     if (selectedAgeIndex != null &&
                                         selectedBreedIndex != null) {
                                       final FormState? form =
-                                          _formKey.currentState;
+                                          formKey.currentState;
                                       if (form != null && form.validate()) {
                                         Utils.loader();
                                         await liveStockInfoController
@@ -835,6 +848,19 @@ class _LiveStockInfoMainState extends State<LiveStockInfoLive> {
                                                 count: tecNumber.text)
                                             .then((value) {
                                           if (value == "success") {
+                                            FirebaseAnalytics.instance.logEvent(
+                                                name: 'add_livestock',
+                                                parameters: {
+                                                  'livestock_type': titleText,
+                                                  'livestock_age':
+                                                      selectedAgeIndex
+                                                          .toString(),
+                                                  'livestock_breed':
+                                                      selectedBreedIndex
+                                                          .toString(),
+                                                  'livestock_count':
+                                                      tecNumber.text,
+                                                });
                                             SetupFarmInfoApi()
                                                 .getLivestockTypeApi()
                                                 .then((value) {

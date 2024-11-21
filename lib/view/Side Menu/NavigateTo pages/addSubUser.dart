@@ -6,6 +6,7 @@ import 'package:farmfeeders/common/custom_button.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/sub_user_controller.dart';
 import 'package:farmfeeders/view_models/SubUserApi.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,6 +45,14 @@ class _addSubUserState extends State<addSubUser> {
 
   void _addSubUser() {
     Utils.loader();
+    analytics.logEvent(
+      name: 'add_sub_user',
+      parameters: {
+        'user_name': name.text,
+        'permissions_count': permissionList.length,
+      },
+    );
+
     var data = {
       "name": name.text,
       "dob": subuserdatecontroller,
@@ -59,6 +68,15 @@ class _addSubUserState extends State<addSubUser> {
 
   void _updateSubUser() {
     Utils.loader();
+    analytics.logEvent(
+      name: 'update_sub_user',
+      parameters: {
+        'user_id': subUserController.subUserData.id!,
+        // 'permissions_changed': !listEquals(
+        //     permissionList, subUserController.subUserData.permissions),
+      },
+    );
+
     var data = {
       "id": subUserController.subUserData.id,
       "name": name.text,
@@ -78,6 +96,8 @@ class _addSubUserState extends State<addSubUser> {
 
   var args = Get.arguments;
   bool isEdit = false;
+
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
@@ -114,7 +134,7 @@ class _addSubUserState extends State<addSubUser> {
       child: Scaffold(
         appBar: AppBar(
           title: Container(
-              margin: EdgeInsets.only(top: 15),
+              margin: const EdgeInsets.only(top: 15),
               child: customAppBar(
                   text: isEdit ? "Update Sub User" : "Add Sub User")),
           backgroundColor: Colors.white,
@@ -290,7 +310,7 @@ class _addSubUserState extends State<addSubUser> {
                     height: 20.h,
                   ),
                   isEdit
-                      ? SizedBox()
+                      ? const SizedBox()
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -494,6 +514,13 @@ class _addSubUserState extends State<addSubUser> {
                             onChanged: (bool? value) {
                               setState(() {
                                 isChecked = value!;
+                                analytics.logEvent(
+                                  name: 'permission_changed',
+                                  parameters: {
+                                    'permission': "Orders",
+                                    'enabled': value,
+                                  },
+                                );
                               });
                             },
                           )
@@ -527,6 +554,13 @@ class _addSubUserState extends State<addSubUser> {
                             onChanged: (bool? value) {
                               setState(() {
                                 isChecked1 = value!;
+                                analytics.logEvent(
+                                  name: 'permission_changed',
+                                  parameters: {
+                                    'permission': "Livestock",
+                                    'enabled': value,
+                                  },
+                                );
                               });
                             },
                           )
@@ -560,6 +594,13 @@ class _addSubUserState extends State<addSubUser> {
                             onChanged: (bool? value) {
                               setState(() {
                                 isChecked2 = value!;
+                                analytics.logEvent(
+                                  name: 'permission_changed',
+                                  parameters: {
+                                    'permission': "Feed",
+                                    'enabled': value,
+                                  },
+                                );
                               });
                             },
                           )
@@ -626,6 +667,10 @@ class _addSubUserState extends State<addSubUser> {
       }
 
       if (pickedDate.isBefore(eighteenYearsAgo)) {
+        analytics.logEvent(
+          name: 'dob_selected',
+          parameters: {'age': DateTime.now().year - pickedDate.year},
+        );
         setState(() {
           _selectedDate = pickedDate;
           dob.text =

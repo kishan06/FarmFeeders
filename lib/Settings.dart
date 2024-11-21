@@ -4,10 +4,11 @@ import 'package:farmfeeders/Utils/global.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/view/deleteAccount/deleteAccountScreen.dart';
 import 'package:farmfeeders/view_models/LoginAPI.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_switch/flutter_switch.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,17 +16,26 @@ import 'models/NotificationModel/notification_status_model.dart';
 import 'view_models/NotificationAPI.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+  const Settings({super.key});
 
   @override
   State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
+  // Add this method to log events
+  void _logAnalyticsEvent(String eventName, [Map<String, Object>? parameters]) {
+    FirebaseAnalytics.instance.logEvent(
+      name: eventName,
+      parameters: parameters,
+    );
+  }
+
   bool state = false;
   bool fingerstate = false;
   @override
   void initState() {
+    _logAnalyticsEvent('screen_view', {'screen_name': 'settings'});
     NotificationAPI().getNotificationStatus().then((value) {
       NotificationStatusModel notificationStatusModel =
           NotificationStatusModel.fromJson(value.data);
@@ -140,6 +150,7 @@ class _SettingsState extends State<Settings> {
               sizedBoxHeight(25.h),
               GestureDetector(
                 onTap: () {
+                  _logAnalyticsEvent('settings_faq_click');
                   Get.toNamed("/faq");
                 },
                 child: Padding(
@@ -174,6 +185,7 @@ class _SettingsState extends State<Settings> {
               // sizedBoxHeight(12.h),
               GestureDetector(
                 onTap: () {
+                  _logAnalyticsEvent('settings_feedback_click');
                   Get.toNamed("/feedBack");
                 },
                 child: Padding(
@@ -191,6 +203,7 @@ class _SettingsState extends State<Settings> {
               sizedBoxHeight(12.h),
               GestureDetector(
                 onTap: () {
+                  _logAnalyticsEvent('settings_contact_click');
                   Get.toNamed("/contactus");
                 },
                 child: Padding(
@@ -208,6 +221,7 @@ class _SettingsState extends State<Settings> {
               sizedBoxHeight(12.h),
               GestureDetector(
                 onTap: () {
+                  _logAnalyticsEvent('settings_delete_account_click');
                   Get.to(() => const DeleteAccountScreen());
                 },
                 child: Padding(
@@ -225,6 +239,7 @@ class _SettingsState extends State<Settings> {
               sizedBoxHeight(12.h),
               GestureDetector(
                 onTap: () {
+                  _logAnalyticsEvent('settings_logout_click');
                   buildprofilelogoutdialog(context);
                 },
                 child: Padding(
@@ -517,13 +532,13 @@ class _SettingsState extends State<Settings> {
 
 class CustomListTile extends StatefulWidget {
   CustomListTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.statecontroller,
     this.addVideoPage = false,
 
     //required this.sizefactor
-  }) : super(key: key);
+  });
 
   final String? title;
   bool statecontroller;
@@ -569,6 +584,11 @@ class _CustomListTileState extends State<CustomListTile> {
               value: widget.statecontroller,
               onToggle: (val) {
                 setState(() {
+                  FirebaseAnalytics.instance.logEvent(
+                      name: 'settings_notification_toggle',
+                      parameters: {
+                        'enabled': val,
+                      });
                   widget.statecontroller = val;
                   NotificationAPI().notificationSettingsApi(3).then((value) {});
                 });

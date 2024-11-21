@@ -9,6 +9,7 @@ import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/profile_controller.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,6 +68,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   void uploadData() async {
     Utils.loader();
+    FirebaseAnalytics.instance.logEvent(
+      name: 'profile_update_started',
+    );
+
     MultipartFile imageFile;
 
     if (editProfileImage.profilePicPath.value.isNotEmpty) {
@@ -97,6 +102,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
       'profile_photo': imageFile,
     });
     if (data.status == ResponseStatus.SUCCESS) {
+      FirebaseAnalytics.instance.logEvent(
+        name: 'profile_update_success',
+      );
       ProfileAPI().getProfileInfo().then((value) {
         profileController.profileInfoModel.value =
             ProfileInfoModel.fromJson(value.data);

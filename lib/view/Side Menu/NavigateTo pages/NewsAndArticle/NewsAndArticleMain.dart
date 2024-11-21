@@ -8,6 +8,7 @@ import 'package:farmfeeders/common/error_msg.dart';
 import 'package:farmfeeders/common/loading.dart';
 import 'package:farmfeeders/controller/news_article_controller.dart';
 import 'package:farmfeeders/view/Side%20Menu/NavigateTo%20pages/NewsAndArticle/NewsCard.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,6 +41,14 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
     super.dispose();
   }
 
+  Future<void> _logEvent(
+      String eventName, Map<String, Object> parameters) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: eventName,
+      parameters: parameters,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -52,6 +61,9 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                   actions: true,
                   icon: GestureDetector(
                     onTap: () {
+                      _logEvent('view_saved_articles', {
+                        'screen_name': 'news_and_article',
+                      });
                       Get.toNamed("/savedarticlemain");
                     },
                     child: Icon(
@@ -119,7 +131,14 @@ class _NewsAndArticleState extends State<NewsAndArticleMain> {
                                               return InkWell(
                                                 onTap: () async {
                                                   // log(cardData.smallDescription);
-
+                                                  await _logEvent(
+                                                      'view_article_detail', {
+                                                    'article_id': cardData.id,
+                                                    'article_title':
+                                                        cardData.title,
+                                                    'article_category':
+                                                        cardData.artCategory,
+                                                  });
                                                   await launchUrl(Uri.parse(
                                                       cardData
                                                           .smallDescription));
@@ -247,6 +266,14 @@ class CarouselCard extends StatelessWidget {
   // final CarouselController carouselController = CarouselController();
   final controllerNewsArticle = Get.put(NewsArticleController());
 
+  Future<void> _logEvent(
+      String eventName, Map<String, Object> parameters) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: eventName,
+      parameters: parameters,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -296,6 +323,11 @@ class CarouselCard extends StatelessWidget {
                   backgroundColor: AppColors.greyF2F4F5,
                   child: InkWell(
                     onTap: () {
+                      _logEvent('toggle_bookmark', {
+                        'article_id': id,
+                        'article_title': title,
+                        'new_state': !bookmarked,
+                      });
                       // print("pressed");
                       controllerNewsArticle.changeBookmark(index);
                       controllerNewsArticle.bookmarkApi(

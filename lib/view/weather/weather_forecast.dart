@@ -158,34 +158,34 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
                             ? isDaytime
                                 ? Lottie.asset(
                                     "assets/lotties/sun_animation.json",
-                                    height: 180.h,
-                                    width: 180.w,
+                                    height: 160.h,
+                                    width: 160.w,
                                   )
                                 : Lottie.asset(
                                     "assets/lotties/moon_animation.json",
-                                    height: 180.h,
-                                    width: 180.w,
+                                    height: 160.h,
+                                    width: 160.w,
                                   )
                             : (dashboardController.weatherCondition.value ==
                                     "Partly cloudy")
                                 ? isDaytime
                                     ? Lottie.asset(
                                         "assets/lotties/sun_with_cloud_animation.json",
-                                        height: 180.h,
-                                        width: 180.w,
+                                        height: 160.h,
+                                        width: 160.w,
                                       )
                                     : Lottie.asset(
                                         "assets/lotties/moon_with_cloud_animation.json",
-                                        height: 180.h,
-                                        width: 180.w,
+                                        height: 160.h,
+                                        width: 160.w,
                                       )
                                 : (dashboardController.weatherCondition.value == "Cloudy" ||
                                         dashboardController.weatherCondition.value ==
                                             "Overcast")
                                     ? Lottie.asset(
                                         "assets/lotties/clouds.json",
-                                        height: 180.h,
-                                        width: 180.w,
+                                        height: 160.h,
+                                        width: 160.w,
                                       )
                                     : (dashboardController.weatherCondition.value == "Mist" ||
                                             dashboardController.weatherCondition.value ==
@@ -194,8 +194,8 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
                                                 "Freezing fog")
                                         ? Lottie.asset(
                                             "assets/lotties/cloud2.json",
-                                            height: 180.h,
-                                            width: 180.w,
+                                            height: 160.h,
+                                            width: 160.w,
                                           )
                                         : (dashboardController.weatherCondition.value == "Patchy rain possible" ||
                                                 dashboardController.weatherCondition.value ==
@@ -235,25 +235,25 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
                                                 dashboardController.weatherCondition.value == "Moderate or heavy rain with thunder")
                                             ? Lottie.asset(
                                                 "assets/lotties/cloud_with_rain_animation.json",
-                                                height: 180.h,
-                                                width: 180.w,
+                                                height: 160.h,
+                                                width: 160.w,
                                               )
                                             : (dashboardController.weatherCondition.value == "Patchy snow possible" || dashboardController.weatherCondition.value == "Patchy sleet possible" || dashboardController.weatherCondition.value == "Light sleet" || dashboardController.weatherCondition.value == "Moderate or heavy sleet" || dashboardController.weatherCondition.value == "Patchy light snow" || dashboardController.weatherCondition.value == "Light snow" || dashboardController.weatherCondition.value == "Patchy moderate snow" || dashboardController.weatherCondition.value == "Moderate snow" || dashboardController.weatherCondition.value == "Patchy heavy snow" || dashboardController.weatherCondition.value == "Heavy snow" || dashboardController.weatherCondition.value == "Ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy sleet showers" || dashboardController.weatherCondition.value == "Light snow showers" || dashboardController.weatherCondition.value == "Moderate or heavy snow showers" || dashboardController.weatherCondition.value == "Light showers of ice pellets" || dashboardController.weatherCondition.value == "Moderate or heavy showers of ice pellets")
                                                 ? Lottie.asset(
                                                     "assets/lotties/snow_animation.json",
-                                                    height: 180.h,
-                                                    width: 180.w,
+                                                    height: 160.h,
+                                                    width: 160.w,
                                                   )
                                                 : (dashboardController.weatherCondition.value == "Blowing snow" || dashboardController.weatherCondition.value == "Blizzard" || dashboardController.weatherCondition.value == "Patchy light snow with thunder" || dashboardController.weatherCondition.value == "Moderate or heavy snow with thunder")
                                                     ? Lottie.asset(
                                                         "assets/lotties/snow_animation.json",
-                                                        height: 180.h,
-                                                        width: 180.w,
+                                                        height: 160.h,
+                                                        width: 160.w,
                                                       )
                                                     : Lottie.asset(
                                                         "assets/lotties/cloud2.json",
-                                                        height: 180.h,
-                                                        width: 180.w,
+                                                        height: 160.h,
+                                                        width: 160.w,
                                                       )),
                     Padding(
                       padding: EdgeInsets.fromLTRB(20.w, 15.h, 36.w, 20.h),

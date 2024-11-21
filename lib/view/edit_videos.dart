@@ -15,6 +15,7 @@ import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/view_models/UploadvideoAPI.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 // import 'package:farmfeeders/view/Settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +49,8 @@ class EditVideos extends StatefulWidget {
 }
 
 class _EditVideosState extends State<EditVideos> {
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   TextEditingController titlecontroller = TextEditingController();
   TextEditingController subtitlecontroller = TextEditingController();
@@ -155,6 +158,14 @@ class _EditVideosState extends State<EditVideos> {
       }
       if (subUserController.selectedIds.isEmpty) {
         if (isUpdate) {
+          await analytics.logEvent(
+            name: 'video_update',
+            parameters: {
+              'video_id': dashboardController.videoData.id!,
+              'video_title': titlecontroller.text,
+              'category_id': categoryindex!,
+            },
+          );
           Utils.loader();
           var formData = FormData.fromMap({});
           if (file == null) {
@@ -186,6 +197,14 @@ class _EditVideosState extends State<EditVideos> {
             Get.back();
           }
         } else {
+          await analytics.logEvent(
+            name: 'video_upload',
+            parameters: {
+              'video_title': titlecontroller.text,
+              'category_id': categoryindex!,
+         
+            },
+          );
           Utils.loader();
           var formData = FormData.fromMap({
             "title": titlecontroller.text,
@@ -626,6 +645,13 @@ class _EditVideosState extends State<EditVideos> {
       maxDuration: const Duration(seconds: 10),
     );
     if (file != null) {
+      await analytics.logEvent(
+        name: 'video_selected',
+        parameters: {
+          'source': source.toString(),
+          'video_duration': '10', // Max duration allowed
+        },
+      );
       Utils.loader();
     }
     attachimage = file!.path;
@@ -733,6 +759,14 @@ class _CustomListTileState extends State<AccessCustomListTile> {
               inactiveToggleColor: const Color(0xff686868),
               value: statecontroller,
               onToggle: (val) {
+                FirebaseAnalytics.instance.logEvent(
+                  name: 'video_access_changed',
+                  parameters: {
+                    'user_id': widget.id,
+                    'access_granted': val,
+                    'is_update': widget.isUpdate,
+                  },
+                );
                 setState(() {
                   if (subUserController.selectedIds.contains(widget.id)) {
                     subUserController.selectedIds.remove(widget.id);

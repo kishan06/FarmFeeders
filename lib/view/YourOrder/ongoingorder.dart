@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,12 +26,18 @@ class Ongoingorder extends StatefulWidget {
 }
 
 class _OngoingorderState extends State<Ongoingorder> {
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+
   String? id;
   RxBool isLoading = true.obs;
   OrderDetailModel orderDetailsModel = OrderDetailModel();
 
   @override
   void initState() {
+    _analytics.logScreenView(
+      screenName: 'OngoingOrderDetails',
+      screenClass: 'Ongoingorder',
+    );
     var args = Get.arguments;
     id = args['id'].toString();
     OrderApi().getOrderDetails(id!).then((value) {
@@ -482,7 +489,15 @@ class _OngoingorderState extends State<Ongoingorder> {
                                         .downloadFile(
                                             "${ApiUrls.base}invoice/download/${orderDetailsModel.data!.orderDetails!.orderId!}",
                                             "invoice_${orderDetailsModel.data!.orderDetails!.orderId!}.pdf")
-                                        .then((value) {});
+                                        .then((value) {
+                                      _analytics.logEvent(
+                                        name: 'download_invoice',
+                                        parameters: {
+                                          'order_id': orderDetailsModel
+                                              .data!.orderDetails!.orderId!,
+                                        },
+                                      );
+                                    });
                                   }
                                 },
                                 child: Padding(
@@ -924,6 +939,13 @@ class _OngoingorderState extends State<Ongoingorder> {
                                           horizontal: 16.w),
                                       child: InkWell(
                                         onTap: () {
+                                          _analytics.logEvent(
+                                            name: 'initiate_order_cancel',
+                                            parameters: {
+                                              'order_id': orderDetailsModel
+                                                  .data!.orderDetails!.orderId!,
+                                            },
+                                          );
                                           buildordercalldialog(
                                             context,
                                             orderDetailsModel
@@ -1009,6 +1031,18 @@ class _OngoingorderState extends State<Ongoingorder> {
                                             sizedBoxHeight(3.h),
                                             InkWell(
                                               onTap: () {
+                                                _analytics.logEvent(
+                                                  name:
+                                                      'contact_customer_service',
+                                                  parameters: {
+                                                    'order_id':
+                                                        orderDetailsModel
+                                                            .data!
+                                                            .orderDetails!
+                                                            .orderId!,
+                                                    'context': 'order_details',
+                                                  },
+                                                );
                                                 buildordercalldialog(
                                                   context,
                                                   orderDetailsModel.data!

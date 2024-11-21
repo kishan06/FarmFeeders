@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -14,6 +12,7 @@ import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/farm_feed_controller.dart';
 import 'package:farmfeeders/models/SetupFarmInfoModel/feed_livestock_model.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,7 +46,10 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
   @override
   void initState() {
     super.initState();
-    log(widget.isInside.toString());
+    FirebaseAnalytics.instance.logScreenView(
+      screenName: 'FarmFeedTracker',
+      screenClass: 'Farmfeedtracker',
+    );
     feedInfoController.getApiFeedDropdownData("1");
     isLoading.value = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -74,7 +76,7 @@ class _FarmfeedtrackerState extends State<Farmfeedtracker> {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: isInside == "inside"
-            ? SizedBox()
+            ? const SizedBox()
             : Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -339,6 +341,13 @@ class _FeedContainerState extends State<FeedContainer> {
           initiallyExpanded: isExpanded,
           onExpansionChanged: (bool expanding) async {
             if (expanding) {
+              await FirebaseAnalytics.instance.logEvent(
+                name: 'feed_container_interaction',
+                parameters: {
+                  'livestock_type': widget.titleText,
+                  'action': isExpanded ? 'expanded' : 'collapsed',
+                },
+              );
               isLoading.value = true;
               await feedInfoController
                   .getApiFeedDropdownData(widget.feedId.toString())
@@ -858,6 +867,18 @@ class _FeedContainerState extends State<FeedContainer> {
                                       'max_capacity': tecMax.text
                                     });
                                     if (resp! == "success") {
+                                      FirebaseAnalytics.instance.logEvent(
+                                        name: 'feed_bin_update',
+                                        parameters: {
+                                          'feed_type':
+                                              selectedFeedTypeIndex.toString(),
+                                          'quantity': tecQuantity.text,
+                                          'min_capacity': tecMin.text,
+                                          'max_capacity': tecMax.text,
+                                          'livestock_type':
+                                              widget.feedId.toString(),
+                                        },
+                                      );
                                       Get.back();
                                       commonFlushBar(context,
                                           msg: "Feed updated successfully",
@@ -916,7 +937,7 @@ class _FeedContainerState extends State<FeedContainer> {
 
 class Feedtextformfield extends StatefulWidget {
   Feedtextformfield({
-    Key? key,
+    super.key,
     this.validator,
     this.inputFormatters,
     required this.hintText,
@@ -932,7 +953,7 @@ class Feedtextformfield extends StatefulWidget {
     // this.keyboardType,
     this.suffixIconConstraints,
     this.texttype,
-  }) : super(key: key);
+  });
 
   final dynamic validator;
   final TextEditingController? textEditingController;
@@ -1204,8 +1225,8 @@ class _FarmfeedDropdownBtnState extends State<FarmfeedDropdownBtn> {
           // offset: const Offset(-20, 0),
           scrollbarTheme: ScrollbarThemeData(
             radius: const Radius.circular(40),
-            thickness: MaterialStateProperty.all<double>(6),
-            thumbVisibility: MaterialStateProperty.all<bool>(true),
+            thickness: WidgetStateProperty.all<double>(6),
+            thumbVisibility: WidgetStateProperty.all<bool>(true),
           ),
         ),
         menuItemStyleData: const MenuItemStyleData(

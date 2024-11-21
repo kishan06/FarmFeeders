@@ -1,19 +1,21 @@
 import 'package:farmfeeders/Utils/colors.dart';
+import 'package:farmfeeders/Utils/sized_box.dart';
+import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/Utils/utils.dart';
 import 'package:farmfeeders/common/CommonTextFormField.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
-import 'package:farmfeeders/Utils/sized_box.dart';
-import 'package:farmfeeders/Utils/texts.dart';
 import 'package:farmfeeders/common/limit_range.dart';
 import 'package:farmfeeders/controller/frams_info_map.dart';
 import 'package:farmfeeders/models/FarmInfoModel/FarmInfoModel.dart';
 import 'package:farmfeeders/view/lets_set_up_your_farm.dart';
 import 'package:farmfeeders/view_models/FarmInfoApi.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+
 import '../common/custom_button_curve.dart';
 import '../controller/set_farm.dart';
 import '../models/AddressModel/search_responce_model.dart';
@@ -101,10 +103,24 @@ class _FarmsInfoState extends State<FarmsInfo> {
             text: setFarm.isFarmInfoUpdate.value ? "Update" : "Next",
             onTap: () {
               if (farmNumber == 0) {
+                FirebaseAnalytics.instance.logEvent(
+                  name: 'farm_info_validation_failed',
+                  parameters: {
+                    'reason': 'no_farms_added',
+                  },
+                );
                 utils.showToast("Add alteast one farm to proceed");
               } else {
                 final isValid = _formdairy.currentState?.validate();
                 if (isValid!) {
+                  FirebaseAnalytics.instance.logEvent(
+                    name: 'farm_info_submitted',
+                    parameters: {
+                      'farm_count': farmNumber,
+                      'is_update': setFarm.isFarmInfoUpdate.value,
+                    },
+                  );
+
                   Utils.loader();
                   FarmInfoApi()
                       .farmInfoAddressApi(
@@ -156,6 +172,12 @@ class _FarmsInfoState extends State<FarmsInfo> {
                   validatorText: "Required",
                   texttype: TextInputType.number,
                   onChanged: (value) {
+                    FirebaseAnalytics.instance.logEvent(
+                      name: 'set_farm_count',
+                      parameters: {
+                        'farm_count': int.tryParse(value) ?? 0,
+                      },
+                    );
                     framsInfoMapController.addressList.clear();
                     framsInfoMapController.farmInfoAddressModel =
                         FarmInfoAddressModel(farmCount: 0, farms: []);
@@ -212,7 +234,7 @@ class _FarmsInfoState extends State<FarmsInfo> {
                 sizedBoxHeight(30.h),
 
                 framsInfoMapController.addressList.isEmpty
-                    ? SizedBox()
+                    ? const SizedBox()
                     : Align(
                         alignment: Alignment.centerLeft,
                         child: textBlack16W5000("Where is your farm located ?"),
@@ -241,6 +263,12 @@ class _FarmsInfoState extends State<FarmsInfo> {
                                     framsInfoMapController.addressList[index],
                                 readonly: true,
                                 onTap: () {
+                                  FirebaseAnalytics.instance.logEvent(
+                                    name: 'farm_location_selection_started',
+                                    parameters: {
+                                      'farm_index': index,
+                                    },
+                                  );
                                   framsInfoMapController.farmInfoAddressModel
                                       .farmCount = farmNumber;
                                   framsInfoMapController

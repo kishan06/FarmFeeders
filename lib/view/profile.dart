@@ -18,6 +18,7 @@ import 'package:farmfeeders/models/SetupFarmInfoModel/farm_info_model.dart';
 import 'package:farmfeeders/resources/routes/route_name.dart';
 import 'package:farmfeeders/view/Profile/personalinfo.dart';
 import 'package:farmfeeders/view_models/SetupFarmInfoAPI.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -564,6 +565,13 @@ class _ProfileState extends State<Profile> {
                           Spacer(),
                           InkWell(
                             onTap: () {
+                              FirebaseAnalytics.instance.logEvent(
+                                name: 'view_livestock_info',
+                                parameters: {
+                                  'user_id': profileController
+                                      .profileInfoModel.value.data!.id!,
+                                },
+                              );
                               SetupFarmInfoApi()
                                   .getLivestockTypeApi()
                                   .then((value) {
@@ -610,6 +618,13 @@ class _ProfileState extends State<Profile> {
                           Spacer(),
                           InkWell(
                             onTap: () {
+                              FirebaseAnalytics.instance.logEvent(
+                                name: 'view_feed_info',
+                                parameters: {
+                                  'user_id': profileController
+                                      .profileInfoModel.value.data!.id!,
+                                },
+                              );
                               SetupFarmInfoApi()
                                   .getFeedLivestockApi()
                                   .then((value) {
@@ -657,6 +672,13 @@ class _ProfileState extends State<Profile> {
                           Spacer(),
                           InkWell(
                             onTap: () {
+                              FirebaseAnalytics.instance.logEvent(
+                                name: 'view_farm_info',
+                                parameters: {
+                                  'user_id': profileController
+                                      .profileInfoModel.value.data!.id!,
+                                 },
+                              );
                               SetupFarmInfoApi().getFarmInfoApi().then((value) {
                                 setFarm.isFarmInfoUpdate.value = true;
                                 setFarm.farmInfoModel =
@@ -715,6 +737,15 @@ class _ProfileState extends State<Profile> {
                           Spacer(),
                           InkWell(
                             onTap: () {
+                              FirebaseAnalytics.instance.logEvent(
+                                name: 'share_connect_code',
+                                parameters: {
+                                  'user_id': profileController
+                                      .profileInfoModel.value.data!.id!,
+                                  'connect_code':
+                                      dashboardController.connectionCodeValue,
+                                },
+                              );
                               Share.share(
                                   "Farmer Connect Code:\n${dashboardController.connectionCodeValue}");
                             },

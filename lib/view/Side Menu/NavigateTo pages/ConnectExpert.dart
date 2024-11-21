@@ -5,11 +5,13 @@ import 'package:farmfeeders/Utils/colors.dart';
 import 'package:farmfeeders/models/expertlistModel.dart';
 import 'package:farmfeeders/view/Side%20Menu/Connectexpertdata.dart';
 import 'package:farmfeeders/view_models/ExpertlistAPI.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../Utils/sized_box.dart';
 
 class ConnectExperts extends StatefulWidget {
@@ -20,6 +22,43 @@ class ConnectExperts extends StatefulWidget {
 }
 
 class _ConnectExpertsState extends State<ConnectExperts> {
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+
+  // Add these analytics event methods
+  Future<void> _logExpertView(String expertType) async {
+    await _analytics.logEvent(
+      name: 'view_expert_list',
+      parameters: {
+        'expert_type': expertType, // 'Advisor', 'Vets', or 'Repairmen'
+      },
+    );
+  }
+
+  Future<void> _logExpertCall(
+      String expertType, String expertName, String expertId) async {
+    await _analytics.logEvent(
+      name: 'call_expert',
+      parameters: {
+        'expert_type': expertType,
+        'expert_name': expertName,
+        'expert_id': expertId,
+      },
+    );
+  }
+
+  Future<void> _logExpertBookmark(String expertType, String expertName,
+      String expertId, bool isBookmarked) async {
+    await _analytics.logEvent(
+      name: 'bookmark_expert',
+      parameters: {
+        'expert_type': expertType,
+        'expert_name': expertName,
+        'expert_id': expertId,
+        'is_bookmarked': isBookmarked,
+      },
+    );
+  }
+
   Future<ResponseData<dynamic>> fetchData() async {
     return ExpertListAPI().expertlistApi();
   }
@@ -339,6 +378,15 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                             0XFF707070),
                                                                       ),
                                                                 onPressed: () {
+                                                                  _logExpertBookmark(
+                                                                    'Advisor', // or 'Vets' or 'Repairmen'
+                                                                    advisor
+                                                                        .name!,
+                                                                    advisor.id!
+                                                                        .toString(),
+                                                                    !advisor
+                                                                        .bookmarked!, // new bookmark state
+                                                                  );
                                                                   ExpertListAPI()
                                                                       .updateMarkExpertApi(
                                                                           advisor
@@ -354,6 +402,13 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                               InkWell(
                                                                 onTap:
                                                                     () async {
+                                                                  await _logExpertCall(
+                                                                    'Advisor', // or 'Vets' or 'Repairmen' depending on tab
+                                                                    advisor
+                                                                        .name!, // or vet.name or repairman.name
+                                                                    advisor.id!
+                                                                        .toString(),
+                                                                  );
                                                                   launch(
                                                                       'tel://${advisor.contactNumber}');
                                                                 },
@@ -623,6 +678,13 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                             0XFF707070),
                                                                       ),
                                                                 onPressed: () {
+                                                                  _logExpertBookmark(
+                                                                    'vet', // or 'Vets' or 'Repairmen'
+                                                                    vet.name!,
+                                                                    vet.id!
+                                                                        .toString(),
+                                                                    !vet.bookmarked!, // new bookmark state
+                                                                  );
                                                                   ExpertListAPI()
                                                                       .updateMarkExpertApi(vet
                                                                           .id!)
@@ -637,6 +699,13 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                               InkWell(
                                                                 onTap:
                                                                     () async {
+                                                                        await _logExpertCall(
+                                                                    'Advisor', // or 'Vets' or 'Repairmen' depending on tab
+                                                                    vet
+                                                                        .name!, // or vet.name or repairman.name
+                                                                    vet.id!
+                                                                        .toString(),
+                                                                  );
                                                                   launch(
                                                                       'tel://${vet.contactNumber}');
                                                                 },
@@ -901,6 +970,16 @@ class _ConnectExpertsState extends State<ConnectExperts> {
                                                                       ),
                                                                 onPressed: () {
                                                                   setState(() {
+                                                                    _logExpertBookmark(
+                                                                      'Repairman', // or 'Vets' or 'Repairmen'
+                                                                      repairman
+                                                                          .name!,
+                                                                      repairman
+                                                                          .id!
+                                                                          .toString(),
+                                                                      !repairman
+                                                                          .bookmarked!, // new bookmark state
+                                                                    );
                                                                     ExpertListAPI()
                                                                         .updateMarkExpertApi(repairman
                                                                             .id!)
@@ -1114,109 +1193,8 @@ class _FirstTabState extends State<FirstTab> {
     );
   }
 
-  buildcontentdialog(context) {
-    return showDialog(
-      context: context,
-      builder: (context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AlertDialog(
-            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor:
-                Get.isDarkMode ? Colors.black : const Color(0XFFFFFFFF),
-            contentPadding: const EdgeInsets.fromLTRB(96, 32, 96, 28),
-            shape: RoundedRectangleBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              side: BorderSide(
-                  color:
-                      Get.isDarkMode ? Colors.grey : const Color(0XFFFFFFFF)),
-            ),
-            content: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                //sizedBoxHeight(32.h),
-                Image.asset(
-                  "assets/images/connectperson.png",
-                  width: 76.w,
-                  height: 76.h,
-                ),
-                SizedBox(
-                  height: 11.h,
-                ),
-                Text(
-                  "Roma dsouza",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images/call.svg",
-                      width: 19.w,
-                      height: 18.h,
-                    ),
-                    sizedBoxWidth(5.w),
-                    Text(
-                      "0225845855",
-                      style: TextStyle(
-                        color: const Color(0XFF585858),
-                        fontSize: 20.sp,
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images/locationconnect.svg",
-                      width: 13.w,
-                      height: 18.h,
-                    ),
-                    sizedBoxWidth(5.w),
-                    Text(
-                      "Canada",
-                      style: TextStyle(
-                        color: const Color(0XFF585858),
-                        fontSize: 20.sp,
-                      ),
-                    )
-                  ],
-                ),
-                sizedBoxHeight(25.h),
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                    buildcontentcalldialog(context);
-                  },
-                  child: Container(
-                    height: 48.h,
-                    width: 140.w,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.h),
-                        color: AppColors.buttoncolour),
-                    child: Center(
-                      child: Text(
-                        "Call",
-                        style:
-                            TextStyle(color: AppColors.white, fontSize: 18.sp),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
-  bool _isChecked = false;
+  final bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {

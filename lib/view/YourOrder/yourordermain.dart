@@ -7,6 +7,7 @@ import 'package:farmfeeders/controller/dashboard_controller.dart';
 import 'package:farmfeeders/models/OrderModel/orders_model.dart';
 import 'package:farmfeeders/view/YourOrder/orderListScreen.dart';
 import 'package:farmfeeders/view_models/orderApi/order_api.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,6 +26,8 @@ class Yourorder extends StatefulWidget {
 }
 
 class _YourorderState extends State<Yourorder> {
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+
   DashboardController dashboardController = Get.put(DashboardController());
   String loginStatus = "";
   @override
@@ -51,6 +54,12 @@ class _YourorderState extends State<Yourorder> {
   void passToOrders(
     String text,
   ) {
+    _analytics.logEvent(
+      name: 'view_order_list',
+      parameters: {
+        'list_type': text, // ongoing, recurring, cancelled, or past
+      },
+    );
     Get.to(() => const OrderListScreen(), arguments: {"name": text});
   }
 
@@ -64,6 +73,8 @@ class _YourorderState extends State<Yourorder> {
         backgroundColor: Colors.white,
         color: AppColors.buttoncolour,
         onRefresh: () async {
+          _analytics.logEvent(name: 'refresh_orders_list');
+
           await Future.delayed(const Duration(milliseconds: 1500));
           getData();
           OrderApi().getOrdersListApi().then((value) {
@@ -155,6 +166,18 @@ class _YourorderState extends State<Yourorder> {
                                   )
                                 : GestureDetector(
                                     onTap: () {
+                                      _analytics.logEvent(
+                                        name: 'view_order_details',
+                                        parameters: {
+                                          'order_id': dashboardController
+                                              .ordersModel.data!.orderHeaderId!,
+                                          'order_type': dashboardController
+                                              .ordersModel
+                                              .data!
+                                              .ongoingOrder!
+                                              .orderType!,
+                                        },
+                                      );
                                       if (dashboardController.ordersModel.data!
                                               .ongoingOrder!.orderType ==
                                           "new") {
@@ -166,6 +189,15 @@ class _YourorderState extends State<Yourorder> {
                                                   .orderHeaderId!,
                                             });
                                       } else {
+                                        _analytics.logEvent(
+                                          name: 'view_recurring_order',
+                                          parameters: {
+                                            'order_id': dashboardController
+                                                .ordersModel
+                                                .data!
+                                                .orderHeaderId!,
+                                          },
+                                        );
                                         Get.to(() => const RecurringOrder(),
                                             arguments: {
                                               "id": dashboardController
@@ -918,6 +950,18 @@ class _YourorderState extends State<Yourorder> {
                                                             ),
                                                           ));
                                                         } else {
+                                                          _analytics.logEvent(
+                                                            name:
+                                                                'view_recurring_order',
+                                                            parameters: {
+                                                              'order_id':
+                                                                  dashboardController
+                                                                      .ordersModel
+                                                                      .data!
+                                                                      .recurringOrders!
+                                                                      .orderId!,
+                                                            },
+                                                          );
                                                           Get.to(
                                                               () =>
                                                                   const RecurringOrder(),
@@ -942,7 +986,7 @@ class _YourorderState extends State<Yourorder> {
                                                                         .circular(
                                                                             20)),
                                                             color: Color(
-                                                                0XFF0000001F),
+                                                                0xff0000001f),
                                                             boxShadow: [
                                                               BoxShadow(
                                                                 color: Color(
@@ -1136,6 +1180,19 @@ class _YourorderState extends State<Yourorder> {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () {
+                                                    _analytics.logEvent(
+                                                      name:
+                                                          'view_cancelled_order',
+                                                      parameters: {
+                                                        'order_id':
+                                                            dashboardController
+                                                                .ordersModel
+                                                                .data!
+                                                                .cancelledOrders![
+                                                                    index]
+                                                                .orderId!,
+                                                      },
+                                                    );
                                                     Get.toNamed("/cancelorder",
                                                         arguments: {
                                                           "id": dashboardController
@@ -1158,7 +1215,7 @@ class _YourorderState extends State<Yourorder> {
                                                                 Radius.circular(
                                                                     20)),
                                                         color:
-                                                            Color(0XFF0000001F),
+                                                            Color(0xff0000001f),
                                                         boxShadow: [
                                                           BoxShadow(
                                                             color: Color(
@@ -1347,6 +1404,17 @@ class _YourorderState extends State<Yourorder> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
+                                              _analytics.logEvent(
+                                                name: 'view_past_order',
+                                                parameters: {
+                                                  'order_id':
+                                                      dashboardController
+                                                          .ordersModel
+                                                          .data!
+                                                          .pastOrders![index]
+                                                          .orderId!,
+                                                },
+                                              );
                                               Get.toNamed("/deliveredorder",
                                                   arguments: {
                                                     "id": dashboardController
@@ -1366,7 +1434,7 @@ class _YourorderState extends State<Yourorder> {
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(20)),
-                                                  color: Color(0XFF0000001F),
+                                                  color: Color(0xff0000001f),
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Color(0x48B9B9BE),

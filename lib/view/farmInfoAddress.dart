@@ -1,8 +1,7 @@
 import 'package:farmfeeders/Utils/sized_box.dart';
 import 'package:farmfeeders/common/custom_appbar.dart';
 import 'package:farmfeeders/controller/frams_info_map.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
@@ -25,6 +24,9 @@ class FarmInfoAddressScreen extends StatefulWidget {
 }
 
 class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
+  // Add Firebase Analytics instance
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+
   late GoogleMapController mapController;
   Marker? selectedMarker;
   double? selectedLatitude;
@@ -168,6 +170,16 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
                                       color: Colors.black, fontSize: 18),
                                 ),
                                 onTap: () async {
+                                  await _analytics.logEvent(
+                                      name: 'select_farm_address',
+                                      parameters: {
+                                        'address': searchResults[index]
+                                            .description
+                                            .toString(),
+                                        'place_id': searchResults[index]
+                                            .placeId
+                                            .toString(),
+                                      });
                                   setState(() {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
@@ -276,9 +288,9 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
                         zoom: 7,
                       ),
                       scrollGesturesEnabled: true,
-                      gestureRecognizers: Set()
-                        ..add(Factory<OneSequenceGestureRecognizer>(
-                            () => EagerGestureRecognizer())),
+                      // gestureRecognizers: <dynamic>{}..add(
+                      //     Factory<OneSequenceGestureRecognizer>(
+                      //         () => EagerGestureRecognizer())),
                       markers: Set<Marker>.of(
                           selectedMarker != null ? [selectedMarker!] : []),
                       onMapCreated: (GoogleMapController controller) {
@@ -315,6 +327,12 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
                         }
                       },
                       onTap: (LatLng latLng) async {
+                        await _analytics.logEvent(
+                            name: 'map_location_selected',
+                            parameters: {
+                              'latitude': latLng.latitude,
+                              'longitude': latLng.longitude,
+                            });
                         final addresses = await placemarkFromCoordinates(
                           latLng.latitude,
                           latLng.longitude,
@@ -477,6 +495,17 @@ class _FarmInfoAddressScreenState extends State<FarmInfoAddressScreen> {
             child: customButtonCurve(
                 text: "Update",
                 onTap: () {
+                  _analytics
+                      .logEvent(name: 'farm_address_updated', parameters: {
+                    'street':
+                        framsInfoMapController.streetTextEditingController.text,
+                    'city':
+                        framsInfoMapController.cityTextEditingController.text,
+                    'country': framsInfoMapController
+                        .countryTextEditingController.text,
+                    'latitude': selectedLatitude.toString(),
+                    'longitude': selectedLongitude.toString(),
+                  });
                   final isValid = _formdairy.currentState?.validate();
                   if (isValid!) {
                     framsInfoMapController
