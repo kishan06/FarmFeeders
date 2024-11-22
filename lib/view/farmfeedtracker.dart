@@ -496,6 +496,7 @@ class _FeedContainerState extends State<FeedContainer> {
                                   return null;
                                 },
                                 inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(8),
                                   FilteringTextInputFormatter.allow(
                                       RegExp(r'^\d+\.?\d{0,3}'))
                                 ],
@@ -652,6 +653,7 @@ class _FeedContainerState extends State<FeedContainer> {
                                   return null;
                                 },
                                 inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(8),
                                   FilteringTextInputFormatter.allow(
                                       RegExp(r'^\d+\.?\d{0,3}'))
                                 ],
@@ -715,6 +717,9 @@ class _FeedContainerState extends State<FeedContainer> {
                                         width: 200.w,
                                         // height: 46.h,
                                         child: TextFormField(
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(8),
+                                          ],
                                           controller: tecMin,
                                           textAlignVertical:
                                               TextAlignVertical.center,
@@ -775,6 +780,9 @@ class _FeedContainerState extends State<FeedContainer> {
                                         width: 200.w,
                                         // height: 46.h,
                                         child: TextFormField(
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(8),
+                                          ],
                                           controller: tecMax,
                                           textAlignVertical:
                                               TextAlignVertical.center,
